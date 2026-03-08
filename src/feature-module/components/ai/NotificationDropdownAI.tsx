@@ -54,11 +54,11 @@ const CATEGORY_LABELS: Record<NotificationCategory, { label: string; icon: strin
 const SEVERITY_ACTIONS: Record<NotificationCriticality, { id: string; label: string; icon: string; style: string; type: string }[]> = {
   critical: [
     { id: 'escalate',    label: 'Escalate',    icon: 'ti-send',  style: 'dd-action-danger',  type: 'navigate' },
-    { id: 'acknowledge', label: 'Ack.',        icon: 'ti-check', style: 'dd-action-primary', type: 'acknowledge' },
+    { id: 'acknowledge', label: 'Acknowledge', icon: 'ti-check', style: 'dd-action-primary', type: 'acknowledge' },
   ],
   high: [
     { id: 'review',      label: 'Review',      icon: 'ti-eye',   style: 'dd-action-warning', type: 'navigate' },
-    { id: 'acknowledge', label: 'Ack.',        icon: 'ti-check', style: 'dd-action-primary', type: 'acknowledge' },
+    { id: 'acknowledge', label: 'Acknowledge', icon: 'ti-check', style: 'dd-action-primary', type: 'acknowledge' },
   ],
   medium: [
     { id: 'review',  label: 'Review',  icon: 'ti-eye', style: 'dd-action-outline', type: 'navigate' },

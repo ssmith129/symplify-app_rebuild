@@ -1,22 +1,21 @@
 /* eslint-disable */
 import { Link } from "react-router";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import ImageWithBasePath from "../../../../../../core/imageWithBasePath";
 import { all_routes } from "../../../../../routes/all_routes";
 import { EmailPriorityBadge, EmailSidebarAI } from "../../../../ai";
 import { getMockEmails, categorizeEmail, getFolderCounts } from "../../../../../../core/api/mock/emailMockApi";
 import { AnalyzedEmail, EmailFolder, EmailPriority } from "../../../../../../core/ai/emailTypes";
 
-// Format relative time
+// Format relative time with >24h absolute threshold
 const formatTimeAgo = (timestamp: string): string => {
-  const minutes = Math.floor((Date.now() - new Date(timestamp).getTime()) / 60000);
+  const date = new Date(timestamp);
+  const minutes = Math.floor((Date.now() - date.getTime()) / 60000);
   if (minutes < 1) return 'Just now';
   if (minutes < 60) return `${minutes}m ago`;
   const hours = Math.floor(minutes / 60);
   if (hours < 24) return `${hours}h ago`;
-  const days = Math.floor(hours / 24);
-  if (days < 7) return `${days}d ago`;
-  return new Date(timestamp).toLocaleDateString();
+  return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
 };
 
 // Priority border colors
@@ -37,56 +36,47 @@ const Email = () => {
   const [selectedEmail, setSelectedEmail] = useState<EmailWithFolders | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [mobileView, setMobileView] = useState<'list' | 'detail'>('list');
 
   // Load emails on mount
   useEffect(() => {
-    const loadEmails = () => {
-      setLoading(true);
-      const mockEmails = getMockEmails();
-      const emailsWithFolders: EmailWithFolders[] = mockEmails.map(email => ({
-        ...email,
-        folders: categorizeEmail(email.subject, email.preview)
-      }));
-      
-      // Sort by priority first, then by timestamp
-      emailsWithFolders.sort((a, b) => {
-        const priorityOrder: Record<EmailPriority, number> = { critical: 0, high: 1, medium: 2, low: 3 };
-        const priorityDiff = priorityOrder[a.analysis.priority] - priorityOrder[b.analysis.priority];
-        if (priorityDiff !== 0) return priorityDiff;
-        return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
-      });
-      
-      setEmails(emailsWithFolders);
-      setLoading(false);
-    };
-    
-    loadEmails();
+    setLoading(true);
+    const mockEmails = getMockEmails();
+    const emailsWithFolders: EmailWithFolders[] = mockEmails.map(email => ({
+      ...email,
+      folders: categorizeEmail(email.subject, email.preview)
+    }));
+    emailsWithFolders.sort((a, b) => {
+      const priorityOrder: Record<EmailPriority, number> = { critical: 0, high: 1, medium: 2, low: 3 };
+      const priorityDiff = priorityOrder[a.analysis.priority] - priorityOrder[b.analysis.priority];
+      if (priorityDiff !== 0) return priorityDiff;
+      return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+    });
+    setEmails(emailsWithFolders);
+    setLoading(false);
   }, []);
 
-  // Calculate folder counts
+  // Folder counts
   const folderCounts = useMemo(() => {
     return getFolderCounts(emails.map(e => ({ folders: e.folders, read: e.read })));
   }, [emails]);
 
-  // Filter emails based on active folder and search
+  // Filtered emails
   const filteredEmails = useMemo(() => {
     let filtered = emails;
-    
-    // Filter by folder (inbox shows all)
     if (activeFolder !== 'inbox') {
       filtered = filtered.filter(email => email.folders.includes(activeFolder));
     }
-    
-    // Filter by search
     if (searchTerm) {
       const search = searchTerm.toLowerCase();
-      filtered = filtered.filter(email => 
+      filtered = filtered.filter(email =>
         email.subject.toLowerCase().includes(search) ||
         email.preview.toLowerCase().includes(search) ||
         email.sender.name.toLowerCase().includes(search)
       );
     }
-    
     return filtered;
   }, [emails, activeFolder, searchTerm]);
 
@@ -97,221 +87,304 @@ const Email = () => {
     critical: filteredEmails.filter(e => e.analysis.priority === 'critical' && !e.read).length
   }), [filteredEmails]);
 
-  const handleEmailClick = (email: EmailWithFolders) => {
+  const handleEmailClick = useCallback((email: EmailWithFolders) => {
     setSelectedEmail(email);
-    // Mark as read
-    setEmails(prev => prev.map(e => 
+    setMobileView('detail');
+    setEmails(prev => prev.map(e =>
       e.id === email.id ? { ...e, read: true } : e
     ));
-  };
+  }, []);
 
-  const handleToggleStar = (emailId: string, e: React.MouseEvent) => {
+  const handleBack = useCallback(() => {
+    setSelectedEmail(null);
+    setMobileView('list');
+  }, []);
+
+  const handleToggleStar = useCallback((emailId: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    setEmails(prev => prev.map(email => 
+    setEmails(prev => prev.map(email =>
       email.id === emailId ? { ...email, starred: !email.starred } : email
     ));
-  };
+  }, []);
+
+  const handleToggleSelect = useCallback((emailId: string, e: React.MouseEvent | React.ChangeEvent) => {
+    e.stopPropagation();
+    setSelectedIds(prev => {
+      const next = new Set(prev);
+      if (next.has(emailId)) next.delete(emailId);
+      else next.add(emailId);
+      return next;
+    });
+  }, []);
+
+  const handleSelectAll = useCallback(() => {
+    if (selectedIds.size === filteredEmails.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(filteredEmails.map(e => e.id)));
+    }
+  }, [filteredEmails, selectedIds]);
+
+  const handleBatchDelete = useCallback(() => {
+    setEmails(prev => prev.filter(e => !selectedIds.has(e.id)));
+    setSelectedIds(new Set());
+    if (selectedEmail && selectedIds.has(selectedEmail.id)) {
+      setSelectedEmail(null);
+      setMobileView('list');
+    }
+  }, [selectedIds, selectedEmail]);
+
+  const handleBatchRead = useCallback(() => {
+    setEmails(prev => prev.map(e =>
+      selectedIds.has(e.id) ? { ...e, read: true } : e
+    ));
+    setSelectedIds(new Set());
+  }, [selectedIds]);
 
   return (
     <>
       <div className="page-wrapper">
         <div className="content content-two p-0">
-          <div className="d-md-flex" style={{ height: 'calc(100vh - 60px)' }}>
-            {/* Sidebar */}
-            <div className="email-sidebar border-end border-bottom" style={{ width: '280px', minWidth: '280px', overflowY: 'auto' }}>
-              <div className="p-3">
-                <div className="border bg-white rounded p-2 mb-3">
-                  <div className="d-flex align-items-center">
-                    <Link to="#" className="avatar avatar-md flex-shrink-0 me-2">
-                      <ImageWithBasePath
-                        src="assets/img/profiles/avatar-02.jpg"
-                        className="rounded-circle"
-                        alt="Img"
-                      />
-                    </Link>
-                    <div>
-                      <h6 className="mb-1 fs-16 fw-medium">
-                        <Link to="#">James Hong</Link>
-                      </h6>
-                      <p className="fs-14">Jnh343@example.com</p>
-                    </div>
+          {/* Mobile sidebar overlay */}
+          {sidebarOpen && (
+            <div
+              className="email-sidebar-overlay"
+              onClick={() => setSidebarOpen(false)}
+              aria-hidden="true"
+            />
+          )}
+
+          <div className="email-layout">
+            {/* ═══ SIDEBAR ═══ */}
+            <aside className={`email-sidebar-panel ${sidebarOpen ? 'open' : ''}`}>
+              <div className="email-sidebar-inner">
+                {/* Mobile close button */}
+                <button
+                  className="email-sidebar-close"
+                  onClick={() => setSidebarOpen(false)}
+                  aria-label="Close sidebar"
+                >
+                  <i className="ti ti-x" />
+                </button>
+
+                <div className="email-profile-card">
+                  <Link to="#" className="avatar avatar-md flex-shrink-0 me-2">
+                    <ImageWithBasePath
+                      src="assets/img/profiles/avatar-02.jpg"
+                      className="rounded-circle"
+                      alt="Img"
+                    />
+                  </Link>
+                  <div className="email-profile-info">
+                    <h6 className="mb-0 fw-medium">James Hong</h6>
+                    <span className="email-profile-addr">Jnh343@example.com</span>
                   </div>
                 </div>
-                
+
                 <Link
                   to="#"
-                  className="btn btn-primary w-100 mb-3"
+                  className="btn btn-primary email-compose-btn w-100"
                   data-bs-toggle="modal"
                   data-bs-target="#email-view"
+                  onClick={() => setSidebarOpen(false)}
                 >
                   <i className="ti ti-edit me-2" />
                   Compose
                 </Link>
 
-                {/* AI Smart Folders */}
                 <EmailSidebarAI
                   folderCounts={folderCounts}
                   activeFolder={activeFolder}
-                  onFolderChange={setActiveFolder}
+                  onFolderChange={(f) => { setActiveFolder(f); setSidebarOpen(false); }}
                 />
 
-                {/* Traditional Folders */}
-                <div className="mt-4 pt-3 border-top">
-                  <h6 className="mb-2 text-muted small">Standard Folders</h6>
-                  <div className="d-block email-tags">
-                    <Link to="#" className="d-flex align-items-center justify-content-between p-2 rounded">
-                      <span className="d-flex align-items-center fw-medium">
-                        <i className="ti ti-star text-gray me-2" />
-                        Starred
-                      </span>
-                      <span className="fw-semibold fs-12">{emails.filter(e => e.starred).length}</span>
-                    </Link>
-                    <Link to="#" className="d-flex align-items-center justify-content-between p-2 rounded">
-                      <span className="d-flex align-items-center fw-medium">
-                        <i className="ti ti-rocket text-gray me-2" />
-                        Sent
-                      </span>
-                      <span className="rounded-pill">14</span>
-                    </Link>
-                    <Link to="#" className="d-flex align-items-center justify-content-between p-2 rounded">
-                      <span className="d-flex align-items-center fw-medium">
-                        <i className="ti ti-file text-gray me-2" />
-                        Drafts
-                      </span>
-                      <span className="rounded-pill">12</span>
-                    </Link>
-                    <Link to="#" className="d-flex align-items-center justify-content-between p-2 rounded">
-                      <span className="d-flex align-items-center fw-medium">
-                        <i className="ti ti-trash text-gray me-2" />
-                        Deleted
-                      </span>
-                      <span className="rounded-pill">08</span>
-                    </Link>
+                <div className="email-standard-folders">
+                  <h6 className="email-folder-heading">Standard Folders</h6>
+                  <div className="email-folder-list">
+                    {[
+                      { icon: 'ti-star', label: 'Starred', count: emails.filter(e => e.starred).length },
+                      { icon: 'ti-rocket', label: 'Sent', count: 14 },
+                      { icon: 'ti-file', label: 'Drafts', count: 12 },
+                      { icon: 'ti-trash', label: 'Deleted', count: 8 },
+                    ].map(f => (
+                      <button
+                        key={f.label}
+                        className="email-folder-item"
+                        tabIndex={0}
+                        aria-label={`${f.label} folder, ${f.count} items`}
+                      >
+                        <span className="email-folder-label">
+                          <i className={`ti ${f.icon}`} />
+                          {f.label}
+                        </span>
+                        <span className="email-folder-count">{f.count}</span>
+                      </button>
+                    ))}
                   </div>
                 </div>
               </div>
-            </div>
+            </aside>
 
-            {/* Email List */}
-            <div className="bg-white flex-fill border-end border-bottom" style={{ minWidth: '400px', maxWidth: '500px', overflowY: 'auto' }}>
-              <div className="p-3 border-bottom bg-light">
-                <div className="d-flex align-items-center justify-content-between flex-wrap row-gap-3">
-                  <div>
-                    <h5 className="mb-1 d-flex align-items-center">
-                      <i className="ti ti-sparkles text-warning me-2" />
-                      AI-Enhanced Inbox
-                    </h5>
-                    <div className="d-flex align-items-center gap-2">
-                      <span>{stats.total} Emails</span>
-                      <span>•</span>
-                      <span>{stats.unread} Unread</span>
-                      {stats.critical > 0 && (
-                        <>
-                          <span>•</span>
-                          <span className="text-danger fw-bold">{stats.critical} Critical</span>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                  <div className="d-flex align-items-center">
-                    <div className="position-relative input-icon me-2">
-                      <input
-                        type="text"
-                        className="form-control form-control-sm"
-                        placeholder="Search Email"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                      />
-                      <span className="input-icon-addon">
-                        <i className="ti ti-search" />
-                      </span>
-                    </div>
-                    <button className="btn btn-icon btn-sm rounded-circle" title="Refresh">
-                      <i className="ti ti-refresh" />
+            {/* ═══ EMAIL LIST ═══ */}
+            <section
+              className={`email-list-panel ${mobileView === 'detail' ? 'mobile-hidden' : ''}`}
+              role="region"
+              aria-label="Email list"
+            >
+              {/* List header */}
+              <div className="email-list-header">
+                <div className="email-list-header-top">
+                  <div className="email-list-header-left">
+                    <button
+                      className="email-hamburger"
+                      onClick={() => setSidebarOpen(true)}
+                      aria-label="Open folders"
+                    >
+                      <i className="ti ti-menu-2" />
                     </button>
+                    <h5 className="email-list-title">
+                      <i className="ti ti-sparkles text-warning" />
+                      Inbox
+                    </h5>
+                  </div>
+                  <div className="email-list-stats">
+                    <span>{stats.total}</span>
+                    <span className="email-stat-divider">·</span>
+                    <span>{stats.unread} unread</span>
+                    {stats.critical > 0 && (
+                      <>
+                        <span className="email-stat-divider">·</span>
+                        <span className="email-stat-critical">{stats.critical} critical</span>
+                      </>
+                    )}
                   </div>
                 </div>
+
+                <div className="email-list-header-bottom">
+                  <div className="email-search-bar">
+                    <i className="ti ti-search" />
+                    <input
+                      type="text"
+                      placeholder="Search emails..."
+                      value={searchTerm}
+                      onChange={e => setSearchTerm(e.target.value)}
+                      aria-label="Search emails"
+                    />
+                  </div>
+                  <button
+                    className="email-refresh-btn"
+                    title="Refresh"
+                    aria-label="Refresh inbox"
+                  >
+                    <i className="ti ti-refresh" />
+                  </button>
+                </div>
+
+                {/* Batch actions bar */}
+                {selectedIds.size > 0 && (
+                  <div className="email-batch-bar">
+                    <span className="email-batch-count">{selectedIds.size} selected</span>
+                    <div className="email-batch-actions">
+                      <button onClick={handleBatchRead} aria-label="Mark selected as read" title="Mark as read">
+                        <i className="ti ti-mail-opened" />
+                        <span>Read</span>
+                      </button>
+                      <button onClick={handleBatchDelete} aria-label="Delete selected" title="Delete">
+                        <i className="ti ti-trash" />
+                        <span>Delete</span>
+                      </button>
+                      <button onClick={() => setSelectedIds(new Set())} aria-label="Clear selection">
+                        <i className="ti ti-x" />
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {/* Select-all row */}
+                <div className="email-select-all-row">
+                  <label className="email-select-all-label">
+                    <input
+                      type="checkbox"
+                      className="form-check-input"
+                      checked={selectedIds.size === filteredEmails.length && filteredEmails.length > 0}
+                      onChange={handleSelectAll}
+                      aria-label="Select all emails"
+                    />
+                    <span>Select all</span>
+                  </label>
+                </div>
               </div>
-              
-              <div className="list-group list-group-flush mails-list">
+
+              {/* Email list items */}
+              <div className="email-list-scroll" role="list">
                 {loading ? (
-                  <div className="text-center py-5">
+                  <div className="email-list-empty">
                     <div className="spinner-border text-primary" role="status">
                       <span className="visually-hidden">Loading...</span>
                     </div>
                   </div>
                 ) : filteredEmails.length === 0 ? (
-                  <div className="text-center py-5">
-                    <i className="ti ti-inbox-off fs-1 text-muted" />
-                    <p className="text-muted mt-2">No emails in this folder</p>
+                  <div className="email-list-empty">
+                    <i className="ti ti-inbox-off" />
+                    <p>No emails in this folder</p>
                   </div>
                 ) : (
                   filteredEmails.map(email => (
-                    <div 
+                    <div
                       key={email.id}
-                      className={`list-group-item border-bottom p-3 cursor-pointer ${selectedEmail?.id === email.id ? 'bg-light' : ''} ${!email.read ? 'bg-light-subtle' : ''}`}
-                      style={{ 
-                        borderLeft: `4px solid ${PRIORITY_BORDERS[email.analysis.priority]}`,
-                        cursor: 'pointer'
-                      }}
+                      className={`email-item ${selectedEmail?.id === email.id ? 'selected' : ''} ${!email.read ? 'unread' : ''} ${selectedIds.has(email.id) ? 'checked' : ''}`}
+                      style={{ borderLeftColor: PRIORITY_BORDERS[email.analysis.priority] }}
                       onClick={() => handleEmailClick(email)}
+                      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleEmailClick(email); } }}
+                      role="listitem"
+                      tabIndex={0}
+                      aria-label={`${!email.read ? 'Unread: ' : ''}${email.sender.name} — ${email.subject}`}
+                      aria-selected={selectedEmail?.id === email.id}
                     >
-                      <div className="d-flex align-items-start mb-2">
-                        <div className="form-check form-check-md d-flex align-items-center flex-shrink-0 me-2">
-                          <input 
-                            className="form-check-input" 
-                            type="checkbox" 
-                            onClick={(e) => e.stopPropagation()}
-                          />
-                        </div>
-                        <button 
-                          className={`btn btn-icon btn-sm me-2 ${email.starred ? 'text-warning' : 'text-muted'}`}
+                      <div className="email-item-start">
+                        <input
+                          type="checkbox"
+                          className="form-check-input email-item-checkbox"
+                          checked={selectedIds.has(email.id)}
+                          onChange={(e) => handleToggleSelect(email.id, e)}
+                          onClick={e => e.stopPropagation()}
+                          aria-label={`Select ${email.sender.name}`}
+                        />
+                        <button
+                          className={`email-item-star ${email.starred ? 'starred' : ''}`}
                           onClick={(e) => handleToggleStar(email.id, e)}
+                          aria-label={email.starred ? 'Unstar' : 'Star'}
                         >
                           <i className={`ti ti-star${email.starred ? '-filled' : ''}`} />
                         </button>
                         <EmailPriorityBadge analysis={email.analysis} showLabel={false} />
-                        <div className="flex-fill ms-2">
-                          <div className="d-flex align-items-start justify-content-between">
-                            <div style={{ minWidth: 0 }}>
-                              <h6 className={`mb-1 text-truncate ${!email.read ? 'fw-bold' : ''}`}>
-                                {email.sender.name}
-                                {email.sender.isInternal && (
-                                  <span className="badge badge-soft-primary badge-xs ms-1">Internal</span>
-                                )}
-                              </h6>
-                              <span className={`d-block text-truncate ${!email.read ? 'fw-semibold' : ''}`} style={{ maxWidth: '250px' }}>
-                                {email.subject}
-                              </span>
-                            </div>
-                            <div className="d-flex align-items-center flex-shrink-0 ms-2">
-                              <span className="small text-muted">{formatTimeAgo(email.timestamp)}</span>
-                            </div>
-                          </div>
-                          <p className="text-muted small mb-0 text-truncate" style={{ maxWidth: '280px' }}>
-                            {email.preview}
-                          </p>
-                        </div>
                       </div>
-                      <div className="d-flex align-items-center justify-content-between ps-5">
-                        <div className="d-flex align-items-center gap-2">
+
+                      <div className="email-item-body">
+                        <div className="email-item-row1">
+                          <span className={`email-item-sender ${!email.read ? 'fw-bold' : ''}`}>
+                            {email.sender.name}
+                            {email.sender.isInternal && (
+                              <span className="email-internal-badge">Internal</span>
+                            )}
+                          </span>
+                          <span className="email-item-time">{formatTimeAgo(email.timestamp)}</span>
+                        </div>
+                        <span className={`email-item-subject ${!email.read ? 'fw-semibold' : ''}`}>
+                          {email.subject}
+                        </span>
+                        <span className="email-item-preview">{email.preview}</span>
+                        <div className="email-item-badges">
                           {email.hasAttachments && (
-                            <span className="badge bg-light text-dark">
-                              <i className="ti ti-paperclip me-1" />
-                              Attachment
+                            <span className="email-badge-attach">
+                              <i className="ti ti-paperclip" /> Attachment
                             </span>
                           )}
                           {email.analysis.requiresAction && (
-                            <span className="badge badge-soft-danger">
-                              Action Required
-                            </span>
+                            <span className="email-badge-action">Action Required</span>
                           )}
-                        </div>
-                        <div className="d-flex align-items-center gap-1">
-                          {email.analysis.urgencyIndicators.slice(0, 2).map((indicator, idx) => (
-                            <span key={idx} className="badge badge-soft-warning badge-xs">
-                              {indicator}
-                            </span>
+                          {email.analysis.urgencyIndicators.slice(0, 2).map((ind, idx) => (
+                            <span key={idx} className="email-badge-urgency">{ind}</span>
                           ))}
                         </div>
                       </div>
@@ -319,118 +392,103 @@ const Email = () => {
                   ))
                 )}
               </div>
-            </div>
+            </section>
 
-            {/* Email Detail */}
-            <div className="flex-fill bg-white" style={{ overflowY: 'auto' }}>
+            {/* ═══ EMAIL DETAIL ═══ */}
+            <section
+              className={`email-detail-panel ${mobileView === 'detail' ? 'mobile-visible' : ''} ${selectedEmail ? 'has-content' : ''}`}
+              role="region"
+              aria-label="Email detail"
+            >
               {selectedEmail ? (
-                <div className="h-100 d-flex flex-column">
-                  <div className="p-3 border-bottom bg-light">
-                    <div className="d-flex align-items-center justify-content-between">
-                      <button 
-                        className="btn btn-sm btn-outline-secondary"
-                        onClick={() => setSelectedEmail(null)}
-                      >
-                        <i className="ti ti-arrow-left me-1" />
-                        Back
+                <div className="email-detail-inner">
+                  {/* Detail header */}
+                  <div className="email-detail-toolbar">
+                    <button className="email-back-btn" onClick={handleBack} aria-label="Back to list">
+                      <i className="ti ti-arrow-left" />
+                      <span>Back</span>
+                    </button>
+                    <div className="email-detail-action-group">
+                      <button className="email-detail-action" aria-label="Reply">
+                        <i className="ti ti-arrow-back-up" />
+                        <span>Reply</span>
                       </button>
-                      <div className="d-flex gap-2">
-                        <button className="btn btn-sm btn-outline-primary">
-                          <i className="ti ti-arrow-back-up me-1" />
-                          Reply
-                        </button>
-                        <button className="btn btn-sm btn-outline-secondary">
-                          <i className="ti ti-arrow-forward-up me-1" />
-                          Forward
-                        </button>
-                        <button className="btn btn-sm btn-outline-danger">
-                          <i className="ti ti-trash" />
-                        </button>
-                      </div>
+                      <button className="email-detail-action" aria-label="Forward">
+                        <i className="ti ti-arrow-forward-up" />
+                        <span>Forward</span>
+                      </button>
+                      <button className="email-detail-action danger" aria-label="Delete">
+                        <i className="ti ti-trash" />
+                      </button>
                     </div>
                   </div>
-                  
-                  <div className="p-4 flex-fill">
+
+                  {/* Detail content */}
+                  <div className="email-detail-content">
                     {/* AI Analysis Banner */}
-                    <div className="alert alert-light border mb-4">
-                      <div className="d-flex align-items-center justify-content-between flex-wrap gap-2">
-                        <div className="d-flex align-items-center gap-3">
-                          <EmailPriorityBadge analysis={selectedEmail.analysis} showDetails showLabel />
-                          <span className="text-muted">|</span>
-                          <span className="small">
-                            <strong>Response Time:</strong> {selectedEmail.analysis.estimatedResponseTime}
-                          </span>
-                          <span className="text-muted">|</span>
-                          <span className="small">
-                            <strong>Confidence:</strong> {selectedEmail.analysis.confidence}%
-                          </span>
-                        </div>
-                        <div className="d-flex align-items-center gap-1">
-                          <i className="ti ti-sparkles text-warning me-1" />
-                          <span className="small text-muted">AI Analysis</span>
-                        </div>
+                    <div className="email-ai-banner">
+                      <div className="email-ai-banner-row">
+                        <EmailPriorityBadge analysis={selectedEmail.analysis} showDetails showLabel />
+                        <span className="email-ai-sep">|</span>
+                        <span className="email-ai-meta">
+                          <strong>Response:</strong> {selectedEmail.analysis.estimatedResponseTime}
+                        </span>
+                        <span className="email-ai-sep">|</span>
+                        <span className="email-ai-meta">
+                          <strong>Confidence:</strong> {selectedEmail.analysis.confidence}%
+                        </span>
                       </div>
                       {selectedEmail.analysis.urgencyIndicators.length > 0 && (
-                        <div className="mt-2 pt-2 border-top">
-                          <span className="small text-muted me-2">Detected Keywords:</span>
-                          {selectedEmail.analysis.urgencyIndicators.map((indicator, idx) => (
-                            <span key={idx} className="badge badge-soft-warning me-1">{indicator}</span>
+                        <div className="email-ai-keywords">
+                          <span className="email-ai-keywords-label">Keywords:</span>
+                          {selectedEmail.analysis.urgencyIndicators.map((ind, idx) => (
+                            <span key={idx} className="email-ai-keyword-chip">{ind}</span>
                           ))}
                         </div>
                       )}
                     </div>
 
-                    <h4 className="mb-3">{selectedEmail.subject}</h4>
-                    
-                    <div className="d-flex align-items-start mb-4">
-                      <div className="avatar avatar-md me-3" style={{ 
-                        background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
-                        color: '#fff',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius: '50%',
-                        width: '48px',
-                        height: '48px',
-                        fontSize: '18px',
-                        fontWeight: 600
-                      }}>
+                    <h4 className="email-detail-subject">{selectedEmail.subject}</h4>
+
+                    {/* Sender info */}
+                    <div className="email-sender-block">
+                      <div
+                        className="email-sender-avatar"
+                        aria-hidden="true"
+                      >
                         {selectedEmail.sender.name.charAt(0).toUpperCase()}
                       </div>
-                      <div className="flex-fill">
-                        <h6 className="mb-1">{selectedEmail.sender.name}</h6>
-                        <p className="text-muted small mb-0">{selectedEmail.sender.email}</p>
+                      <div className="email-sender-info">
+                        <h6 className="email-sender-name">{selectedEmail.sender.name}</h6>
+                        <span className="email-sender-email">{selectedEmail.sender.email}</span>
                         {selectedEmail.sender.department && (
-                          <span className="badge badge-soft-secondary mt-1">{selectedEmail.sender.department}</span>
+                          <span className="email-sender-dept">{selectedEmail.sender.department}</span>
                         )}
                       </div>
-                      <div className="text-end">
-                        <span className="small text-muted">
-                          {new Date(selectedEmail.timestamp).toLocaleString()}
-                        </span>
-                      </div>
+                      <span className="email-detail-timestamp">
+                        {new Date(selectedEmail.timestamp).toLocaleString()}
+                      </span>
                     </div>
 
-                    <div className="border rounded p-4 bg-light">
-                      <p className="mb-3">{selectedEmail.preview}</p>
-                      <p className="text-muted mb-0">
+                    {/* Body */}
+                    <div className="email-body-block">
+                      <p>{selectedEmail.preview}</p>
+                      <p className="email-body-placeholder">
                         [Full email content would appear here in production]
                       </p>
                     </div>
 
+                    {/* Attachments */}
                     {selectedEmail.hasAttachments && (
-                      <div className="mt-4">
-                        <h6 className="mb-2">
-                          <i className="ti ti-paperclip me-1" />
-                          Attachments
+                      <div className="email-attachments-block">
+                        <h6>
+                          <i className="ti ti-paperclip" /> Attachments
                         </h6>
-                        <div className="d-flex gap-2">
-                          <div className="border rounded p-2 d-flex align-items-center">
-                            <i className="ti ti-file-text fs-4 text-muted me-2" />
-                            <div>
-                              <span className="small d-block">document.pdf</span>
-                              <span className="text-muted small">245 KB</span>
-                            </div>
+                        <div className="email-attachment-item">
+                          <i className="ti ti-file-text" />
+                          <div>
+                            <span className="email-attachment-name">document.pdf</span>
+                            <span className="email-attachment-size">245 KB</span>
                           </div>
                         </div>
                       </div>
@@ -438,35 +496,33 @@ const Email = () => {
                   </div>
                 </div>
               ) : (
-                <div className="h-100 d-flex align-items-center justify-content-center">
-                  <div className="text-center text-muted">
-                    <i className="ti ti-mail-opened fs-1" />
-                    <p className="mt-2">Select an email to view</p>
-                  </div>
+                <div className="email-detail-empty">
+                  <i className="ti ti-mail-opened" />
+                  <p>Select an email to view</p>
                 </div>
               )}
-            </div>
+            </section>
           </div>
+
+          {/* ═══ MOBILE COMPOSE FAB ═══ */}
+          <button
+            className="email-compose-fab"
+            data-bs-toggle="modal"
+            data-bs-target="#email-view"
+            aria-label="Compose email"
+          >
+            <i className="ti ti-edit" />
+          </button>
         </div>
       </div>
 
       {/* Compose Modal */}
-      <div
-        className="modal fade"
-        id="email-view"
-        tabIndex={-1}
-        aria-hidden="true"
-      >
+      <div className="modal fade" id="email-view" tabIndex={-1} aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered modal-lg">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">Compose Email</h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              />
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
             </div>
             <div className="modal-body">
               <div className="mb-3">
@@ -483,12 +539,9 @@ const Email = () => {
               </div>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
-                Cancel
-              </button>
+              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
               <button type="button" className="btn btn-primary">
-                <i className="ti ti-send me-1" />
-                Send
+                <i className="ti ti-send me-1" /> Send
               </button>
             </div>
           </div>

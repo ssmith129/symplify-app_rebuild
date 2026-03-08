@@ -145,15 +145,6 @@ const Header = () => {
                 <i className="ti ti-search fs-16" />
               </button>
             </div>
-            {/* AI Assistance - Full button on desktop */}
-            <button
-              onClick={() => setIsAIAssistantOpen(true)}
-              className="btn btn-liner-gradient me-3 d-lg-flex d-none"
-              aria-label="Open AI Assistant"
-            >
-              AI Assistance
-              <i className="ti ti-chart-bubble-filled ms-1" />
-            </button>
             {/* Appointment */}
             <div className="header-item">
               <div className="dropdown me-2">
@@ -276,7 +267,7 @@ const Header = () => {
       {/* AI Assistance - Floating icon on tablet/mobile */}
       <button
         onClick={() => setIsAIAssistantOpen(true)}
-        className="btn btn-liner-gradient btn-icon rounded-circle d-flex d-lg-none ai-float-btn"
+        className="btn btn-liner-gradient btn-icon rounded-circle d-flex ai-float-btn"
         aria-label="Open AI Assistant"
         style={{
           position: 'fixed',

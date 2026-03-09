@@ -1418,6 +1418,14 @@ $meta-text: #4A4F5C;
     right: 8px;
     top: 60px;
     max-height: calc(100vh - 80px);
+
+    .dd-action-btn span {
+      display: none;
+    }
+
+    .dd-action-btn {
+      padding: 4px 8px;
+    }
   }
 
   .notification-page-ai {

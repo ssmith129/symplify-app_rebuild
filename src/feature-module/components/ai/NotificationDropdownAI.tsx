@@ -291,14 +291,6 @@ export const NotificationDropdownAI: React.FC = () => {
                 >
                   <i className="ti ti-checks" />
                 </button>
-                <Link
-                  to={all_routes.notifications}
-                  className="dd-view-all-header"
-                  onClick={() => setIsOpen(false)}
-                  aria-label="View all notifications"
-                >
-                  View All <i className="ti ti-arrow-right" />
-                </Link>
               </div>
             </div>
 
@@ -371,9 +363,7 @@ export const NotificationDropdownAI: React.FC = () => {
                 className="dd-view-all-footer"
                 onClick={() => setIsOpen(false)}
               >
-                {remainingCount > 0
-                  ? `View all ${filteredNotifications.length} notifications →`
-                  : 'Open Notification Center →'}
+                View All →
               </Link>
             </div>
           </div>

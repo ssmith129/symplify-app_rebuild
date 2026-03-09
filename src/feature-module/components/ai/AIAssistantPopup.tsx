@@ -18,7 +18,6 @@ import ChatMessageCard from './assistant/ChatMessageCard';
 import ConfidenceIndicator from './assistant/ConfidenceIndicator';
 import HIPAABadge from './assistant/HIPAABadge';
 import QuickActionsBar from './assistant/QuickActionsBar';
-import VoiceInputToggle from './assistant/VoiceInputToggle';
 import ExpandedPanel from './assistant/ExpandedPanel';
 
 interface AIAssistantPopupProps {
@@ -186,13 +185,6 @@ const AIAssistantPopup: React.FC<AIAssistantPopupProps> = ({
     } catch (error) {
       console.error('Action error:', error);
     }
-  };
-
-  // Handle voice transcript
-  const handleVoiceTranscript = (text: string) => {
-    setInputValue(text);
-    // Auto-send after short delay
-    setTimeout(() => handleSendMessage(text), 300);
   };
 
   // Handle expand toggle on message
@@ -416,10 +408,6 @@ const AIAssistantPopup: React.FC<AIAssistantPopupProps> = ({
                   onChange={(e) => setInputValue(e.target.value)}
                   disabled={isTyping}
                   aria-label="Message input"
-                />
-                <VoiceInputToggle
-                  onTranscript={handleVoiceTranscript}
-                  disabled={isTyping}
                 />
                 <button
                   type="submit"

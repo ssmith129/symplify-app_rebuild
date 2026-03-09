@@ -13,6 +13,13 @@ import type {
   PredictiveAlert,
   MessageAnalysis,
   MessageUrgency,
+  ChatCard,
+  DrugInteractionResult,
+  BedStatusResult,
+  ComplianceStatusResult,
+  ExpandedViewConfig,
+  EnhancedQuickAction,
+  EnhancedAIMessage,
 } from './types';
 
 // Simulated API delay
@@ -654,44 +661,197 @@ const RESPONSE_TEMPLATES = {
   ],
 };
 
-// Intent detection patterns
-const INTENT_PATTERNS = {
+// ── Expanded Intent Detection ──
+
+const INTENT_PATTERNS: Record<string, RegExp> = {
   greeting: /^(hi|hello|hey|good morning|good afternoon|good evening|greetings)/i,
-  scheduling: /(schedule|book|appointment|reschedule|cancel appointment|make an appointment)/i,
+  scheduling: /(schedule|book|appointment|reschedule|cancel appointment|make an appointment|find.*slot)/i,
   navigation: /(go to|navigate|take me|open|show me|where is|find the)/i,
   patientSearch: /(find patient|search patient|patient.*record|look up patient)/i,
   schedule: /(my schedule|my appointments|what do I have|my day|my calendar)/i,
   help: /(help|what can you do|assist|support)/i,
+  // New clinical intents
+  drugInteraction: /(drug interaction|medication interaction|check.*interact|combine.*medication|metformin|lisinopril|warfarin)/i,
+  triage: /(triage|priority|acuity|chest pain|breathing|o2|oxygen|vitals|assess patient)/i,
+  clinicalAlerts: /(clinical alert|predictive alert|risk alert|show.*alert|patient.*risk)/i,
+  shiftHandoff: /(shift handoff|handoff|handover|sbar|shift report|end of shift)/i,
+  labResults: /(lab result|lab report|blood work|test result|pathology)/i,
+  // New operational intents
+  bedStatus: /(bed status|bed availability|available bed|bed count|ward capacity)/i,
+  staffSchedule: /(staff schedule|who.*(on|working)|staff conflict|coverage)/i,
+  compliance: /(compliance|regulatory|audit|hipaa status|compliance score)/i,
+  pendingApprovals: /(pending approval|approve|authorization|waiting.*approval)/i,
+  // New communication intents
+  messageUrgency: /(message urgency|urgent message|triage message|analyze message)/i,
+  notificationSummary: /(notification summary|unread notification|notification overview|alert summary)/i,
+  emailPriority: /(email priority|important email|email overview|inbox summary)/i,
 };
 
-function detectIntent(message: string): keyof typeof RESPONSE_TEMPLATES {
-  const lowerMessage = message.toLowerCase();
+type IntentType = keyof typeof ENHANCED_RESPONSE_TEMPLATES;
 
+const ENHANCED_RESPONSE_TEMPLATES: Record<string, string[]> = {
+  greeting: [
+    "Hello! I'm your AI Assistant for Symplify. I can help with clinical workflows, scheduling, drug interactions, triage assessment, and more. How can I assist you?",
+    "Hi there! I'm here to help with appointments, clinical alerts, shift handoffs, drug checks, and platform navigation. What do you need?",
+  ],
+  scheduling: [
+    "I'll find the best available appointment slots for you. Here are AI-optimized suggestions based on provider availability and patient history:",
+    "Let me help you with scheduling. I've analyzed provider availability and patient preferences to suggest optimal slots:",
+  ],
+  navigation: [
+    "I can help you navigate to any section of the platform. Here are some quick links:",
+    "Where would you like to go? I can take you to any page in the system.",
+  ],
+  patientSearch: [
+    "I can help you find patient information. Please provide the patient name or ID.",
+    "Let me search for the patient. What details do you have?",
+  ],
+  schedule: [
+    "Here's your schedule overview for today. You have several appointments lined up.",
+    "Let me pull up your schedule. I can see your upcoming appointments.",
+  ],
+  help: [
+    "I can assist with: scheduling, drug interaction checks, triage assessment, clinical alerts, shift handoffs, bed status, compliance, and platform navigation. What would you like to do?",
+  ],
+  drugInteraction: [
+    "I'll check for potential drug interactions. Here are the results from the interaction analysis:",
+  ],
+  triage: [
+    "I've assessed the clinical indicators. Here is the triage priority recommendation based on the symptoms and vitals provided:",
+  ],
+  clinicalAlerts: [
+    "Here are the current clinical alerts from the predictive monitoring system. These are ranked by risk severity:",
+  ],
+  shiftHandoff: [
+    "I'll prepare the shift handoff summary. Here's an overview of your current patients and key items for the incoming shift:",
+  ],
+  labResults: [
+    "Here are the pending lab results that need your attention. Critical values are flagged:",
+  ],
+  bedStatus: [
+    "Here's the current bed availability across departments. I've highlighted areas with limited capacity:",
+  ],
+  staffSchedule: [
+    "Here's the staff schedule overview. I've identified any coverage gaps or conflicts:",
+  ],
+  compliance: [
+    "Here's your compliance status summary. Items requiring attention are flagged:",
+  ],
+  pendingApprovals: [
+    "You have pending items requiring approval. Here's a summary ordered by urgency:",
+  ],
+  messageUrgency: [
+    "I've analyzed the message urgency. Here's the triage assessment:",
+  ],
+  notificationSummary: [
+    "Here's your notification summary. Critical items are highlighted:",
+  ],
+  emailPriority: [
+    "Here's your email priority overview. High-priority clinical messages are flagged:",
+  ],
+  fallback: [
+    "I understand you need help with that. Let me provide some options:",
+    "I can assist with that. Here are some things I can help you with:",
+  ],
+};
+
+function detectIntent(message: string): IntentType {
+  const lowerMessage = message.toLowerCase();
   for (const [intent, pattern] of Object.entries(INTENT_PATTERNS)) {
     if (pattern.test(lowerMessage)) {
-      return intent as keyof typeof RESPONSE_TEMPLATES;
+      return intent as IntentType;
     }
   }
-
   return 'fallback';
 }
 
-function getRandomResponse(intent: keyof typeof RESPONSE_TEMPLATES): string {
-  const responses = RESPONSE_TEMPLATES[intent];
+function getRandomResponse(intent: IntentType): string {
+  const responses = ENHANCED_RESPONSE_TEMPLATES[intent] || ENHANCED_RESPONSE_TEMPLATES.fallback;
   return responses[Math.floor(Math.random() * responses.length)];
 }
 
 function extractNavigationTarget(message: string): string | null {
   const lowerMessage = message.toLowerCase();
-
   for (const [key, value] of Object.entries(NAVIGATION_MAP)) {
     if (lowerMessage.includes(key) || lowerMessage.includes(value.description.toLowerCase())) {
       return key;
     }
   }
-
   return null;
 }
+
+// ── Drug interaction bridge ──
+
+const DRUG_INTERACTIONS: Record<string, DrugInteractionResult> = {
+  'metformin+lisinopril': {
+    drug1: 'Metformin', drug2: 'Lisinopril', severity: 'moderate',
+    description: 'Combined use may increase the risk of lactic acidosis in patients with renal impairment.',
+    recommendation: 'Monitor renal function regularly. Consider dose adjustment if eGFR falls below 45 mL/min.',
+    confidence: 87,
+  },
+  'warfarin+aspirin': {
+    drug1: 'Warfarin', drug2: 'Aspirin', severity: 'major',
+    description: 'Increased risk of bleeding. Aspirin inhibits platelet function while warfarin inhibits coagulation factors.',
+    recommendation: 'Avoid combination unless specifically indicated. Monitor INR closely if co-prescribed.',
+    confidence: 94,
+  },
+  'default': {
+    drug1: 'Drug A', drug2: 'Drug B', severity: 'minor',
+    description: 'No significant interaction identified at standard therapeutic doses.',
+    recommendation: 'Continue monitoring as clinically appropriate. Report any unexpected side effects.',
+    confidence: 72,
+  },
+};
+
+function parseDrugPair(message: string): string {
+  const lower = message.toLowerCase();
+  if (lower.includes('metformin') && lower.includes('lisinopril')) return 'metformin+lisinopril';
+  if (lower.includes('warfarin') && lower.includes('aspirin')) return 'warfarin+aspirin';
+  return 'default';
+}
+
+export async function checkDrugInteraction(message: string): Promise<DrugInteractionResult> {
+  await delay(400 + Math.random() * 400);
+  const key = parseDrugPair(message);
+  return DRUG_INTERACTIONS[key] || DRUG_INTERACTIONS['default'];
+}
+
+// ── Bed status bridge ──
+
+export async function getBedStatus(): Promise<BedStatusResult> {
+  await delay(300 + Math.random() * 300);
+  return {
+    totalBeds: 120,
+    occupied: 94,
+    available: 26,
+    departments: [
+      { name: 'ICU', available: 2, total: 20 },
+      { name: 'General Ward', available: 12, total: 50 },
+      { name: 'Pediatrics', available: 5, total: 18 },
+      { name: 'Maternity', available: 4, total: 16 },
+      { name: 'Emergency', available: 3, total: 16 },
+    ],
+  };
+}
+
+// ── Compliance bridge ──
+
+export async function getComplianceStatus(): Promise<ComplianceStatusResult> {
+  await delay(300 + Math.random() * 300);
+  return {
+    overallScore: 87,
+    categories: [
+      { name: 'HIPAA Documentation', score: 94, status: 'pass' },
+      { name: 'Patient Consent Forms', score: 78, status: 'warning' },
+      { name: 'Medication Reconciliation', score: 91, status: 'pass' },
+      { name: 'Discharge Summaries', score: 65, status: 'fail' },
+      { name: 'Infection Control', score: 96, status: 'pass' },
+    ],
+    pendingItems: 7,
+  };
+}
+
+// ── Enhanced action generation ──
 
 function generateActions(intent: string, message: string): AIAction[] {
   const actions: AIAction[] = [];
@@ -701,49 +861,76 @@ function generateActions(intent: string, message: string): AIAction[] {
       actions.push(
         { id: 'act-1', label: 'New Appointment', type: 'appointment', icon: 'ti-calendar-plus' },
         { id: 'act-2', label: 'View Calendar', type: 'navigation', payload: { path: '/application/calendar' }, icon: 'ti-calendar' },
-        { id: 'act-3', label: 'Reschedule Existing', type: 'appointment', icon: 'ti-calendar-event' },
       );
       break;
-
-    case 'navigation':
+    case 'navigation': {
       const target = extractNavigationTarget(message);
       if (target && NAVIGATION_MAP[target]) {
         actions.push({
-          id: 'nav-1',
-          label: `Go to ${NAVIGATION_MAP[target].description}`,
-          type: 'navigation',
-          payload: { path: NAVIGATION_MAP[target].path },
-          icon: 'ti-arrow-right',
+          id: 'nav-1', label: `Go to ${NAVIGATION_MAP[target].description}`,
+          type: 'navigation', payload: { path: NAVIGATION_MAP[target].path }, icon: 'ti-arrow-right',
         });
       } else {
-        // Provide common navigation options
         actions.push(
           { id: 'nav-1', label: 'Dashboard', type: 'navigation', payload: { path: '/dashboard' }, icon: 'ti-dashboard' },
           { id: 'nav-2', label: 'Appointments', type: 'navigation', payload: { path: '/appointments' }, icon: 'ti-calendar' },
           { id: 'nav-3', label: 'Patients', type: 'navigation', payload: { path: '/patients' }, icon: 'ti-users' },
-          { id: 'nav-4', label: 'Calendar', type: 'navigation', payload: { path: '/application/calendar' }, icon: 'ti-calendar-event' },
         );
       }
       break;
-
+    }
     case 'patientSearch':
       actions.push(
         { id: 'ps-1', label: 'Search Patients', type: 'navigation', payload: { path: '/patients' }, icon: 'ti-search' },
-        { id: 'ps-2', label: 'Recent Patients', type: 'info', icon: 'ti-history' },
       );
       break;
-
     case 'schedule':
       actions.push(
-        { id: 'sch-1', label: 'Today\'s Appointments', type: 'navigation', payload: { path: '/appointments' }, icon: 'ti-calendar-check' },
+        { id: 'sch-1', label: "Today's Appointments", type: 'navigation', payload: { path: '/appointments' }, icon: 'ti-calendar-check' },
         { id: 'sch-2', label: 'View Full Calendar', type: 'navigation', payload: { path: '/application/calendar' }, icon: 'ti-calendar' },
-        { id: 'sch-3', label: 'Add Appointment', type: 'appointment', icon: 'ti-plus' },
       );
       break;
-
-    case 'help':
-    case 'greeting':
-    case 'fallback':
+    case 'drugInteraction':
+      actions.push(
+        { id: 'di-1', label: 'Open Drug Checker', type: 'action', icon: 'ti-pill', payload: { expand: 'drug-interaction' } },
+      );
+      break;
+    case 'triage':
+      actions.push(
+        { id: 'tr-1', label: 'Full Assessment', type: 'action', icon: 'ti-stethoscope', payload: { expand: 'triage' } },
+      );
+      break;
+    case 'clinicalAlerts':
+      actions.push(
+        { id: 'ca-1', label: 'View All Alerts', type: 'navigation', payload: { path: '/notifications' }, icon: 'ti-bell' },
+      );
+      break;
+    case 'shiftHandoff':
+      actions.push(
+        { id: 'sh-1', label: 'Open Shift Handoff', type: 'navigation', payload: { path: '/shift-handoff' }, icon: 'ti-transfer' },
+        { id: 'sh-2', label: 'Generate SBAR', type: 'action', icon: 'ti-file-text', payload: { expand: 'shift-handoff' } },
+      );
+      break;
+    case 'bedStatus':
+      actions.push(
+        { id: 'bs-1', label: 'Detailed Bed Map', type: 'info', icon: 'ti-bed' },
+      );
+      break;
+    case 'compliance':
+      actions.push(
+        { id: 'cp-1', label: 'Full Compliance Report', type: 'info', icon: 'ti-shield-check' },
+      );
+      break;
+    case 'notificationSummary':
+      actions.push(
+        { id: 'ns-1', label: 'View Notifications', type: 'navigation', payload: { path: '/notifications' }, icon: 'ti-bell' },
+      );
+      break;
+    case 'emailPriority':
+      actions.push(
+        { id: 'ep-1', label: 'Open Email', type: 'navigation', payload: { path: '/application/email' }, icon: 'ti-mail' },
+      );
+      break;
     default:
       actions.push(
         { id: 'help-1', label: 'Schedule Appointment', type: 'appointment', icon: 'ti-calendar-plus' },
@@ -756,43 +943,212 @@ function generateActions(intent: string, message: string): AIAction[] {
   return actions;
 }
 
+// ── Enhanced Quick Actions (categorized) ──
+
+const ENHANCED_QUICK_ACTIONS: EnhancedQuickAction[] = [
+  // Clinical
+  { id: 'eqa-1', label: 'Drug Interaction Check', icon: 'ti-pill', prompt: 'Check drug interactions', roles: ['doctor', 'nurse', 'admin'], category: 'clinical' },
+  { id: 'eqa-2', label: 'Triage Assessment', icon: 'ti-stethoscope', prompt: 'Assess triage priority for a patient', roles: ['doctor', 'nurse'], category: 'clinical' },
+  { id: 'eqa-3', label: 'Clinical Alerts', icon: 'ti-alert-triangle', prompt: 'Show clinical alerts', roles: ['doctor', 'nurse'], category: 'clinical' },
+  { id: 'eqa-4', label: 'Lab Results', icon: 'ti-flask', prompt: 'Show pending lab results', roles: ['doctor', 'nurse'], category: 'clinical' },
+  { id: 'eqa-5', label: 'Shift Handoff', icon: 'ti-transfer', prompt: 'Prepare shift handoff report', roles: ['nurse', 'doctor'], category: 'clinical', contextual: true, timeRange: { start: 6, end: 8 } },
+  { id: 'eqa-6', label: 'Bed Availability', icon: 'ti-bed', prompt: 'Show current bed availability', roles: ['nurse', 'admin'], category: 'clinical' },
+
+  // Administrative
+  { id: 'eqa-7', label: 'Schedule Appointment', icon: 'ti-calendar-plus', prompt: 'Help me schedule an appointment', roles: ['doctor', 'nurse', 'admin'], category: 'administrative' },
+  { id: 'eqa-8', label: 'Staff Schedule', icon: 'ti-calendar-time', prompt: 'Show staff schedule', roles: ['admin'], category: 'administrative' },
+  { id: 'eqa-9', label: 'Compliance Status', icon: 'ti-shield-check', prompt: 'Show compliance status', roles: ['admin'], category: 'administrative' },
+  { id: 'eqa-10', label: 'Pending Approvals', icon: 'ti-checkbox', prompt: 'Show pending approvals', roles: ['admin'], category: 'administrative' },
+  { id: 'eqa-11', label: 'Daily Reports', icon: 'ti-report', prompt: 'Generate daily reports', roles: ['admin'], category: 'administrative', contextual: true, timeRange: { start: 16, end: 20 } },
+  { id: 'eqa-12', label: 'Find Patient', icon: 'ti-search', prompt: 'Help me find a patient', roles: ['doctor', 'nurse', 'admin'], category: 'administrative' },
+
+  // Navigation
+  { id: 'eqa-13', label: 'Dashboard', icon: 'ti-dashboard', prompt: 'Go to dashboard', roles: ['doctor', 'nurse', 'admin'], category: 'navigation' },
+  { id: 'eqa-14', label: 'Notifications', icon: 'ti-bell', prompt: 'Show notification summary', roles: ['doctor', 'nurse', 'admin'], category: 'navigation' },
+  { id: 'eqa-15', label: 'Email Inbox', icon: 'ti-mail', prompt: 'Show email priority overview', roles: ['doctor', 'nurse', 'admin'], category: 'navigation' },
+  { id: 'eqa-16', label: 'Messages', icon: 'ti-message', prompt: 'Go to messages', roles: ['doctor', 'nurse', 'admin'], category: 'navigation' },
+];
+
 export function getQuickActions(role: UserRoleType): QuickAction[] {
   return QUICK_ACTIONS.filter(action => action.roles.includes(role));
 }
 
-export async function sendAIMessage(
+export function getEnhancedQuickActions(role: UserRoleType): EnhancedQuickAction[] {
+  const hour = new Date().getHours();
+  return ENHANCED_QUICK_ACTIONS
+    .filter(a => a.roles.includes(role))
+    .filter(a => {
+      if (!a.contextual || !a.timeRange) return true;
+      return hour >= a.timeRange.start && hour <= a.timeRange.end;
+    });
+}
+
+// ── Enhanced sendAIMessage with cards ──
+
+export interface EnhancedAIConversationResponse {
+  message: EnhancedAIMessage;
+  suggestedActions?: AIAction[];
+}
+
+export async function sendEnhancedAIMessage(
   message: string,
-  conversationHistory: AIMessage[],
+  conversationHistory: EnhancedAIMessage[],
   userRole: UserRoleType
-): Promise<AIConversationResponse> {
-  // Simulate API delay with typing effect
-  await delay(800 + Math.random() * 1200);
+): Promise<EnhancedAIConversationResponse> {
+  await delay(600 + Math.random() * 800);
 
   const intent = detectIntent(message);
   const responseText = getRandomResponse(intent);
   const actions = generateActions(intent, message);
 
-  // Check for navigation target
+  let cards: ChatCard[] | undefined;
+  let confidence: number | undefined;
+  let hipaaProtected = false;
+  let expandable = false;
+  let expandedView: ExpandedViewConfig | undefined;
   let navigationLink: string | undefined;
-  if (intent === 'navigation') {
-    const target = extractNavigationTarget(message);
-    if (target && NAVIGATION_MAP[target]) {
-      navigationLink = NAVIGATION_MAP[target].path;
+
+  // Bridge to existing AI features based on intent
+  switch (intent) {
+    case 'drugInteraction': {
+      const result = await checkDrugInteraction(message);
+      cards = [{ type: 'drug-interaction', data: result as unknown as Record<string, unknown> }];
+      confidence = result.confidence;
+      hipaaProtected = true;
+      expandedView = { type: 'drug-interaction', title: 'Drug Interaction Details' };
+      expandable = true;
+      break;
     }
+    case 'triage': {
+      const triageResult = await assessTriagePriority({
+        patientId: 'patient-chat',
+        symptoms: extractSymptoms(message),
+        vitals: extractVitals(message),
+        waitTime: 15,
+      });
+      cards = [{ type: 'triage', data: triageResult as unknown as Record<string, unknown> }];
+      confidence = triageResult.confidence;
+      hipaaProtected = true;
+      break;
+    }
+    case 'clinicalAlerts': {
+      const alerts = await getClinicalAlerts();
+      cards = alerts.slice(0, 3).map(a => ({ type: 'alert' as const, data: a as unknown as Record<string, unknown> }));
+      hipaaProtected = true;
+      expandable = true;
+      expandedView = { type: 'alerts', title: 'Clinical Alerts' };
+      break;
+    }
+    case 'scheduling': {
+      const slotsRes = await getSmartSlotSuggestions({ patientId: 'patient-chat', appointmentType: 'General Consultation' });
+      cards = slotsRes.slots.slice(0, 3).map(s => ({ type: 'slot' as const, data: s as unknown as Record<string, unknown> }));
+      expandedView = { type: 'scheduler', title: 'Appointment Scheduler' };
+      expandable = true;
+      break;
+    }
+    case 'bedStatus': {
+      const beds = await getBedStatus();
+      cards = [{ type: 'bed-status', data: beds as unknown as Record<string, unknown> }];
+      break;
+    }
+    case 'compliance': {
+      const comp = await getComplianceStatus();
+      cards = [{ type: 'compliance', data: comp as unknown as Record<string, unknown> }];
+      break;
+    }
+    case 'shiftHandoff':
+      expandedView = { type: 'shift-handoff', title: 'Shift Handoff Report' };
+      expandable = true;
+      break;
+    case 'navigation': {
+      const target = extractNavigationTarget(message);
+      if (target && NAVIGATION_MAP[target]) {
+        navigationLink = NAVIGATION_MAP[target].path;
+      }
+      break;
+    }
+    case 'notificationSummary':
+      cards = [{
+        type: 'patient-summary', data: {
+          title: 'Notification Summary',
+          items: [
+            { label: 'Critical', value: 3, color: 'danger' },
+            { label: 'High', value: 4, color: 'warning' },
+            { label: 'Medium', value: 8, color: 'info' },
+            { label: 'Low', value: 5, color: 'success' },
+          ],
+        },
+      }];
+      break;
+    case 'emailPriority':
+      cards = [{
+        type: 'patient-summary', data: {
+          title: 'Email Priority Overview',
+          items: [
+            { label: 'Urgent', value: 2, color: 'danger' },
+            { label: 'Clinical', value: 6, color: 'warning' },
+            { label: 'Administrative', value: 12, color: 'info' },
+            { label: 'General', value: 8, color: 'secondary' },
+          ],
+        },
+      }];
+      break;
   }
 
-  const response: AIMessage = {
+  const response: EnhancedAIMessage = {
     id: `msg-${Date.now()}`,
     role: 'assistant',
     content: responseText,
     timestamp: Date.now(),
     actions,
     navigationLink,
+    cards,
+    confidence,
+    hipaaProtected,
+    expandable,
+    expandedView,
   };
 
+  return { message: response, suggestedActions: actions };
+}
+
+// ── Helpers for parsing clinical input ──
+
+function extractSymptoms(message: string): string[] {
+  const symptomKeywords = ['chest pain', 'difficulty breathing', 'headache', 'fever', 'nausea', 'vomiting', 'dizziness', 'abdominal pain', 'cough', 'fatigue'];
+  const lower = message.toLowerCase();
+  return symptomKeywords.filter(s => lower.includes(s));
+}
+
+function extractVitals(message: string): { heartRate?: number; oxygenSaturation?: number; temperature?: number } | undefined {
+  const vitals: Record<string, number> = {};
+  const o2Match = message.match(/o2.*?(\d{2,3})%?|oxygen.*?(\d{2,3})%?|spo2.*?(\d{2,3})%?/i);
+  if (o2Match) vitals.oxygenSaturation = parseInt(o2Match[1] || o2Match[2] || o2Match[3]);
+  const hrMatch = message.match(/(?:heart rate|hr|pulse).*?(\d{2,3})/i);
+  if (hrMatch) vitals.heartRate = parseInt(hrMatch[1]);
+  const tempMatch = message.match(/(?:temp|temperature).*?([\d.]+)/i);
+  if (tempMatch) vitals.temperature = parseFloat(tempMatch[1]);
+  return Object.keys(vitals).length > 0 ? vitals : undefined;
+}
+
+// ── Legacy sendAIMessage kept for backward compat ──
+
+export async function sendAIMessage(
+  message: string,
+  conversationHistory: AIMessage[],
+  userRole: UserRoleType
+): Promise<AIConversationResponse> {
+  const enhanced = await sendEnhancedAIMessage(message, [], userRole);
   return {
-    message: response,
-    suggestedActions: actions,
+    message: {
+      id: enhanced.message.id,
+      role: enhanced.message.role,
+      content: enhanced.message.content,
+      timestamp: enhanced.message.timestamp,
+      actions: enhanced.message.actions,
+      navigationLink: enhanced.message.navigationLink,
+    },
+    suggestedActions: enhanced.suggestedActions,
   };
 }
 
@@ -804,35 +1160,14 @@ export async function executeAIAction(
 
   switch (action.type) {
     case 'navigation':
-      return {
-        success: true,
-        message: `Navigating to ${action.label}`,
-        data: action.payload,
-      };
-
+      return { success: true, message: `Navigating to ${action.label}`, data: action.payload };
     case 'appointment':
-      return {
-        success: true,
-        message: 'Opening appointment scheduler...',
-        data: { redirectTo: '/application/calendar' },
-      };
-
+      return { success: true, message: 'Opening appointment scheduler...', data: { redirectTo: '/application/calendar' } };
     case 'action':
-      return {
-        success: true,
-        message: `Executing: ${action.label}`,
-      };
-
+      return { success: true, message: `Executing: ${action.label}` };
     case 'info':
-      return {
-        success: true,
-        message: `Here's the information you requested about ${action.label}`,
-      };
-
+      return { success: true, message: `Here's the information you requested about ${action.label}` };
     default:
-      return {
-        success: false,
-        message: 'Unknown action type',
-      };
+      return { success: false, message: 'Unknown action type' };
   }
 }

@@ -140,6 +140,79 @@ export interface MessageAnalysis {
 }
 
 // ============================================
+// Feature 6: AI Assistant Chatbot Types
+// ============================================
+export type ChatCardType =
+  | 'triage'
+  | 'alert'
+  | 'slot'
+  | 'drug-interaction'
+  | 'patient-summary'
+  | 'confirmation'
+  | 'bed-status'
+  | 'compliance';
+
+export interface ChatCard {
+  type: ChatCardType;
+  data: Record<string, unknown>;
+}
+
+export interface DrugInteractionResult {
+  drug1: string;
+  drug2: string;
+  severity: 'critical' | 'major' | 'moderate' | 'minor';
+  description: string;
+  recommendation: string;
+  confidence: number;
+}
+
+export interface BedStatusResult {
+  totalBeds: number;
+  occupied: number;
+  available: number;
+  departments: { name: string; available: number; total: number }[];
+}
+
+export interface ComplianceStatusResult {
+  overallScore: number;
+  categories: { name: string; score: number; status: 'pass' | 'warning' | 'fail' }[];
+  pendingItems: number;
+}
+
+export interface ExpandedViewConfig {
+  type: 'calendar' | 'drug-interaction' | 'shift-handoff' | 'alerts' | 'scheduler';
+  title: string;
+  data?: Record<string, unknown>;
+}
+
+export type QuickActionCategory = 'clinical' | 'administrative' | 'navigation';
+
+export interface EnhancedQuickAction {
+  id: string;
+  label: string;
+  icon: string;
+  prompt: string;
+  roles: ('doctor' | 'nurse' | 'admin')[];
+  category: QuickActionCategory;
+  contextual?: boolean;
+  timeRange?: { start: number; end: number };
+}
+
+export interface EnhancedAIMessage {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: number;
+  actions?: import('../ai/mockApi').AIAction[];
+  navigationLink?: string;
+  cards?: ChatCard[];
+  confidence?: number;
+  hipaaProtected?: boolean;
+  expandable?: boolean;
+  expandedView?: ExpandedViewConfig;
+}
+
+// ============================================
 // Redux State Types
 // ============================================
 export interface AIState {

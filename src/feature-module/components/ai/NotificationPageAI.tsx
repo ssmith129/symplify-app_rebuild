@@ -281,7 +281,6 @@ export const NotificationPageAI: React.FC = () => {
               onClick={() => setActiveFilter(opt.key)}
             >
               <i className={`ti ${opt.icon}`} />
-              <span className="filter-label">{opt.label}</span>
               <span className="filter-count">{filterCounts[opt.key]}</span>
             </button>
           ))}

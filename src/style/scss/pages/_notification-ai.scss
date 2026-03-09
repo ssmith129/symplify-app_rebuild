@@ -810,10 +810,10 @@ $meta-text: #4A4F5C;
     height: 24px;
     padding: 0 6px;
     border-radius: 12px;
-    background: var(--bs-secondary-bg);
+    background: var(--bs-primary);
     font-size: 12px;
     font-weight: 700;
-    color: $meta-text;
+    color: #fff;
   }
 
   .section-unread-badge {

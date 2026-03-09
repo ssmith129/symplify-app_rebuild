@@ -264,8 +264,7 @@ const ClinicalAlertWidget: React.FC<ClinicalAlertWidgetProps> = ({
                       aria-label={`Acknowledge ${config.label} alert for ${alert.patientName}`}
                       style={{ minHeight: 44, minWidth: 44, padding: '6px 12px', transition: 'all 0.2s ease' }}
                     >
-                      <i className="ti ti-circle-check fs-14 me-1" />
-                      <span>Acknowledge</span>
+                      <i className="ti ti-circle-check fs-14" />
                     </button>
                     <button
                       className="btn btn-sm fs-12 btn-light alert-action-btn d-inline-flex align-items-center"
@@ -273,8 +272,7 @@ const ClinicalAlertWidget: React.FC<ClinicalAlertWidgetProps> = ({
                       aria-label={`Dismiss alert for ${alert.patientName}`}
                       style={{ minHeight: 44, minWidth: 44, padding: '6px 12px', transition: 'all 0.2s ease' }}
                     >
-                      <i className="ti ti-x fs-14 me-1" />
-                      <span>Dismiss</span>
+                      <i className="ti ti-x fs-14" />
                     </button>
                   </div>
                 </div>

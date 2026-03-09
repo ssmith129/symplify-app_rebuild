@@ -60,11 +60,6 @@ const AIAssistantPopup: React.FC<AIAssistantPopupProps> = ({
         role: 'assistant',
         content: `Hello ${userName}! I'm your AI Assistant for Symplify. I can help with scheduling, drug interaction checks, triage assessments, clinical alerts, shift handoffs, and more. How can I assist you today?`,
         timestamp: Date.now(),
-        actions: [
-          { id: 'w-1', label: 'Schedule Appointment', type: 'appointment', icon: 'ti-calendar-plus' },
-          { id: 'w-2', label: 'Drug Interaction Check', type: 'action', icon: 'ti-pill' },
-          { id: 'w-3', label: 'Clinical Alerts', type: 'action', icon: 'ti-alert-triangle' },
-        ],
       };
       setMessages([welcomeMessage]);
     }

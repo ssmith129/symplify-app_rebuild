@@ -255,7 +255,7 @@ export const NotificationPageAI: React.FC = () => {
             <i className="ti ti-search" />
             <input
               type="text"
-              placeholder="Search notifications by title, patient, or source..."
+              placeholder=""
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               aria-label="Search notifications"

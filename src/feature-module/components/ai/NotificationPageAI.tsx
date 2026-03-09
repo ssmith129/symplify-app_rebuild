@@ -267,7 +267,6 @@ export const NotificationPageAI: React.FC = () => {
             aria-label="Mark all notifications as read"
           >
             <i className="ti ti-checks" />
-            <span>Mark All Read</span>
           </button>
         </div>
 

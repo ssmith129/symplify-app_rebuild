@@ -1424,5 +1424,13 @@ $meta-text: #4A4F5C;
     .notification-stats {
       flex-wrap: wrap;
     }
+
+    .notif-action-btn span {
+      display: none;
+    }
+
+    .notif-action-btn {
+      padding: 6px 10px;
+    }
   }
 }

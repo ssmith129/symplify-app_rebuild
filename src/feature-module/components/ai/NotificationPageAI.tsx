@@ -312,14 +312,9 @@ export const NotificationPageAI: React.FC = () => {
                       <span>{categoryConfig.label}</span>
                     </div>
                     <div className="section-meta">
-                      <span className="section-count-badge" aria-label={`${totalInCategory} total`}>
-                        {totalInCategory}
+                      <span className="section-count-badge" aria-label={`${unreadInCategory} unread`}>
+                        {unreadInCategory}
                       </span>
-                      {unreadInCategory > 0 && (
-                        <span className="section-unread-badge" aria-label={`${unreadInCategory} unread`}>
-                          {unreadInCategory} unread
-                        </span>
-                      )}
                       <button
                         className="section-action-btn"
                         title="Mark all in section as read"

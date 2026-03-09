@@ -694,9 +694,14 @@ $meta-text: #4A4F5C;
   // --- Filter pills with text labels ---
   .notif-filters {
     display: flex;
+    align-items: center;
     gap: 8px;
     margin-bottom: 20px;
     flex-wrap: wrap;
+
+    .btn-mark-all-read {
+      margin-left: auto;
+    }
   }
 
   .filter-pill {

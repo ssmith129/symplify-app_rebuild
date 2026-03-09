@@ -261,13 +261,6 @@ export const NotificationPageAI: React.FC = () => {
               aria-label="Search notifications"
             />
           </div>
-          <button
-            className="btn-mark-all-read"
-            onClick={() => handleMarkAllRead()}
-            aria-label="Mark all notifications as read"
-          >
-            <i className="ti ti-checks" />
-          </button>
         </div>
 
         {/* Filter pills with text labels */}
@@ -284,6 +277,13 @@ export const NotificationPageAI: React.FC = () => {
               <span className="filter-count">{filterCounts[opt.key]}</span>
             </button>
           ))}
+          <button
+            className="btn-mark-all-read"
+            onClick={() => handleMarkAllRead()}
+            aria-label="Mark all notifications as read"
+          >
+            <i className="ti ti-checks" />
+          </button>
         </div>
 
         {/* Notification groups */}

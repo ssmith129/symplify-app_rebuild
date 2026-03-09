@@ -374,7 +374,7 @@ const Modals = () => {
               className="btn btn-primary btm-md"
               id="filter-submit"
             >
-              Create Create Appointment
+              Create Appointment
             </button>
           </div>
         </div>
@@ -746,7 +746,7 @@ const Modals = () => {
               className="btn btn-primary btm-md"
               id="filter-submit2"
             >
-              Create Create Appointment
+              Create Appointment
             </button>
           </div>
         </div>

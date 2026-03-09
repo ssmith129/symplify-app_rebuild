@@ -675,3 +675,297 @@
     }
   }
 }
+
+// ─── Offcanvas AI Scheduler (Doctor Dashboard) ───
+
+.oc-ai-scheduler {
+  margin: 16px 0 0;
+  border: 1px solid var(--bs-border-color);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.oc-ai-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.06), rgba(168, 85, 247, 0.06));
+  border-bottom: 1px solid var(--bs-border-color);
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1));
+  }
+}
+
+.oc-ai-header-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.oc-ai-sparkle {
+  font-size: 16px;
+  color: #7c3aed;
+}
+
+.oc-ai-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--bs-body-color);
+}
+
+.oc-ai-chevron {
+  font-size: 15px;
+  color: #6b7280;
+}
+
+.oc-ai-body {
+  padding: 12px 14px;
+}
+
+.oc-ai-applied {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(16, 185, 129, 0.1);
+  color: #059669;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  animation: oc-fade-in 0.3s ease;
+
+  i { font-size: 14px; }
+}
+
+@keyframes oc-fade-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.oc-ai-slots-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.oc-ai-slots-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--bs-body-color);
+}
+
+.oc-ai-refresh {
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--bs-border-color);
+  border-radius: 6px;
+  background: var(--bs-body-bg);
+  color: #6b7280;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.15s;
+
+  &:hover {
+    color: var(--bs-primary);
+    border-color: var(--bs-primary);
+  }
+
+  .oc-spin {
+    animation: oc-spin-anim 0.8s linear infinite;
+  }
+}
+
+@keyframes oc-spin-anim {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.oc-ai-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 0;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.oc-ai-slots-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.oc-slot {
+  padding: 8px 10px;
+  border: 1px solid var(--bs-border-color);
+  border-radius: 8px;
+  background: var(--bs-body-bg);
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &:hover {
+    border-color: var(--bs-primary);
+  }
+
+  &.active {
+    border-color: var(--bs-primary);
+    background: rgba(99, 102, 241, 0.04);
+    box-shadow: 0 1px 6px rgba(99, 102, 241, 0.1);
+  }
+}
+
+.oc-slot-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.oc-slot-dt {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.oc-slot-date {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--bs-body-color);
+}
+
+.oc-slot-time {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: var(--bs-primary);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.oc-slot-rate {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+
+  &.oc-show-green {
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+  }
+  &.oc-show-amber {
+    background: rgba(245, 158, 11, 0.1);
+    color: #d97706;
+  }
+  &.oc-show-red {
+    background: rgba(239, 68, 68, 0.1);
+    color: #dc2626;
+  }
+}
+
+.oc-slot-doc {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #6b7280;
+
+  i {
+    font-size: 13px;
+    color: var(--bs-primary);
+  }
+}
+
+.oc-slot-expand {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--bs-border-color);
+  animation: oc-fade-in 0.2s ease;
+}
+
+.oc-slot-factors {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 8px;
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 11px;
+    color: #6b7280;
+
+    i {
+      font-size: 13px;
+    }
+  }
+}
+
+.oc-slot-warn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgba(245, 158, 11, 0.08);
+  color: #d97706;
+  font-size: 11px;
+  margin-bottom: 8px;
+
+  i { font-size: 13px; }
+}
+
+.oc-apply-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px;
+  border: none;
+  border-radius: 6px;
+  background: var(--bs-primary);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &:hover {
+    filter: brightness(0.9);
+  }
+
+  i { font-size: 14px; }
+}
+
+.oc-ai-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  margin-top: 10px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: rgba(99, 102, 241, 0.04);
+  font-size: 10px;
+  color: #6b7280;
+  line-height: 1.4;
+
+  i {
+    font-size: 13px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    color: #6366f1;
+  }
+}

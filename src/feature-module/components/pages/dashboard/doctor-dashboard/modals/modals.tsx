@@ -3,6 +3,10 @@ import dayjs from "dayjs";
 import ImageWithBasePath from "../../../../../../core/imageWithBasePath";
 import { Link } from "react-router";
 import { all_routes } from "../../../../../routes/all_routes";
+import { useDispatch, useSelector } from 'react-redux';
+import type { RootState, AppDispatch } from '../../../../../../core/redux/store';
+import { fetchSlotSuggestions, selectSlot } from '../../../../../../core/redux/aiSlice';
+import type { SlotSuggestion } from '../../../../../../core/ai/types';
 
 const Modals = () => {
   const getModalContainer = () => {
@@ -12,6 +16,39 @@ const Modals = () => {
   const onChangeTime: TimePickerProps["onChange"] = (time, timeString) => {
     console.log(time, timeString);
   };
+
+  // AI Scheduler state
+  const dispatch = useDispatch<AppDispatch>();
+  const { suggestions, loading } = useSelector((state: RootState) => state.ai.scheduler);
+  const [aiOpen, setAiOpen] = React.useState(true);
+  const [activeSlot, setActiveSlot] = React.useState<SlotSuggestion | null>(null);
+  const [slotApplied, setSlotApplied] = React.useState(false);
+
+  React.useEffect(() => {
+    dispatch(fetchSlotSuggestions({ patientId: 'patient-1', appointmentType: 'General Consultation' }));
+  }, [dispatch]);
+
+  const handleSlotClick = (slot: SlotSuggestion) => {
+    setActiveSlot(activeSlot?.datetime === slot.datetime ? null : slot);
+    dispatch(selectSlot(slot));
+    setSlotApplied(false);
+  };
+
+  const handleApplySlot = () => {
+    if (!activeSlot) return;
+    setSlotApplied(true);
+  };
+
+  const formatSlotDate = (datetime: string) => {
+    const d = new Date(datetime);
+    return {
+      date: d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),
+      time: d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+    };
+  };
+
+  const getShowRateClass = (risk: number) => risk < 15 ? 'oc-show-green' : risk < 25 ? 'oc-show-amber' : 'oc-show-red';
+
   return (
     <>
       {/* Start Add New Appointment */}
@@ -363,6 +400,107 @@ const Modals = () => {
             </div>
             {/* end row*/}
           </form>
+
+          {/* ── AI Scheduler Assistant ── */}
+          <div className="oc-ai-scheduler">
+            <div
+              className="oc-ai-header"
+              onClick={() => setAiOpen(!aiOpen)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setAiOpen(!aiOpen); } }}
+              aria-expanded={aiOpen}
+            >
+              <div className="oc-ai-header-left">
+                <i className="ti ti-sparkles oc-ai-sparkle" />
+                <span className="oc-ai-label">AI Scheduling Assistant</span>
+              </div>
+              <i className={`ti ti-chevron-${aiOpen ? 'up' : 'down'} oc-ai-chevron`} />
+            </div>
+
+            {aiOpen && (
+              <div className="oc-ai-body">
+                {slotApplied && (
+                  <div className="oc-ai-applied">
+                    <i className="ti ti-check" /> Slot applied to form
+                  </div>
+                )}
+
+                <div className="oc-ai-slots-head">
+                  <span className="oc-ai-slots-title">Suggested Slots</span>
+                  <button
+                    className="oc-ai-refresh"
+                    onClick={() => dispatch(fetchSlotSuggestions({ patientId: 'patient-1', appointmentType: 'General Consultation' }))}
+                    disabled={loading}
+                    aria-label="Refresh suggestions"
+                  >
+                    <i className={`ti ti-refresh ${loading ? 'oc-spin' : ''}`} />
+                  </button>
+                </div>
+
+                {loading ? (
+                  <div className="oc-ai-loading">
+                    <div className="spinner-border spinner-border-sm" />
+                    <span>Finding optimal slots...</span>
+                  </div>
+                ) : (
+                  <div className="oc-ai-slots-list">
+                    {suggestions.slice(0, 4).map((slot, idx) => {
+                      const { date, time } = formatSlotDate(slot.datetime);
+                      const showRate = Math.round(100 - slot.factors.noShowRisk);
+                      const isActive = activeSlot?.datetime === slot.datetime;
+
+                      return (
+                        <div
+                          key={idx}
+                          className={`oc-slot ${isActive ? 'active' : ''}`}
+                          onClick={() => handleSlotClick(slot)}
+                          role="button"
+                          tabIndex={0}
+                          onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleSlotClick(slot); } }}
+                          aria-label={`${date} at ${time} with ${slot.providerName}`}
+                        >
+                          <div className="oc-slot-row">
+                            <div className="oc-slot-dt">
+                              <span className="oc-slot-date">{date}</span>
+                              <span className="oc-slot-time">{time}</span>
+                            </div>
+                            <span className={`oc-slot-rate ${getShowRateClass(slot.factors.noShowRisk)}`}>
+                              {showRate}%
+                            </span>
+                          </div>
+                          <div className="oc-slot-doc">
+                            <i className="ti ti-stethoscope" /> {slot.providerName}
+                          </div>
+                          {isActive && (
+                            <div className="oc-slot-expand">
+                              <div className="oc-slot-factors">
+                                <span><i className="ti ti-user-check" /> Fit {Math.round(slot.factors.providerPreference)}%</span>
+                                <span><i className="ti ti-clock" /> Wait {Math.round(slot.factors.waitTimeOptimal)}%</span>
+                              </div>
+                              {slot.conflicts.length > 0 && (
+                                <div className="oc-slot-warn">
+                                  <i className="ti ti-alert-triangle" /> {slot.conflicts.join(', ')}
+                                </div>
+                              )}
+                              <button className="oc-apply-btn" onClick={e => { e.stopPropagation(); handleApplySlot(); }}>
+                                <i className="ti ti-check" /> Apply to Form
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+
+                <div className="oc-ai-note">
+                  <i className="ti ti-info-circle" />
+                  <span>AI-optimized based on historical patterns and availability</span>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
         <div className="offcanvas-footer mb-1 mt-3 p-3 border-1 border-top">
           <div className=" d-flex justify-content-end gap-2">

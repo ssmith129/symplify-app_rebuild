@@ -249,21 +249,7 @@ export const NotificationPageAI: React.FC = () => {
   return (
     <div className="page-wrapper">
       <div className="content notification-page-ai">
-        {/* Header bar with search and mark-all-read */}
-        <div className="notif-page-header">
-          <div className="notif-search-bar">
-            <i className="ti ti-search" />
-            <input
-              type="text"
-              placeholder=""
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-              aria-label="Search notifications"
-            />
-          </div>
-        </div>
-
-        {/* Filter pills with text labels */}
+        {/* Filter pills */}
         <div className="notif-filters" role="tablist" aria-label="Notification filters">
           {FILTER_OPTIONS.map(opt => (
             <button

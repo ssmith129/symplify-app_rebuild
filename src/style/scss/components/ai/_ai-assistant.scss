@@ -6,9 +6,11 @@
   bottom: 90px;
   right: 24px;
   width: 400px;
-  max-height: 600px;
+  height: 900px;
+  max-height: 900px;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   background: var(--bs-body-bg);
   border: 1px solid var(--bs-border-color);
   border-radius: 16px;

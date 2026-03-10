@@ -1297,3 +1297,35 @@
     }
   }
 }
+
+// ── Header AI Button ──
+.ai-header-btn {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(46, 55, 164, 0.35);
+  border: none;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(46, 55, 164, 0.5);
+    transform: scale(1.08);
+  }
+
+  &:active {
+    transform: scale(0.95);
+    box-shadow: 0 1px 4px rgba(46, 55, 164, 0.3);
+  }
+
+  &:focus-visible {
+    outline: 2px solid #2E37A4;
+    outline-offset: 2px;
+  }
+}

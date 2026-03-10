@@ -145,6 +145,17 @@ const Header = () => {
                 <i className="ti ti-search fs-16" />
               </button>
             </div>
+            {/* AI Assistant */}
+            <div className="header-item d-none d-sm-flex me-2">
+              <button
+                type="button"
+                className="btn btn-icon rounded-circle btn-liner-gradient ai-header-btn"
+                onClick={() => setIsAIAssistantOpen(true)}
+                aria-label="Open AI Assistant"
+              >
+                <i className="ti ti-chart-bubble-filled fs-16" />
+              </button>
+            </div>
             {/* Appointment */}
             <div className="header-item">
               <div className="dropdown me-2">
@@ -186,17 +197,6 @@ const Header = () => {
               >
                 <i className="ti ti-moon fs-16" />
               </Link>
-            </div>
-            {/* AI Assistant */}
-            <div className="header-item d-none d-sm-flex me-2">
-              <button
-                type="button"
-                className="btn topbar-link btn-icon"
-                onClick={() => setIsAIAssistantOpen(true)}
-                aria-label="Open AI Assistant"
-              >
-                <i className="ti ti-chart-bubble-filled fs-16" />
-              </button>
             </div>
             {/* AI-Enhanced Notification Dropdown */}
             <NotificationDropdownAI />

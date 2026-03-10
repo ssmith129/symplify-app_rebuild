@@ -274,8 +274,8 @@ const Header = () => {
           bottom: '24px',
           right: '24px',
           zIndex: 1050,
-          width: '48px',
-          height: '48px',
+          width: '44px',
+          height: '44px',
           boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)',
         }}
       >

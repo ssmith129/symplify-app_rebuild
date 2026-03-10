@@ -146,7 +146,7 @@ const Header = () => {
               </button>
             </div>
             {/* AI Assistant */}
-            <div className="header-item d-none d-sm-flex me-2">
+            <div className="header-item d-none d-sm-flex me-3">
               <button
                 type="button"
                 className="btn btn-icon rounded-circle btn-liner-gradient ai-header-btn"

@@ -210,11 +210,13 @@ const Header = () => {
                 aria-haspopup="false"
                 aria-expanded="false"
               >
-                <ImageWithBasePath
-                  src="assets/img/users/user-01.jpg"
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets%2Fba69a23156414a589de97341511272c9%2Fe2de9f03098545c9b03b9146e8f306b0?format=webp&width=64&height=64"
                   width={32}
+                  height={32}
                   className="rounded-circle d-flex"
                   alt="user-image"
+                  style={{ objectFit: 'cover' }}
                 />
                 <span className="online text-success">
                   <i className="ti ti-circle-filled d-flex bg-white rounded-circle border border-1 border-white" />
@@ -222,12 +224,13 @@ const Header = () => {
               </Link>
               <div className="dropdown-menu dropdown-menu-end dropdown-menu-md p-2">
                 <div className="d-flex align-items-center bg-light rounded-3 p-2 mb-2">
-                  <ImageWithBasePath
-                    src="assets/img/users/user-01.jpg"
+                  <img
+                    src="https://cdn.builder.io/api/v1/image/assets%2Fba69a23156414a589de97341511272c9%2Fe2de9f03098545c9b03b9146e8f306b0?format=webp&width=84&height=84"
                     className="rounded-circle"
                     width={42}
                     height={42}
                     alt=""
+                    style={{ objectFit: 'cover' }}
                   />
                   <div className="ms-2">
                     <p className="fw-medium text-dark mb-0">Jimmy Anderson</p>

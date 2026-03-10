@@ -146,7 +146,7 @@ const Header = () => {
               </button>
             </div>
             {/* AI Assistant */}
-            <div className="header-item d-none d-sm-flex me-3">
+            <div className="header-item d-none d-lg-flex me-3">
               <button
                 type="button"
                 className="btn btn-icon rounded-circle btn-liner-gradient ai-header-btn"
@@ -278,7 +278,7 @@ const Header = () => {
       {/* AI Assistance - Floating icon on tablet/mobile */}
       <button
         onClick={() => setIsAIAssistantOpen(true)}
-        className="btn btn-liner-gradient btn-icon rounded-circle d-flex ai-float-btn"
+        className="btn btn-liner-gradient btn-icon rounded-circle d-flex d-lg-none ai-float-btn"
         aria-label="Open AI Assistant"
         style={{
           position: 'fixed',

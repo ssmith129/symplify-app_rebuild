@@ -4,8 +4,10 @@
 .ai-assistant-popup {
   position: fixed;
   bottom: 90px;
-  right: 24px;
+  right: 20px;
   width: 480px;
+  // Keep within the page-wrapper content area (account for sidebar)
+  max-width: calc(100vw - var(--sidenav-width, 276px) - 40px);
   height: calc(100vh - 140px);
   max-height: 860px;
   display: flex;

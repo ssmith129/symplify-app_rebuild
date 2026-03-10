@@ -6,8 +6,8 @@
 // Variables — Rec 5: darker text colors for WCAG AAA on tinted backgrounds
 $critical-color: #991B1B;
 $critical-bg: #FEE2E2;
-$high-color: #92400E;
-$high-bg: #FEF3C7;
+$high-color: #C2410C;
+$high-bg: #FFF7ED;
 $moderate-color: #78350F;
 $moderate-bg: #FEF9C3;
 $stable-color: #166534;
@@ -332,6 +332,28 @@ $info-bg: #DBEAFE;
   border-radius: 12px;
   color: #fff;
 
+  // Rec 3: Light variant reduces visual weight
+  &.light {
+    background: #fff;
+    border: 1px solid #E2E8F0;
+    border-left: 4px solid #667eea;
+    color: #1E293B;
+
+    .ai-badge {
+      background: #EEF2FF;
+      color: #4338CA;
+    }
+
+    .generated-time {
+      opacity: 1;
+      color: #94A3B8;
+    }
+
+    .summary-structured {
+      background: #F8FAFC;
+    }
+  }
+
   .summary-header {
     display: flex;
     justify-content: space-between;
@@ -402,19 +424,40 @@ $info-bg: #DBEAFE;
   }
 }
 
-// Rec 4: Persistent Vitals Legend
+// Rec 4: Collapsible Vitals Legend
 .vitals-legend {
   margin-bottom: 1.5rem;
-  padding: 0.75rem 1rem;
   background: #F8FAFC;
   border: 1px solid #E2E8F0;
   border-radius: 8px;
+  overflow: hidden;
+
+  .legend-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.625rem 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #334155;
+    font-size: 0.8125rem;
+
+    &:hover {
+      background: #F1F5F9;
+    }
+  }
 
   .legend-title {
-    font-size: 0.8125rem;
     font-weight: 600;
-    color: #334155;
-    margin-right: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+  }
+
+  .legend-body {
+    padding: 0 1rem 0.75rem;
   }
 
   .legend-items,
@@ -499,6 +542,17 @@ $info-bg: #DBEAFE;
     transform: translateY(-2px);
   }
 
+  &:focus-visible {
+    outline: 2px solid var(--primary-color, #0d6efd);
+    outline-offset: 2px;
+  }
+
+  // Reviewed state
+  &.reviewed {
+    border-left-color: #16A34A !important;
+    background: #FAFFF9;
+  }
+
   .card-header {
     display: flex;
     justify-content: space-between;
@@ -511,6 +565,15 @@ $info-bg: #DBEAFE;
         font-size: 1.125rem;
         font-weight: 600;
         color: var(--text-primary, #333);
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+
+        .reviewed-badge {
+          color: #16A34A;
+          font-size: 1rem;
+          line-height: 1;
+        }
       }
 
       .patient-details {
@@ -545,7 +608,7 @@ $info-bg: #DBEAFE;
     padding: 0.75rem;
     background: #f8f9fa;
     border-radius: 6px;
-    font-size: 0.8125rem;
+    font-size: 0.875rem;
 
     .sbar-label {
       font-weight: 700;
@@ -586,6 +649,49 @@ $info-bg: #DBEAFE;
     }
   }
 
+  // Inline tasks surfaced on card
+  .inline-tasks {
+    margin-bottom: 0.75rem;
+    padding: 0.625rem 0.75rem;
+    background: #FFFBEB;
+    border: 1px solid #FDE68A;
+    border-radius: 6px;
+
+    .inline-tasks-header {
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #92400E;
+      margin-bottom: 0.375rem;
+    }
+
+    .inline-tasks-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .inline-task-item {
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0.25rem 0;
+      font-size: 0.8125rem;
+      color: #78350F;
+
+      i { font-size: 0.875rem; color: #D97706; }
+    }
+
+    .inline-task-more {
+      font-size: 0.75rem;
+      color: #92400E;
+      font-style: italic;
+      padding-top: 0.25rem;
+    }
+  }
+
   .quick-stats {
     display: flex;
     gap: 1rem;
@@ -600,7 +706,6 @@ $info-bg: #DBEAFE;
     }
   }
 
-  // Rec 3: Standardized alert area — fixed height for all cards
   .alert-area {
     margin-bottom: 0.75rem;
   }
@@ -698,7 +803,7 @@ $info-bg: #DBEAFE;
     }
   }
 
-  // Larger click indicator — meets 44px min target
+  // Click indicator — 44px min target
   .click-indicator {
     text-align: right;
     margin-top: 0.75rem;
@@ -709,11 +814,153 @@ $info-bg: #DBEAFE;
       display: inline-flex;
       align-items: center;
       gap: 0.375rem;
-      font-size: 0.8125rem;
+      font-size: 0.875rem;
       color: var(--primary-color, #0d6efd);
       font-weight: 600;
-      padding: 0.375rem 0;
-      min-height: 36px;
+      padding: 0.5rem 0;
+      min-height: 44px;
+    }
+  }
+}
+
+// Sticky Acknowledge Bar
+.acknowledge-bar {
+  position: sticky;
+  bottom: 0;
+  margin: 1.5rem -1.5rem -1.5rem;
+  padding: 1rem 1.5rem;
+  background: #fff;
+  border-top: 2px solid #E2E8F0;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+
+  &.acknowledged {
+    border-top-color: $stable-color;
+    background: #F0FDF4;
+  }
+
+  .acknowledge-bar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .review-progress {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+    min-width: 200px;
+
+    .review-count {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: #334155;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+    }
+
+    .review-progress-bar {
+      flex: 1;
+      height: 6px;
+      background: #E2E8F0;
+      border-radius: 3px;
+      overflow: hidden;
+      max-width: 200px;
+    }
+
+    .review-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #2563EB, #16A34A);
+      border-radius: 3px;
+      transition: width 0.3s ease;
+    }
+  }
+
+  .btn-acknowledge {
+    padding: 0.75rem 1.5rem;
+    background: #065F46;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(6, 95, 70, 0.3);
+
+    &:hover:not(:disabled) {
+      background: #064E3B;
+      box-shadow: 0 4px 12px rgba(6, 95, 70, 0.4);
+    }
+
+    &.acknowledged {
+      background: $stable-color;
+      box-shadow: none;
+      cursor: default;
+    }
+
+    &:disabled {
+      opacity: 0.9;
+    }
+  }
+
+  .acknowledge-confirm {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+    > span {
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: #334155;
+    }
+
+    .confirm-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .acknowledge-bar {
+    .acknowledge-bar-inner {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .review-progress {
+      .review-progress-bar {
+        max-width: 100%;
+      }
+    }
+
+    .btn-acknowledge {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .acknowledge-confirm {
+      flex-direction: column;
+      align-items: stretch;
+
+      .confirm-actions {
+        justify-content: stretch;
+
+        .btn {
+          flex: 1;
+        }
+      }
     }
   }
 }

@@ -12,6 +12,7 @@ interface PatientHandoffCardProps {
   onClick: () => void;
   priorityConfig: Record<string, PriorityConfig>;
   expanded?: boolean;
+  reviewed?: boolean;
 }
 
 /** Map metric names to recognizable short labels and icons */
@@ -23,10 +24,7 @@ const METRIC_MAP: Record<string, { abbr: string; icon: string }> = {
 };
 
 /** Trend direction uses clinically-aware coloring */
-const getTrendInfo = (metric: string, trend: string) => {
-  // Declining SpO2 is bad; improving SpO2 is good
-  // Declining Heart Rate can be good or neutral; rising can be bad
-  const isInversed = metric === 'SpO2'; // for SpO2, "declining" is bad, "improving" is good
+const getTrendInfo = (_metric: string, trend: string) => {
   switch (trend) {
     case 'improving':
       return { icon: '↑', color: '#166534', label: 'Improving' };
@@ -41,7 +39,8 @@ export const PatientHandoffCard: React.FC<PatientHandoffCardProps> = ({
   patient,
   onClick,
   priorityConfig,
-  expanded = false
+  expanded = false,
+  reviewed = false
 }) => {
   const config = priorityConfig[patient.priorityLevel];
 
@@ -51,18 +50,25 @@ export const PatientHandoffCard: React.FC<PatientHandoffCardProps> = ({
 
   return (
     <div 
-      className={`patient-handoff-card priority-${patient.priorityLevel}`}
+      className={`patient-handoff-card priority-${patient.priorityLevel} ${reviewed ? 'reviewed' : ''}`}
       onClick={onClick}
       style={{ borderLeftColor: config.color }}
       role="button"
       tabIndex={0}
-      aria-label={`${patient.patientName}, Room ${patient.room}, ${config.label} priority. Click for details.`}
+      aria-label={`${patient.patientName}, Room ${patient.room}, ${config.label} priority. ${reviewed ? 'Reviewed.' : ''} Click for details.`}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } }}
     >
-      {/* Header — patient name is primary, badge is smaller */}
+      {/* Header — patient name is primary, badge + reviewed indicator */}
       <div className="card-header">
         <div className="patient-info">
-          <h4 className="patient-name">{patient.patientName}</h4>
+          <h4 className="patient-name">
+            {patient.patientName}
+            {reviewed && (
+              <span className="reviewed-badge" title="You have reviewed this patient">
+                <i className="ti ti-circle-check" />
+              </span>
+            )}
+          </h4>
           <span className="patient-details">
             Room {patient.room} · {patient.age} y/o
           </span>
@@ -84,17 +90,17 @@ export const PatientHandoffCard: React.FC<PatientHandoffCardProps> = ({
         <span className="diagnosis-text">{patient.primaryDiagnosis}</span>
       </div>
 
-      {/* Rec: Replace ambiguous "S:" with full "Status Note" label */}
+      {/* Status Note */}
       <div className="sbar-preview">
         <span className="sbar-label">Status Note:</span>
         <span className="sbar-text">
-          {patient.sbar.situation.length > 100 
-            ? `${patient.sbar.situation.slice(0, 100)}...` 
+          {patient.sbar.situation.length > 120 
+            ? `${patient.sbar.situation.slice(0, 120)}...` 
             : patient.sbar.situation}
         </span>
       </div>
 
-      {/* Rec 4: Vitals with expanded abbreviations and icons */}
+      {/* Vitals with expanded abbreviations and icons */}
       <div className="vitals-trends">
         <div className="trends-label">Vitals Trends:</div>
         <div className="trends-badges">
@@ -117,39 +123,55 @@ export const PatientHandoffCard: React.FC<PatientHandoffCardProps> = ({
         </div>
       </div>
 
-      {/* Pending Tasks & Medications Count */}
-      <div className="quick-stats">
-        <div className="stat-item">
-          <i className="ti ti-clipboard-list stat-icon"></i>
-          <span>{patient.pendingTasks.length} pending task{patient.pendingTasks.length !== 1 ? 's' : ''}</span>
+      {/* Rec 2: Surface top pending tasks inline with action affordance */}
+      {patient.pendingTasks.length > 0 && (
+        <div className="inline-tasks">
+          <div className="inline-tasks-header">
+            <i className="ti ti-clipboard-list" />
+            <span>Pending Tasks ({patient.pendingTasks.length})</span>
+          </div>
+          <ul className="inline-tasks-list">
+            {patient.pendingTasks.slice(0, 2).map((task, idx) => (
+              <li key={idx} className="inline-task-item">
+                <i className="ti ti-square" aria-hidden="true" />
+                <span>{task}</span>
+              </li>
+            ))}
+            {patient.pendingTasks.length > 2 && (
+              <li className="inline-task-more">
+                +{patient.pendingTasks.length - 2} more tasks
+              </li>
+            )}
+          </ul>
         </div>
+      )}
+
+      {/* Medications count */}
+      <div className="quick-stats">
         <div className="stat-item">
           <i className="ti ti-pill stat-icon"></i>
           <span>{patient.medications.length} medication{patient.medications.length !== 1 ? 's' : ''}</span>
         </div>
       </div>
 
-      {/* Rec 3: Standardized alert area — always present, fixed height */}
-      <div className={`alert-area ${hasAlert ? '' : 'no-alert'}`}>
-        {criticalEvents.length > 0 ? (
-          <div className="alert-banner critical">
-            <i className="ti ti-alert-octagon alert-icon" aria-hidden="true" />
-            <span className="alert-severity-label">IMMEDIATE:</span>
-            <span className="alert-text">{criticalEvents[0].event}</span>
-          </div>
-        ) : warningEvents.length > 0 ? (
-          <div className="alert-banner warning">
-            <i className="ti ti-alert-triangle alert-icon" aria-hidden="true" />
-            <span className="alert-severity-label">MONITOR:</span>
-            <span className="alert-text">{warningEvents[0].event}</span>
-          </div>
-        ) : (
-          <div className="alert-banner none">
-            <i className="ti ti-circle-check alert-icon" aria-hidden="true" />
-            <span className="alert-text">No active alerts</span>
-          </div>
-        )}
-      </div>
+      {/* Alert area — only show when there are active alerts (Rec: remove "No active alerts" noise from stable cards) */}
+      {hasAlert && (
+        <div className="alert-area">
+          {criticalEvents.length > 0 ? (
+            <div className="alert-banner critical">
+              <i className="ti ti-alert-octagon alert-icon" aria-hidden="true" />
+              <span className="alert-severity-label">IMMEDIATE:</span>
+              <span className="alert-text">{criticalEvents[0].event}</span>
+            </div>
+          ) : (
+            <div className="alert-banner warning">
+              <i className="ti ti-alert-triangle alert-icon" aria-hidden="true" />
+              <span className="alert-severity-label">MONITOR:</span>
+              <span className="alert-text">{warningEvents[0].event}</span>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Expanded View - Recent Events Timeline */}
       {expanded && (
@@ -166,20 +188,10 @@ export const PatientHandoffCard: React.FC<PatientHandoffCardProps> = ({
               </div>
             ))}
           </div>
-
-          <h5 className="section-title">Pending Tasks</h5>
-          <ul className="pending-tasks-list">
-            {patient.pendingTasks.map((task, idx) => (
-              <li key={idx} className="task-item">
-                <i className="ti ti-square task-checkbox"></i>
-                <span className="task-text">{task}</span>
-              </li>
-            ))}
-          </ul>
         </div>
       )}
 
-      {/* Rec: Larger click target for "View Details" */}
+      {/* Click indicator — entire card is clickable */}
       <div className="click-indicator">
         <span>View Details <i className="ti ti-arrow-right" /></span>
       </div>

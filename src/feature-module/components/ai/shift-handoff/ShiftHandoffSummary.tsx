@@ -20,7 +20,7 @@ interface ShiftHandoffSummaryProps {
 
 const PRIORITY_CONFIG = {
   critical: { color: '#991B1B', bgColor: '#FEE2E2', label: 'Critical' },
-  high: { color: '#92400E', bgColor: '#FEF3C7', label: 'High' },
+  high: { color: '#C2410C', bgColor: '#FFF7ED', label: 'High' },
   moderate: { color: '#78350F', bgColor: '#FEF9C3', label: 'Moderate' },
   stable: { color: '#166534', bgColor: '#DCFCE7', label: 'Stable' }
 };
@@ -43,6 +43,9 @@ const ShiftHandoffSummary: React.FC<ShiftHandoffSummaryProps> = ({
   
   const [detailModalVisible, setDetailModalVisible] = useState(false);
   const [activeTab, setActiveTab] = useState<'all' | 'priority'>('all');
+  const [reviewedPatients, setReviewedPatients] = useState<Set<string>>(new Set());
+  const [vitalsKeyOpen, setVitalsKeyOpen] = useState(false);
+  const [showAcknowledgeConfirm, setShowAcknowledgeConfirm] = useState(false);
 
   useEffect(() => {
     dispatch(generateHandoffReport({ outgoingNurseId, incomingNurseId, shiftType, unitId }));
@@ -57,6 +60,8 @@ const ShiftHandoffSummary: React.FC<ShiftHandoffSummaryProps> = ({
   const handlePatientClick = (patient: PatientHandoff) => {
     dispatch(selectPatient(patient));
     setDetailModalVisible(true);
+    // Mark patient as reviewed when opened
+    setReviewedPatients(prev => new Set(prev).add(patient.patientId));
   };
 
   const closeModal = () => {
@@ -145,24 +150,13 @@ const ShiftHandoffSummary: React.FC<ShiftHandoffSummaryProps> = ({
           </div>
           {/* Rec 1: Differentiated CTAs — Play Summary is ghost/outlined, Acknowledge is large filled */}
           <div className="header-actions">
-            <button 
+            <button
               className={`btn btn-audio ${audioPlaying ? 'playing' : ''}`}
               onClick={() => dispatch(toggleAudio())}
-              aria-label={audioPlaying ? 'Pause audio summary' : 'Play audio summary'}
+              aria-label={audioPlaying ? 'Pause audio briefing' : 'Listen to audio briefing'}
             >
               <i className={`ti ${audioPlaying ? 'ti-player-pause' : 'ti-volume'}`} />
-              <span>{audioPlaying ? 'Pause Audio' : 'Play Summary'}</span>
-            </button>
-            <button 
-              className={`btn btn-acknowledge ${isAcknowledged ? 'acknowledged' : ''}`}
-              onClick={handleAcknowledge}
-              disabled={isAcknowledged}
-              aria-label={isAcknowledged ? 'Handoff acknowledged' : 'Acknowledge this handoff'}
-            >
-              {isAcknowledged 
-                ? <><i className="ti ti-circle-check" /> Acknowledged</>
-                : <><i className="ti ti-clipboard-check" /> Acknowledge Handoff</>
-              }
+              <span>{audioPlaying ? 'Pause Briefing' : 'Audio Briefing'}</span>
             </button>
           </div>
         </div>
@@ -209,8 +203,8 @@ const ShiftHandoffSummary: React.FC<ShiftHandoffSummaryProps> = ({
         </div>
       </div>
 
-      {/* Rec 2: AI Summary — restructured into scannable key-value pairs */}
-      <div className="ai-summary-card">
+      {/* Rec 3: AI Summary — lighter background to reduce visual weight */}
+      <div className="ai-summary-card light">
         <div className="summary-header">
           <span className="ai-badge"><i className="ti ti-robot"></i> AI Summary</span>
           <span className="generated-time">
@@ -249,20 +243,32 @@ const ShiftHandoffSummary: React.FC<ShiftHandoffSummaryProps> = ({
         </div>
       </div>
 
-      {/* Rec 4: Vitals Legend — persistent, with full abbreviation labels and icons */}
-      <div className="vitals-legend">
-        <span className="legend-title"><i className="ti ti-activity" /> Vitals Key:</span>
-        <div className="legend-items">
-          <span className="legend-chip"><i className="ti ti-heartbeat" /> HR = Heart Rate</span>
-          <span className="legend-chip"><i className="ti ti-droplet" /> BP = Blood Pressure</span>
-          <span className="legend-chip"><i className="ti ti-lungs" /> SpO2 = Oxygen Saturation</span>
-          <span className="legend-chip"><i className="ti ti-temperature" /> Temp = Temperature</span>
-        </div>
-        <div className="legend-arrows">
-          <span className="legend-chip"><span style={{color: '#166534'}}>↑ Improving</span></span>
-          <span className="legend-chip"><span style={{color: '#6B7280'}}>→ Stable</span></span>
-          <span className="legend-chip"><span style={{color: '#991B1B'}}>↓ Declining</span></span>
-        </div>
+      {/* Rec 4: Vitals Legend — collapsible to reclaim vertical space */}
+      <div className={`vitals-legend ${vitalsKeyOpen ? 'open' : 'collapsed'}`}>
+        <button
+          className="legend-toggle"
+          onClick={() => setVitalsKeyOpen(!vitalsKeyOpen)}
+          aria-expanded={vitalsKeyOpen}
+          aria-controls="vitals-key-content"
+        >
+          <span className="legend-title"><i className="ti ti-activity" /> Vitals Key</span>
+          <i className={`ti ${vitalsKeyOpen ? 'ti-chevron-up' : 'ti-chevron-down'}`} />
+        </button>
+        {vitalsKeyOpen && (
+          <div id="vitals-key-content" className="legend-body">
+            <div className="legend-items">
+              <span className="legend-chip"><i className="ti ti-heartbeat" /> HR = Heart Rate</span>
+              <span className="legend-chip"><i className="ti ti-droplet" /> BP = Blood Pressure</span>
+              <span className="legend-chip"><i className="ti ti-lungs" /> SpO2 = Oxygen Saturation</span>
+              <span className="legend-chip"><i className="ti ti-temperature" /> Temp = Temperature</span>
+            </div>
+            <div className="legend-arrows">
+              <span className="legend-chip"><span style={{color: '#166534'}}>↑ Improving</span></span>
+              <span className="legend-chip"><span style={{color: '#6B7280'}}>→ Stable</span></span>
+              <span className="legend-chip"><span style={{color: '#991B1B'}}>↓ Declining</span></span>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Tabs */}
@@ -284,14 +290,58 @@ const ShiftHandoffSummary: React.FC<ShiftHandoffSummaryProps> = ({
       {/* Patient Cards */}
       <div className="patient-cards-grid">
         {(activeTab === 'all' ? currentReport.patients : priorityPatients).map((patient) => (
-          <PatientHandoffCard 
+          <PatientHandoffCard
             key={patient.patientId}
             patient={patient}
             onClick={() => handlePatientClick(patient)}
             priorityConfig={PRIORITY_CONFIG}
             expanded={activeTab === 'priority'}
+            reviewed={reviewedPatients.has(patient.patientId)}
           />
         ))}
+      </div>
+
+      {/* Sticky Acknowledge Bar — pinned to bottom, enforces review-first */}
+      <div className={`acknowledge-bar ${isAcknowledged ? 'acknowledged' : ''}`}>
+        <div className="acknowledge-bar-inner">
+          <div className="review-progress">
+            <span className="review-count">
+              <i className="ti ti-checks" />
+              {reviewedPatients.size} of {currentReport.patients.length} patients reviewed
+            </span>
+            <div className="review-progress-bar">
+              <div
+                className="review-progress-fill"
+                style={{ width: `${(reviewedPatients.size / currentReport.patients.length) * 100}%` }}
+              />
+            </div>
+          </div>
+          {isAcknowledged ? (
+            <button className="btn btn-acknowledge acknowledged" disabled>
+              <i className="ti ti-circle-check" /> Handoff Acknowledged
+            </button>
+          ) : showAcknowledgeConfirm ? (
+            <div className="acknowledge-confirm">
+              <span>I have reviewed all patients and accept this handoff</span>
+              <div className="confirm-actions">
+                <button className="btn btn-outline-secondary btn-sm" onClick={() => setShowAcknowledgeConfirm(false)}>
+                  Cancel
+                </button>
+                <button className="btn btn-acknowledge" onClick={() => { handleAcknowledge(); setShowAcknowledgeConfirm(false); }}>
+                  <i className="ti ti-clipboard-check" /> Confirm & Acknowledge
+                </button>
+              </div>
+            </div>
+          ) : (
+            <button
+              className="btn btn-acknowledge"
+              onClick={() => setShowAcknowledgeConfirm(true)}
+              aria-label="Acknowledge this handoff"
+            >
+              <i className="ti ti-clipboard-check" /> Acknowledge Handoff
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Patient Detail Modal */}

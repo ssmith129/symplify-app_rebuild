@@ -187,7 +187,7 @@ const Dashboard = () => {
             <h5 className="fw-bold mb-0 fs-16">Scheduling</h5>
           </div>
           <div className="row">
-            <div className="col-xl-8 col-lg-7">
+            <div className="col-xl-6 d-flex">
               <div className="card shadow-sm flex-fill w-100">
                 <div className="card-header d-flex align-items-center justify-content-between">
                   <h5 className="fw-bold mb-0">Appointment Statistics</h5>
@@ -402,7 +402,7 @@ const Dashboard = () => {
             </div>
             {/* col end */}
             {/* col start */}
-            <div className="col-xl-4 col-lg-5">
+            <div className="col-xl-6 d-flex">
               <div className="card shadow-sm">
                 <div className="card-header d-flex align-items-center justify-content-between">
                   <h5 className="fw-bold mb-0 text-truncate">Appointments</h5>

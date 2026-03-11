@@ -469,62 +469,6 @@ const Dashboard = () => {
             <h5 className="fw-bold mb-0 fs-16">Management</h5>
           </div>
           <div className="row">
-            <div className="col-xl-4 d-flex">
-              <div className="card shadow-sm flex-fill w-100">
-                <div className="card-header d-flex align-items-center justify-content-between">
-                  <h5 className="fw-bold mb-0">Top 3 Departments</h5>
-                  <div className="dropdown">
-                    <Link
-                      to="#"
-                      className="btn btn-sm px-2 border shadow-sm btn-outline-white d-inline-flex align-items-center"
-                      data-bs-toggle="dropdown"
-                    >
-                      Weekly <i className="ti ti-chevron-down ms-1" />
-                    </Link>
-                    <ul className="dropdown-menu">
-                      <li>
-                        <Link className="dropdown-item" to="#">
-                          Monthly
-                        </Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item" to="#">
-                          Weekly
-                        </Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item" to="#">
-                          Yearly
-                        </Link>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div className="card-body">
-                  <div id="circle-chart" className="chart-set">
-                    <CircleChart />
-                  </div>
-                  <div className="d-flex align-items-center flex-wrap justify-content-center gap-2 mt-3">
-                    <p className="d-flex align-items-center mb-0 fs-13">
-                      <i className="ti ti-circle-filled text-info fs-10 me-1" />
-                      <span className="text-dark fw-semibold me-1">214</span>
-                      Cardiology
-                    </p>
-                    <p className="d-flex align-items-center mb-0 fs-13">
-                      <i className="ti ti-circle-filled text-purple fs-10 me-1" />
-                      <span className="text-dark fw-semibold me-1">150</span>
-                      Dental
-                    </p>
-                    <p className="d-flex align-items-center mb-0 fs-13">
-                      <i className="ti ti-circle-filled text-primary fs-10 me-1" />
-                      <span className="text-dark fw-semibold me-1">121</span>
-                      Neurolgy
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* col end */}
             {/* col start */}
             <div className="col-xl-4 col-lg-6 d-flex">
               <div className="card shadow-sm flex-fill w-100">

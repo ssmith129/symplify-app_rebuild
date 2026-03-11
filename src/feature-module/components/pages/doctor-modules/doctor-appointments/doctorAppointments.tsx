@@ -155,6 +155,7 @@ const DoctorAppointments = () => {
           {/* Start Page Header */}
           <PageHeader
             title="Appointment"
+            showBreadcrumb={false}
             titleClassName="fw-semibold mb-0"
             className="pb-3 mb-3 border-1 border-bottom"
             actions={

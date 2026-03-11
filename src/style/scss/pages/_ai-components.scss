@@ -639,9 +639,37 @@
   position: relative;
 }
 
-// Carousel dots hidden on desktop
+// Carousel dots - hidden on desktop, shown on tablet/mobile via media query
 .carousel-dots {
   display: none;
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #E2E8F0;
+    border: 2px solid #CBD5E1;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.25s ease;
+
+    &:hover {
+      background: #94A3B8;
+      border-color: #94A3B8;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #2E37A4;
+      outline-offset: 2px;
+    }
+
+    &.active {
+      width: 28px;
+      border-radius: 5px;
+      background: #2E37A4;
+      border-color: #2E37A4;
+    }
+  }
 }
 
 // Tablet breakpoint (max-width 1024px)

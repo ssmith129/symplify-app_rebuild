@@ -5,6 +5,7 @@ import SCol20Chart from "./charts/scol20";
 import CircleChart2 from "./charts/circleChart2";
 import { ShiftHandoffWidget, ChatInboxWidget, AIDashboardSection, DrugInteractionCheckerWidget } from "../../../ai";
 import PageHeader from "../../../../../core/common/page-header/PageHeader";
+import CarouselRow from "../CarouselRow";
 
 const DoctorDahboard = () => {
 
@@ -61,7 +62,7 @@ const DoctorDahboard = () => {
             <i className="ti ti-tools text-primary me-2 fs-20" />
             <h5 className="fw-bold mb-0 fs-16">Tools &amp; Communication</h5>
           </div>
-          <div className="row mb-4 g-3 g-lg-4">
+          <CarouselRow className="mb-4 g-3 g-lg-4" cardCount={3}>
             <div className="col-12 col-md-6 col-lg-4 d-flex">
               <DrugInteractionCheckerWidget />
             </div>
@@ -71,7 +72,7 @@ const DoctorDahboard = () => {
             <div className="col-12 col-md-6 col-lg-4 d-flex">
               <ChatInboxWidget maxChats={5} />
             </div>
-          </div>
+          </CarouselRow>
 
           {/* ── Section: Scheduling ── */}
           <div className="d-flex align-items-center mb-3 mt-2">
@@ -224,7 +225,7 @@ const DoctorDahboard = () => {
           </div>
           {/* row end */}
           {/* row start */}
-          <div className="row row-cols-1 row-cols-xl-6 row-cols-md-3 row-cols-sm-2">
+          <CarouselRow className="row-cols-1 row-cols-xl-6 row-cols-md-3 row-cols-sm-2" cardCount={6}>
             {/* col start */}
             <div className="col">
               <div className="card shadow-sm">
@@ -321,8 +322,7 @@ const DoctorDahboard = () => {
               </div>
             </div>
             {/* col end */}
-          </div>
-          {/* row start */}
+          </CarouselRow>
           {/* row start */}
           <div className="row">
             <div className="col-12 d-flex">
@@ -724,7 +724,7 @@ const DoctorDahboard = () => {
             <i className="ti ti-building-hospital text-success me-2 fs-20" />
             <h5 className="fw-bold mb-0 fs-16">Practice Management</h5>
           </div>
-          <div className="row">
+          <CarouselRow className="" cardCount={3}>
             <div className="col-xl-4 d-flex">
               <div className="card shadow-sm flex-fill w-100">
                 <div className="card-header d-flex align-items-center justify-content-between">
@@ -1040,7 +1040,7 @@ const DoctorDahboard = () => {
               </div>
             </div>
             {/* col end */}
-          </div>
+          </CarouselRow>
           {/* row end */}
         </div>
         {/* End Content */}

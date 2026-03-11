@@ -5,6 +5,7 @@ import SCol9Chart from "./chart/scol9Chart";
 import SCol10Chart from "./chart/scol10Chart";
 import Modals from "./modals/modals";
 import PageHeader from "../../../../../core/common/page-header/PageHeader";
+import CarouselRow from "../CarouselRow";
 
 const PatientDashboard = () => {
   return (
@@ -37,7 +38,7 @@ const PatientDashboard = () => {
             <i className="ti ti-heartbeat text-danger me-2 fs-20" />
             <h5 className="fw-bold mb-0 fs-16">Health Summary</h5>
           </div>
-          <div className="row">
+          <CarouselRow className="" cardCount={4}>
             <div className="col-xl-3 col-md-6 d-flex">
               <div className="card flex-fill w-100 shadow-sm">
                 <div className="card-body">
@@ -129,13 +130,13 @@ const PatientDashboard = () => {
               </div>
             </div>
             {/* col end */}
-          </div>
+          </CarouselRow>
           {/* ── Section: Care Team & Records ── */}
           <div className="d-flex align-items-center mb-3 mt-2">
             <i className="ti ti-stethoscope text-primary me-2 fs-20" />
             <h5 className="fw-bold mb-0 fs-16">Care Team &amp; Records</h5>
           </div>
-          <div className="row">
+          <CarouselRow className="" cardCount={3}>
             <div className="col-xl-4 col-lg-6 d-flex">
               <div className="card shadow-sm flex-fill w-100">
                 <div className="card-header d-flex align-items-center justify-content-between">
@@ -510,8 +511,7 @@ const PatientDashboard = () => {
               </div>
             </div>
             {/* col end */}
-          </div>
-          {/* row end */}
+          </CarouselRow>
           {/* ── Section: Vitals & Monitoring ── */}
           <div className="d-flex align-items-center mb-3 mt-2">
             <i className="ti ti-activity text-success me-2 fs-20" />
@@ -663,7 +663,7 @@ const PatientDashboard = () => {
             <i className="ti ti-receipt text-info me-2 fs-20" />
             <h5 className="fw-bold mb-0 fs-16">Billing &amp; History</h5>
           </div>
-          <div className="row">
+          <CarouselRow className="" cardCount={2}>
             <div className="col-lg-6 d-flex">
               <div className="card shadow-sm flex-fill w-100">
                 <div className="card-header d-flex align-items-center justify-content-between">
@@ -908,8 +908,7 @@ const PatientDashboard = () => {
               </div>
             </div>
             {/* col end */}
-          </div>
-          {/* row end */}
+          </CarouselRow>
           {/* card start */}
           <div className="card shadow-sm flex-fill w-100">
             <div className="card-header d-flex align-items-center justify-content-between">

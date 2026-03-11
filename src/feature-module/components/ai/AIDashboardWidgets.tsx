@@ -48,20 +48,10 @@ const SmartWidget: React.FC<SmartWidgetProps> = ({ widgetId, onInteraction, aiRe
     aiInsights: all_routes.dashboard,
   };
 
-  // Clinical Alerts uses max height with responsive behavior
-  const isFixedHeight = widgetId === 'clinicalAlerts';
-  const getCardHeight = () => {
-    if (typeof window !== 'undefined' && window.innerWidth <= 768) {
-      return 'clamp(400px, 60vh, 620px)';
-    }
-    return '620px';
-  };
-  const fixedCardHeight = getCardHeight();
-
   return (
     <div
-      className={`card shadow-sm w-100 ${isFixedHeight ? '' : 'flex-fill'}`}
-      style={isFixedHeight ? { height: fixedCardHeight, display: 'flex', flexDirection: 'column' } : undefined}
+      className="card shadow-sm w-100 flex-fill"
+      style={{ display: 'flex', flexDirection: 'column' }}
     >
       <div className="card-header d-flex flex-column flex-sm-row align-items-start align-sm-center justify-content-between flex-shrink-0 gap-2">
         <div className="d-flex align-items-center flex-grow-1 min-w-0">
@@ -78,7 +68,7 @@ const SmartWidget: React.FC<SmartWidgetProps> = ({ widgetId, onInteraction, aiRe
       </div>
       <div
         className="card-body"
-        style={isFixedHeight ? { flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' } : undefined}
+        style={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}
       >
         {getWidgetContent()}
       </div>

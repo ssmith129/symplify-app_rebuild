@@ -637,11 +637,11 @@
 // Wrapper that converts a Bootstrap .row into a horizontal scroller
 .dashboard-carousel {
   position: relative;
+}
 
-  // Scroll indicator dots
-  .carousel-dots {
-    display: none; // hidden on desktop
-  }
+// Carousel dots hidden on desktop
+.carousel-dots {
+  display: none;
 }
 
 // Tablet breakpoint (max-width 1024px)

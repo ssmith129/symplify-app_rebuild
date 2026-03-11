@@ -47,6 +47,75 @@ const CRITICALITY_SHAPE: Record<NotificationCriticality, string> = {
   info:     'ti-info-square',     // square = info
 };
 
+// Confidence badge color thresholds
+const getConfidenceColor = (confidence: number) => {
+  if (confidence >= 90) return { bg: 'rgba(22,101,52,0.1)', text: '#166534', border: '#22C55E' };
+  if (confidence >= 75) return { bg: 'rgba(30,64,175,0.1)', text: '#1E40AF', border: '#3B82F6' };
+  if (confidence >= 60) return { bg: 'rgba(133,77,14,0.08)', text: '#854D0E', border: '#EAB308' };
+  return { bg: 'rgba(153,27,27,0.08)', text: '#991B1B', border: '#DC2626' };
+};
+
+// Generate AI reasoning items from notification data
+const getReasoningItems = (notification: AnalyzedNotification) => {
+  const items: { label: string; value: string; color: string }[] = [];
+
+  // Keyword-based severity reasoning
+  if (notification.keywords.length > 0) {
+    const severityKeywords = notification.keywords.filter(k =>
+      ['chest pain', 'radiating', 'acute', 'cardiac arrest', 'stroke', 'sepsis', 'hemorrhage', 'seizure',
+       'urgent', 'abnormal lab', 'medication error', 'drug interaction', 'fall risk', 'deteriorating'].includes(k)
+    );
+    if (severityKeywords.length > 0) {
+      items.push({
+        label: 'SYMPTOM SEVERITY',
+        value: `High-risk keywords: ${severityKeywords.map(k => `"${k}"`).join(' · ')}`,
+        color: '#DC2626'
+      });
+    }
+  }
+
+  // Patient context
+  if (notification.relatedPatientName) {
+    items.push({
+      label: 'PATIENT CONTEXT',
+      value: `Patient: ${notification.relatedPatientName}`,
+      color: '#F97316'
+    });
+  }
+
+  // SLA / Response requirement
+  if (notification.requiresResponse) {
+    const slaText = notification.criticality === 'critical' ? 'Immediate response required'
+      : notification.criticality === 'high' ? 'Respond within 15 minutes'
+      : 'Response recommended';
+    items.push({
+      label: 'SLA REQUIREMENT',
+      value: slaText,
+      color: '#EAB308'
+    });
+  }
+
+  // Source context
+  if (notification.source.department) {
+    items.push({
+      label: 'SOURCE CONTEXT',
+      value: `${notification.source.name} · ${notification.source.department}`,
+      color: '#3B82F6'
+    });
+  }
+
+  // Time urgency
+  if (notification.timeContext.isRecent && notification.timeContext.urgencyMultiplier > 1) {
+    items.push({
+      label: 'TIME URGENCY',
+      value: `${notification.timeContext.minutesAgo}m ago · Urgency factor: ${notification.timeContext.urgencyMultiplier.toFixed(1)}x`,
+      color: '#8B5CF6'
+    });
+  }
+
+  return items;
+};
+
 // Standardized action model per severity tier
 const SEVERITY_ACTIONS: Record<NotificationCriticality, { id: string; label: string; icon: string; style: string; type: string }[]> = {
   critical: [
@@ -371,13 +440,27 @@ export const NotificationPageAI: React.FC = () => {
                               {/* Card header row */}
                               <div className="notif-card-header">
                                 <h6 className="notif-card-title">{notification.title}</h6>
-                                <span
-                                  className={`criticality-tag severity-${notification.criticality}`}
-                                  style={{ color: colors.text }}
-                                >
-                                  <i className={`ti ${shapeIcon}`} />
-                                  {notification.criticality.toUpperCase()}
-                                </span>
+                                <div className="notif-card-badges">
+                                  <span
+                                    className="confidence-badge"
+                                    style={{
+                                      backgroundColor: getConfidenceColor(notification.confidence).bg,
+                                      color: getConfidenceColor(notification.confidence).text,
+                                      borderColor: getConfidenceColor(notification.confidence).border,
+                                    }}
+                                    title={`AI Confidence: ${notification.confidence}%`}
+                                  >
+                                    <i className="ti ti-brain" />
+                                    {notification.confidence}%
+                                  </span>
+                                  <span
+                                    className={`criticality-tag severity-${notification.criticality}`}
+                                    style={{ color: colors.text }}
+                                  >
+                                    <i className={`ti ${shapeIcon}`} />
+                                    {notification.criticality.toUpperCase()}
+                                  </span>
+                                </div>
                               </div>
 
                               {/* Card body */}
@@ -410,46 +493,36 @@ export const NotificationPageAI: React.FC = () => {
                                 ))}
                               </div>
 
-                              {/* Expanded detail panel */}
-                              {isCardExpanded && (
-                                <div className="notif-card-detail">
-                                  <div className="detail-grid">
-                                    <div className="detail-item">
-                                      <span className="detail-label">Source</span>
-                                      <span className="detail-value">
-                                        {notification.source.name}
-                                        {notification.source.department && ` (${notification.source.department})`}
-                                      </span>
+                              {/* AI Reasoning Panel — only visible when expanded */}
+                              {isCardExpanded && (() => {
+                                const reasoningItems = getReasoningItems(notification);
+                                return reasoningItems.length > 0 ? (
+                                  <div className="ai-reasoning-panel">
+                                    <div className="ai-reasoning-header">
+                                      <i className="ti ti-brain" />
+                                      <span>AI Reasoning</span>
+                                      <span className="ai-reasoning-sub">Transparent assessment · HIPAA-compliant audit trail</span>
                                     </div>
-                                    {notification.relatedPatientName && (
-                                      <div className="detail-item">
-                                        <span className="detail-label">Patient</span>
-                                        <span className="detail-value">{notification.relatedPatientName}</span>
-                                      </div>
-                                    )}
-                                    <div className="detail-item">
-                                      <span className="detail-label">AI Confidence</span>
-                                      <span className="detail-value">{notification.confidence}%</span>
+                                    <div className="ai-reasoning-items">
+                                      {reasoningItems.map((item, idx) => (
+                                        <div
+                                          key={idx}
+                                          className="ai-reasoning-item"
+                                          style={{ borderLeftColor: item.color }}
+                                        >
+                                          <span className="ai-reasoning-label" style={{ color: item.color }}>
+                                            {item.label}
+                                          </span>
+                                          <span className="ai-reasoning-value">{item.value}</span>
+                                        </div>
+                                      ))}
                                     </div>
-                                    <div className="detail-item">
-                                      <span className="detail-label">Keywords</span>
-                                      <span className="detail-value detail-keywords">
-                                        {notification.keywords.length > 0
-                                          ? notification.keywords.map(kw => (
-                                              <span key={kw} className="keyword-chip">{kw}</span>
-                                            ))
-                                          : '—'}
-                                      </span>
-                                    </div>
-                                    <div className="detail-item">
-                                      <span className="detail-label">Requires Response</span>
-                                      <span className="detail-value">
-                                        {notification.requiresResponse ? 'Yes' : 'No'}
-                                      </span>
+                                    <div className="ai-reasoning-assessment">
+                                      Assessment: <strong>{notification.criticality.charAt(0).toUpperCase() + notification.criticality.slice(1)} priority</strong> — {notification.keywords.length} risk factor{notification.keywords.length !== 1 ? 's' : ''} detected
                                     </div>
                                   </div>
-                                </div>
-                              )}
+                                ) : null;
+                              })()}
 
                               {/* Acknowledge confirmation modal for critical alerts */}
                               {confirmingAck === notification.id && (

@@ -69,13 +69,6 @@ const Dashboard = () => {
           />
           {/* End Page Header */}
 
-          {/* Page-level AI indicator */}
-          <div className="d-flex align-items-center mb-3 py-2 px-3 rounded-2" style={{ backgroundColor: '#FFFBEB', border: '1px solid #FEF3C7' }}>
-            <i className="ti ti-sparkles text-warning me-2 fs-16" />
-            <span className="fs-13 fw-medium text-dark">AI-Enhanced Dashboard</span>
-            <span className="fs-12 text-muted ms-2">Insights and alerts are powered by predictive analytics</span>
-          </div>
-
           {/* ── Section: Clinical Overview ── */}
           <div className="d-flex align-items-center mb-3 mt-4">
             <i className="ti ti-heartbeat text-danger me-2 fs-20" />

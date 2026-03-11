@@ -631,6 +631,129 @@
 }
 
 // ============================================
+// Dashboard Carousel - Horizontal scroll for tablet/mobile
+// ============================================
+
+// Wrapper that converts a Bootstrap .row into a horizontal scroller
+.dashboard-carousel {
+  position: relative;
+
+  // Scroll indicator dots
+  .carousel-dots {
+    display: none; // hidden on desktop
+  }
+}
+
+// Tablet breakpoint (max-width 1024px)
+@media (max-width: 1024px) {
+  .dashboard-carousel {
+    // Override Bootstrap row to become a horizontal scroller
+    &.row {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+      scrollbar-width: none; // Firefox
+      margin-left: -0.5rem;
+      margin-right: -0.5rem;
+      padding-bottom: 0.5rem;
+
+      &::-webkit-scrollbar {
+        display: none; // Chrome/Safari
+      }
+
+      // Each card column becomes a fixed-width snap target
+      > [class*="col-"] {
+        flex: 0 0 85%;
+        max-width: 85%;
+        scroll-snap-align: start;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+
+        // Ensure last card has trailing space for overscroll
+        &:last-child {
+          padding-right: 1.5rem;
+        }
+      }
+    }
+
+    // Show scroll indicator dots
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      padding: 0.5rem 0 0;
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #CBD5E1;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        transition: background 0.2s, transform 0.2s;
+
+        &.active {
+          background: #2E37A4;
+          transform: scale(1.25);
+        }
+      }
+    }
+  }
+
+  // Edge fade indicators showing more content exists
+  .carousel-fade-wrapper {
+    position: relative;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0.5rem; // account for dots
+      width: 24px;
+      z-index: 2;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    &::before {
+      left: 0;
+      background: linear-gradient(to right, rgba(255,255,255,0.95), transparent);
+    }
+
+    &::after {
+      right: 0;
+      background: linear-gradient(to left, rgba(255,255,255,0.95), transparent);
+    }
+
+    &.show-fade-left::before {
+      opacity: 1;
+    }
+
+    &.show-fade-right::after {
+      opacity: 1;
+    }
+  }
+}
+
+// Mobile breakpoint - cards take more width
+@media (max-width: 576px) {
+  .dashboard-carousel {
+    &.row {
+      > [class*="col-"] {
+        flex: 0 0 92%;
+        max-width: 92%;
+      }
+    }
+  }
+}
+
+// ============================================
 // Accessibility: Reduced motion preference
 // ============================================
 @media (prefers-reduced-motion: reduce) {

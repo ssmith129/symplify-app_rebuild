@@ -5,11 +5,71 @@ import SCol19Chart from "./chats/scol19";
 import { Calendar, type CalendarProps } from "antd";
 import type { Dayjs } from "dayjs";
 import { SmartWidget, ShiftHandoffWidget, ChatInboxWidget, QuickStatsWidget } from "../../ai";
-import { useEffect } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "../../../../core/redux/store";
 import { loadPersonalizedLayout, recordInteraction, fetchClinicalAlerts } from "../../../../core/redux/aiSlice";
 import PageHeader from "../../../../core/common/page-header/PageHeader";
+
+/* ── Carousel Row wrapper for tablet/mobile horizontal scrolling ── */
+const CarouselRow: React.FC<{ className?: string; children: React.ReactNode; cardCount: number }> = ({ className = '', children, cardCount }) => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [showLeft, setShowLeft] = useState(false);
+  const [showRight, setShowRight] = useState(false);
+
+  const updateFades = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setShowLeft(el.scrollLeft > 8);
+    setShowRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 8);
+
+    // Calculate active dot based on scroll position
+    if (cardCount > 1) {
+      const scrollRatio = el.scrollLeft / (el.scrollWidth - el.clientWidth || 1);
+      setActiveIndex(Math.round(scrollRatio * (cardCount - 1)));
+    }
+  }, [cardCount]);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    updateFades();
+    el.addEventListener('scroll', updateFades, { passive: true });
+    window.addEventListener('resize', updateFades);
+    return () => {
+      el.removeEventListener('scroll', updateFades);
+      window.removeEventListener('resize', updateFades);
+    };
+  }, [updateFades]);
+
+  const scrollToDot = (index: number) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const cardWidth = el.scrollWidth / cardCount;
+    el.scrollTo({ left: cardWidth * index, behavior: 'smooth' });
+  };
+
+  return (
+    <div className={`carousel-fade-wrapper${showLeft ? ' show-fade-left' : ''}${showRight ? ' show-fade-right' : ''}`}>
+      <div ref={scrollRef} className={`row dashboard-carousel ${className}`}>
+        {children}
+      </div>
+      {cardCount > 1 && (
+        <div className="carousel-dots">
+          {Array.from({ length: cardCount }, (_, i) => (
+            <button
+              key={i}
+              className={`dot${i === activeIndex ? ' active' : ''}`}
+              onClick={() => scrollToDot(i)}
+              aria-label={`Scroll to card ${i + 1}`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
 
 const Dashboard = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -80,7 +140,7 @@ const Dashboard = () => {
             <i className="ti ti-heartbeat text-danger me-2 fs-20" />
             <h5 className="fw-bold mb-0 fs-16">Clinical Overview</h5>
           </div>
-          <div className="ai-dashboard-grid row mb-4 g-3 g-lg-4">
+          <CarouselRow className="ai-dashboard-grid mb-4 g-3 g-lg-4" cardCount={3}>
             <div className="col-12 col-md-6 col-lg-4 d-flex ai-grid-item ai-grid-acuity">
               <SmartWidget
                 widgetId="patientAcuity"
@@ -102,14 +162,14 @@ const Dashboard = () => {
                 aiRecommended={suggestedWidgetIds.includes('aiInsights')}
               />
             </div>
-          </div>
+          </CarouselRow>
 
           {/* ── Section: Operations ── */}
           <div className="d-flex align-items-center mb-3 mt-2">
             <i className="ti ti-chart-bar text-primary me-2 fs-20" />
             <h5 className="fw-bold mb-0 fs-16">Operations</h5>
           </div>
-          <div className="row mb-4 g-3 g-lg-4">
+          <CarouselRow className="mb-4 g-3 g-lg-4" cardCount={3}>
             <div className="col-12 col-md-6 col-lg-4 d-flex ai-grid-item ai-grid-stats">
               <QuickStatsWidget />
             </div>
@@ -119,7 +179,7 @@ const Dashboard = () => {
             <div className="col-12 col-md-6 col-lg-4 d-flex ai-grid-item ai-grid-inbox">
               <ChatInboxWidget maxChats={5} />
             </div>
-          </div>
+          </CarouselRow>
 
           {/* ── Section: Scheduling ── */}
           <div className="d-flex align-items-center mb-3 mt-2">
@@ -467,7 +527,7 @@ const Dashboard = () => {
             <i className="ti ti-building-hospital text-success me-2 fs-20" />
             <h5 className="fw-bold mb-0 fs-16">Management</h5>
           </div>
-          <div className="row">
+          <CarouselRow className="" cardCount={2}>
             {/* col start */}
             <div className="col-xl-4 col-lg-6 d-flex">
               <div className="card shadow-sm flex-fill w-100">
@@ -702,8 +762,7 @@ const Dashboard = () => {
               </div>
             </div>
             {/* col end */}
-          </div>
-          {/* end row */}
+          </CarouselRow>
           {/* row start */}
           <div className="row">
             <div className="col-12 d-flex">

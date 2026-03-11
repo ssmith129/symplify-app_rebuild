@@ -6,6 +6,7 @@ import { loadPersonalizedLayout, recordInteraction, fetchClinicalAlerts } from '
 import type { UserRole } from '../../../core/ai/types';
 import { all_routes } from '../../routes/all_routes';
 import ClinicalAlertWidget from './ClinicalAlertWidget';
+import CarouselRow from '../pages/dashboard/CarouselRow';
 
 interface SmartWidgetProps {
   widgetId: string;
@@ -467,7 +468,7 @@ const AIDashboardSection: React.FC<AIDashboardSectionProps> = ({
   const suggestedWidgetIds = personalizedLayout?.aiSuggestions.map(s => s.widgetId) || [];
 
   return (
-    <div className="row mb-4 g-3 g-lg-4">
+    <CarouselRow className="mb-4 g-3 g-lg-4" cardCount={aiWidgets.length}>
       {aiWidgets.map((widgetId) => (
         <div key={widgetId} className="col-12 col-md-6 col-lg-4 d-flex">
           <SmartWidget
@@ -477,7 +478,7 @@ const AIDashboardSection: React.FC<AIDashboardSectionProps> = ({
           />
         </div>
       ))}
-    </div>
+    </CarouselRow>
   );
 };
 

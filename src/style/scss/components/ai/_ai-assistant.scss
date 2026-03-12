@@ -1262,11 +1262,14 @@
     right: 0;
     left: 0;
     width: 100%;
+    max-width: 100%;
+    height: auto;
     max-height: 85vh;
     border-radius: 16px 16px 0 0;
 
     &.expanded {
       width: 100%;
+      max-width: 100%;
 
       .ai-popup-content-wrapper {
         flex-direction: column;
@@ -1282,7 +1285,7 @@
   }
 
   .ai-message-content {
-    max-width: 240px;
+    max-width: calc(100vw - 100px);
   }
 
   .qa-tab .qa-tab-label {

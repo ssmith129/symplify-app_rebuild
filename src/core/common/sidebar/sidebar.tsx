@@ -136,7 +136,18 @@ const Sidebar: React.FC<SidebarProps> = ({ onExpandEnter, onExpandLeave }) => {
     }
   }, [themeSettings]);
 
-  
+  // For Admin role, move "Administration" section to appear between "Main Menu" and "Clinic"
+  const sidebarItems = React.useMemo(() => {
+    if (currentRole !== 'admin') return SidebarData;
+    const items = [...SidebarData];
+    const adminIdx = items.findIndex((s) => s.tittle === 'Administration');
+    if (adminIdx === -1) return items;
+    const [adminSection] = items.splice(adminIdx, 1);
+    const clinicIdx = items.findIndex((s) => s.tittle === 'Clinic');
+    if (clinicIdx === -1) return items;
+    items.splice(clinicIdx, 0, adminSection);
+    return items;
+  }, [currentRole]);
 
   return (
     <>
@@ -293,7 +304,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onExpandEnter, onExpandLeave }) => {
               </div>
             </div>
             <ul>
-              {SidebarData?.map((mainLabel, index) => (
+              {sidebarItems?.map((mainLabel, index) => (
                 <React.Fragment key={`main-${index}`}>
                   <li
                     className="menu-title"

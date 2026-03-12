@@ -278,9 +278,9 @@ const AIInsightsWidget: React.FC = () => {
   const positiveInsights = insights.filter(i => i.type === 'success').length;
 
   return (
-    <div>
+    <div className="d-flex flex-column h-100">
       {/* Summary Stats Row */}
-      <div className="d-flex gap-3 mb-4">
+      <div className="d-flex gap-3 mb-4 flex-shrink-0">
         <div className="border rounded-2 p-3 text-center" style={{ backgroundColor: '#EEF2FF', flex: '1 1 0' }}>
           <h4 className="fw-bold mb-1 text-primary">{insights.length}</h4>
           <p className="mb-0 fs-12 text-muted">Total Insights</p>
@@ -296,7 +296,7 @@ const AIInsightsWidget: React.FC = () => {
       </div>
 
       {/* Insights List - Scrollable */}
-      <div className="overflow-auto" style={{ maxHeight: '420px' }}>
+      <div className="overflow-auto flex-grow-1" style={{ minHeight: 0 }}>
         {insights.map((insight, idx) => (
           <div
             key={idx}

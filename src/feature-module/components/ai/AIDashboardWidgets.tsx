@@ -91,9 +91,9 @@ const PatientAcuityWidget: React.FC = () => {
   const totalHighPriority = acuityData.slice(0, 2).reduce((sum, item) => sum + item.count, 0);
 
   return (
-    <div>
+    <div className="d-flex flex-column h-100">
       {/* Summary Stats Row */}
-      <div className="d-flex gap-3 mb-4">
+      <div className="d-flex gap-3 mb-4 flex-shrink-0">
         <div className="border rounded-2 p-3 text-center" style={{ backgroundColor: '#EEF2FF', flexGrow: 1, width: 'auto' }}>
           <h4 className="fw-bold mb-1 text-primary">{totalPatients}</h4>
           <p className="mb-0 fs-12 text-muted">Total Patients</p>
@@ -109,7 +109,7 @@ const PatientAcuityWidget: React.FC = () => {
       </div>
 
       {/* Acuity Breakdown */}
-      <div>
+      <div className="overflow-auto flex-grow-1" style={{ minHeight: 0 }}>
         {acuityData.map((item) => (
           <div
             key={item.level}

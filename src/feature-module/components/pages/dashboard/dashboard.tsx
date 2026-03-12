@@ -5,12 +5,13 @@ import SCol19Chart from "./chats/scol19";
 import { Calendar, type CalendarProps } from "antd";
 import type { Dayjs } from "dayjs";
 import { SmartWidget, ShiftHandoffWidget, ChatInboxWidget, QuickStatsWidget } from "../../ai";
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "../../../../core/redux/store";
 import { loadPersonalizedLayout, recordInteraction, fetchClinicalAlerts } from "../../../../core/redux/aiSlice";
 import PageHeader from "../../../../core/common/page-header/PageHeader";
 import CarouselRow from "./CarouselRow";
+import SectionHeader from "./SectionHeader";
 
 const Dashboard = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -31,6 +32,11 @@ const Dashboard = () => {
   };
 
   const suggestedWidgetIds = personalizedLayout?.aiSuggestions.map(s => s.widgetId) || [];
+
+  const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
+  const toggleSection = useCallback((id: string) => {
+    setCollapsed((prev) => ({ ...prev, [id]: !prev[id] }));
+  }, []);
 
   const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>["mode"]) => {
     console.log(value.format("YYYY-MM-DD"), mode);
@@ -70,10 +76,8 @@ const Dashboard = () => {
           {/* End Page Header */}
 
           {/* ── Section: Clinical Overview ── */}
-          <div className="d-flex align-items-center mb-3 mt-4">
-            <i className="ti ti-heartbeat text-danger me-2 fs-20" />
-            <h5 className="fw-bold mb-0 fs-16">Clinical Overview</h5>
-          </div>
+          <SectionHeader icon="ti-heartbeat" iconColor="text-danger" title="Clinical Overview" collapsed={collapsed['clinical']} onToggle={() => toggleSection('clinical')} />
+          {!collapsed['clinical'] && (
           <CarouselRow className="ai-dashboard-grid mb-4 g-3 g-lg-4" cardCount={3}>
             <div className="col-12 col-md-6 col-lg-4 d-flex ai-grid-item ai-grid-acuity">
               <SmartWidget
@@ -97,12 +101,11 @@ const Dashboard = () => {
               />
             </div>
           </CarouselRow>
+          )}
 
           {/* ── Section: Operations ── */}
-          <div className="d-flex align-items-center mb-3 mt-2">
-            <i className="ti ti-chart-bar text-primary me-2 fs-20" />
-            <h5 className="fw-bold mb-0 fs-16">Operations</h5>
-          </div>
+          <SectionHeader icon="ti-chart-bar" iconColor="text-primary" title="Operations" collapsed={collapsed['operations']} onToggle={() => toggleSection('operations')} />
+          {!collapsed['operations'] && (
           <CarouselRow className="mb-4 g-3 g-lg-4" cardCount={3}>
             <div className="col-12 col-md-6 col-lg-4 d-flex ai-grid-item ai-grid-stats">
               <QuickStatsWidget />
@@ -114,12 +117,11 @@ const Dashboard = () => {
               <ChatInboxWidget maxChats={5} />
             </div>
           </CarouselRow>
+          )}
 
           {/* ── Section: Scheduling ── */}
-          <div className="d-flex align-items-center mb-3 mt-2">
-            <i className="ti ti-calendar-event text-info me-2 fs-20" />
-            <h5 className="fw-bold mb-0 fs-16">Scheduling</h5>
-          </div>
+          <SectionHeader icon="ti-calendar-event" iconColor="text-info" title="Scheduling" collapsed={collapsed['scheduling']} onToggle={() => toggleSection('scheduling')} />
+          {!collapsed['scheduling'] && (
           <div className="row">
             <div className="col-xl-6 d-flex">
               <div className="card shadow-sm flex-fill w-100">
@@ -318,12 +320,11 @@ const Dashboard = () => {
             </div>
             {/* col end */}
           </div>
-          {/* end row */}
+          )}
           {/* ── Section: Management ── */}
-          <div className="d-flex align-items-center mb-3 mt-2">
-            <i className="ti ti-building-hospital text-success me-2 fs-20" />
-            <h5 className="fw-bold mb-0 fs-16">Management</h5>
-          </div>
+          <SectionHeader icon="ti-building-hospital" iconColor="text-success" title="Management" collapsed={collapsed['management']} onToggle={() => toggleSection('management')} />
+          {!collapsed['management'] && (
+          <>
           <CarouselRow className="" cardCount={2}>
             {/* col start */}
             <div className="col-xl-4 col-lg-6 d-flex">
@@ -890,7 +891,8 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          {/* row end */}
+          </>
+          )}
         </div>
         {/* End Content */}
         {/* Footer Start */}

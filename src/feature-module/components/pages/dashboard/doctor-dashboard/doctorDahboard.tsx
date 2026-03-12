@@ -6,8 +6,14 @@ import CircleChart2 from "./charts/circleChart2";
 import { ShiftHandoffWidget, ChatInboxWidget, AIDashboardSection, DrugInteractionCheckerWidget } from "../../../ai";
 import PageHeader from "../../../../../core/common/page-header/PageHeader";
 import CarouselRow from "../CarouselRow";
+import SectionHeader from "../SectionHeader";
+import { useCallback, useState } from "react";
 
 const DoctorDahboard = () => {
+  const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
+  const toggleSection = useCallback((id: string) => {
+    setCollapsed((prev) => ({ ...prev, [id]: !prev[id] }));
+  }, []);
 
   return (
     <>
@@ -44,17 +50,14 @@ const DoctorDahboard = () => {
           {/* End Page Header */}
 
           {/* ── Section: Clinical Overview ── */}
-          <div className="d-flex align-items-center mb-3 mt-4">
-            <i className="ti ti-heartbeat text-danger me-2 fs-20" />
-            <h5 className="fw-bold mb-0 fs-16">Clinical Overview</h5>
-          </div>
-          <AIDashboardSection userRole="doctor" userId="doctor-1" />
+          <SectionHeader icon="ti-heartbeat" iconColor="text-danger" title="Clinical Overview" collapsed={collapsed['clinical']} onToggle={() => toggleSection('clinical')} />
+          {!collapsed['clinical'] && (
+            <AIDashboardSection userRole="doctor" userId="doctor-1" />
+          )}
 
           {/* ── Section: Tools & Communication ── */}
-          <div className="d-flex align-items-center mb-3 mt-2">
-            <i className="ti ti-tools text-primary me-2 fs-20" />
-            <h5 className="fw-bold mb-0 fs-16">Tools &amp; Communication</h5>
-          </div>
+          <SectionHeader icon="ti-tools" iconColor="text-primary" title="Tools & Communication" collapsed={collapsed['tools']} onToggle={() => toggleSection('tools')} />
+          {!collapsed['tools'] && (
           <CarouselRow className="mb-4 g-3 g-lg-4" cardCount={3}>
             <div className="col-12 col-md-6 col-lg-4 d-flex">
               <DrugInteractionCheckerWidget />
@@ -66,12 +69,12 @@ const DoctorDahboard = () => {
               <ChatInboxWidget maxChats={5} />
             </div>
           </CarouselRow>
+          )}
 
           {/* ── Section: Scheduling ── */}
-          <div className="d-flex align-items-center mb-3 mt-2">
-            <i className="ti ti-calendar-event text-info me-2 fs-20" />
-            <h5 className="fw-bold mb-0 fs-16">Scheduling</h5>
-          </div>
+          <SectionHeader icon="ti-calendar-event" iconColor="text-info" title="Scheduling" collapsed={collapsed['scheduling']} onToggle={() => toggleSection('scheduling')} />
+          {!collapsed['scheduling'] && (
+          <>
           <div className="row g-3 g-lg-4">
             <div className="col-12 col-md-6 col-lg-4 d-flex">
               <div className="card shadow-sm flex-fill w-100">
@@ -712,11 +715,11 @@ const DoctorDahboard = () => {
               </div>
             </div>
           </div>
+          </>
+          )}
           {/* ── Section: Practice Management ── */}
-          <div className="d-flex align-items-center mb-3 mt-2">
-            <i className="ti ti-building-hospital text-success me-2 fs-20" />
-            <h5 className="fw-bold mb-0 fs-16">Practice Management</h5>
-          </div>
+          <SectionHeader icon="ti-building-hospital" iconColor="text-success" title="Practice Management" collapsed={collapsed['practice']} onToggle={() => toggleSection('practice')} />
+          {!collapsed['practice'] && (
           <CarouselRow className="" cardCount={3}>
             <div className="col-xl-4 d-flex">
               <div className="card shadow-sm flex-fill w-100">
@@ -1034,7 +1037,7 @@ const DoctorDahboard = () => {
             </div>
             {/* col end */}
           </CarouselRow>
-          {/* row end */}
+          )}
         </div>
         {/* End Content */}
         {/* Footer Start */}

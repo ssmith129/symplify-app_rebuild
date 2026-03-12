@@ -52,7 +52,7 @@ const SmartWidget: React.FC<SmartWidgetProps> = ({ widgetId, onInteraction, aiRe
   return (
     <div
       className="card shadow-sm w-100 flex-fill"
-      style={{ display: 'flex', flexDirection: 'column' }}
+      style={{ display: 'flex', flexDirection: 'column', maxHeight: '520px' }}
     >
       <div className="card-header d-flex flex-column flex-sm-row align-items-start align-sm-center justify-content-between flex-shrink-0 gap-2">
         <div className="d-flex align-items-center flex-grow-1 min-w-0">
@@ -69,7 +69,7 @@ const SmartWidget: React.FC<SmartWidgetProps> = ({ widgetId, onInteraction, aiRe
       </div>
       <div
         className="card-body"
-        style={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}
+        style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column' }}
       >
         {getWidgetContent()}
       </div>

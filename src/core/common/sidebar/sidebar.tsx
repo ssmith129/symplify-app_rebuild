@@ -136,10 +136,13 @@ const Sidebar: React.FC<SidebarProps> = ({ onExpandEnter, onExpandLeave }) => {
     }
   }, [themeSettings]);
 
+  const hiddenSections = ['Authentication', 'UI Interface', 'Content'];
+
   // For Admin role, move "Administration" section to appear between "Main Menu" and "Clinic"
   const sidebarItems = React.useMemo(() => {
-    if (currentRole !== 'admin') return SidebarData;
-    const items = [...SidebarData];
+    const filtered = SidebarData.filter((s) => !hiddenSections.includes(s.tittle));
+    if (currentRole !== 'admin') return filtered;
+    const items = [...filtered];
     const adminIdx = items.findIndex((s) => s.tittle === 'Administration');
     if (adminIdx === -1) return items;
     const [adminSection] = items.splice(adminIdx, 1);

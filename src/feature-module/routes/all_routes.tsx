@@ -95,6 +95,9 @@ export const all_routes = {
   //AI Features routes
   shiftHandoff: "/ai/shift-handoff",
   drugInteraction: "/ai/drug-interaction",
+  patientAcuity: "/ai/patient-acuity",
+  predictiveAlerts: "/ai/predictive-alerts",
+  smartInsights: "/ai/smart-insights",
 
   //Layout Routes
   layoutDefault: "/layout-default",

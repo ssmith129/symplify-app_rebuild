@@ -8,7 +8,7 @@
 .modal-content {
     box-shadow: $box-shadow;
     background-color: var(--white);
-    border-radius: 12px;
+    border-radius: var(--radius-modal);
 }
 .modal-title {
     color: inherit;
@@ -75,7 +75,7 @@
     padding: var(--space-5);
     background-color: transparent;
     @include respond-below(sm) {
-        padding: 12px;
+        padding: var(--space-3);
     }
 }
 .modal-footer>* {
@@ -87,7 +87,7 @@
     background-color: transparent;
     border-color: var(--border-color);
     @include respond-below(sm) {
-        padding: 12px;
+        padding: var(--space-3);
     }
 }
 // Mobile modal: near-full-screen
@@ -105,13 +105,13 @@
         min-height: calc(100vh - 16px);
     }
     .modal-content {
-        border-radius: 12px;
+        border-radius: var(--radius-modal);
         max-height: calc(100vh - 16px);
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
     }
     .modal-header {
-        padding: 12px;
+        padding: var(--space-3);
         position: sticky;
         top: 0;
         z-index: 1;

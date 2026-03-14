@@ -8,20 +8,20 @@
 .card {
     margin-bottom: 1.5rem;
     border: 1px solid $border-color;
-    border-radius: 8px;
+    border-radius: var(--radius-card);
     color: inherit;
     background-color: $white;
     box-shadow: var(--shadow-subtle);
     .header-title {
         margin-bottom: 0;
         font-weight: $font-weight-semibold;
-        font-size: 1rem;
+        font-size: var(--text-md);
     }
     .card-title {
         color: $gray-900;
         margin-bottom: 0;
         font-weight: $font-weight-semibold;
-        font-size: 1rem;
+        font-size: var(--text-md);
     }
     .card-header {
         padding: var(--spacing-card-header);
@@ -30,7 +30,7 @@
         background: transparent;
     }
     .card-body {
-        padding: var(--spacing-card);
+        padding: var(--space-card-inset);
     }
     .card-footer {
         padding: 0.75rem 1.25rem;

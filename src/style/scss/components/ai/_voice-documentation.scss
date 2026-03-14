@@ -38,7 +38,7 @@
 
     .btn-record {
       background: var(--danger);
-      color: #fff;
+      color: var(--white);
 
       &:hover:not(:disabled) {
         background: var(--danger-hover);
@@ -48,7 +48,7 @@
 
     .btn-stop {
       background: var(--dark);
-      color: #fff;
+      color: var(--white);
 
       &:hover:not(:disabled) {
         background: var(--dark-hover);
@@ -129,7 +129,7 @@
 
     .btn-save {
       background: var(--primary);
-      color: #fff;
+      color: var(--white);
 
       &:hover:not(:disabled) {
         background: var(--primary-hover);

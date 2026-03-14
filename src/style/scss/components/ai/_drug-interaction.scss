@@ -66,7 +66,7 @@
 
     .btn-check-interactions {
       background: var(--primary);
-      color: #fff;
+      color: var(--white);
 
       &:hover {
         background: var(--primary-hover);
@@ -154,7 +154,7 @@
       cursor: pointer;
 
       &:hover {
-        background: rgba(0, 0, 0, 0.05);
+        background: rgba(var(--body-color-rgb), 0.05);
       }
     }
   }
@@ -312,7 +312,7 @@
 
   &.severity-contraindicated {
     background: var(--clinical-critical);
-    color: #fff;
+    color: var(--white);
   }
 
   &.severity-unknown {

@@ -138,11 +138,35 @@
   --space-12: 48px;
   --space-16: 64px;
 
+  /* Typography Scale */
+  --text-xs: 0.6875rem;
+  --text-sm: 0.75rem;
+  --text-base: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+
+  /* Component Radius Tokens */
+  --radius-card: 8px;
+  --radius-modal: 12px;
+
+  /* Touch Target Tokens */
+  --touch-target-desktop: 32px;
+  --touch-target-mobile: 44px;
+
+  /* Component Spacing Aliases */
+  --space-card-inset: var(--space-5);
+  --space-card-inset-mobile: var(--space-3);
+  --space-card-header: var(--space-4) var(--space-5);
+  --space-modal-body: var(--space-5);
+  --space-table-cell: var(--space-3) var(--space-4);
+
   /* Responsive Design Tokens */
   --spacing-page: 20px;
   --spacing-card: 20px;
   --spacing-card-header: 0.9375rem 1.25rem;
-  --touch-target: 32px;
+  --touch-target: var(--touch-target-desktop);
   --font-size-base: 0.875rem;
   --chart-min-height: 300px;
 }
@@ -151,7 +175,8 @@
     --spacing-page: 12px;
     --spacing-card: 12px;
     --spacing-card-header: 0.625rem 0.75rem;
-    --touch-target: 44px;
+    --touch-target: var(--touch-target-mobile);
+    --space-card-inset: var(--space-3);
     --font-size-base: 0.875rem;
     --chart-min-height: 200px;
   }
@@ -161,7 +186,8 @@
     --spacing-page: 16px;
     --spacing-card: 16px;
     --spacing-card-header: 0.75rem 1rem;
-    --touch-target: 44px;
+    --touch-target: var(--touch-target-mobile);
+    --space-card-inset: var(--space-4);
     --chart-min-height: 250px;
   }
 }

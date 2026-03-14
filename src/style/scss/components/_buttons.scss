@@ -20,8 +20,8 @@
 		display: inline-flex;
 		justify-content: center;
 		align-items: center;
-		height: 32px;
-		width: 32px;
+		height: var(--touch-target-desktop);
+		width: var(--touch-target-desktop);
 		padding: 0;
 		font-size: 12px;
 
@@ -29,8 +29,8 @@
 			vertical-align: middle;
 		}
 		&.btn-xs {
-			height: 32px;
-    		width: 32px;
+			height: var(--touch-target-desktop);
+    		width: var(--touch-target-desktop);
 		}
 		&.btn-sm {
 			height: calc(0.6rem + 1.5em + 2px);
@@ -246,10 +246,10 @@
 // Mobile touch target enforcement (WCAG 32px minimum)
 @include respond-below(md) {
 	.btn {
-		min-height: 32px;
-		min-width: 32px;
+		min-height: var(--touch-target-desktop);
+		min-width: var(--touch-target-desktop);
 		padding: 6px 12px;
-		font-size: 0.8125rem;
+		font-size: var(--text-sm);
 		// Touch feedback
 		-webkit-tap-highlight-color: transparent;
 		&:active {
@@ -258,18 +258,18 @@
 		}
 	}
 	.btn-sm {
-		min-height: 32px;
+		min-height: var(--touch-target-desktop);
 		padding: 6px 10px;
 	}
 	.btn-icon {
-		min-height: 32px;
-		min-width: 32px;
+		min-height: var(--touch-target-mobile);
+		min-width: var(--touch-target-mobile);
 	}
 	.action-item > a {
-		width: 44px;
-		height: 44px;
-		min-width: 44px;
-		min-height: 44px;
+		width: var(--touch-target-mobile);
+		height: var(--touch-target-mobile);
+		min-width: var(--touch-target-mobile);
+		min-height: var(--touch-target-mobile);
 	}
 	// Ensure 8px minimum spacing between adjacent buttons
 	.btn + .btn,

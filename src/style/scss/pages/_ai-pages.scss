@@ -49,8 +49,8 @@
 .fs-22 { font-size: 1.375rem !important; }
 
 .btn-icon {
-  width: 32px;
-  height: 32px;
+  width: var(--touch-target-desktop);
+  height: var(--touch-target-desktop);
   padding: 0;
   display: inline-flex;
   align-items: center;

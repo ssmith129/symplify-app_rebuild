@@ -8,6 +8,8 @@ interface PageHeaderProps {
   className?: string;
   titleClassName?: string;
   children?: React.ReactNode;
+  /** Semantic heading level (h1-h6). Defaults to h2 for proper hierarchy. */
+  headingLevel?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 }
 
 /**
@@ -51,15 +53,17 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   actions,
   className = '',
   titleClassName = 'fw-bold mb-0',
-  children
+  children,
+  headingLevel = 'h2'
 }) => {
+  const HeadingTag = headingLevel;
   return (
     <div className={`d-flex align-items-sm-center justify-content-between flex-wrap gap-2 mb-4 ${className}`}>
       <div className="d-flex align-items-center gap-3">
         {children ? children : (
           <>
             {typeof title === 'string' ? (
-              <h4 className={titleClassName}>{title}</h4>
+              <HeadingTag className={titleClassName}>{title}</HeadingTag>
             ) : (
               <>{title}</>
             )}

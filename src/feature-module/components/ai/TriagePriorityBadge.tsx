@@ -91,10 +91,12 @@ const TriagePriorityBadge: React.FC<TriagePriorityBadgeProps> = ({
   return (
     <Tooltip title={tooltipContent} placement="top">
       <span
+        role="status"
+        aria-label={`Triage priority: ${config.label}${confidence > 0 ? `. Confidence ${confidence}%` : ''}`}
         className={`badge ${sizeClasses[size]} d-inline-flex align-items-center`}
         style={{ backgroundColor: config.bgVar, color: config.colorVar, cursor: 'help' }}
       >
-        <i className={`ti ${config.icon} me-1`} />
+        <i className={`ti ${config.icon} me-1`} aria-hidden="true" />
         {config.label}
         {showFactors && confidence > 0 && (
           <span className="ms-1 opacity-75">({confidence}%)</span>

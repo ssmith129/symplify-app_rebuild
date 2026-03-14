@@ -5,7 +5,7 @@
 // Voice Recorder
 .voice-recorder {
   padding: 1.5rem;
-  background: var(--card-bg, #fff);
+  background: var(--white);
   border-radius: 8px;
   text-align: center;
 
@@ -37,21 +37,21 @@
     }
 
     .btn-record {
-      background: #dc3545;
+      background: var(--danger);
       color: #fff;
 
       &:hover:not(:disabled) {
-        background: #c82333;
+        background: var(--danger-hover);
         transform: scale(1.05);
       }
     }
 
     .btn-stop {
-      background: var(--bg-dark, #343a40);
+      background: var(--dark);
       color: #fff;
 
       &:hover:not(:disabled) {
-        background: #23272b;
+        background: var(--dark-hover);
       }
     }
   }
@@ -64,14 +64,14 @@
 
     &.is-recording {
       span {
-        color: #dc3545;
+        color: var(--danger);
       }
 
       &::before {
         content: '';
         width: 12px;
         height: 12px;
-        background: #dc3545;
+        background: var(--danger);
         border-radius: 50%;
         animation: pulse 1s infinite;
       }
@@ -87,7 +87,7 @@
 // Transcription Editor
 .transcription-editor {
   padding: 1.5rem;
-  background: var(--card-bg, #fff);
+  background: var(--white);
   border-radius: 8px;
 
   h3 {
@@ -100,7 +100,7 @@
     width: 100%;
     min-height: 200px;
     padding: 1rem;
-    border: 1px solid var(--border-color, #dee2e6);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     font-family: inherit;
     font-size: 0.875rem;
@@ -109,8 +109,8 @@
 
     &:focus {
       outline: none;
-      border-color: var(--primary-color, #0d6efd);
-      box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.15);
     }
   }
 
@@ -128,20 +128,20 @@
     }
 
     .btn-save {
-      background: var(--primary-color, #0d6efd);
+      background: var(--primary);
       color: #fff;
 
       &:hover:not(:disabled) {
-        background: #0b5ed7;
+        background: var(--primary-hover);
       }
     }
 
     .btn-clear {
-      background: var(--bg-light, #f8f9fa);
-      color: var(--text-primary, #333);
+      background: var(--light);
+      color: var(--gray-900);
 
       &:hover {
-        background: #e9ecef;
+        background: var(--gray-100);
       }
     }
   }
@@ -150,7 +150,7 @@
 // Note Formatter
 .note-formatter {
   padding: 1.5rem;
-  background: var(--card-bg, #fff);
+  background: var(--white);
   border-radius: 8px;
 
   h3 {
@@ -172,14 +172,14 @@
 
     select {
       padding: 0.5rem 1rem;
-      border: 1px solid var(--border-color, #dee2e6);
+      border: 1px solid var(--border-color);
       border-radius: 4px;
       font-size: 0.875rem;
-      background: #fff;
+      background: var(--white);
 
       &:focus {
         outline: none;
-        border-color: var(--primary-color, #0d6efd);
+        border-color: var(--primary);
       }
     }
   }
@@ -189,12 +189,12 @@
       margin-bottom: 0.5rem;
       font-size: 0.875rem;
       font-weight: 600;
-      color: var(--text-muted, #6c757d);
+      color: var(--gray-400);
     }
 
     .preview-content {
       padding: 1rem;
-      background: var(--bg-light, #f8f9fa);
+      background: var(--light);
       border-radius: 4px;
       font-size: 0.875rem;
       white-space: pre-wrap;
@@ -205,7 +205,7 @@
 // Medical Terms Highlighter
 .medical-terms-highlighter {
   padding: 1.5rem;
-  background: var(--card-bg, #fff);
+  background: var(--white);
   border-radius: 8px;
 
   h3 {
@@ -216,7 +216,7 @@
 
   .text-content {
     padding: 1rem;
-    background: var(--bg-light, #f8f9fa);
+    background: var(--light);
     border-radius: 4px;
     font-size: 0.875rem;
     line-height: 1.8;
@@ -228,7 +228,7 @@
     gap: 0.75rem;
     margin-top: 1rem;
     padding-top: 1rem;
-    border-top: 1px solid var(--border-color, #dee2e6);
+    border-top: 1px solid var(--border-color);
 
     .legend-item {
       display: inline-flex;
@@ -246,11 +246,11 @@
         border-radius: 2px;
       }
 
-      &.medication::before { background: #0d6efd; }
-      &.diagnosis::before { background: #dc3545; }
-      &.procedure::before { background: #28a745; }
-      &.anatomy::before { background: #ffc107; }
-      &.symptom::before { background: #6f42c1; }
+      &.medication::before { background: var(--primary); }
+      &.diagnosis::before { background: var(--danger); }
+      &.procedure::before { background: var(--success); }
+      &.anatomy::before { background: var(--warning); }
+      &.symptom::before { background: var(--purple); }
     }
   }
 
@@ -260,10 +260,10 @@
     border-radius: 2px;
     cursor: pointer;
 
-    &.medication { background: rgba(13, 110, 253, 0.2); }
-    &.diagnosis { background: rgba(220, 53, 69, 0.2); }
-    &.procedure { background: rgba(40, 167, 69, 0.2); }
-    &.anatomy { background: rgba(255, 193, 7, 0.2); }
-    &.symptom { background: rgba(111, 66, 193, 0.2); }
+    &.medication { background: var(--primary-transparent); }
+    &.diagnosis { background: var(--danger-transparent); }
+    &.procedure { background: var(--success-transparent); }
+    &.anatomy { background: var(--warning-transparent); }
+    &.symptom { background: var(--purple-transparent); }
   }
 }

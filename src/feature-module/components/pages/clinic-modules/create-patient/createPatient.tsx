@@ -33,14 +33,14 @@ const CreatePatient = () => {
           <div className="row justify-content-center">
             <div className="col-lg-10">
               {/* page header start */}
-              <div className="mb-4">
-                <h6 className="fw-bold mb-0 d-flex align-items-center">
+              <nav aria-label="Back navigation" className="mb-4">
+                <h6 className="fw-semibold mb-0 d-flex align-items-center">
                   <Link to={all_routes.patients} className="text-dark">
-                    <i className="ti ti-chevron-left me-1" />
+                    <i className="ti ti-chevron-left me-1" aria-hidden="true" />
                     Patients
                   </Link>
                 </h6>
-              </div>
+              </nav>
               {/* page header end */}
               {/* card start */}
               <div className="card">

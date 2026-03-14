@@ -33,15 +33,17 @@ export const EmailPriorityBadge: React.FC<EmailPriorityBadgeProps> = ({
   const config = PRIORITY_CONFIG[analysis.priority];
 
   return (
-    <div 
+    <div
+      role="status"
+      aria-label={`Email priority: ${config.label}. Confidence ${analysis.confidence}%`}
       className={`email-priority-badge ${analysis.priority}`}
       title={`${config.label} Priority - ${analysis.confidence}% confidence\nResponse Time: ${analysis.estimatedResponseTime}${analysis.urgencyIndicators.length > 0 ? `\nIndicators: ${analysis.urgencyIndicators.join(', ')}` : ''}`}
-      style={{ 
-        backgroundColor: config.bgColor, 
+      style={{
+        backgroundColor: config.bgColor,
         color: config.color,
       }}
     >
-      <i className={`ti ${config.icon}`} style={{ fontSize: '12px' }} />
+      <i className={`ti ${config.icon}`} aria-hidden="true" style={{ fontSize: '12px' }} />
       {showLabel && <span className="ms-1">{config.label}</span>}
       {showDetails && (
         <span className="ms-1 opacity-75">({analysis.confidence}%)</span>

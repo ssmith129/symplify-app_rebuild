@@ -29,8 +29,8 @@
 			vertical-align: middle;
 		}
 		&.btn-xs {
-			height: 20px;
-    		width: 20px;
+			height: 32px;
+    		width: 32px;
 		}
 		&.btn-sm {
 			height: calc(0.6rem + 1.5em + 2px);
@@ -60,12 +60,12 @@
 }
 
 .btn.disabled, .btn:disabled, fieldset:disabled .btn {
-	background-color: $white;
-	border-color: $border-color;
-	color: $gray-900;
+	opacity: 0.5;
+	cursor: not-allowed;
+	pointer-events: none;
 }
 .btn-check:checked+.btn, .btn.active, .btn.show, .btn:first-child:active, :not(.btn-check)+.btn:active {
-	background-color: $white;
+	background-color: $light;
 	border-color: $border-color;
 	color: $gray-900;
 }
@@ -223,54 +223,14 @@
 	transform: translate3d(0, -25%, 0)
 }
 
-.btn-primary {
-	&.btn-animation:is(:hover, :focus, :active, :focus-visible) {
-		color: $primary !important;
-		border-color: $primary !important;
-		background-color: rgba($primary-rgb, .1)
-	}
-}
-
-.btn-secondary {
-	&.btn-animation:is(:hover, :focus, :active, :focus-visible) {
-		color: $secondary !important;
-		border-color: $secondary !important;
-		background-color: rgba($secondary, .1)
-	}
-}
-
-.btn-warning {
-	&.btn-animation:is(:hover, :focus, :active, :focus-visible) {
-		color: $warning !important;
-		background-color: rgba($warning, .1)
-	}
-}
-
-.btn-danger {
-	&.btn-animation:is(:hover, :focus, :active, :focus-visible) {
-		color: $danger !important;
-		background-color: rgba($danger, .1)
-	}
-}
-
-.btn-info {
-	&.btn-animation:is(:hover, :focus, :active, :focus-visible) {
-		color: $info !important;
-		background-color: rgba($info, .1)
-	}
-}
-
-.btn-success {
-	&.btn-animation:is(:hover, :focus, :active, :focus-visible) {
-		color: $success !important;
-		background-color: rgba($success, .1)
-	}
-}
-
-.btn-dark {
-	&.btn-animation:is(:hover, :focus, :active, :focus-visible) {
-		color: $dark !important;
-		background-color: rgba($dark, .1)
+@each $state in map.keys($theme-colors) {
+	.btn-#{$state} {
+		&.btn-animation:is(:hover, :focus, :active, :focus-visible) {
+			color: var(--#{$state});
+			border-color: var(--#{$state});
+			background-color: var(--#{$state}-transparent);
+			transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+		}
 	}
 }
 .btn-outline-white {
@@ -306,8 +266,10 @@
 		min-width: 32px;
 	}
 	.action-item > a {
-		width: 32px;
-		height: 32px;
+		width: 44px;
+		height: 44px;
+		min-width: 44px;
+		min-height: 44px;
 	}
 	// Ensure 8px minimum spacing between adjacent buttons
 	.btn + .btn,

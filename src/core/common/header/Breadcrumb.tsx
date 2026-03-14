@@ -116,8 +116,26 @@ const Breadcrumb = () => {
     path === all_routes.patientdashboard
   ) return null;
 
+  // Build schema.org BreadcrumbList structured data
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbs
+      .filter((crumb) => crumb.path || crumb === breadcrumbs[breadcrumbs.length - 1])
+      .map((crumb, idx) => ({
+        '@type': 'ListItem',
+        position: idx + 1,
+        name: crumb.label,
+        ...(crumb.path ? { item: `${window.location.origin}${crumb.path}` } : {}),
+      })),
+  };
+
   return (
     <nav aria-label="Breadcrumb navigation" className="d-flex align-items-center">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
       <span className="text-muted mx-2 d-none d-sm-inline" style={{ fontSize: 18, fontWeight: 300 }}>|</span>
       <ol className="breadcrumb mb-0 d-flex align-items-center flex-wrap" style={{ gap: 2 }}>
         {breadcrumbs.map((crumb, idx) => {

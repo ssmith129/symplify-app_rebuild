@@ -54,7 +54,7 @@
     backdrop-filter: blur(10px);
 }
 .modal-header {
-    padding: 16px 20px;
+    padding: var(--space-4) var(--space-5);
     background-color: transparent;
     border-color: var(--border-color);
     .btn-close {
@@ -72,7 +72,7 @@
     }
 }
 .modal-body {
-    padding: 20px;
+    padding: var(--space-5);
     background-color: transparent;
     @include respond-below(sm) {
         padding: 12px;
@@ -83,7 +83,7 @@
     margin-bottom: 0;
 }
 .modal-footer {
-    padding: 16px 20px;
+    padding: var(--space-4) var(--space-5);
     background-color: transparent;
     border-color: var(--border-color);
     @include respond-below(sm) {

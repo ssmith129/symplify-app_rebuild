@@ -5,7 +5,7 @@
 // Drug Interaction Checker
 .drug-interaction-checker {
   padding: 1.5rem;
-  background: var(--card-bg, #fff);
+  background: var(--white);
   border-radius: 8px;
 
   h3 {
@@ -21,7 +21,7 @@
       margin-bottom: 0.75rem;
       font-size: 0.875rem;
       font-weight: 600;
-      color: var(--text-muted, #6c757d);
+      color: var(--gray-400);
     }
 
     ul {
@@ -35,7 +35,7 @@
         justify-content: space-between;
         padding: 0.75rem 1rem;
         margin-bottom: 0.5rem;
-        background: var(--bg-light, #f8f9fa);
+        background: var(--light);
         border-radius: 4px;
       }
     }
@@ -56,20 +56,20 @@
     }
 
     .btn-add-medication {
-      background: var(--bg-light, #f8f9fa);
-      color: var(--text-primary, #333);
+      background: var(--light);
+      color: var(--gray-900);
 
       &:hover {
-        background: #e9ecef;
+        background: var(--gray-100);
       }
     }
 
     .btn-check-interactions {
-      background: var(--primary-color, #0d6efd);
+      background: var(--primary);
       color: #fff;
 
       &:hover {
-        background: #0b5ed7;
+        background: var(--primary-hover);
       }
     }
   }
@@ -83,23 +83,23 @@
   border-left: 4px solid;
 
   &.severity-minor {
-    background: #d4edda;
-    border-color: #28a745;
+    background: var(--clinical-stable-bg);
+    border-color: var(--clinical-stable);
   }
 
   &.severity-moderate {
-    background: #fff3cd;
-    border-color: #ffc107;
+    background: var(--clinical-caution-bg);
+    border-color: var(--clinical-caution);
   }
 
   &.severity-major {
-    background: #f8d7da;
-    border-color: #dc3545;
+    background: var(--clinical-critical-bg);
+    border-color: var(--clinical-critical);
   }
 
   &.severity-contraindicated {
-    background: #f5c6cb;
-    border-color: #721c24;
+    background: var(--clinical-critical-bg);
+    border-color: var(--clinical-critical);
   }
 
   .alert-header {
@@ -163,7 +163,7 @@
 // Medication Review Panel
 .medication-review-panel {
   padding: 1.5rem;
-  background: var(--card-bg, #fff);
+  background: var(--white);
   border-radius: 8px;
 
   .panel-header {
@@ -180,14 +180,14 @@
 
     .btn-refresh {
       padding: 0.5rem 1rem;
-      border: 1px solid var(--border-color, #dee2e6);
+      border: 1px solid var(--border-color);
       border-radius: 4px;
       font-size: 0.75rem;
-      background: #fff;
+      background: var(--white);
       cursor: pointer;
 
       &:hover {
-        background: var(--bg-light, #f8f9fa);
+        background: var(--light);
       }
     }
   }
@@ -215,18 +215,18 @@
       }
 
       &.safe {
-        background: #d4edda;
-        color: #155724;
+        background: var(--clinical-stable-bg);
+        color: var(--clinical-stable);
       }
 
       &.warning {
-        background: #fff3cd;
-        color: #856404;
+        background: var(--clinical-caution-bg);
+        color: var(--clinical-caution);
       }
 
       &.critical {
-        background: #f8d7da;
-        color: #721c24;
+        background: var(--clinical-critical-bg);
+        color: var(--clinical-critical);
       }
     }
   }
@@ -243,19 +243,19 @@
       transition: background-color 0.2s ease;
 
       &:hover {
-        background: var(--bg-light, #f8f9fa);
+        background: var(--light);
       }
 
       &.status-safe {
-        border-left: 3px solid #28a745;
+        border-left: 3px solid var(--clinical-stable);
       }
 
       &.status-warning {
-        border-left: 3px solid #ffc107;
+        border-left: 3px solid var(--clinical-caution);
       }
 
       &.status-critical {
-        border-left: 3px solid #dc3545;
+        border-left: 3px solid var(--clinical-critical);
       }
 
       .medication-name {
@@ -264,7 +264,7 @@
 
       .interaction-count {
         font-size: 0.75rem;
-        color: var(--text-muted, #6c757d);
+        color: var(--gray-400);
       }
     }
   }
@@ -296,27 +296,27 @@
   }
 
   &.severity-minor {
-    background: #d4edda;
-    color: #155724;
+    background: var(--clinical-stable-bg);
+    color: var(--clinical-stable);
   }
 
   &.severity-moderate {
-    background: #fff3cd;
-    color: #856404;
+    background: var(--clinical-caution-bg);
+    color: var(--clinical-caution);
   }
 
   &.severity-major {
-    background: #f8d7da;
-    color: #721c24;
+    background: var(--clinical-critical-bg);
+    color: var(--clinical-critical);
   }
 
   &.severity-contraindicated {
-    background: #721c24;
+    background: var(--clinical-critical);
     color: #fff;
   }
 
   &.severity-unknown {
-    background: #e9ecef;
-    color: #6c757d;
+    background: var(--gray-100);
+    color: var(--gray-500);
   }
 }

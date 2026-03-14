@@ -12,14 +12,14 @@ const DoctorDetails = () => {
         {/* Start Content */}
         <div className="content pb-0">
           {/* Start Page Header */}
-          <div className="mb-3">
-            <h6 className="fw-semibold fs-14 mb-0">
+          <nav aria-label="Back navigation" className="mb-3">
+            <h6 className="fw-semibold mb-0">
               <Link to={all_routes.doctors}>
-                <i className="ti ti-chevron-left me-1" />
+                <i className="ti ti-chevron-left me-1" aria-hidden="true" />
                 Doctors
               </Link>
             </h6>
-          </div>
+          </nav>
           {/* End Page Header */}
           <div className="card">
             <div className="card-body d-flex align-items-center justify-content-between flex-wrap row-gap-3">

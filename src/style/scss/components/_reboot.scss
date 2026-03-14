@@ -33,9 +33,17 @@ body {
     color: $white;
 }
 
+// Accessible focus indicators — only suppress default outline when
+// :focus-visible provides a custom ring. Never remove outlines globally.
 button,
 a {
-    outline: none !important;
+    &:focus:not(:focus-visible) {
+        outline: none;
+    }
+    &:focus-visible {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+    }
 }
 a {
     text-decoration: none;

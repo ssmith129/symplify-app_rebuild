@@ -1703,8 +1703,8 @@ $info-bg: #DBEAFE;
 // Target breakpoints: Mobile (320px-768px), Tablet (769px-1024px), Desktop (1025px+)
 // ============================================
 
-// Tablet breakpoint (769px - 1024px)
-@media (min-width: 769px) and (max-width: 1024px) {
+// Tablet breakpoint — aligned to platform $breakpoints (md → lg)
+@media (min-width: 768px) and (max-width: 991.98px) {
   .shift-handoff-widget {
     .card-header {
       padding: 0.75rem 1rem;
@@ -1745,8 +1745,8 @@ $info-bg: #DBEAFE;
   }
 }
 
-// Mobile breakpoint (max-width: 768px)
-@media (max-width: 768px) {
+// Mobile breakpoint — aligned to platform $breakpoints (< md)
+@media (max-width: 767.98px) {
   .shift-handoff-widget {
     .card-header {
       padding: 0.625rem 0.875rem;
@@ -1897,8 +1897,8 @@ $info-bg: #DBEAFE;
   }
 }
 
-// Large desktop (1440px+)
-@media (min-width: 1440px) {
+// Large desktop — aligned to platform $breakpoints (≥ xxl)
+@media (min-width: 1400px) {
   .shift-handoff-widget {
     .card-header {
       padding: 1rem 1.5rem;

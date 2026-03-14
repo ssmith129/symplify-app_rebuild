@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Symplify — Patient Acuity Dashboard</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.6.0/tabler-icons.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   SYMPLIFY DESIGN TOKENS
+   ============================================================ */
+:root {
+  /* Primary */
+  --primary-700: #0a58ca;
+  --primary-600: #0d6efd;
+  --primary-500: #3d8bfd;
+  --primary-400: #6ea8fe;
+  --primary-100: #cfe2ff;
+  --primary-50: #e7f1ff;
+
+  /* Neutrals */
+  --neutral-900: #212529;
+  --neutral-800: #343a40;
+  --neutral-700: #495057;
+  --neutral-600: #6c757d;
+  --neutral-500: #adb5bd;
+  --neutral-400: #ced4da;
+  --neutral-300: #dee2e6;
+  --neutral-200: #e9ecef;
+  --neutral-100: #f8f9fa;
+  --neutral-50: #ffffff;
+
+  /* Semantic — Clinical */
+  --success-600: #198754;
+  --success-500: #28a745;
+  --success-100: #d1e7dd;
+  --warning-600: #ff9800;
+  --warning-500: #ffc107;
+  --warning-100: #fff3cd;
+  --danger-600: #dc3545;
+  --danger-500: #f44336;
+  --danger-100: #f8d7da;
+  --info-600: #0288d1;
+  --info-500: #0dcaf0;
+  --info-100: #cff4fc;
+
+  /* Acuity Severity */
+  --acuity-critical: #dc2626;
+  --acuity-critical-bg: #fef2f2;
+  --acuity-critical-border: #fca5a5;
+  --acuity-high: #ea580c;
+  --acuity-high-bg: #fff7ed;
+  --acuity-high-border: #fdba74;
+  --acuity-moderate: #ca8a04;
+  --acuity-moderate-bg: #fefce8;
+  --acuity-moderate-border: #fde047;
+  --acuity-stable: #16a34a;
+  --acuity-stable-bg: #f0fdf4;
+  --acuity-stable-border: #86efac;
+
+  /* Layout */
+  --sidebar-width: 260px;
+  --header-height: 64px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--neutral-100);
+  color: var(--neutral-800);
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: var(--neutral-50);
+  border-right: 1px solid var(--neutral-300);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease;
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--neutral-200);
+}
+
+.logo-icon {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.logo-text {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--neutral-900);
+}
+.logo-text span { color: var(--primary-600); }
+
+.sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 0;
+}
+
+.nav-section-label {
+  padding: 12px 20px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--neutral-500);
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 20px;
+  color: var(--neutral-700);
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 500;
+  border-left: 3px solid transparent;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+
+.nav-item:hover {
+  background: var(--neutral-100);
+  color: var(--neutral-900);
+}
+
+.nav-item.active {
+  background: var(--primary-50);
+  color: var(--primary-600);
+  border-left-color: var(--primary-600);
+  font-weight: 600;
+}
+
+.nav-item i { font-size: 18px; opacity: 0.85; }
+
+.ai-badge-sm {
+  margin-left: auto;
+  background: linear-gradient(135deg, #8b5cf6, #6366f1);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+.nav-badge {
+  margin-left: auto;
+  background: var(--danger-600);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 10px;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.header {
+  position: fixed;
+  top: 0;
+  left: var(--sidebar-width);
+  right: 0;
+  height: var(--header-height);
+  background: var(--neutral-50);
+  border-bottom: 1px solid var(--neutral-300);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  z-index: 90;
+}
+
+.header-left { display: flex; align-items: center; gap: 16px; }
+
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: var(--neutral-700);
+  cursor: pointer;
+}
+
+.header-search {
+  position: relative;
+  width: 280px;
+}
+
+.header-search i {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--neutral-500);
+  font-size: 16px;
+}
+
+.header-search input {
+  width: 100%;
+  padding: 8px 12px 8px 36px;
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--radius-sm);
+  background: var(--neutral-100);
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--neutral-800);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.header-search input:focus {
+  border-color: var(--primary-400);
+  background: var(--neutral-50);
+}
+
+.header-right { display: flex; align-items: center; gap: 8px; }
+
+.header-btn {
+  position: relative;
+  background: none;
+  border: none;
+  width: 36px; height: 36px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--neutral-600);
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.header-btn:hover { background: var(--neutral-100); color: var(--neutral-900); }
+
+.notif-dot {
+  position: absolute;
+  top: 6px; right: 6px;
+  width: 8px; height: 8px;
+  background: var(--danger-600);
+  border-radius: 50%;
+  border: 2px solid var(--neutral-50);
+}
+
+.header-avatar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 8px;
+  padding-left: 16px;
+  border-left: 1px solid var(--neutral-300);
+}
+
+.avatar {
+  width: 34px; height: 34px;
+  background: linear-gradient(135deg, var(--primary-500), var(--primary-700));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.user-info .user-name { font-size: 13px; font-weight: 600; color: var(--neutral-900); }
+.user-info .user-role { font-size: 11px; color: var(--neutral-600); }
+
+/* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+.main-content {
+  margin-left: var(--sidebar-width);
+  margin-top: var(--header-height);
+  padding: 24px;
+  min-height: calc(100vh - var(--header-height));
+}
+
+/* Page Header */
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.page-header h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--neutral-900);
+}
+
+.breadcrumb {
+  list-style: none;
+  display: flex;
+  gap: 6px;
+  font-size: 12.5px;
+  margin-top: 4px;
+}
+
+.breadcrumb a { color: var(--neutral-600); text-decoration: none; }
+.breadcrumb a:hover { color: var(--primary-600); }
+.breadcrumb .sep { color: var(--neutral-400); }
+.breadcrumb .current { color: var(--primary-600); font-weight: 500; }
+
+.page-actions { display: flex; gap: 8px; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+}
+
+.btn-primary {
+  background: var(--primary-600);
+  color: #fff;
+}
+.btn-primary:hover { background: var(--primary-700); }
+
+.btn-outline {
+  background: var(--neutral-50);
+  color: var(--neutral-700);
+  border: 1px solid var(--neutral-300);
+}
+.btn-outline:hover { background: var(--neutral-100); border-color: var(--neutral-400); }
+
+/* ============================================================
+   STAT CARDS
+   ============================================================ */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: var(--neutral-50);
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+
+.stat-card:hover { box-shadow: var(--shadow-md); }
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px;
+  height: 100%;
+}
+
+.stat-card.critical::before { background: var(--acuity-critical); }
+.stat-card.high::before { background: var(--acuity-high); }
+.stat-card.moderate::before { background: var(--acuity-moderate); }
+.stat-card.stable::before { background: var(--acuity-stable); }
+.stat-card.total::before { background: var(--primary-600); }
+
+.stat-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--neutral-600);
+  margin-bottom: 8px;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--neutral-900);
+  line-height: 1;
+}
+
+.stat-change {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11.5px;
+  font-weight: 600;
+  margin-top: 8px;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.stat-change.up {
+  color: var(--danger-600);
+  background: var(--danger-100);
+}
+.stat-change.down {
+  color: var(--success-600);
+  background: var(--success-100);
+}
+.stat-change.neutral {
+  color: var(--neutral-600);
+  background: var(--neutral-200);
+}
+
+.stat-icon {
+  position: absolute;
+  top: 16px; right: 16px;
+  width: 40px; height: 40px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.stat-card.critical .stat-icon { background: var(--acuity-critical-bg); color: var(--acuity-critical); }
+.stat-card.high .stat-icon { background: var(--acuity-high-bg); color: var(--acuity-high); }
+.stat-card.moderate .stat-icon { background: var(--acuity-moderate-bg); color: var(--acuity-moderate); }
+.stat-card.stable .stat-icon { background: var(--acuity-stable-bg); color: var(--acuity-stable); }
+.stat-card.total .stat-icon { background: var(--primary-100); color: var(--primary-600); }
+
+/* ============================================================
+   ACUITY DISTRIBUTION + NURSE RATIOS
+   ============================================================ */
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.card {
+  background: var(--neutral-50);
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--neutral-200);
+}
+
+.card-header h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--neutral-900);
+}
+
+.card-body { padding: 20px; }
+
+/* Distribution Bars */
+.dist-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.dist-row:last-child { margin-bottom: 0; }
+
+.dist-label {
+  width: 80px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--neutral-700);
+}
+
+.dist-bar-track {
+  flex: 1;
+  height: 28px;
+  background: var(--neutral-200);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+
+.dist-bar-fill {
+  height: 100%;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #fff;
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dist-bar-fill.critical { background: var(--acuity-critical); }
+.dist-bar-fill.high { background: var(--acuity-high); }
+.dist-bar-fill.moderate { background: var(--acuity-moderate); }
+.dist-bar-fill.stable { background: var(--acuity-stable); }
+
+.dist-count {
+  width: 40px;
+  text-align: right;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--neutral-900);
+}
+
+/* Nurse Ratio Cards */
+.ratio-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.ratio-card {
+  padding: 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--neutral-200);
+  background: var(--neutral-100);
+}
+
+.ratio-unit {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--neutral-600);
+  margin-bottom: 4px;
+}
+
+.ratio-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--neutral-900);
+}
+
+.ratio-value span {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--neutral-600);
+}
+
+.ratio-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 6px;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.ratio-status.safe { background: var(--success-100); color: var(--success-600); }
+.ratio-status.caution { background: var(--warning-100); color: var(--warning-600); }
+.ratio-status.danger { background: var(--danger-100); color: var(--danger-600); }
+
+/* ============================================================
+   PATIENT CENSUS TABLE
+   ============================================================ */
+.table-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--neutral-200);
+  gap: 12px;
+}
+
+.table-filters { display: flex; gap: 8px; align-items: center; }
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid var(--neutral-300);
+  background: var(--neutral-50);
+  color: var(--neutral-700);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.filter-chip:hover { border-color: var(--primary-400); color: var(--primary-600); }
+
+.filter-chip.active {
+  background: var(--primary-600);
+  color: #fff;
+  border-color: var(--primary-600);
+}
+
+.table-search {
+  position: relative;
+  width: 220px;
+}
+
+.table-search i {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--neutral-500);
+  font-size: 15px;
+}
+
+.table-search input {
+  width: 100%;
+  padding: 7px 10px 7px 32px;
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+  font-family: inherit;
+  outline: none;
+  background: var(--neutral-100);
+}
+
+.table-search input:focus {
+  border-color: var(--primary-400);
+  background: var(--neutral-50);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead th {
+  text-align: left;
+  padding: 11px 16px;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--neutral-600);
+  background: var(--neutral-100);
+  border-bottom: 1px solid var(--neutral-200);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+thead th:hover { color: var(--neutral-900); }
+
+thead th .sort-icon {
+  margin-left: 4px;
+  font-size: 12px;
+  opacity: 0.4;
+}
+
+tbody tr {
+  border-bottom: 1px solid var(--neutral-200);
+  transition: background 0.1s;
+}
+
+tbody tr:hover { background: var(--neutral-100); }
+tbody tr:last-child { border-bottom: none; }
+
+td {
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--neutral-800);
+  vertical-align: middle;
+}
+
+.patient-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.patient-avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.patient-name {
+  font-weight: 600;
+  color: var(--neutral-900);
+}
+
+.patient-id {
+  font-size: 11px;
+  color: var(--neutral-500);
+}
+
+.acuity-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.acuity-badge.critical {
+  background: var(--acuity-critical-bg);
+  color: var(--acuity-critical);
+  border: 1px solid var(--acuity-critical-border);
+}
+.acuity-badge.high {
+  background: var(--acuity-high-bg);
+  color: var(--acuity-high);
+  border: 1px solid var(--acuity-high-border);
+}
+.acuity-badge.moderate {
+  background: var(--acuity-moderate-bg);
+  color: var(--acuity-moderate);
+  border: 1px solid var(--acuity-moderate-border);
+}
+.acuity-badge.stable {
+  background: var(--acuity-stable-bg);
+  color: var(--acuity-stable);
+  border: 1px solid var(--acuity-stable-border);
+}
+
+.acuity-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.acuity-badge.critical .acuity-dot { background: var(--acuity-critical); }
+.acuity-badge.high .acuity-dot { background: var(--acuity-high); }
+.acuity-badge.moderate .acuity-dot { background: var(--acuity-moderate); }
+.acuity-badge.stable .acuity-dot { background: var(--acuity-stable); }
+
+/* Sparkline */
+.sparkline {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 28px;
+}
+
+.spark-bar {
+  width: 4px;
+  border-radius: 2px;
+  transition: height 0.3s ease;
+}
+
+/* Trend indicator */
+.trend {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.trend.up { color: var(--danger-600); }
+.trend.down { color: var(--success-600); }
+.trend.flat { color: var(--neutral-500); }
+
+/* Action buttons */
+.action-group {
+  display: flex;
+  gap: 4px;
+}
+
+.action-btn {
+  width: 30px; height: 30px;
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--radius-sm);
+  background: var(--neutral-50);
+  color: var(--neutral-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.action-btn:hover {
+  border-color: var(--primary-400);
+  color: var(--primary-600);
+  background: var(--primary-50);
+}
+
+.action-btn.escalate:hover {
+  border-color: var(--danger-600);
+  color: var(--danger-600);
+  background: var(--danger-100);
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.stat-card { animation: fadeInUp 0.5s ease both; }
+.stat-card:nth-child(1) { animation-delay: 0s; }
+.stat-card:nth-child(2) { animation-delay: 0.06s; }
+.stat-card:nth-child(3) { animation-delay: 0.12s; }
+.stat-card:nth-child(4) { animation-delay: 0.18s; }
+.stat-card:nth-child(5) { animation-delay: 0.24s; }
+
+.card { animation: fadeInUp 0.5s ease both; animation-delay: 0.3s; }
+
+tbody tr {
+  animation: fadeInUp 0.35s ease both;
+}
+
+/* Pulse for critical */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.acuity-badge.critical .acuity-dot {
+  animation: pulse 2s ease infinite;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1280px) {
+  .stat-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 1024px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .main-content { margin-left: 0; }
+  .header { left: 0; }
+  .hamburger { display: flex; }
+  .content-grid { grid-template-columns: 1fr; }
+  .stat-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .stat-grid { grid-template-columns: 1fr; }
+  .page-header { flex-direction: column; gap: 12px; }
+  .table-toolbar { flex-direction: column; align-items: stretch; }
+  .header-search { display: none; }
+}
+
+/* Table Pagination */
+.table-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-top: 1px solid var(--neutral-200);
+  font-size: 12.5px;
+  color: var(--neutral-600);
+}
+
+.pagination {
+  display: flex;
+  gap: 4px;
+}
+
+.page-btn {
+  width: 32px; height: 32px;
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--radius-sm);
+  background: var(--neutral-50);
+  color: var(--neutral-700);
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+
+.page-btn:hover { border-color: var(--primary-400); color: var(--primary-600); }
+.page-btn.active { background: var(--primary-600); color: #fff; border-color: var(--primary-600); }
+
+/* Sidebar overlay for mobile */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 99;
+}
+.sidebar-overlay.visible { display: block; }
+
+/* Last updated timestamp */
+.last-updated {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--neutral-500);
+  background: var(--neutral-200);
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.last-updated .live-dot {
+  width: 6px; height: 6px;
+  background: var(--success-600);
+  border-radius: 50%;
+  animation: pulse 2s ease infinite;
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR OVERLAY -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">S+</div>
+    <div class="logo-text">Sym<span>plify</span></div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Main Menu</div>
+    <a class="nav-item" href="#"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
+    <a class="nav-item" href="#"><i class="ti ti-users"></i> Patients</a>
+    <a class="nav-item" href="#"><i class="ti ti-calendar"></i> Appointments</a>
+    <a class="nav-item" href="#"><i class="ti ti-stethoscope"></i> Doctors</a>
+    <a class="nav-item" href="#"><i class="ti ti-building-hospital"></i> Departments</a>
+    <a class="nav-item" href="#"><i class="ti ti-receipt"></i> Billing</a>
+
+    <div class="nav-section-label">AI Modules</div>
+    <a class="nav-item" href="#"><i class="ti ti-robot"></i> AI Assistant <span class="ai-badge-sm">AI</span></a>
+    <a class="nav-item" href="#"><i class="ti ti-brain"></i> Clinical Prediction <span class="ai-badge-sm">AI</span></a>
+    <a class="nav-item active" href="#"><i class="ti ti-activity-heartbeat"></i> Patient Acuity <span class="ai-badge-sm">AI</span></a>
+    <a class="nav-item" href="#"><i class="ti ti-alert-triangle"></i> Predictive Alerts <span class="ai-badge-sm">AI</span></a>
+    <a class="nav-item" href="#"><i class="ti ti-sparkles"></i> Smart Insights <span class="ai-badge-sm">AI</span></a>
+    <a class="nav-item" href="#"><i class="ti ti-transfer"></i> Shift Handoff <span class="ai-badge-sm">AI</span></a>
+    <a class="nav-item" href="#"><i class="ti ti-chart-dots-3"></i> Analytics <span class="ai-badge-sm">AI</span></a>
+    <a class="nav-item" href="#"><i class="ti ti-bell-ringing"></i> Risk Monitor <span class="nav-badge">3</span></a>
+
+    <div class="nav-section-label">Settings</div>
+    <a class="nav-item" href="#"><i class="ti ti-settings"></i> Settings</a>
+    <a class="nav-item" href="#"><i class="ti ti-help-circle"></i> Support</a>
+  </nav>
+</aside>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-left">
+    <button class="hamburger" onclick="toggleSidebar()"><i class="ti ti-menu-2"></i></button>
+    <div class="header-search">
+      <i class="ti ti-search"></i>
+      <input type="text" placeholder="Search patients, reports...">
+    </div>
+  </div>
+  <div class="header-right">
+    <button class="header-btn" title="AI Assistant"><i class="ti ti-sparkles"></i></button>
+    <button class="header-btn" title="Messages"><i class="ti ti-message"></i><span class="notif-dot"></span></button>
+    <button class="header-btn" title="Notifications"><i class="ti ti-bell"></i><span class="notif-dot"></span></button>
+    <div class="header-avatar">
+      <div class="avatar">SM</div>
+      <div class="user-info">
+        <div class="user-name">Sarah Mitchell</div>
+        <div class="user-role">Charge Nurse — ICU</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main-content">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div>
+      <h1>Patient Acuity Dashboard</h1>
+      <ul class="breadcrumb">
+        <li><a href="#">Dashboard</a></li>
+        <li class="sep">/</li>
+        <li><a href="#">AI Modules</a></li>
+        <li class="sep">/</li>
+        <li class="current">Patient Acuity</li>
+      </ul>
+    </div>
+    <div class="page-actions">
+      <span class="last-updated"><span class="live-dot"></span> Live — Updated 12s ago</span>
+      <button class="btn btn-outline"><i class="ti ti-filter"></i> Filters</button>
+      <button class="btn btn-outline"><i class="ti ti-download"></i> Export</button>
+      <button class="btn btn-primary"><i class="ti ti-refresh"></i> Refresh</button>
+    </div>
+  </div>
+
+  <!-- Stat Cards -->
+  <div class="stat-grid" id="statGrid"></div>
+
+  <!-- Distribution + Nurse Ratios -->
+  <div class="content-grid">
+    <!-- Acuity Distribution -->
+    <div class="card">
+      <div class="card-header">
+        <h3><i class="ti ti-chart-bar" style="margin-right:6px;color:var(--primary-600)"></i> Acuity Distribution by Unit</h3>
+        <button class="btn btn-outline" style="padding:5px 10px;font-size:11.5px">
+          <i class="ti ti-switch-horizontal"></i> Unit View
+        </button>
+      </div>
+      <div class="card-body" id="distributionChart"></div>
+    </div>
+
+    <!-- Nurse-to-Patient Ratios -->
+    <div class="card">
+      <div class="card-header">
+        <h3><i class="ti ti-users" style="margin-right:6px;color:var(--primary-600)"></i> Nurse-to-Patient Ratios</h3>
+        <button class="btn btn-outline" style="padding:5px 10px;font-size:11.5px">
+          <i class="ti ti-adjustments"></i> Configure
+        </button>
+      </div>
+      <div class="card-body">
+        <div class="ratio-grid" id="ratioGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Patient Census Table -->
+  <div class="card">
+    <div class="card-header">
+      <h3><i class="ti ti-list-details" style="margin-right:6px;color:var(--primary-600)"></i> Patient Census</h3>
+      <span style="font-size:12px;color:var(--neutral-500)">42 patients across 6 units</span>
+    </div>
+
+    <!-- Table Toolbar -->
+    <div class="table-toolbar">
+      <div class="table-filters">
+        <span class="filter-chip active" onclick="filterTable('all', this)">All (42)</span>
+        <span class="filter-chip" onclick="filterTable('critical', this)" style="border-color:var(--acuity-critical-border)"><span class="acuity-dot" style="background:var(--acuity-critical);width:6px;height:6px;border-radius:50%;display:inline-block"></span> Critical (6)</span>
+        <span class="filter-chip" onclick="filterTable('high', this)" style="border-color:var(--acuity-high-border)"><span class="acuity-dot" style="background:var(--acuity-high);width:6px;height:6px;border-radius:50%;display:inline-block"></span> High (10)</span>
+        <span class="filter-chip" onclick="filterTable('moderate', this)" style="border-color:var(--acuity-moderate-border)"><span class="acuity-dot" style="background:var(--acuity-moderate);width:6px;height:6px;border-radius:50%;display:inline-block"></span> Moderate (14)</span>
+        <span class="filter-chip" onclick="filterTable('stable', this)" style="border-color:var(--acuity-stable-border)"><span class="acuity-dot" style="background:var(--acuity-stable);width:6px;height:6px;border-radius:50%;display:inline-block"></span> Stable (12)</span>
+      </div>
+      <div class="table-search">
+        <i class="ti ti-search"></i>
+        <input type="text" placeholder="Search patients..." oninput="searchTable(this.value)">
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr>
+            <th>Patient <i class="ti ti-arrows-sort sort-icon"></i></th>
+            <th>Unit</th>
+            <th>Room</th>
+            <th>Acuity <i class="ti ti-arrows-sort sort-icon"></i></th>
+            <th>Score</th>
+            <th>72h Trend</th>
+            <th>Primary Dx</th>
+            <th>Nurse</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="patientTableBody"></tbody>
+      </table>
+    </div>
+
+    <div class="table-footer">
+      <span>Showing 1–10 of 42 patients</span>
+      <div class="pagination">
+        <button class="page-btn"><i class="ti ti-chevron-left"></i></button>
+        <button class="page-btn active">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">3</button>
+        <button class="page-btn">4</button>
+        <button class="page-btn">5</button>
+        <button class="page-btn"><i class="ti ti-chevron-right"></i></button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+/* ============================================================
+   DATA
+   ============================================================ */
+const PATIENTS = [
+  { id: 'P-10234', name: 'Eleanor Vance', initials: 'EV', age: 72, unit: 'ICU', room: '4-201', acuity: 'critical', score: 9.2, trend: [7,7.5,8,8.5,9,9.2], dx: 'Septic Shock', nurse: 'R. Chen', color: '#dc2626' },
+  { id: 'P-10189', name: 'Marcus Webb', initials: 'MW', age: 58, unit: 'ICU', room: '4-203', acuity: 'critical', score: 8.8, trend: [6,7,7.5,8,8.5,8.8], dx: 'STEMI — Post PCI', nurse: 'R. Chen', color: '#dc2626' },
+  { id: 'P-10301', name: 'Clara Nguyen', initials: 'CN', age: 34, unit: 'ICU', room: '4-205', acuity: 'critical', score: 9.5, trend: [8,8.5,9,9.2,9.3,9.5], dx: 'ARDS — Ventilated', nurse: 'L. Patel', color: '#dc2626' },
+  { id: 'P-10156', name: 'James Hargrove', initials: 'JH', age: 81, unit: 'CCU', room: '3-112', acuity: 'critical', score: 8.6, trend: [5,6,7,7.5,8,8.6], dx: 'CHF Exacerbation', nurse: 'M. Torres', color: '#dc2626' },
+  { id: 'P-10278', name: 'Amira Osei', initials: 'AO', age: 45, unit: 'ICU', room: '4-207', acuity: 'critical', score: 9.0, trend: [8.5,8.7,8.8,8.9,9,9], dx: 'DKA — Type 1', nurse: 'L. Patel', color: '#dc2626' },
+  { id: 'P-10342', name: 'Robert Liu', initials: 'RL', age: 67, unit: 'CCU', room: '3-108', acuity: 'critical', score: 8.4, trend: [7.5,7.8,8,8.1,8.3,8.4], dx: 'Pulmonary Embolism', nurse: 'M. Torres', color: '#dc2626' },
+  { id: 'P-10098', name: 'Diana Reeves', initials: 'DR', age: 55, unit: 'Med-Surg', room: '2-314', acuity: 'high', score: 7.1, trend: [5,5.5,6,6.5,7,7.1], dx: 'Post-op Whipple', nurse: 'K. Adams', color: '#ea580c' },
+  { id: 'P-10145', name: 'Thomas Park', initials: 'TP', age: 63, unit: 'Tele', room: '3-405', acuity: 'high', score: 6.8, trend: [6.5,6.5,6.6,6.7,6.8,6.8], dx: 'A-Fib w/ RVR', nurse: 'S. Kim', color: '#ea580c' },
+  { id: 'P-10211', name: 'Fatima Al-Rashid', initials: 'FA', age: 29, unit: 'Med-Surg', room: '2-320', acuity: 'high', score: 7.4, trend: [7,7.1,7.2,7.3,7.3,7.4], dx: 'Sickle Cell Crisis', nurse: 'K. Adams', color: '#ea580c' },
+  { id: 'P-10367', name: 'William Dyer', initials: 'WD', age: 77, unit: 'CCU', room: '3-110', acuity: 'high', score: 6.5, trend: [7,7,6.8,6.6,6.5,6.5], dx: 'Unstable Angina', nurse: 'M. Torres', color: '#ea580c' },
+  { id: 'P-10401', name: 'Grace Kim', initials: 'GK', age: 41, unit: 'Med-Surg', room: '2-308', acuity: 'moderate', score: 4.8, trend: [5.5,5.2,5,4.9,4.8,4.8], dx: 'Appendectomy POD1', nurse: 'J. Brooks', color: '#ca8a04' },
+  { id: 'P-10055', name: 'Henry Costa', initials: 'HC', age: 52, unit: 'Tele', room: '3-412', acuity: 'moderate', score: 5.2, trend: [5,5,5.1,5.1,5.2,5.2], dx: 'New-onset Diabetes', nurse: 'S. Kim', color: '#ca8a04' },
+  { id: 'P-10122', name: 'Priya Sharma', initials: 'PS', age: 38, unit: 'Ortho', room: '5-202', acuity: 'moderate', score: 4.5, trend: [6,5.5,5,4.8,4.5,4.5], dx: 'TKR — POD2', nurse: 'A. Martinez', color: '#ca8a04' },
+  { id: 'P-10288', name: 'Leo Chang', initials: 'LC', age: 69, unit: 'Med-Surg', room: '2-325', acuity: 'stable', score: 2.3, trend: [3,2.8,2.6,2.5,2.4,2.3], dx: 'Pneumonia — Improving', nurse: 'J. Brooks', color: '#16a34a' },
+  { id: 'P-10199', name: 'Sarah Bennett', initials: 'SB', age: 25, unit: 'Ortho', room: '5-210', acuity: 'stable', score: 1.8, trend: [3.5,3,2.5,2.2,2,1.8], dx: 'Ankle ORIF — POD3', nurse: 'A. Martinez', color: '#16a34a' },
+  { id: 'P-10333', name: 'David Okafor', initials: 'DO', age: 48, unit: 'Tele', room: '3-418', acuity: 'stable', score: 2.1, trend: [2.5,2.4,2.3,2.2,2.1,2.1], dx: 'Observation — Chest Pain', nurse: 'S. Kim', color: '#16a34a' },
+];
+
+const STATS = [
+  { label: 'Total Census', value: 42, change: '+2 from last shift', dir: 'neutral', icon: 'ti-users', cls: 'total' },
+  { label: 'Critical', value: 6, change: '+1 escalated', dir: 'up', icon: 'ti-urgent', cls: 'critical' },
+  { label: 'High Priority', value: 10, change: '+2 from moderate', dir: 'up', icon: 'ti-alert-triangle', cls: 'high' },
+  { label: 'Moderate', value: 14, change: '-2 to high', dir: 'down', icon: 'ti-info-circle', cls: 'moderate' },
+  { label: 'Stable', value: 12, change: 'No change', dir: 'neutral', icon: 'ti-heart', cls: 'stable' },
+];
+
+const UNITS = [
+  { name: 'ICU', critical: 5, high: 2, moderate: 1, stable: 0 },
+  { name: 'CCU', critical: 2, high: 3, moderate: 2, stable: 1 },
+  { name: 'Med-Surg', critical: 0, high: 3, moderate: 5, stable: 4 },
+  { name: 'Tele', critical: 0, high: 2, moderate: 4, stable: 3 },
+  { name: 'Ortho', critical: 0, high: 0, moderate: 2, stable: 4 },
+];
+
+const RATIOS = [
+  { unit: 'ICU', ratio: '1:2', status: 'safe', statusText: 'Within guideline' },
+  { unit: 'CCU', ratio: '1:3', status: 'caution', statusText: 'At threshold' },
+  { unit: 'Med-Surg', ratio: '1:5', status: 'safe', statusText: 'Within guideline' },
+  { unit: 'Tele', ratio: '1:4', status: 'safe', statusText: 'Within guideline' },
+  { unit: 'Ortho', ratio: '1:5', status: 'safe', statusText: 'Within guideline' },
+  { unit: 'ER Overflow', ratio: '1:7', status: 'danger', statusText: 'Over capacity' },
+];
+
+/* ============================================================
+   RENDER FUNCTIONS
+   ============================================================ */
+function renderStats() {
+  const grid = document.getElementById('statGrid');
+  grid.innerHTML = STATS.map(s => `
+    <div class="stat-card ${s.cls}">
+      <div class="stat-label">${s.label}</div>
+      <div class="stat-value">${s.value}</div>
+      <div class="stat-change ${s.dir}">
+        ${s.dir === 'up' ? '<i class="ti ti-arrow-up" style="font-size:12px"></i>' : s.dir === 'down' ? '<i class="ti ti-arrow-down" style="font-size:12px"></i>' : '<i class="ti ti-minus" style="font-size:12px"></i>'}
+        ${s.change}
+      </div>
+      <div class="stat-icon"><i class="ti ${s.icon}"></i></div>
+    </div>
+  `).join('');
+}
+
+function renderDistribution() {
+  const container = document.getElementById('distributionChart');
+  const maxTotal = Math.max(...UNITS.map(u => u.critical + u.high + u.moderate + u.stable));
+
+  container.innerHTML = UNITS.map(u => {
+    const total = u.critical + u.high + u.moderate + u.stable;
+    const pct = (val) => ((val / maxTotal) * 100).toFixed(1);
+    return `
+      <div class="dist-row">
+        <div class="dist-label">${u.name}</div>
+        <div class="dist-bar-track">
+          <div style="display:flex;height:100%;">
+            ${u.critical ? `<div class="dist-bar-fill critical" style="width:${pct(u.critical)}%;border-radius:6px 0 0 6px">${u.critical}</div>` : ''}
+            ${u.high ? `<div class="dist-bar-fill high" style="width:${pct(u.high)}%">${u.high}</div>` : ''}
+            ${u.moderate ? `<div class="dist-bar-fill moderate" style="width:${pct(u.moderate)}%">${u.moderate}</div>` : ''}
+            ${u.stable ? `<div class="dist-bar-fill stable" style="width:${pct(u.stable)}%;border-radius:0 6px 6px 0">${u.stable}</div>` : ''}
+          </div>
+        </div>
+        <div class="dist-count">${total}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderRatios() {
+  const grid = document.getElementById('ratioGrid');
+  grid.innerHTML = RATIOS.map(r => `
+    <div class="ratio-card">
+      <div class="ratio-unit">${r.unit}</div>
+      <div class="ratio-value">${r.ratio} <span>nurse:patient</span></div>
+      <div class="ratio-status ${r.status}">
+        <i class="ti ${r.status === 'safe' ? 'ti-circle-check' : r.status === 'caution' ? 'ti-alert-circle' : 'ti-alert-triangle'}"></i>
+        ${r.statusText}
+      </div>
+    </div>
+  `).join('');
+}
+
+function getSparkline(trend, color) {
+  const max = Math.max(...trend);
+  return trend.map(v => {
+    const h = Math.max(4, (v / max) * 28);
+    return `<div class="spark-bar" style="height:${h}px;background:${color}"></div>`;
+  }).join('');
+}
+
+function getTrend(trend) {
+  const last = trend[trend.length - 1];
+  const prev = trend[trend.length - 3];
+  if (last > prev + 0.3) return { cls: 'up', icon: 'ti-trending-up', text: 'Rising' };
+  if (last < prev - 0.3) return { cls: 'down', icon: 'ti-trending-down', text: 'Declining' };
+  return { cls: 'flat', icon: 'ti-minus', text: 'Stable' };
+}
+
+function renderTable(filter = 'all', search = '') {
+  const tbody = document.getElementById('patientTableBody');
+  let data = PATIENTS;
+  if (filter !== 'all') data = data.filter(p => p.acuity === filter);
+  if (search) data = data.filter(p => p.name.toLowerCase().includes(search.toLowerCase()) || p.id.toLowerCase().includes(search.toLowerCase()));
+
+  tbody.innerHTML = data.map((p, i) => {
+    const t = getTrend(p.trend);
+    return `
+      <tr style="animation-delay:${i * 0.03}s">
+        <td>
+          <div class="patient-cell">
+            <div class="patient-avatar" style="background:${p.color}">${p.initials}</div>
+            <div>
+              <div class="patient-name">${p.name}</div>
+              <div class="patient-id">${p.id} · ${p.age}y</div>
+            </div>
+          </div>
+        </td>
+        <td><span style="font-weight:600">${p.unit}</span></td>
+        <td>${p.room}</td>
+        <td><span class="acuity-badge ${p.acuity}"><span class="acuity-dot"></span> ${p.acuity}</span></td>
+        <td><span style="font-weight:700;font-size:15px">${p.score}</span><span style="color:var(--neutral-500);font-size:11px">/10</span></td>
+        <td>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="sparkline">${getSparkline(p.trend, p.color)}</div>
+            <span class="trend ${t.cls}"><i class="ti ${t.icon}" style="font-size:14px"></i> ${t.text}</span>
+          </div>
+        </td>
+        <td style="max-width:140px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.dx}</td>
+        <td>${p.nurse}</td>
+        <td>
+          <div class="action-group">
+            <button class="action-btn" title="View Details"><i class="ti ti-eye"></i></button>
+            <button class="action-btn" title="Reassign"><i class="ti ti-switch-horizontal"></i></button>
+            <button class="action-btn escalate" title="Escalate"><i class="ti ti-arrow-up-circle"></i></button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+/* ============================================================
+   INTERACTIONS
+   ============================================================ */
+let activeFilter = 'all';
+
+function filterTable(filter, el) {
+  activeFilter = filter;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderTable(filter);
+}
+
+function searchTable(val) {
+  renderTable(activeFilter, val);
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('visible');
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', () => {
+  renderStats();
+  renderDistribution();
+  renderRatios();
+  renderTable();
+});
+</script>
+</body>
+</html>

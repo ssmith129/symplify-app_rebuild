@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Symplify — Predictive Clinical Alerts</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.6.0/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-700:#0a58ca;--primary-600:#0d6efd;--primary-500:#3d8bfd;--primary-400:#6ea8fe;--primary-100:#cfe2ff;--primary-50:#e7f1ff;
+  --neutral-900:#212529;--neutral-800:#343a40;--neutral-700:#495057;--neutral-600:#6c757d;--neutral-500:#adb5bd;--neutral-400:#ced4da;--neutral-300:#dee2e6;--neutral-200:#e9ecef;--neutral-100:#f8f9fa;--neutral-50:#ffffff;
+  --success-600:#198754;--success-500:#28a745;--success-100:#d1e7dd;
+  --warning-600:#ff9800;--warning-500:#ffc107;--warning-100:#fff3cd;
+  --danger-600:#dc3545;--danger-500:#f44336;--danger-100:#f8d7da;
+  --info-600:#0288d1;--info-500:#0dcaf0;--info-100:#cff4fc;
+
+  --urgent:#dc2626;--urgent-bg:#fef2f2;--urgent-border:#fca5a5;
+  --warning-alert:#ea580c;--warning-alert-bg:#fff7ed;--warning-alert-border:#fdba74;
+  --informational:#0284c7;--informational-bg:#f0f9ff;--informational-border:#7dd3fc;
+
+  --sidebar-width:260px;--header-height:64px;
+  --radius-sm:6px;--radius-md:10px;--radius-lg:14px;
+  --shadow-sm:0 1px 2px rgba(0,0,0,0.05);--shadow-md:0 4px 12px rgba(0,0,0,0.08);--shadow-lg:0 8px 24px rgba(0,0,0,0.12);
+  font-family:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--neutral-100);color:var(--neutral-800);font-size:14px;line-height:1.5;overflow-x:hidden}
+
+/* === SIDEBAR === */
+.sidebar{position:fixed;top:0;left:0;width:var(--sidebar-width);height:100vh;background:var(--neutral-50);border-right:1px solid var(--neutral-300);z-index:100;display:flex;flex-direction:column;transition:transform .25s ease}
+.sidebar-logo{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid var(--neutral-200)}
+.logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--primary-600),var(--primary-700));border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px}
+.logo-text{font-size:20px;font-weight:700;color:var(--neutral-900)}
+.logo-text span{color:var(--primary-600)}
+.sidebar-nav{flex:1;overflow-y:auto;padding:12px 0}
+.nav-section-label{padding:12px 20px 6px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--neutral-500)}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 20px;color:var(--neutral-700);text-decoration:none;font-size:13.5px;font-weight:500;border-left:3px solid transparent;transition:all .15s;cursor:pointer}
+.nav-item:hover{background:var(--neutral-100);color:var(--neutral-900)}
+.nav-item.active{background:var(--primary-50);color:var(--primary-600);border-left-color:var(--primary-600);font-weight:600}
+.nav-item i{font-size:18px;opacity:.85}
+.ai-badge-sm{margin-left:auto;background:linear-gradient(135deg,#8b5cf6,#6366f1);color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;letter-spacing:.5px}
+.nav-badge{margin-left:auto;background:var(--danger-600);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;min-width:20px;text-align:center}
+
+/* === HEADER === */
+.header{position:fixed;top:0;left:var(--sidebar-width);right:0;height:var(--header-height);background:var(--neutral-50);border-bottom:1px solid var(--neutral-300);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:90}
+.header-left{display:flex;align-items:center;gap:16px}
+.hamburger{display:none;background:none;border:none;font-size:22px;color:var(--neutral-700);cursor:pointer}
+.header-search{position:relative;width:280px}
+.header-search i{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--neutral-500);font-size:16px}
+.header-search input{width:100%;padding:8px 12px 8px 36px;border:1px solid var(--neutral-300);border-radius:var(--radius-sm);background:var(--neutral-100);font-size:13px;font-family:inherit;color:var(--neutral-800);outline:none;transition:border-color .15s}
+.header-search input:focus{border-color:var(--primary-400);background:var(--neutral-50)}
+.header-right{display:flex;align-items:center;gap:8px}
+.header-btn{position:relative;background:none;border:none;width:36px;height:36px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;color:var(--neutral-600);font-size:20px;cursor:pointer;transition:all .15s}
+.header-btn:hover{background:var(--neutral-100);color:var(--neutral-900)}
+.notif-dot{position:absolute;top:6px;right:6px;width:8px;height:8px;background:var(--danger-600);border-radius:50%;border:2px solid var(--neutral-50)}
+.header-avatar{display:flex;align-items:center;gap:10px;margin-left:8px;padding-left:16px;border-left:1px solid var(--neutral-300)}
+.avatar{width:34px;height:34px;background:linear-gradient(135deg,var(--primary-500),var(--primary-700));border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700}
+.user-info .user-name{font-size:13px;font-weight:600;color:var(--neutral-900)}
+.user-info .user-role{font-size:11px;color:var(--neutral-600)}
+
+/* === MAIN === */
+.main-content{margin-left:var(--sidebar-width);margin-top:var(--header-height);padding:24px;min-height:calc(100vh - var(--header-height))}
+.page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px}
+.page-header h1{font-size:22px;font-weight:700;color:var(--neutral-900)}
+.breadcrumb{list-style:none;display:flex;gap:6px;font-size:12.5px;margin-top:4px}
+.breadcrumb a{color:var(--neutral-600);text-decoration:none}
+.breadcrumb a:hover{color:var(--primary-600)}
+.breadcrumb .sep{color:var(--neutral-400)}
+.breadcrumb .current{color:var(--primary-600);font-weight:500}
+.page-actions{display:flex;gap:8px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;border:none;transition:all .15s}
+.btn-primary{background:var(--primary-600);color:#fff}
+.btn-primary:hover{background:var(--primary-700)}
+.btn-outline{background:var(--neutral-50);color:var(--neutral-700);border:1px solid var(--neutral-300)}
+.btn-outline:hover{background:var(--neutral-100);border-color:var(--neutral-400)}
+.btn-danger{background:var(--danger-600);color:#fff}
+.btn-danger:hover{background:#c82333}
+
+/* === STAT ROW === */
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.stat-card{background:var(--neutral-50);border:1px solid var(--neutral-300);border-radius:var(--radius-md);padding:18px 20px;position:relative;overflow:hidden;transition:box-shadow .2s}
+.stat-card:hover{box-shadow:var(--shadow-md)}
+.stat-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%}
+.stat-card.urgent-s::before{background:var(--urgent)}
+.stat-card.warning-s::before{background:var(--warning-alert)}
+.stat-card.info-s::before{background:var(--informational)}
+.stat-card.total-s::before{background:var(--primary-600)}
+.stat-label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--neutral-600);margin-bottom:8px}
+.stat-value{font-size:28px;font-weight:700;color:var(--neutral-900);line-height:1}
+.stat-sub{font-size:11.5px;color:var(--neutral-500);margin-top:6px}
+.stat-icon{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:20px}
+.stat-card.urgent-s .stat-icon{background:var(--urgent-bg);color:var(--urgent)}
+.stat-card.warning-s .stat-icon{background:var(--warning-alert-bg);color:var(--warning-alert)}
+.stat-card.info-s .stat-icon{background:var(--informational-bg);color:var(--informational)}
+.stat-card.total-s .stat-icon{background:var(--primary-100);color:var(--primary-600)}
+
+/* === ALERTS TOOLBAR === */
+.card{background:var(--neutral-50);border:1px solid var(--neutral-300);border-radius:var(--radius-md);overflow:hidden}
+.card-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--neutral-200)}
+.card-header h3{font-size:15px;font-weight:700;color:var(--neutral-900)}
+.alerts-toolbar{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--neutral-200);gap:12px;flex-wrap:wrap}
+.filter-group{display:flex;gap:6px;flex-wrap:wrap}
+.filter-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid var(--neutral-300);background:var(--neutral-50);color:var(--neutral-700);cursor:pointer;transition:all .15s}
+.filter-chip:hover{border-color:var(--primary-400);color:var(--primary-600)}
+.filter-chip.active{background:var(--primary-600);color:#fff;border-color:var(--primary-600)}
+.toolbar-right{display:flex;gap:8px;align-items:center}
+.confidence-slider{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--neutral-600)}
+.confidence-slider input[type=range]{width:100px;accent-color:var(--primary-600)}
+
+/* === ALERT CARDS === */
+.alerts-feed{padding:16px 20px;display:flex;flex-direction:column;gap:12px}
+
+.alert-card{border:1px solid var(--neutral-300);border-radius:var(--radius-md);overflow:hidden;transition:all .2s;cursor:pointer;background:var(--neutral-50)}
+.alert-card:hover{box-shadow:var(--shadow-md);border-color:var(--neutral-400)}
+.alert-card.urgent{border-left:4px solid var(--urgent)}
+.alert-card.warning{border-left:4px solid var(--warning-alert)}
+.alert-card.informational{border-left:4px solid var(--informational)}
+
+.alert-card-header{display:flex;align-items:flex-start;justify-content:space-between;padding:14px 16px;gap:12px}
+.alert-card-left{display:flex;gap:12px;flex:1;min-width:0}
+.alert-severity-icon{width:36px;height:36px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.alert-card.urgent .alert-severity-icon{background:var(--urgent-bg);color:var(--urgent)}
+.alert-card.warning .alert-severity-icon{background:var(--warning-alert-bg);color:var(--warning-alert)}
+.alert-card.informational .alert-severity-icon{background:var(--informational-bg);color:var(--informational)}
+
+.alert-title{font-size:14px;font-weight:700;color:var(--neutral-900);margin-bottom:2px}
+.alert-patient{font-size:12.5px;color:var(--neutral-600)}
+.alert-meta{display:flex;align-items:center;gap:12px;margin-top:6px;flex-wrap:wrap}
+
+.severity-tag{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+.severity-tag.urgent{background:var(--urgent-bg);color:var(--urgent);border:1px solid var(--urgent-border)}
+.severity-tag.warning{background:var(--warning-alert-bg);color:var(--warning-alert);border:1px solid var(--warning-alert-border)}
+.severity-tag.informational{background:var(--informational-bg);color:var(--informational);border:1px solid var(--informational-border)}
+
+.alert-type-tag{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:10.5px;font-weight:600;background:var(--neutral-200);color:var(--neutral-700)}
+.alert-type-tag.ai{background:linear-gradient(135deg,rgba(139,92,246,0.12),rgba(99,102,241,0.12));color:#7c3aed}
+.alert-type-tag.rule{background:var(--neutral-200);color:var(--neutral-600)}
+
+.confidence-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--neutral-600)}
+.confidence-bar-mini{width:40px;height:5px;background:var(--neutral-200);border-radius:3px;overflow:hidden}
+.confidence-fill-mini{height:100%;border-radius:3px;background:var(--primary-600)}
+
+.alert-timestamp{font-size:11px;color:var(--neutral-500)}
+
+.alert-card-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0}
+.alert-actions{display:flex;gap:4px}
+.alert-action-btn{width:30px;height:30px;border:1px solid var(--neutral-300);border-radius:var(--radius-sm);background:var(--neutral-50);color:var(--neutral-600);display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;transition:all .15s}
+.alert-action-btn:hover{border-color:var(--primary-400);color:var(--primary-600);background:var(--primary-50)}
+.alert-action-btn.ack:hover{border-color:var(--success-600);color:var(--success-600);background:var(--success-100)}
+.alert-action-btn.esc:hover{border-color:var(--danger-600);color:var(--danger-600);background:var(--danger-100)}
+
+/* Expandable body */
+.alert-card-body{display:none;padding:0 16px 14px;border-top:1px solid var(--neutral-200)}
+.alert-card.expanded .alert-card-body{display:block}
+.alert-card.expanded{box-shadow:var(--shadow-md)}
+
+.evidence-section{margin-top:12px}
+.evidence-title{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--neutral-500);margin-bottom:8px}
+
+.evidence-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.evidence-item{padding:10px;border-radius:var(--radius-sm);background:var(--neutral-100);border:1px solid var(--neutral-200)}
+.evidence-label{font-size:11px;font-weight:600;color:var(--neutral-600);margin-bottom:2px}
+.evidence-value{font-size:14px;font-weight:700;color:var(--neutral-900)}
+.evidence-flag{font-size:11px;font-weight:600;margin-top:2px}
+.evidence-flag.abnormal{color:var(--danger-600)}
+.evidence-flag.normal{color:var(--success-600)}
+
+.recommended-actions{margin-top:14px}
+.rec-action{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:var(--radius-sm);background:var(--primary-50);border:1px solid var(--primary-100);margin-bottom:6px;font-size:12.5px;color:var(--neutral-800);font-weight:500}
+.rec-action i{color:var(--primary-600);font-size:16px;flex-shrink:0}
+.rec-action .rec-btn{margin-left:auto;padding:4px 10px;border-radius:4px;background:var(--primary-600);color:#fff;font-size:11px;font-weight:700;border:none;cursor:pointer;white-space:nowrap}
+.rec-action .rec-btn:hover{background:var(--primary-700)}
+
+/* Bulk actions bar */
+.bulk-actions{display:none;padding:10px 20px;background:var(--primary-50);border-bottom:1px solid var(--primary-100);align-items:center;gap:12px}
+.bulk-actions.visible{display:flex}
+.bulk-count{font-size:12.5px;font-weight:700;color:var(--primary-700)}
+.bulk-btn{padding:5px 12px;border-radius:var(--radius-sm);font-size:12px;font-weight:600;border:1px solid var(--neutral-300);background:var(--neutral-50);color:var(--neutral-700);cursor:pointer;transition:all .15s;font-family:inherit}
+.bulk-btn:hover{border-color:var(--primary-400);color:var(--primary-600)}
+.bulk-btn.danger:hover{border-color:var(--danger-600);color:var(--danger-600)}
+
+/* === EMPTY STATE === */
+.empty-state{text-align:center;padding:60px 20px;color:var(--neutral-500)}
+.empty-state i{font-size:48px;color:var(--neutral-400);margin-bottom:12px}
+.empty-state h4{font-size:16px;font-weight:700;color:var(--neutral-700);margin-bottom:4px}
+.empty-state p{font-size:13px;max-width:360px;margin:0 auto}
+
+/* Alert count badge */
+.alert-count-badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;border-radius:10px;font-size:11px;font-weight:700;color:#fff}
+.alert-count-badge.urgent{background:var(--urgent)}
+.alert-count-badge.warning{background:var(--warning-alert)}
+.alert-count-badge.info{background:var(--informational)}
+
+/* Checkbox */
+.alert-checkbox{width:16px;height:16px;border-radius:4px;border:2px solid var(--neutral-400);cursor:pointer;flex-shrink:0;appearance:none;-webkit-appearance:none;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.alert-checkbox:checked{background:var(--primary-600);border-color:var(--primary-600)}
+.alert-checkbox:checked::after{content:'✓';color:#fff;font-size:10px;font-weight:700}
+
+/* Live indicator */
+.live-indicator{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--neutral-500);background:var(--neutral-200);padding:4px 10px;border-radius:20px}
+.live-dot{width:6px;height:6px;background:var(--success-600);border-radius:50%;animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+/* Animations */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.stat-card{animation:fadeInUp .5s ease both}
+.stat-card:nth-child(1){animation-delay:0s}
+.stat-card:nth-child(2){animation-delay:.06s}
+.stat-card:nth-child(3){animation-delay:.12s}
+.stat-card:nth-child(4){animation-delay:.18s}
+.alert-card{animation:fadeInUp .4s ease both}
+
+/* Responsive */
+@media(max-width:1024px){.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.main-content{margin-left:0}.header{left:0}.hamburger{display:flex}.stat-row{grid-template-columns:repeat(2,1fr)}.evidence-grid{grid-template-columns:1fr}}
+@media(max-width:640px){.stat-row{grid-template-columns:1fr}.page-header{flex-direction:column;gap:12px}.alerts-toolbar{flex-direction:column;align-items:stretch}.header-search{display:none}}
+
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:99}
+.sidebar-overlay.visible{display:block}
+</style>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">S+</div>
+    <div class="logo-text">Sym<span>plify</span></div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Main Menu</div>
+    <a class="nav-item" href="#"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
+    <a class="nav-item" href="#"><i class="ti ti-users"></i> Patients</a>
+    <a class="nav-item" href="#"><i class="ti ti-calendar"></i> Appointments</a>
+    <a class="nav-item" href="#"><i class="ti ti-stethoscope"></i> Doctors</a>
+    <a class="nav-item" href="#"><i class="ti ti-building-hospital"></i> Departments</a>
+    <a class="nav-item" href="#"><i class="ti ti-receipt"></i> Billing</a>
+    <div class="nav-section-label">AI Modules</div>
+    <a class="nav-item" href="#"><i class="ti ti-robot"></i> AI Assistant <span class="ai-badge-sm">AI</span></a>
+    <a class="nav-item" href="#"><i class="ti ti-brain"></i> Clinical Prediction <span class="ai-badge-sm">AI</span></a>
+    <a class="nav-item" href="#"><i class="ti ti-activity-heartbeat"></i> Patient Acuity <span class="ai-badge-sm">AI</span></a>
+    <a class="nav-item active" href="#"><i class="ti ti-alert-triangle"></i> Predictive Alerts <span class="ai-badge-sm">AI</span></a>
+    <a class="nav-item" href="#"><i class="ti ti-sparkles"></i> Smart Insights <span class="ai-badge-sm">AI</span></a>
+    <a class="nav-item" href="#"><i class="ti ti-transfer"></i> Shift Handoff <span class="ai-badge-sm">AI</span></a>
+    <a class="nav-item" href="#"><i class="ti ti-chart-dots-3"></i> Analytics <span class="ai-badge-sm">AI</span></a>
+    <a class="nav-item" href="#"><i class="ti ti-bell-ringing"></i> Risk Monitor <span class="nav-badge">3</span></a>
+    <div class="nav-section-label">Settings</div>
+    <a class="nav-item" href="#"><i class="ti ti-settings"></i> Settings</a>
+    <a class="nav-item" href="#"><i class="ti ti-help-circle"></i> Support</a>
+  </nav>
+</aside>
+
+<header class="header">
+  <div class="header-left">
+    <button class="hamburger" onclick="toggleSidebar()"><i class="ti ti-menu-2"></i></button>
+    <div class="header-search"><i class="ti ti-search"></i><input type="text" placeholder="Search patients, reports..."></div>
+  </div>
+  <div class="header-right">
+    <button class="header-btn" title="AI Assistant"><i class="ti ti-sparkles"></i></button>
+    <button class="header-btn" title="Messages"><i class="ti ti-message"></i><span class="notif-dot"></span></button>
+    <button class="header-btn" title="Notifications"><i class="ti ti-bell"></i><span class="notif-dot"></span></button>
+    <div class="header-avatar">
+      <div class="avatar">SM</div>
+      <div class="user-info"><div class="user-name">Sarah Mitchell</div><div class="user-role">Charge Nurse — ICU</div></div>
+    </div>
+  </div>
+</header>
+
+<main class="main-content">
+  <div class="page-header">
+    <div>
+      <h1>Predictive Clinical Alerts</h1>
+      <ul class="breadcrumb">
+        <li><a href="#">Dashboard</a></li><li class="sep">/</li>
+        <li><a href="#">AI Modules</a></li><li class="sep">/</li>
+        <li class="current">Predictive Alerts</li>
+      </ul>
+    </div>
+    <div class="page-actions">
+      <span class="live-indicator"><span class="live-dot"></span> Live Monitoring</span>
+      <button class="btn btn-outline"><i class="ti ti-filter"></i> Advanced Filters</button>
+      <button class="btn btn-outline"><i class="ti ti-settings-2"></i> Alert Rules</button>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stat-row" id="statRow"></div>
+
+  <!-- Alerts Feed -->
+  <div class="card">
+    <div class="card-header">
+      <h3><i class="ti ti-bell-ringing" style="margin-right:6px;color:var(--primary-600)"></i> Active Alerts</h3>
+      <span style="font-size:12px;color:var(--neutral-500)">Last 24 hours</span>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="alerts-toolbar">
+      <div class="filter-group">
+        <span class="filter-chip active" onclick="filterAlerts('all',this)">All <span class="alert-count-badge" style="background:var(--primary-600);margin-left:4px" id="countAll">18</span></span>
+        <span class="filter-chip" onclick="filterAlerts('urgent',this)"><span style="width:6px;height:6px;border-radius:50%;background:var(--urgent);display:inline-block"></span> Urgent <span class="alert-count-badge urgent" style="margin-left:4px" id="countUrgent">4</span></span>
+        <span class="filter-chip" onclick="filterAlerts('warning',this)"><span style="width:6px;height:6px;border-radius:50%;background:var(--warning-alert);display:inline-block"></span> Warning <span class="alert-count-badge warning" style="margin-left:4px" id="countWarning">8</span></span>
+        <span class="filter-chip" onclick="filterAlerts('informational',this)"><span style="width:6px;height:6px;border-radius:50%;background:var(--informational);display:inline-block"></span> Info <span class="alert-count-badge info" style="margin-left:4px" id="countInfo">6</span></span>
+      </div>
+      <div class="toolbar-right">
+        <div class="confidence-slider">
+          <span>Confidence ≥</span>
+          <input type="range" min="50" max="99" value="50" oninput="updateConfidence(this.value)">
+          <span id="confValue" style="min-width:28px">50%</span>
+        </div>
+        <div class="filter-group">
+          <span class="filter-chip" onclick="toggleType('ai',this)" style="gap:4px"><span style="width:6px;height:6px;border-radius:50%;background:#7c3aed;display:inline-block"></span> AI Predicted</span>
+          <span class="filter-chip" onclick="toggleType('rule',this)"><span style="width:6px;height:6px;border-radius:50%;background:var(--neutral-500);display:inline-block"></span> Rule-Based</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bulk Actions -->
+    <div class="bulk-actions" id="bulkActions">
+      <input type="checkbox" class="alert-checkbox" checked onchange="toggleSelectAll(this)">
+      <span class="bulk-count" id="bulkCount">0 selected</span>
+      <button class="bulk-btn" onclick="bulkAction('acknowledge')"><i class="ti ti-check" style="font-size:14px"></i> Acknowledge</button>
+      <button class="bulk-btn" onclick="bulkAction('dismiss')"><i class="ti ti-x" style="font-size:14px"></i> Dismiss</button>
+      <button class="bulk-btn danger" onclick="bulkAction('escalate')"><i class="ti ti-arrow-up-circle" style="font-size:14px"></i> Escalate</button>
+    </div>
+
+    <!-- Alert Feed -->
+    <div class="alerts-feed" id="alertsFeed"></div>
+  </div>
+</main>
+
+<script>
+const ALERTS = [
+  { id:1, severity:'urgent', type:'ai', title:'Sepsis Risk — Early Warning', patient:'Eleanor Vance · P-10234 · ICU 4-201', confidence:94, time:'3 min ago', unit:'ICU',
+    evidence:[{label:'Temperature',value:'39.2°C',flag:'abnormal'},{label:'Heart Rate',value:'118 bpm',flag:'abnormal'},{label:'WBC Count',value:'18.2k',flag:'abnormal'},{label:'Lactate',value:'3.8 mmol/L',flag:'abnormal'},{label:'MAP',value:'62 mmHg',flag:'abnormal'},{label:'Resp Rate',value:'28/min',flag:'abnormal'}],
+    actions:['Order blood cultures and lactate level stat','Initiate 30 mL/kg crystalloid bolus','Start broad-spectrum antibiotics within 1 hour','Notify attending physician Dr. Williams'] },
+  { id:2, severity:'urgent', type:'ai', title:'Respiratory Deterioration Predicted', patient:'Clara Nguyen · P-10301 · ICU 4-205', confidence:91, time:'8 min ago', unit:'ICU',
+    evidence:[{label:'SpO2 Trend',value:'94% → 89%',flag:'abnormal'},{label:'FiO2 Required',value:'60% → 80%',flag:'abnormal'},{label:'P/F Ratio',value:'142',flag:'abnormal'},{label:'Resp Rate',value:'32/min',flag:'abnormal'},{label:'Peak Pressure',value:'34 cmH₂O',flag:'abnormal'},{label:'Tidal Volume',value:'380 mL',flag:'abnormal'}],
+    actions:['Increase PEEP to 12 cmH₂O and reassess','Obtain ABG in 30 minutes','Consider prone positioning protocol','Alert respiratory therapy for vent adjustment'] },
+  { id:3, severity:'urgent', type:'ai', title:'Cardiac Arrest Risk — Elevated', patient:'James Hargrove · P-10156 · CCU 3-112', confidence:87, time:'14 min ago', unit:'CCU',
+    evidence:[{label:'Troponin Trend',value:'0.8 → 2.1 ng/mL',flag:'abnormal'},{label:'BNP',value:'1,840 pg/mL',flag:'abnormal'},{label:'EF (Echo)',value:'22%',flag:'abnormal'},{label:'Heart Rate',value:'48 bpm',flag:'abnormal'},{label:'K+ Level',value:'5.8 mEq/L',flag:'abnormal'},{label:'BP',value:'88/52 mmHg',flag:'abnormal'}],
+    actions:['Continuous telemetry with code team on standby','Correct potassium — calcium gluconate + insulin/dextrose','Consider dobutamine drip for inotropic support','Urgent cardiology consult for cath lab evaluation'] },
+  { id:4, severity:'urgent', type:'rule', title:'Critical Lab — Potassium > 6.0', patient:'Marcus Webb · P-10189 · ICU 4-203', confidence:99, time:'22 min ago', unit:'ICU',
+    evidence:[{label:'K+ Level',value:'6.2 mEq/L',flag:'abnormal'},{label:'ECG Changes',value:'Peaked T-waves',flag:'abnormal'},{label:'Creatinine',value:'3.4 mg/dL',flag:'abnormal'}],
+    actions:['Administer calcium gluconate 1g IV over 5 min','Insulin 10u + D50 50mL IV','Obtain stat ECG and repeat K+ in 2 hours'] },
+  { id:5, severity:'warning', type:'ai', title:'Fall Risk — Score Increasing', patient:'William Dyer · P-10367 · CCU 3-110', confidence:82, time:'28 min ago', unit:'CCU',
+    evidence:[{label:'Morse Score',value:'55 → 72',flag:'abnormal'},{label:'Gait',value:'Unsteady',flag:'abnormal'},{label:'Mental Status',value:'Intermittent confusion',flag:'abnormal'},{label:'Medications',value:'2 sedating agents',flag:'abnormal'},{label:'Age',value:'77 years',flag:'normal'},{label:'IV Access',value:'Yes',flag:'normal'}],
+    actions:['Activate fall precautions bundle','Ensure bed alarm is active','Place non-slip socks and yellow wristband','Review sedating medication timing'] },
+  { id:6, severity:'warning', type:'ai', title:'Pressure Injury Risk — Stage 1 Detected', patient:'Eleanor Vance · P-10234 · ICU 4-201', confidence:78, time:'35 min ago', unit:'ICU',
+    evidence:[{label:'Braden Score',value:'12 (High Risk)',flag:'abnormal'},{label:'Sacral Area',value:'Non-blanchable erythema',flag:'abnormal'},{label:'Mobility',value:'Bedbound',flag:'abnormal'},{label:'Moisture',value:'Occasionally moist',flag:'abnormal'},{label:'Nutrition',value:'NPO 48hrs',flag:'abnormal'},{label:'Albumin',value:'2.8 g/dL',flag:'abnormal'}],
+    actions:['Initiate q2h repositioning protocol','Apply barrier cream to sacral area','Consult wound care nurse','Place pressure-redistribution mattress'] },
+  { id:7, severity:'warning', type:'ai', title:'Glycemic Instability — Repeated Hypoglycemia', patient:'Amira Osei · P-10278 · ICU 4-207', confidence:85, time:'42 min ago', unit:'ICU',
+    evidence:[{label:'Last BG',value:'58 mg/dL',flag:'abnormal'},{label:'Pattern',value:'3 episodes < 70 in 12h',flag:'abnormal'},{label:'Insulin Drip',value:'4 units/hr',flag:'normal'},{label:'Nutrition',value:'TPN running',flag:'normal'}],
+    actions:['Reduce insulin drip by 50%','Administer D50 25mL IV push now','Recheck BG in 15 minutes','Adjust TPN dextrose concentration'] },
+  { id:8, severity:'warning', type:'rule', title:'Medication Due — Vancomycin Trough Overdue', patient:'Diana Reeves · P-10098 · Med-Surg 2-314', confidence:99, time:'1h ago', unit:'Med-Surg',
+    evidence:[{label:'Last Trough',value:'Drawn 36h ago',flag:'abnormal'},{label:'Target Range',value:'15–20 mcg/mL',flag:'normal'},{label:'Dose Due',value:'In 2 hours',flag:'normal'}],
+    actions:['Draw vancomycin trough level now','Hold next dose pending results if trough > 20','Notify pharmacy for dose adjustment'] },
+  { id:9, severity:'warning', type:'ai', title:'DVT Risk — Prophylaxis Gap', patient:'Thomas Park · P-10145 · Tele 3-405', confidence:76, time:'1.5h ago', unit:'Tele',
+    evidence:[{label:'Padua Score',value:'5 (High Risk)',flag:'abnormal'},{label:'Last Enoxaparin',value:'Held 24h — bleeding risk',flag:'abnormal'},{label:'SCDs',value:'Not documented',flag:'abnormal'},{label:'Mobility',value:'Limited',flag:'abnormal'}],
+    actions:['Verify SCD application and document','Reassess bleeding risk for anticoagulation','Consult pharmacy for alternative prophylaxis','Ensure early mobilization PT order active'] },
+  { id:10, severity:'warning', type:'ai', title:'Pain Management — Escalating Pattern', patient:'Fatima Al-Rashid · P-10211 · Med-Surg 2-320', confidence:79, time:'1.8h ago', unit:'Med-Surg',
+    evidence:[{label:'Pain Score Trend',value:'4 → 6 → 8',flag:'abnormal'},{label:'PRN Usage',value:'q4h max reached',flag:'abnormal'},{label:'Current Regimen',value:'Morphine 4mg IV q4h PRN',flag:'normal'}],
+    actions:['Reassess pain using standardized scale','Consider PCA or scheduled dosing','Consult pain management team','Evaluate for non-pharmacologic adjuncts'] },
+  { id:11, severity:'warning', type:'rule', title:'Intake/Output Imbalance — Negative 1.2L', patient:'Robert Liu · P-10342 · CCU 3-108', confidence:99, time:'2h ago', unit:'CCU',
+    evidence:[{label:'24h I/O',value:'-1,200 mL',flag:'abnormal'},{label:'Urine Output',value:'18 mL/hr avg',flag:'abnormal'},{label:'Fluid Bolus',value:'None ordered',flag:'normal'}],
+    actions:['Assess volume status at bedside','Consider 500mL NS bolus if tolerated','Recheck urine output in 2 hours'] },
+  { id:12, severity:'warning', type:'ai', title:'Delirium Risk — CAM Screening Due', patient:'James Hargrove · P-10156 · CCU 3-112', confidence:73, time:'2.2h ago', unit:'CCU',
+    evidence:[{label:'Age',value:'81 years',flag:'normal'},{label:'ICU Days',value:'4',flag:'abnormal'},{label:'Sleep Disruption',value:'Documented',flag:'abnormal'},{label:'Benzodiazepine',value:'Lorazepam PRN',flag:'abnormal'}],
+    actions:['Perform CAM-ICU assessment now','Review sedation protocol — minimize benzos','Implement sleep hygiene bundle','Ensure orientation aids at bedside'] },
+  { id:13, severity:'informational', type:'ai', title:'Discharge Readiness — Criteria Met', patient:'Leo Chang · P-10288 · Med-Surg 2-325', confidence:88, time:'2.5h ago', unit:'Med-Surg',
+    evidence:[{label:'Vitals',value:'Stable 48h',flag:'normal'},{label:'PO Intake',value:'Tolerating well',flag:'normal'},{label:'Ambulation',value:'Independent',flag:'normal'},{label:'Labs',value:'WBC normalizing',flag:'normal'}],
+    actions:['Initiate discharge planning checklist','Order discharge medications from pharmacy','Schedule follow-up appointment within 7 days','Arrange home health if needed'] },
+  { id:14, severity:'informational', type:'ai', title:'Trending Improvement — Downgrading Acuity', patient:'Grace Kim · P-10401 · Med-Surg 2-308', confidence:84, time:'3h ago', unit:'Med-Surg',
+    evidence:[{label:'Pain Score',value:'7 → 3',flag:'normal'},{label:'Diet',value:'Advancing to regular',flag:'normal'},{label:'Ambulation',value:'Walking hallway',flag:'normal'},{label:'Incision',value:'Clean, dry, intact',flag:'normal'}],
+    actions:['Transition pain management to oral only','Consider telemetry discontinuation','Update care plan to reflect recovery trajectory'] },
+  { id:15, severity:'informational', type:'ai', title:'Lab Trend — Hemoglobin Stabilized', patient:'Fatima Al-Rashid · P-10211 · Med-Surg 2-320', confidence:81, time:'3.5h ago', unit:'Med-Surg',
+    evidence:[{label:'Hgb Trend',value:'7.2 → 8.1 → 8.4',flag:'normal'},{label:'Transfusion',value:'2u PRBC given',flag:'normal'},{label:'Active Bleeding',value:'None',flag:'normal'}],
+    actions:['Continue monitoring CBC q12h','Hold further transfusion unless Hgb < 7','Resume oral iron supplementation'] },
+  { id:16, severity:'informational', type:'rule', title:'Isolation Precautions — Review Due', patient:'Henry Costa · P-10055 · Tele 3-412', confidence:99, time:'4h ago', unit:'Tele',
+    evidence:[{label:'Isolation Type',value:'Contact',flag:'normal'},{label:'Duration',value:'72 hours',flag:'normal'},{label:'Culture Status',value:'Pending',flag:'normal'}],
+    actions:['Review culture results when available','Discontinue isolation if cultures negative','Ensure PPE compliance documented'] },
+  { id:17, severity:'informational', type:'ai', title:'Nutrition Assessment — Caloric Deficit', patient:'Priya Sharma · P-10122 · Ortho 5-202', confidence:72, time:'5h ago', unit:'Ortho',
+    evidence:[{label:'Caloric Intake',value:'~800 kcal/day',flag:'abnormal'},{label:'Goal',value:'1,800 kcal/day',flag:'normal'},{label:'Appetite',value:'Poor — nausea',flag:'abnormal'},{label:'Albumin',value:'3.1 g/dL',flag:'normal'}],
+    actions:['Consult dietitian for assessment','Consider oral nutritional supplements','Evaluate anti-emetic regimen','Monitor prealbumin in 3 days'] },
+  { id:18, severity:'informational', type:'ai', title:'Activity Milestone — PT Goals Exceeded', patient:'Sarah Bennett · P-10199 · Ortho 5-210', confidence:90, time:'6h ago', unit:'Ortho',
+    evidence:[{label:'Walking Distance',value:'150ft (goal: 100ft)',flag:'normal'},{label:'Pain w/ Activity',value:'2/10',flag:'normal'},{label:'ROM',value:'0-90° flexion',flag:'normal'}],
+    actions:['Advance PT to next milestone protocol','Evaluate for discharge within 24–48 hours','Ensure home exercise program printed'] },
+];
+
+const STATS_DATA = [
+  {label:'Total Active',value:18,sub:'Across all units',icon:'ti-bell-ringing',cls:'total-s'},
+  {label:'Urgent',value:4,sub:'Require immediate action',icon:'ti-urgent',cls:'urgent-s'},
+  {label:'Warning',value:8,sub:'Monitor closely',icon:'ti-alert-triangle',cls:'warning-s'},
+  {label:'Informational',value:6,sub:'For awareness',icon:'ti-info-circle',cls:'info-s'},
+];
+
+let currentFilter = 'all';
+let confThreshold = 50;
+let typeFilter = null;
+let selectedAlerts = new Set();
+
+function renderStats() {
+  document.getElementById('statRow').innerHTML = STATS_DATA.map(s => `
+    <div class="stat-card ${s.cls}">
+      <div class="stat-label">${s.label}</div>
+      <div class="stat-value">${s.value}</div>
+      <div class="stat-sub">${s.sub}</div>
+      <div class="stat-icon"><i class="ti ${s.icon}"></i></div>
+    </div>
+  `).join('');
+}
+
+function renderAlerts() {
+  let data = ALERTS;
+  if (currentFilter !== 'all') data = data.filter(a => a.severity === currentFilter);
+  if (confThreshold > 50) data = data.filter(a => a.confidence >= confThreshold);
+  if (typeFilter) data = data.filter(a => a.type === typeFilter);
+
+  const feed = document.getElementById('alertsFeed');
+
+  if (data.length === 0) {
+    feed.innerHTML = `<div class="empty-state"><i class="ti ti-bell-off"></i><h4>No Active Alerts</h4><p>All clear — no alerts match your current filter criteria.</p></div>`;
+    return;
+  }
+
+  feed.innerHTML = data.map((a, i) => `
+    <div class="alert-card ${a.severity}" id="alert-${a.id}" style="animation-delay:${i*0.04}s" onclick="toggleExpand(${a.id}, event)">
+      <div class="alert-card-header">
+        <div class="alert-card-left">
+          <input type="checkbox" class="alert-checkbox" ${selectedAlerts.has(a.id)?'checked':''} onclick="toggleSelect(${a.id}, event)">
+          <div class="alert-severity-icon">
+            <i class="ti ${a.severity==='urgent'?'ti-urgent':a.severity==='warning'?'ti-alert-triangle':'ti-info-circle'}"></i>
+          </div>
+          <div style="min-width:0">
+            <div class="alert-title">${a.title}</div>
+            <div class="alert-patient">${a.patient}</div>
+            <div class="alert-meta">
+              <span class="severity-tag ${a.severity}">${a.severity}</span>
+              <span class="alert-type-tag ${a.type}">${a.type==='ai'?'<i class="ti ti-robot" style="font-size:11px"></i> AI Predicted':'<i class="ti ti-settings-automation" style="font-size:11px"></i> Rule-Based'}</span>
+              <span class="confidence-badge">
+                <div class="confidence-bar-mini"><div class="confidence-fill-mini" style="width:${a.confidence}%"></div></div>
+                ${a.confidence}%
+              </span>
+              <span class="alert-timestamp"><i class="ti ti-clock" style="font-size:12px"></i> ${a.time}</span>
+            </div>
+          </div>
+        </div>
+        <div class="alert-card-right">
+          <div class="alert-actions">
+            <button class="alert-action-btn ack" title="Acknowledge" onclick="acknowledgeAlert(${a.id},event)"><i class="ti ti-check"></i></button>
+            <button class="alert-action-btn" title="Snooze" onclick="event.stopPropagation()"><i class="ti ti-clock-pause"></i></button>
+            <button class="alert-action-btn esc" title="Escalate" onclick="event.stopPropagation()"><i class="ti ti-arrow-up-circle"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="alert-card-body">
+        <div class="evidence-section">
+          <div class="evidence-title">Triggering Data Points</div>
+          <div class="evidence-grid">
+            ${a.evidence.map(e => `
+              <div class="evidence-item">
+                <div class="evidence-label">${e.label}</div>
+                <div class="evidence-value">${e.value}</div>
+                <div class="evidence-flag ${e.flag}"><i class="ti ${e.flag==='abnormal'?'ti-alert-circle':'ti-circle-check'}" style="font-size:12px"></i> ${e.flag==='abnormal'?'Abnormal':'Within Range'}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        <div class="recommended-actions">
+          <div class="evidence-title">Recommended Actions</div>
+          ${a.actions.map(act => `
+            <div class="rec-action">
+              <i class="ti ti-arrow-right"></i>
+              <span>${act}</span>
+              <button class="rec-btn" onclick="event.stopPropagation()">Order</button>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleExpand(id, e) {
+  if (e.target.closest('.alert-checkbox') || e.target.closest('.alert-action-btn') || e.target.closest('.rec-btn')) return;
+  document.getElementById('alert-'+id).classList.toggle('expanded');
+}
+
+function filterAlerts(filter, el) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-group .filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderAlerts();
+}
+
+function updateConfidence(val) {
+  confThreshold = parseInt(val);
+  document.getElementById('confValue').textContent = val + '%';
+  renderAlerts();
+}
+
+function toggleType(type, el) {
+  if (typeFilter === type) { typeFilter = null; el.classList.remove('active'); }
+  else { document.querySelectorAll('.toolbar-right .filter-chip').forEach(c=>c.classList.remove('active')); typeFilter = type; el.classList.add('active'); }
+  renderAlerts();
+}
+
+function toggleSelect(id, e) {
+  e.stopPropagation();
+  if (selectedAlerts.has(id)) selectedAlerts.delete(id);
+  else selectedAlerts.add(id);
+  updateBulkBar();
+}
+
+function toggleSelectAll(cb) {
+  if (cb.checked) ALERTS.forEach(a => selectedAlerts.add(a.id));
+  else selectedAlerts.clear();
+  renderAlerts();
+  updateBulkBar();
+}
+
+function updateBulkBar() {
+  const bar = document.getElementById('bulkActions');
+  const count = selectedAlerts.size;
+  if (count > 0) {
+    bar.classList.add('visible');
+    document.getElementById('bulkCount').textContent = count + ' selected';
+  } else {
+    bar.classList.remove('visible');
+  }
+}
+
+function acknowledgeAlert(id, e) {
+  e.stopPropagation();
+  const card = document.getElementById('alert-'+id);
+  card.style.opacity = '0.4';
+  card.style.transform = 'translateX(20px)';
+  setTimeout(() => { card.style.display = 'none'; }, 300);
+}
+
+function bulkAction(action) {
+  selectedAlerts.forEach(id => {
+    const card = document.getElementById('alert-'+id);
+    if (card) { card.style.opacity = '0.4'; card.style.transform = 'translateX(20px)'; setTimeout(() => { card.style.display = 'none'; }, 300); }
+  });
+  selectedAlerts.clear();
+  updateBulkBar();
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('visible');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderStats();
+  renderAlerts();
+});
+</script>
+</body>
+</html>

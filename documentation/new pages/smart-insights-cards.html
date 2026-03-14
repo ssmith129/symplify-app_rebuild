@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Symplify — Smart Insights</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.6.0/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-700:#0a58ca;--primary-600:#0d6efd;--primary-500:#3d8bfd;--primary-400:#6ea8fe;--primary-100:#cfe2ff;--primary-50:#e7f1ff;
+  --neutral-900:#212529;--neutral-800:#343a40;--neutral-700:#495057;--neutral-600:#6c757d;--neutral-500:#adb5bd;--neutral-400:#ced4da;--neutral-300:#dee2e6;--neutral-200:#e9ecef;--neutral-100:#f8f9fa;--neutral-50:#ffffff;
+  --success-600:#198754;--success-500:#28a745;--success-100:#d1e7dd;
+  --warning-600:#ff9800;--warning-500:#ffc107;--warning-100:#fff3cd;
+  --danger-600:#dc3545;--danger-500:#f44336;--danger-100:#f8d7da;
+  --info-600:#0288d1;--info-500:#0dcaf0;--info-100:#cff4fc;
+  --sidebar-width:260px;--header-height:64px;
+  --radius-sm:6px;--radius-md:10px;--radius-lg:14px;
+  --shadow-sm:0 1px 2px rgba(0,0,0,0.05);--shadow-md:0 4px 12px rgba(0,0,0,0.08);--shadow-lg:0 8px 24px rgba(0,0,0,0.12);
+  font-family:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--neutral-100);color:var(--neutral-800);font-size:14px;line-height:1.5;overflow-x:hidden}
+
+/* SIDEBAR */
+.sidebar{position:fixed;top:0;left:0;width:var(--sidebar-width);height:100vh;background:var(--neutral-50);border-right:1px solid var(--neutral-300);z-index:100;display:flex;flex-direction:column;transition:transform .25s ease}
+.sidebar-logo{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid var(--neutral-200)}
+.logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--primary-600),var(--primary-700));border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px}
+.logo-text{font-size:20px;font-weight:700;color:var(--neutral-900)}.logo-text span{color:var(--primary-600)}
+.sidebar-nav{flex:1;overflow-y:auto;padding:12px 0}
+.nav-section-label{padding:12px 20px 6px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--neutral-500)}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 20px;color:var(--neutral-700);text-decoration:none;font-size:13.5px;font-weight:500;border-left:3px solid transparent;transition:all .15s;cursor:pointer}
+.nav-item:hover{background:var(--neutral-100);color:var(--neutral-900)}
+.nav-item.active{background:var(--primary-50);color:var(--primary-600);border-left-color:var(--primary-600);font-weight:600}
+.nav-item i{font-size:18px;opacity:.85}
+.ai-badge-sm{margin-left:auto;background:linear-gradient(135deg,#8b5cf6,#6366f1);color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;letter-spacing:.5px}
+.nav-badge{margin-left:auto;background:var(--danger-600);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px}
+
+/* HEADER */
+.header{position:fixed;top:0;left:var(--sidebar-width);right:0;height:var(--header-height);background:var(--neutral-50);border-bottom:1px solid var(--neutral-300);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:90}
+.header-left{display:flex;align-items:center;gap:16px}
+.hamburger{display:none;background:none;border:none;font-size:22px;color:var(--neutral-700);cursor:pointer}
+.header-search{position:relative;width:280px}
+.header-search i{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--neutral-500);font-size:16px}
+.header-search input{width:100%;padding:8px 12px 8px 36px;border:1px solid var(--neutral-300);border-radius:var(--radius-sm);background:var(--neutral-100);font-size:13px;font-family:inherit;color:var(--neutral-800);outline:none;transition:border-color .15s}
+.header-search input:focus{border-color:var(--primary-400);background:var(--neutral-50)}
+.header-right{display:flex;align-items:center;gap:8px}
+.header-btn{position:relative;background:none;border:none;width:36px;height:36px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;color:var(--neutral-600);font-size:20px;cursor:pointer;transition:all .15s}
+.header-btn:hover{background:var(--neutral-100);color:var(--neutral-900)}
+.notif-dot{position:absolute;top:6px;right:6px;width:8px;height:8px;background:var(--danger-600);border-radius:50%;border:2px solid var(--neutral-50)}
+.header-avatar{display:flex;align-items:center;gap:10px;margin-left:8px;padding-left:16px;border-left:1px solid var(--neutral-300)}
+.avatar{width:34px;height:34px;background:linear-gradient(135deg,var(--primary-500),var(--primary-700));border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700}
+.user-info .user-name{font-size:13px;font-weight:600;color:var(--neutral-900)}
+.user-info .user-role{font-size:11px;color:var(--neutral-600)}
+
+/* MAIN */
+.main-content{margin-left:var(--sidebar-width);margin-top:var(--header-height);padding:24px;min-height:calc(100vh - var(--header-height))}
+.page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px}
+.page-header h1{font-size:22px;font-weight:700;color:var(--neutral-900)}
+.breadcrumb{list-style:none;display:flex;gap:6px;font-size:12.5px;margin-top:4px}
+.breadcrumb a{color:var(--neutral-600);text-decoration:none}.breadcrumb a:hover{color:var(--primary-600)}
+.breadcrumb .sep{color:var(--neutral-400)}.breadcrumb .current{color:var(--primary-600);font-weight:500}
+.page-actions{display:flex;gap:8px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;border:none;transition:all .15s}
+.btn-primary{background:var(--primary-600);color:#fff}.btn-primary:hover{background:var(--primary-700)}
+.btn-outline{background:var(--neutral-50);color:var(--neutral-700);border:1px solid var(--neutral-300)}.btn-outline:hover{background:var(--neutral-100)}
+
+/* === HERO STATS BAR === */
+.hero-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:24px}
+.hero-stat{background:var(--neutral-50);border:1px solid var(--neutral-300);border-radius:var(--radius-md);padding:18px 20px;position:relative;overflow:hidden;transition:box-shadow .2s}
+.hero-stat:hover{box-shadow:var(--shadow-md)}
+.hero-stat-label{font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--neutral-600);margin-bottom:6px}
+.hero-stat-value{font-size:26px;font-weight:700;color:var(--neutral-900);line-height:1}
+.hero-stat-change{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:600;margin-top:6px;padding:2px 8px;border-radius:20px}
+.hero-stat-change.positive{background:var(--success-100);color:var(--success-600)}
+.hero-stat-change.negative{background:var(--danger-100);color:var(--danger-600)}
+.hero-stat-change.neutral{background:var(--neutral-200);color:var(--neutral-600)}
+.hero-stat-icon{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:20px}
+
+/* === INSIGHT CATEGORY TABS === */
+.category-tabs{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
+.cat-tab{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:20px;font-size:12.5px;font-weight:600;border:1px solid var(--neutral-300);background:var(--neutral-50);color:var(--neutral-700);cursor:pointer;transition:all .15s}
+.cat-tab:hover{border-color:var(--primary-400);color:var(--primary-600)}
+.cat-tab.active{background:var(--primary-600);color:#fff;border-color:var(--primary-600)}
+.cat-tab .tab-count{background:rgba(255,255,255,0.2);padding:1px 6px;border-radius:10px;font-size:10px}
+.cat-tab:not(.active) .tab-count{background:var(--neutral-200);color:var(--neutral-600)}
+
+/* === INSIGHT CARDS GRID === */
+.insights-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+
+.insight-card{background:var(--neutral-50);border:1px solid var(--neutral-300);border-radius:var(--radius-md);overflow:hidden;transition:all .25s;cursor:pointer}
+.insight-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);border-color:var(--neutral-400)}
+
+.insight-card-top{position:relative;padding:16px 18px 12px}
+
+.insight-category-tag{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+.insight-category-tag.operations{background:#ede9fe;color:#7c3aed}
+.insight-category-tag.staffing{background:#fce7f3;color:#db2777}
+.insight-category-tag.patient-flow{background:#dbeafe;color:#2563eb}
+.insight-category-tag.quality{background:#d1fae5;color:#059669}
+
+.insight-headline{font-size:15px;font-weight:700;color:var(--neutral-900);margin-bottom:6px;line-height:1.35}
+
+.insight-description{font-size:12.5px;color:var(--neutral-600);line-height:1.5;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* Metric Visualization Area */
+.insight-metric{background:var(--neutral-100);border-radius:var(--radius-sm);padding:14px;margin-bottom:12px}
+
+.metric-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.metric-label{font-size:11.5px;font-weight:600;color:var(--neutral-600)}
+.metric-value{font-size:20px;font-weight:700;color:var(--neutral-900)}
+
+.metric-bar-track{height:8px;background:var(--neutral-200);border-radius:4px;overflow:hidden}
+.metric-bar-fill{height:100%;border-radius:4px;transition:width 1s cubic-bezier(.16,1,.3,1)}
+
+.mini-chart{display:flex;align-items:flex-end;gap:3px;height:36px;margin-top:8px}
+.mini-bar{flex:1;border-radius:3px 3px 0 0;transition:height .5s ease}
+
+/* Bottom meta */
+.insight-card-bottom{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-top:1px solid var(--neutral-200)}
+
+.insight-meta-left{display:flex;align-items:center;gap:10px}
+
+.confidence-indicator{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--neutral-600)}
+.conf-dots{display:flex;gap:2px}
+.conf-dot{width:6px;height:6px;border-radius:50%;background:var(--neutral-300)}
+.conf-dot.filled{background:var(--primary-600)}
+
+.insight-timestamp{font-size:11px;color:var(--neutral-500)}
+
+.drill-down-btn{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:var(--radius-sm);font-size:11.5px;font-weight:600;color:var(--primary-600);background:var(--primary-50);border:1px solid var(--primary-100);cursor:pointer;transition:all .15s;text-decoration:none}
+.drill-down-btn:hover{background:var(--primary-100);border-color:var(--primary-400)}
+
+/* === CARD STATES === */
+/* Loading / Skeleton */
+.insight-card.skeleton .insight-card-top{pointer-events:none}
+.skeleton-line{height:12px;background:linear-gradient(90deg,var(--neutral-200) 25%,var(--neutral-300) 50%,var(--neutral-200) 75%);background-size:200% 100%;border-radius:6px;animation:shimmer 1.5s infinite}
+.skeleton-line.w60{width:60%}.skeleton-line.w80{width:80%}.skeleton-line.w40{width:40%}
+.skeleton-line+.skeleton-line{margin-top:8px}
+.skeleton-block{height:60px;background:linear-gradient(90deg,var(--neutral-200) 25%,var(--neutral-300) 50%,var(--neutral-200) 75%);background-size:200% 100%;border-radius:var(--radius-sm);animation:shimmer 1.5s infinite;margin-bottom:12px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* Error state */
+.insight-card.error{border-color:var(--danger-100);background:var(--danger-100)}
+.error-content{text-align:center;padding:24px 16px;color:var(--danger-600)}
+.error-content i{font-size:28px;margin-bottom:8px;display:block}
+.error-content p{font-size:12px;margin-top:4px;color:var(--neutral-600)}
+.retry-btn{margin-top:10px;padding:5px 14px;border-radius:var(--radius-sm);font-size:12px;font-weight:600;background:var(--neutral-50);color:var(--danger-600);border:1px solid var(--danger-600);cursor:pointer;font-family:inherit}
+.retry-btn:hover{background:var(--danger-600);color:#fff}
+
+/* No-data state */
+.no-data-content{text-align:center;padding:24px 16px;color:var(--neutral-500)}
+.no-data-content i{font-size:28px;margin-bottom:8px;display:block;color:var(--neutral-400)}
+
+/* AI badge */
+.ai-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 6px;border-radius:4px;font-size:9px;font-weight:700;background:linear-gradient(135deg,rgba(139,92,246,0.12),rgba(99,102,241,0.12));color:#7c3aed;letter-spacing:.3px;position:absolute;top:16px;right:16px}
+
+/* Animations */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.hero-stat{animation:fadeInUp .5s ease both}
+.hero-stat:nth-child(1){animation-delay:0s}
+.hero-stat:nth-child(2){animation-delay:.05s}
+.hero-stat:nth-child(3){animation-delay:.1s}
+.hero-stat:nth-child(4){animation-delay:.15s}
+.hero-stat:nth-child(5){animation-delay:.2s}
+.insight-card{animation:fadeInUp .45s ease both}
+
+/* Responsive */
+@media(max-width:1280px){.insights-grid{grid-template-columns:repeat(2,1fr)}.hero-stats{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:1024px){.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.main-content{margin-left:0}.header{left:0}.hamburger{display:flex}.hero-stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.insights-grid{grid-template-columns:1fr}.hero-stats{grid-template-columns:1fr}.page-header{flex-direction:column;gap:12px}.header-search{display:none}}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:99}.sidebar-overlay.visible{display:block}
+
+/* Live badge */
+.live-indicator{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--neutral-500);background:var(--neutral-200);padding:4px 10px;border-radius:20px}
+.live-dot{width:6px;height:6px;background:var(--success-600);border-radius:50%;animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+</style>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo"><div class="logo-icon">S+</div><div class="logo-text">Sym<span>plify</span></div></div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Main Menu</div>
+    <a class="nav-item" href="#"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
+    <a class="nav-item" href="#"><i class="ti ti-users"></i> Patients</a>
+    <a class="nav-item" href="#"><i class="ti ti-calendar"></i> Appointments</a>
+    <a class="nav-item" href="#"><i class="ti ti-stethoscope"></i> Doctors</a>
+    <a class="nav-item" href="#"><i class="ti ti-building-hospital"></i> Departments</a>
+    <a class="nav-item" href="#"><i class="ti ti-receipt"></i> Billing</a>
+    <div class="nav-section-label">AI Modules</div>
+    <a class="nav-item" href="#"><i class="ti ti-robot"></i> AI Assistant <span class="ai-badge-sm">AI</span></a>
+    <a class="nav-item" href="#"><i class="ti ti-brain"></i> Clinical Prediction <span class="ai-badge-sm">AI</span></a>
+    <a class="nav-item" href="#"><i class="ti ti-activity-heartbeat"></i> Patient Acuity <span class="ai-badge-sm">AI</span></a>
+    <a class="nav-item" href="#"><i class="ti ti-alert-triangle"></i> Predictive Alerts <span class="ai-badge-sm">AI</span></a>
+    <a class="nav-item active" href="#"><i class="ti ti-sparkles"></i> Smart Insights <span class="ai-badge-sm">AI</span></a>
+    <a class="nav-item" href="#"><i class="ti ti-transfer"></i> Shift Handoff <span class="ai-badge-sm">AI</span></a>
+    <a class="nav-item" href="#"><i class="ti ti-chart-dots-3"></i> Analytics <span class="ai-badge-sm">AI</span></a>
+    <a class="nav-item" href="#"><i class="ti ti-bell-ringing"></i> Risk Monitor <span class="nav-badge">3</span></a>
+    <div class="nav-section-label">Settings</div>
+    <a class="nav-item" href="#"><i class="ti ti-settings"></i> Settings</a>
+    <a class="nav-item" href="#"><i class="ti ti-help-circle"></i> Support</a>
+  </nav>
+</aside>
+
+<header class="header">
+  <div class="header-left">
+    <button class="hamburger" onclick="toggleSidebar()"><i class="ti ti-menu-2"></i></button>
+    <div class="header-search"><i class="ti ti-search"></i><input type="text" placeholder="Search patients, reports..."></div>
+  </div>
+  <div class="header-right">
+    <button class="header-btn" title="AI Assistant"><i class="ti ti-sparkles"></i></button>
+    <button class="header-btn" title="Messages"><i class="ti ti-message"></i><span class="notif-dot"></span></button>
+    <button class="header-btn" title="Notifications"><i class="ti ti-bell"></i><span class="notif-dot"></span></button>
+    <div class="header-avatar">
+      <div class="avatar">SM</div>
+      <div class="user-info"><div class="user-name">Sarah Mitchell</div><div class="user-role">Charge Nurse — ICU</div></div>
+    </div>
+  </div>
+</header>
+
+<main class="main-content">
+  <div class="page-header">
+    <div>
+      <h1>Smart Insights</h1>
+      <ul class="breadcrumb">
+        <li><a href="#">Dashboard</a></li><li class="sep">/</li>
+        <li><a href="#">AI Modules</a></li><li class="sep">/</li>
+        <li class="current">Smart Insights</li>
+      </ul>
+    </div>
+    <div class="page-actions">
+      <span class="live-indicator"><span class="live-dot"></span> Auto-refreshing</span>
+      <button class="btn btn-outline"><i class="ti ti-layout-grid"></i> Customize</button>
+      <button class="btn btn-outline"><i class="ti ti-download"></i> Export</button>
+      <button class="btn btn-primary"><i class="ti ti-refresh"></i> Refresh</button>
+    </div>
+  </div>
+
+  <!-- Hero Stats -->
+  <div class="hero-stats" id="heroStats"></div>
+
+  <!-- Category Tabs -->
+  <div class="category-tabs" id="categoryTabs"></div>
+
+  <!-- Insights Grid -->
+  <div class="insights-grid" id="insightsGrid"></div>
+</main>
+
+<script>
+const HERO = [
+  { label:'Avg LOS', value:'4.2d', change:'-0.3d vs last week', dir:'positive', icon:'ti-clock', iconBg:'#cfe2ff', iconColor:'#0d6efd' },
+  { label:'Bed Occupancy', value:'87%', change:'+3% from yesterday', dir:'negative', icon:'ti-bed', iconBg:'#fce7f3', iconColor:'#db2777' },
+  { label:'Readmission Rate', value:'6.8%', change:'-1.2% this month', dir:'positive', icon:'ti-repeat', iconBg:'#d1fae5', iconColor:'#059669' },
+  { label:'Staffing Score', value:'82/100', change:'No change', dir:'neutral', icon:'ti-users', iconBg:'#fff3cd', iconColor:'#ca8a04' },
+  { label:'Patient Satisfaction', value:'4.6/5', change:'+0.2 vs Q3', dir:'positive', icon:'ti-star', iconBg:'#ede9fe', iconColor:'#7c3aed' },
+];
+
+const CATEGORIES = [
+  { id:'all', label:'All Insights', count:12 },
+  { id:'operations', label:'Operations', count:4, icon:'ti-settings-2' },
+  { id:'staffing', label:'Staffing', count:3, icon:'ti-users-group' },
+  { id:'patient-flow', label:'Patient Flow', count:3, icon:'ti-arrows-transfer-down' },
+  { id:'quality', label:'Quality Metrics', count:2, icon:'ti-award' },
+];
+
+const INSIGHTS = [
+  { id:1, category:'operations', tag:'Operations', headline:'ED Wait Times Exceeding 4-Hour Target', description:'Average emergency department wait time has increased 22% over the past 72 hours, driven by higher acuity admissions and downstream bed availability constraints.',
+    metric:{label:'Avg Wait Time',value:'4h 38m',pct:77,color:'var(--danger-600)',trend:[55,58,62,68,72,77]},
+    confidence:4, time:'12 min ago', status:'populated' },
+  { id:2, category:'staffing', tag:'Staffing', headline:'Night Shift RN Shortage — ICU at 67% Coverage', description:'Three upcoming night shifts in the ICU have only 4 of 6 required RN positions filled. Agency nurse requests have been auto-submitted.',
+    metric:{label:'Coverage Rate',value:'67%',pct:67,color:'var(--warning-600)',trend:[85,82,78,72,68,67]},
+    confidence:5, time:'28 min ago', status:'populated' },
+  { id:3, category:'patient-flow', tag:'Patient Flow', headline:'Surgical Discharge Bottleneck — 8 Patients Pending', description:'Eight post-surgical patients have met discharge criteria but are awaiting pharmacy reconciliation or transportation. Average delay: 6.2 hours.',
+    metric:{label:'Pending Discharges',value:'8',pct:40,color:'var(--info-600)',trend:[3,4,5,6,7,8]},
+    confidence:5, time:'45 min ago', status:'populated' },
+  { id:4, category:'quality', tag:'Quality Metrics', headline:'Hand Hygiene Compliance Below Benchmark', description:'ICU and Med-Surg units showing 76% compliance rate against a 90% target. Sensor data indicates peak non-compliance during shift transitions.',
+    metric:{label:'Compliance Rate',value:'76%',pct:76,color:'var(--warning-600)',trend:[88,85,82,79,77,76]},
+    confidence:3, time:'1.2h ago', status:'populated' },
+  { id:5, category:'operations', tag:'Operations', headline:'OR Utilization Gap — Block Time Underused', description:'Operating rooms 3 and 5 have 38% unutilized block time this week. Redistribution could accommodate 4 additional elective cases.',
+    metric:{label:'Utilization',value:'62%',pct:62,color:'var(--primary-600)',trend:[58,55,60,63,61,62]},
+    confidence:4, time:'1.5h ago', status:'populated' },
+  { id:6, category:'staffing', tag:'Staffing', headline:'Overtime Hours Trending Up — Med-Surg', description:'Med-Surg nursing overtime has increased 34% month-over-month. Top contributors: census spikes on Tuesday and Thursday admissions.',
+    metric:{label:'OT Hours This Week',value:'142h',pct:85,color:'var(--danger-600)',trend:[95,102,118,126,135,142]},
+    confidence:4, time:'2h ago', status:'populated' },
+  { id:7, category:'patient-flow', tag:'Patient Flow', headline:'Admission-to-Bed Time Improved by 18%', description:'Average time from admission order to bed assignment has decreased from 52 minutes to 43 minutes following the new bed management protocol deployment.',
+    metric:{label:'Avg Bed Assignment',value:'43 min',pct:43,color:'var(--success-600)',trend:[52,50,48,46,44,43]},
+    confidence:5, time:'2.5h ago', status:'populated' },
+  { id:8, category:'operations', tag:'Operations', headline:'Lab Turnaround — STAT Orders Exceeding SLA', description:'12% of STAT lab orders in the past 24 hours exceeded the 60-minute turnaround SLA. Primary delays traced to specimen transport bottleneck.',
+    metric:{label:'SLA Breach Rate',value:'12%',pct:12,color:'var(--warning-600)',trend:[5,6,8,9,10,12]},
+    confidence:3, time:'3h ago', status:'populated' },
+  { id:9, category:'quality', tag:'Quality Metrics', headline:'CLABSI Rate Trending Below National Benchmark', description:'Central line-associated bloodstream infection rate has maintained zero events for 47 consecutive days, outperforming the national benchmark by 62%.',
+    metric:{label:'Days Without Event',value:'47',pct:94,color:'var(--success-600)',trend:[35,38,41,43,45,47]},
+    confidence:5, time:'4h ago', status:'populated' },
+  { id:10, category:'patient-flow', tag:'Patient Flow', headline:'Telemetry Bed Availability Forecast', description:'AI models predict 3 telemetry beds will become available in the next 6 hours based on current discharge trajectories and anticipated step-downs.',
+    metric:{label:'Predicted Availability',value:'3 beds',pct:30,color:'var(--primary-600)',trend:[1,1,2,2,3,3]},
+    confidence:3, time:'5h ago', status:'populated' },
+  { id:11, category:'staffing', tag:'Staffing', headline:'CNA Certification Expirations — 4 Staff This Month', description:'Four certified nursing assistants have BLS certifications expiring within 30 days. Auto-reminder emails have been queued for HR review.',
+    metric:{label:'Expiring Certs',value:'4',pct:20,color:'var(--warning-600)',trend:[1,1,2,3,3,4]},
+    confidence:5, time:'6h ago', status:'populated' },
+  { id:12, category:'operations', tag:'Operations', headline:'Medication Dispensing Errors — Trending Down', description:'Automated dispensing cabinet errors have decreased 28% since the barcode verification workflow update deployed last Tuesday.',
+    metric:{label:'Error Rate',value:'0.8%',pct:8,color:'var(--success-600)',trend:[15,12,10,8,9,8]},
+    confidence:4, time:'8h ago', status:'populated' },
+];
+
+let currentCategory = 'all';
+
+function renderHero() {
+  document.getElementById('heroStats').innerHTML = HERO.map(s => `
+    <div class="hero-stat">
+      <div class="hero-stat-label">${s.label}</div>
+      <div class="hero-stat-value">${s.value}</div>
+      <div class="hero-stat-change ${s.dir}">
+        <i class="ti ${s.dir==='positive'?'ti-arrow-down-right':s.dir==='negative'?'ti-arrow-up-right':'ti-minus'}" style="font-size:12px"></i>
+        ${s.change}
+      </div>
+      <div class="hero-stat-icon" style="background:${s.iconBg};color:${s.iconColor}"><i class="ti ${s.icon}"></i></div>
+    </div>
+  `).join('');
+}
+
+function renderTabs() {
+  document.getElementById('categoryTabs').innerHTML = CATEGORIES.map(c => `
+    <span class="cat-tab ${c.id===currentCategory?'active':''}" onclick="filterCategory('${c.id}',this)">
+      ${c.icon?'<i class="ti '+c.icon+'" style="font-size:14px"></i>':''}
+      ${c.label}
+      <span class="tab-count">${c.count}</span>
+    </span>
+  `).join('');
+}
+
+function getConfDots(level) {
+  return Array.from({length:5},(_, i) => `<div class="conf-dot ${i<level?'filled':''}"></div>`).join('');
+}
+
+function getMiniChart(trend, color) {
+  const max = Math.max(...trend);
+  return trend.map(v => {
+    const h = Math.max(4, (v / max) * 36);
+    return `<div class="mini-bar" style="height:${h}px;background:${color};opacity:${0.4 + (v/max)*0.6}"></div>`;
+  }).join('');
+}
+
+function renderInsights() {
+  let data = INSIGHTS;
+  if (currentCategory !== 'all') data = data.filter(i => i.category === currentCategory);
+
+  const grid = document.getElementById('insightsGrid');
+
+  // Add skeleton card, error card, and no-data card as demos
+  let cards = data.map((ins, idx) => `
+    <div class="insight-card" style="animation-delay:${idx*0.06}s" onclick="drillDown('${ins.id}')">
+      <div class="insight-card-top">
+        <span class="ai-badge"><i class="ti ti-robot" style="font-size:10px"></i> AI</span>
+        <span class="insight-category-tag ${ins.category}">${ins.tag}</span>
+        <div class="insight-headline">${ins.headline}</div>
+        <div class="insight-description">${ins.description}</div>
+        <div class="insight-metric">
+          <div class="metric-row">
+            <span class="metric-label">${ins.metric.label}</span>
+            <span class="metric-value">${ins.metric.value}</span>
+          </div>
+          <div class="metric-bar-track">
+            <div class="metric-bar-fill" style="width:${ins.metric.pct}%;background:${ins.metric.color}"></div>
+          </div>
+          <div class="mini-chart">${getMiniChart(ins.metric.trend, ins.metric.color)}</div>
+        </div>
+      </div>
+      <div class="insight-card-bottom">
+        <div class="insight-meta-left">
+          <span class="confidence-indicator">
+            <div class="conf-dots">${getConfDots(ins.confidence)}</div>
+            ${ins.confidence*20}%
+          </span>
+          <span class="insight-timestamp"><i class="ti ti-clock" style="font-size:12px"></i> ${ins.time}</span>
+        </div>
+        <a class="drill-down-btn" onclick="event.stopPropagation()"><i class="ti ti-arrow-right" style="font-size:13px"></i> Details</a>
+      </div>
+    </div>
+  `).join('');
+
+  // Append state demo cards only when viewing "All"
+  if (currentCategory === 'all') {
+    const skeletonDelay = data.length * 0.06;
+    cards += `
+      <div class="insight-card skeleton" style="animation-delay:${skeletonDelay}s">
+        <div class="insight-card-top">
+          <div class="skeleton-line w40" style="height:16px;margin-bottom:14px"></div>
+          <div class="skeleton-line w80"></div>
+          <div class="skeleton-line w60"></div>
+          <div class="skeleton-block" style="margin-top:14px"></div>
+        </div>
+        <div class="insight-card-bottom">
+          <span style="font-size:11px;color:var(--neutral-500)">Loading insight...</span>
+        </div>
+      </div>
+
+      <div class="insight-card error" style="animation-delay:${skeletonDelay+0.06}s">
+        <div class="insight-card-top">
+          <div class="error-content">
+            <i class="ti ti-alert-circle"></i>
+            <strong>Failed to Load Insight</strong>
+            <p>Unable to retrieve data from the analytics engine. Please try again.</p>
+            <button class="retry-btn" onclick="event.stopPropagation()"><i class="ti ti-refresh" style="font-size:12px"></i> Retry</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="insight-card" style="animation-delay:${skeletonDelay+0.12}s">
+        <div class="insight-card-top">
+          <div class="no-data-content">
+            <i class="ti ti-chart-dots"></i>
+            <strong style="color:var(--neutral-700)">No Data Available</strong>
+            <p style="font-size:12px;margin-top:4px">Insufficient data to generate this insight. Check back after the next data refresh cycle.</p>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  grid.innerHTML = cards;
+}
+
+function filterCategory(cat, el) {
+  currentCategory = cat;
+  renderTabs();
+  renderInsights();
+}
+
+function drillDown(id) {
+  // In production, this would navigate to a detail view
+  console.log('Drill down to insight:', id);
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('visible');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderHero();
+  renderTabs();
+  renderInsights();
+});
+</script>
+</body>
+</html>

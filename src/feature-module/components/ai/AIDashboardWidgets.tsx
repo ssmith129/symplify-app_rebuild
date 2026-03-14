@@ -43,10 +43,10 @@ const SmartWidget: React.FC<SmartWidgetProps> = ({ widgetId, onInteraction, aiRe
   };
 
   const widgetRoutes: Record<string, string> = {
-    patientAcuity: all_routes.patients,
+    patientAcuity: all_routes.patientAcuity,
     patientQueue: all_routes.patients,
-    clinicalAlerts: all_routes.patients,
-    aiInsights: all_routes.dashboard,
+    clinicalAlerts: all_routes.predictiveAlerts,
+    aiInsights: all_routes.smartInsights,
   };
 
   return (

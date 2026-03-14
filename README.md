@@ -67,6 +67,10 @@ Symplify addresses three critical challenges in healthcare operations:
 
 The platform is deployed and accessible at: **[symplify-v4.netlify.app](https://symplify-v4.netlify.app/)**
 
+### Repository
+
+Source code is hosted at: **[github.com/ssmith129/Symplify-1.7.4](https://github.com/ssmith129/Symplify-1.7.4.git)**
+
 ---
 
 ## Key Features
@@ -495,7 +499,7 @@ The platform combines Ant Design and Bootstrap components:
 
 ```bash
 # Clone the repository
-git clone <repository-url> Symplify-1.7.4
+git clone https://github.com/ssmith129/Symplify-1.7.4.git
 cd Symplify-1.7.4
 
 # Install dependencies
@@ -678,7 +682,7 @@ AI features use mock APIs by default, making them fully testable without externa
 
 ### Netlify (Current)
 
-The platform is configured for Netlify deployment with SPA rewrite rules:
+The platform is deployed at **[symplify-v4.netlify.app](https://symplify-v4.netlify.app/)** and configured for Netlify deployment with SPA rewrite rules:
 
 ```json
 {
@@ -790,8 +794,9 @@ npm run build  # Warnings can be safely ignored
 |---------|---------|
 | **Documentation** | AI feature guides in `/ai enhancements/` directory |
 | **Design Critiques** | Available in project root as `Design-Critique_*.md` and `Compliance-Dashboard-Critique.md` |
-| **Issue Tracker** | Report bugs and feature requests via the repository's issue tracker |
+| **Issue Tracker** | [GitHub Issues](https://github.com/ssmith129/Symplify-1.7.4/issues) |
 | **Live Platform** | [symplify-v4.netlify.app](https://symplify-v4.netlify.app/) |
+| **Repository** | [github.com/ssmith129/Symplify-1.7.4](https://github.com/ssmith129/Symplify-1.7.4.git) |
 
 ---
 

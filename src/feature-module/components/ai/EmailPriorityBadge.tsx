@@ -13,10 +13,10 @@ interface PriorityConfig {
 }
 
 const PRIORITY_CONFIG: Record<EmailPriority, PriorityConfig> = {
-  critical: { color: '#DC2626', bgColor: '#FEE2E2', icon: 'ti-alert-octagon', label: 'Critical' },
-  high: { color: '#F97316', bgColor: '#FFEDD5', icon: 'ti-alert-triangle', label: 'High' },
-  medium: { color: '#EAB308', bgColor: '#FEF9C3', icon: 'ti-clock', label: 'Medium' },
-  low: { color: '#22C55E', bgColor: '#DCFCE7', icon: 'ti-check-circle', label: 'Low' }
+  critical: { color: 'var(--clinical-critical)', bgColor: 'var(--clinical-critical-bg)', icon: 'ti-alert-octagon', label: 'Critical' },
+  high: { color: 'var(--clinical-urgent)', bgColor: 'var(--clinical-urgent-bg)', icon: 'ti-alert-triangle', label: 'High' },
+  medium: { color: 'var(--clinical-caution)', bgColor: 'var(--clinical-caution-bg)', icon: 'ti-clock', label: 'Medium' },
+  low: { color: 'var(--clinical-stable)', bgColor: 'var(--clinical-stable-bg)', icon: 'ti-check-circle', label: 'Low' }
 };
 
 interface EmailPriorityBadgeProps {

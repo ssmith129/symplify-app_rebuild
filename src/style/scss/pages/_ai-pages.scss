@@ -41,16 +41,16 @@
   letter-spacing: 0.6px;
 }
 
-.fs-11 { font-size: 11px !important; }
-.fs-12 { font-size: 12px !important; }
-.fs-14 { font-size: 14px !important; }
-.fs-15 { font-size: 15px !important; }
-.fs-18 { font-size: 18px !important; }
-.fs-22 { font-size: 22px !important; }
+.fs-11 { font-size: 0.6875rem !important; }
+.fs-12 { font-size: 0.75rem !important; }
+.fs-14 { font-size: 0.875rem !important; }
+.fs-15 { font-size: 0.9375rem !important; }
+.fs-18 { font-size: 1.125rem !important; }
+.fs-22 { font-size: 1.375rem !important; }
 
 .btn-icon {
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   padding: 0;
   display: inline-flex;
   align-items: center;
@@ -59,9 +59,10 @@
 
 .btn-xs {
   padding: 3px 10px;
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: 700;
   border-radius: 4px;
+  min-height: 32px;
 }
 
 .min-w-0 { min-width: 0; }
@@ -124,20 +125,20 @@
 
 // Acuity-specific stat card colors
 .pa-stat-critical {
-  border-left: 4px solid #dc2626;
-  .pa-stat-icon { background: #fef2f2; color: #dc2626; }
+  border-left: 4px solid var(--clinical-critical);
+  .pa-stat-icon { background: var(--clinical-critical-bg); color: var(--clinical-critical); }
 }
 .pa-stat-high {
-  border-left: 4px solid #ea580c;
-  .pa-stat-icon { background: #fff7ed; color: #ea580c; }
+  border-left: 4px solid var(--clinical-urgent);
+  .pa-stat-icon { background: var(--clinical-urgent-bg); color: var(--clinical-urgent); }
 }
 .pa-stat-moderate {
-  border-left: 4px solid #ca8a04;
-  .pa-stat-icon { background: #fefce8; color: #ca8a04; }
+  border-left: 4px solid var(--clinical-caution);
+  .pa-stat-icon { background: var(--clinical-caution-bg); color: var(--clinical-caution); }
 }
 .pa-stat-stable {
-  border-left: 4px solid #16a34a;
-  .pa-stat-icon { background: #f0fdf4; color: #16a34a; }
+  border-left: 4px solid var(--clinical-stable);
+  .pa-stat-icon { background: var(--clinical-stable-bg); color: var(--clinical-stable); }
 }
 .pa-stat-total {
   border-left: 4px solid $primary;
@@ -176,14 +177,14 @@
   padding-left: 8px;
   font-size: 11.5px;
   font-weight: 700;
-  color: #fff;
+  color: $white;
   transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.pa-dist-critical { background: #dc2626; }
-.pa-dist-high { background: #ea580c; }
-.pa-dist-moderate { background: #ca8a04; }
-.pa-dist-stable { background: #16a34a; }
+.pa-dist-critical { background: var(--clinical-critical); }
+.pa-dist-high { background: var(--clinical-urgent); }
+.pa-dist-moderate { background: var(--clinical-caution); }
+.pa-dist-stable { background: var(--clinical-stable); }
 
 .pa-dist-count {
   width: 40px;
@@ -245,7 +246,7 @@
   justify-content: center;
   font-size: 11px;
   font-weight: 700;
-  color: #fff;
+  color: $white;
   flex-shrink: 0;
 }
 
@@ -270,20 +271,20 @@
 }
 
 .pa-acuity-critical {
-  background: #fef2f2; color: #dc2626; border: 1px solid #fca5a5;
-  .pa-acuity-dot { background: #dc2626; animation: pa-pulse 2s ease infinite; }
+  background: var(--clinical-critical-bg); color: var(--clinical-critical); border: 1px solid var(--clinical-critical-border);
+  .pa-acuity-dot { background: var(--clinical-critical); animation: pa-pulse 2s ease infinite; }
 }
 .pa-acuity-high {
-  background: #fff7ed; color: #ea580c; border: 1px solid #fdba74;
-  .pa-acuity-dot { background: #ea580c; }
+  background: var(--clinical-urgent-bg); color: var(--clinical-urgent); border: 1px solid var(--clinical-urgent-border);
+  .pa-acuity-dot { background: var(--clinical-urgent); }
 }
 .pa-acuity-moderate {
-  background: #fefce8; color: #ca8a04; border: 1px solid #fde047;
-  .pa-acuity-dot { background: #ca8a04; }
+  background: var(--clinical-caution-bg); color: var(--clinical-caution); border: 1px solid var(--clinical-caution-border);
+  .pa-acuity-dot { background: var(--clinical-caution); }
 }
 .pa-acuity-stable {
-  background: #f0fdf4; color: #16a34a; border: 1px solid #86efac;
-  .pa-acuity-dot { background: #16a34a; }
+  background: var(--clinical-stable-bg); color: var(--clinical-stable); border: 1px solid var(--clinical-stable-border);
+  .pa-acuity-dot { background: var(--clinical-stable); }
 }
 
 // Sparkline
@@ -316,7 +317,7 @@
   overflow: hidden;
   transition: all 0.2s;
   cursor: pointer;
-  background: #fff;
+  background: $white;
 
   &:hover {
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
@@ -360,8 +361,8 @@
 }
 
 .pca-type-ai {
-  background: rgba(139, 92, 246, 0.12);
-  color: #7c3aed;
+  background: $purple-transparent;
+  color: $purple;
 }
 
 .pca-conf-bar {
@@ -453,7 +454,7 @@
   border-radius: 20px;
   font-weight: 600;
   border: 1px solid $border-color;
-  background: #fff;
+  background: $white;
   color: $gray-700;
   transition: all 0.15s;
 
@@ -464,7 +465,7 @@
 
   &.active {
     background: $primary;
-    color: #fff;
+    color: $white;
     border-color: $primary;
   }
 }
@@ -525,10 +526,10 @@
   letter-spacing: 0.5px;
 }
 
-.si-tag-operations { background: #ede9fe; color: #7c3aed; }
-.si-tag-staffing { background: #fce7f3; color: #db2777; }
-.si-tag-patient-flow { background: #dbeafe; color: #2563eb; }
-.si-tag-quality { background: #d1fae5; color: #059669; }
+.si-tag-operations { background: $purple-transparent; color: $purple; }
+.si-tag-staffing { background: $pink-transparent; color: $pink; }
+.si-tag-patient-flow { background: $info-transparent; color: $info; }
+.si-tag-quality { background: $success-transparent; color: $success; }
 
 .si-description {
   display: -webkit-box;

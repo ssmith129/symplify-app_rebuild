@@ -15,12 +15,12 @@ interface TriagePriorityBadgeProps {
   showFactors?: boolean;
 }
 
-const PRIORITY_CONFIG: Record<TriagePriority, { color: string; bgClass: string; label: string; icon: string }> = {
-  1: { color: '#F44336', bgClass: 'bg-danger', label: 'Critical', icon: 'ti-alert-triangle' },
-  2: { color: '#FF9800', bgClass: 'bg-warning', label: 'Urgent', icon: 'ti-alert-circle' },
-  3: { color: '#FFC107', bgClass: 'bg-warning-light', label: 'Semi-Urgent', icon: 'ti-clock' },
-  4: { color: '#4CAF50', bgClass: 'bg-success', label: 'Standard', icon: 'ti-check' },
-  5: { color: '#2196F3', bgClass: 'bg-info', label: 'Non-Urgent', icon: 'ti-info-circle' }
+const PRIORITY_CONFIG: Record<TriagePriority, { colorVar: string; bgVar: string; label: string; icon: string }> = {
+  1: { colorVar: 'var(--clinical-critical)', bgVar: 'var(--clinical-critical-bg)', label: 'Critical', icon: 'ti-alert-triangle' },
+  2: { colorVar: 'var(--clinical-urgent)', bgVar: 'var(--clinical-urgent-bg)', label: 'Urgent', icon: 'ti-alert-circle' },
+  3: { colorVar: 'var(--clinical-caution)', bgVar: 'var(--clinical-caution-bg)', label: 'Semi-Urgent', icon: 'ti-clock' },
+  4: { colorVar: 'var(--clinical-stable)', bgVar: 'var(--clinical-stable-bg)', label: 'Standard', icon: 'ti-check' },
+  5: { colorVar: 'var(--clinical-info)', bgVar: 'var(--clinical-info-bg)', label: 'Non-Urgent', icon: 'ti-info-circle' }
 };
 
 const TriagePriorityBadge: React.FC<TriagePriorityBadgeProps> = ({
@@ -92,7 +92,7 @@ const TriagePriorityBadge: React.FC<TriagePriorityBadgeProps> = ({
     <Tooltip title={tooltipContent} placement="top">
       <span
         className={`badge ${sizeClasses[size]} d-inline-flex align-items-center`}
-        style={{ backgroundColor: config.color, color: '#fff', cursor: 'help' }}
+        style={{ backgroundColor: config.bgVar, color: config.colorVar, cursor: 'help' }}
       >
         <i className={`ti ${config.icon} me-1`} />
         {config.label}

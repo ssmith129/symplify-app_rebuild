@@ -139,7 +139,7 @@ const DrugInteractionChecker: React.FC<DrugInteractionCheckerProps> = ({
       </div>
 
       {/* Add Medication Form */}
-      <div className="p-3 rounded-2 mb-3" style={{ backgroundColor: 'var(--light, #F5F6F8)' }}>
+      <div className="p-3 rounded-2 mb-3" style={{ backgroundColor: 'var(--light)' }}>
         <label className="fs-13 fw-medium mb-2 d-block" htmlFor="med-name-input">
           Add Medication
         </label>
@@ -183,7 +183,7 @@ const DrugInteractionChecker: React.FC<DrugInteractionCheckerProps> = ({
           Current Medications ({medList.length})
         </h4>
         {medList.length === 0 ? (
-          <div className="text-center py-4" style={{ color: 'var(--gray-400, #858D9C)' }}>
+          <div className="text-center py-4" style={{ color: 'var(--gray-400)' }}>
             <i className="ti ti-pill-off d-block mb-2" style={{ fontSize: 28, opacity: 0.5 }} aria-hidden="true" />
             <p className="mb-0 fs-13">No medications added yet</p>
             <p className="mb-0 fs-12">Add medications above to check for interactions</p>
@@ -193,7 +193,7 @@ const DrugInteractionChecker: React.FC<DrugInteractionCheckerProps> = ({
             {medList.map((med) => (
               <li key={med.id} role="listitem">
                 <div className="d-flex align-items-center gap-2">
-                  <i className="ti ti-pill fs-14" aria-hidden="true" style={{ color: 'var(--primary, #2E37A4)' }} />
+                  <i className="ti ti-pill fs-14" aria-hidden="true" style={{ color: 'var(--primary)' }} />
                   <span className="fw-medium">{med.name}</span>
                   {med.dosage && (
                     <span className="text-muted fs-12">({med.dosage})</span>
@@ -247,16 +247,16 @@ const DrugInteractionChecker: React.FC<DrugInteractionCheckerProps> = ({
             <div
               className="text-center p-4 rounded-2"
               style={{
-                backgroundColor: 'var(--clinical-stable-bg, #F0FDF4)',
-                border: '1px solid var(--clinical-stable-border, #BBF7D0)',
+                backgroundColor: 'var(--clinical-stable-bg)',
+                border: '1px solid var(--clinical-stable-border)',
               }}
             >
               <i
                 className="ti ti-shield-check d-block mb-2"
-                style={{ fontSize: 32, color: 'var(--clinical-stable, #16A34A)' }}
+                style={{ fontSize: 32, color: 'var(--clinical-stable)' }}
                 aria-hidden="true"
               />
-              <p className="fw-medium mb-1" style={{ color: 'var(--clinical-stable, #16A34A)' }}>
+              <p className="fw-medium mb-1" style={{ color: 'var(--clinical-stable)' }}>
                 No Interactions Detected
               </p>
               <p className="fs-12 text-muted mb-0">

@@ -13,10 +13,10 @@ import { all_routes } from '../../../routes/all_routes';
 
 // Priority configuration for color coding
 const PRIORITY_CONFIG: Record<string, { color: string; bgColor: string; label: string }> = {
-  critical: { color: '#F44336', bgColor: '#FFEBEE', label: 'Critical' },
-  high: { color: '#FF9800', bgColor: '#FFF3E0', label: 'High' },
-  moderate: { color: '#FFC107', bgColor: '#FFF8E1', label: 'Moderate' },
-  stable: { color: '#4CAF50', bgColor: '#E8F5E9', label: 'Stable' },
+  critical: { color: 'var(--clinical-critical)', bgColor: 'var(--clinical-critical-bg)', label: 'Critical' },
+  high: { color: 'var(--clinical-urgent)', bgColor: 'var(--clinical-urgent-bg)', label: 'High' },
+  moderate: { color: 'var(--clinical-caution)', bgColor: 'var(--clinical-caution-bg)', label: 'Moderate' },
+  stable: { color: 'var(--clinical-stable)', bgColor: 'var(--clinical-stable-bg)', label: 'Stable' },
 };
 
 const ShiftHandoffWidget: React.FC = () => {
@@ -130,25 +130,25 @@ const ShiftHandoffWidget: React.FC = () => {
           {/* Shift Overview Stats Row */}
           <div className="row g-2 mb-3">
             <div className="col-6 col-md-3">
-              <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: '#EEF2FF' }}>
+              <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: 'var(--primary-transparent)' }}>
                 <h5 className="fw-bold mb-0 text-primary">12</h5>
                 <p className="mb-0 fs-11 text-muted">Staff On Duty</p>
               </div>
             </div>
             <div className="col-6 col-md-3">
-              <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: '#ECFDF5' }}>
+              <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: 'var(--success-transparent)' }}>
                 <h5 className="fw-bold mb-0 text-success">85%</h5>
                 <p className="mb-0 fs-11 text-muted">Bed Occupancy</p>
               </div>
             </div>
             <div className="col-6 col-md-3">
-              <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: '#FFFBEB' }}>
+              <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: 'var(--warning-transparent)' }}>
                 <h5 className="fw-bold mb-0 text-warning">2.5h</h5>
                 <p className="mb-0 fs-11 text-muted">Avg Wait Time</p>
               </div>
             </div>
             <div className="col-6 col-md-3">
-              <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: '#EFF6FF' }}>
+              <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: 'var(--info-transparent)' }}>
                 <h5 className="fw-bold mb-0 text-info">28</h5>
                 <p className="mb-0 fs-11 text-muted">Pending Consults</p>
               </div>

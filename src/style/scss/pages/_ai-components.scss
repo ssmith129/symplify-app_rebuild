@@ -1,11 +1,5 @@
 /* AI Components Styles - Symplify Platform */
 
-// Import AI Feature Styles
-@import "../components/ai/shift-handoff";
-@import "../components/ai/voice-documentation";
-@import "../components/ai/drug-interaction";
-@import "../components/ai/ai-assistant";
-
 // Triage Priority Badge Styles
 .triage-badge {
   display: inline-flex;
@@ -57,16 +51,16 @@
   }
 
   .alert-item {
-    background-color: #fff;
+    background-color: var(--white);
     transition: all 0.2s ease;
     padding: 0.875rem 0.75rem;
     margin-bottom: 0.75rem;
     border-radius: 0.5rem;
-    border: 1px solid #f0f0f0;
+    border: 1px solid var(--border-color);
 
     &:hover {
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      border-color: #e0e0e0;
+      border-color: var(--gray-100);
     }
 
     &:last-child {
@@ -617,7 +611,7 @@
   .shift-handoff-widget {
     break-inside: avoid;
     box-shadow: none !important;
-    border: 1px solid #dee2e6;
+    border: 1px solid var(--border-color);
 
     &.collapsed {
       .card-body {
@@ -647,27 +641,27 @@
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: #E2E8F0;
-    border: 2px solid #CBD5E1;
+    background: var(--gray-100);
+    border: 2px solid var(--gray-200);
     padding: 0;
     cursor: pointer;
     transition: all 0.25s ease;
 
     &:hover {
-      background: #94A3B8;
-      border-color: #94A3B8;
+      background: var(--gray-400);
+      border-color: var(--gray-400);
     }
 
     &:focus-visible {
-      outline: 2px solid #2E37A4;
+      outline: 2px solid var(--primary);
       outline-offset: 2px;
     }
 
     &.active {
       width: 28px;
       border-radius: 5px;
-      background: #2E37A4;
-      border-color: #2E37A4;
+      background: var(--primary);
+      border-color: var(--primary);
     }
   }
 }
@@ -719,7 +713,7 @@
         width: 32px;
         height: 6px;
         border-radius: 3px;
-        background: #E2E8F0;
+        background: var(--gray-100);
         border: none;
         padding: 0;
         cursor: pointer;
@@ -739,7 +733,7 @@
           width: 100%;
           height: 6px;
           border-radius: 3px;
-          background: #E2E8F0;
+          background: var(--gray-100);
           transition: background 0.25s ease, width 0.25s ease;
         }
 
@@ -747,12 +741,12 @@
           width: 48px;
 
           &::after {
-            background: #2E37A4;
+            background: var(--primary);
           }
         }
 
         &:focus-visible {
-          outline: 2px solid #2E37A4;
+          outline: 2px solid var(--primary);
           outline-offset: 2px;
           border-radius: 4px;
         }
@@ -901,7 +895,7 @@
 // Swipe hint
 .swipe-hint {
   background-color: rgba(0, 0, 0, 0.02);
-  border-top: 1px solid #e9ecef;
+  border-top: 1px solid var(--border-color);
 }
 
 .calendar-container {
@@ -970,14 +964,14 @@
 .ai-slot-panel {
   width: 0;
   overflow: hidden;
-  background: #fff;
-  border-left: 1px solid #e9ecef;
+  background: var(--white);
+  border-left: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
   transition: width 0.3s ease;
 
   .panel-header {
-    background-color: #fafafa;
+    background-color: var(--light-100);
     flex-shrink: 0;
   }
 
@@ -998,7 +992,7 @@
 
 // Slot card styling
 .slot-card {
-  border: 1px solid #e9ecef;
+  border: 1px solid var(--border-color);
   transition: all 0.2s ease;
 
   &:hover {
@@ -1017,15 +1011,15 @@
 
 // Slot status indicators
 .slot-status-recommended {
-  border-left: 3px solid #4CAF50;
+  border-left: 3px solid var(--clinical-stable);
 }
 
 .slot-status-available {
-  border-left: 3px solid #2196F3;
+  border-left: 3px solid var(--clinical-info);
 }
 
 .slot-status-limited {
-  border-left: 3px solid #FF9800;
+  border-left: 3px solid var(--clinical-caution);
 }
 
 // Modal styling for events
@@ -1174,7 +1168,7 @@
         max-height: 50vh;
         order: 1;
         border-left: none;
-        border-bottom: 1px solid #e9ecef;
+        border-bottom: 1px solid var(--border-color);
 
         // Mobile slide-up animation
         animation: slideUpPanel 0.3s ease-out;
@@ -1296,7 +1290,7 @@
       position: sticky;
       top: 0;
       z-index: 10;
-      background: #fff;
+      background: var(--white);
 
       h6 {
         font-size: 0.875rem;
@@ -1323,7 +1317,7 @@
       padding: 0.75rem !important;
       position: sticky;
       bottom: 0;
-      background: #fff;
+      background: var(--white);
 
       .btn {
         min-height: 48px;
@@ -1522,7 +1516,7 @@
   right: 20px;
   width: 380px;
   max-height: 600px;
-  background: #fff;
+  background: var(--white);
   border-radius: 16px;
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
   display: flex;
@@ -1552,7 +1546,7 @@
 }
 
 .ai-popup-header {
-  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  background: linear-gradient(135deg, var(--indigo) 0%, var(--purple) 100%);
   padding: 12px 16px;
   display: flex;
   align-items: center;
@@ -1590,7 +1584,7 @@
   flex: 1;
   overflow-y: auto;
   padding: 16px;
-  background: #f8f9fa;
+  background: var(--light);
   min-height: 300px;
   max-height: 380px;
 }
@@ -1605,7 +1599,7 @@
     justify-content: flex-end;
 
     .ai-message-content {
-      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      background: linear-gradient(135deg, var(--indigo) 0%, var(--purple) 100%);
       color: #fff;
       border-radius: 16px 16px 4px 16px;
 
@@ -1617,7 +1611,7 @@
 
   &.assistant {
     .ai-message-content {
-      background: #fff;
+      background: var(--white);
       border-radius: 16px 16px 16px 4px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
@@ -1639,7 +1633,7 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  background: linear-gradient(135deg, var(--indigo) 0%, var(--purple) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1675,7 +1669,7 @@
 .ai-message-time {
   display: block;
   font-size: 10px;
-  color: #9e9e9e;
+  color: var(--gray-400);
   margin-top: 4px;
   text-align: right;
 }
@@ -1691,15 +1685,15 @@
   font-size: 11px;
   padding: 4px 10px;
   border-radius: 20px;
-  background: rgba(79, 70, 229, 0.1);
-  border: 1px solid rgba(79, 70, 229, 0.2);
-  color: #4f46e5;
+  background: var(--indigo-transparent);
+  border: 1px solid rgba(53, 56, 205, 0.2);
+  color: var(--indigo);
   transition: all 0.2s ease;
 
   &:hover {
-    background: #4f46e5;
+    background: var(--indigo);
     color: #fff;
-    border-color: #4f46e5;
+    border-color: var(--indigo);
   }
 }
 
@@ -1712,7 +1706,7 @@
   span {
     width: 8px;
     height: 8px;
-    background: #9e9e9e;
+    background: var(--gray-400);
     border-radius: 50%;
     animation: typingBounce 1.4s infinite ease-in-out both;
 
@@ -1740,8 +1734,8 @@
 // Quick actions
 .ai-quick-actions {
   padding: 8px 16px;
-  background: #fff;
-  border-top: 1px solid #e9ecef;
+  background: var(--white);
+  border-top: 1px solid var(--border-color);
   flex-shrink: 0;
 }
 
@@ -1771,13 +1765,13 @@
   font-size: 11px;
   padding: 4px 10px;
   border-radius: 16px;
-  background: #f0f0f0;
+  background: var(--light);
   border: none;
-  color: #333;
+  color: var(--gray-900);
   transition: all 0.2s ease;
 
   &:hover {
-    background: #4f46e5;
+    background: var(--indigo);
     color: #fff;
   }
 }
@@ -1785,8 +1779,8 @@
 // Footer input
 .ai-popup-footer {
   padding: 12px 16px;
-  background: #fff;
-  border-top: 1px solid #e9ecef;
+  background: var(--white);
+  border-top: 1px solid var(--border-color);
   flex-shrink: 0;
 
   .input-group {
@@ -1847,56 +1841,56 @@
   }
 }
 
-// Dark mode support
+// Dark mode support — inherits from :root[data-bs-theme=dark] tokens
 [data-bs-theme="dark"] {
   .ai-assistant-popup {
-    background: #1e1e2d;
+    background: var(--white);
   }
 
   .ai-popup-body {
-    background: #151521;
+    background: var(--light);
   }
 
   .ai-message.assistant .ai-message-content {
-    background: #1e1e2d;
-    color: #e0e0e0;
+    background: var(--white);
+    color: var(--body-color);
   }
 
   .ai-message-time {
-    color: #757575;
+    color: var(--gray-400);
   }
 
   .ai-quick-actions {
-    background: #1e1e2d;
-    border-color: #2d2d3f;
+    background: var(--white);
+    border-color: var(--border-color);
   }
 
   .quick-action-chip {
-    background: #2d2d3f;
-    color: #e0e0e0;
+    background: var(--light-300);
+    color: var(--body-color);
 
     &:hover {
-      background: #4f46e5;
+      background: var(--indigo);
       color: #fff;
     }
   }
 
   .ai-popup-footer {
-    background: #1e1e2d;
-    border-color: #2d2d3f;
+    background: var(--white);
+    border-color: var(--border-color);
 
     .form-control {
-      background: #151521;
-      color: #e0e0e0;
+      background: var(--light);
+      color: var(--body-color);
     }
   }
 
   .ai-action-btn {
-    background: rgba(79, 70, 229, 0.2);
-    border-color: rgba(79, 70, 229, 0.3);
+    background: var(--indigo-transparent);
+    border-color: rgba(53, 56, 205, 0.3);
 
     &:hover {
-      background: #4f46e5;
+      background: var(--indigo);
       color: #fff;
     }
   }

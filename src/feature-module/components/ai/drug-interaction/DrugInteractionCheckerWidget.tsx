@@ -18,10 +18,10 @@ interface DrugInteraction {
 }
 
 const SEVERITY_CONFIG: Record<SeverityLevel, { color: string; bgColor: string; label: string; icon: string }> = {
-  contraindicated: { color: '#B71C1C', bgColor: '#FFEBEE', label: 'Contraindicated', icon: 'ti-urgent' },
-  major: { color: '#F44336', bgColor: '#FFEBEE', label: 'Major', icon: 'ti-alert-triangle' },
-  moderate: { color: '#FF9800', bgColor: '#FFF3E0', label: 'Moderate', icon: 'ti-alert-circle' },
-  minor: { color: '#4CAF50', bgColor: '#E8F5E9', label: 'Minor', icon: 'ti-info-circle' },
+  contraindicated: { color: 'var(--clinical-critical)', bgColor: 'var(--clinical-critical-bg)', label: 'Contraindicated', icon: 'ti-urgent' },
+  major: { color: 'var(--clinical-critical)', bgColor: 'var(--clinical-critical-bg)', label: 'Major', icon: 'ti-alert-triangle' },
+  moderate: { color: 'var(--clinical-caution)', bgColor: 'var(--clinical-caution-bg)', label: 'Moderate', icon: 'ti-alert-circle' },
+  minor: { color: 'var(--clinical-stable)', bgColor: 'var(--clinical-stable-bg)', label: 'Minor', icon: 'ti-info-circle' },
 };
 
 // Mock interaction database
@@ -232,7 +232,7 @@ const DrugInteractionCheckerWidget: React.FC = () => {
               <div
                 key={interaction.id}
                 className="d-flex align-items-start p-2 rounded-2 mb-2"
-                style={{ border: '1px solid #e5e7eb', backgroundColor: `${config.color}08` }}
+                style={{ border: '1px solid var(--border-color)', backgroundColor: config.bgColor }}
               >
                 <span
                   className="avatar avatar-sm rounded-circle me-2 flex-shrink-0 d-flex align-items-center justify-content-center mt-1"
@@ -266,7 +266,7 @@ const DrugInteractionCheckerWidget: React.FC = () => {
           })}
 
           {hasChecked && interactions.length === 0 && (
-            <div className="text-center p-3 rounded-2" style={{ backgroundColor: '#F0FDF4', border: '1px solid #BBF7D0' }}>
+            <div className="text-center p-3 rounded-2" style={{ backgroundColor: 'var(--clinical-stable-bg)', border: '1px solid var(--clinical-stable-border)' }}>
               <i className="ti ti-shield-check d-block mb-1 text-success" style={{ fontSize: 24 }} />
               <p className="fw-medium mb-0 text-success fs-13">No Interactions Detected</p>
             </div>
@@ -274,9 +274,9 @@ const DrugInteractionCheckerWidget: React.FC = () => {
         </div>
 
         {/* AI Footer */}
-        <div className="mt-3 p-2 rounded-2" style={{ backgroundColor: '#F3E5F5' }}>
+        <div className="mt-3 p-2 rounded-2" style={{ backgroundColor: 'var(--purple-transparent)' }}>
           <div className="d-flex align-items-start">
-            <i className="ti ti-sparkles me-2 mt-1 flex-shrink-0" style={{ color: '#7B1FA2', fontSize: 14 }} />
+            <i className="ti ti-sparkles me-2 mt-1 flex-shrink-0" style={{ color: 'var(--purple)', fontSize: 14 }} />
             <p className="mb-0 fs-11 text-dark lh-sm">
               AI-powered analysis cross-references drug databases in real-time. Always verify with a clinical pharmacist.
             </p>

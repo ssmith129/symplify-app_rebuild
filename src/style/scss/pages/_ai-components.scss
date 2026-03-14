@@ -16,7 +16,7 @@
   display: inline-flex;
   align-items: center;
   font-size: 0.875rem;
-  color: var(--bs-warning);
+  color: var(--warning);
 }
 
 // Smart Scheduler Styles
@@ -25,13 +25,13 @@
     transition: all 0.2s ease;
     
     &:hover {
-      border-color: var(--bs-primary) !important;
-      background-color: rgba(var(--bs-primary-rgb), 0.05);
+      border-color: var(--primary) !important;
+      background-color: rgba(var(--primary-rgb), 0.05);
     }
     
     &.selected {
-      border-color: var(--bs-primary) !important;
-      background-color: rgba(var(--bs-primary-rgb), 0.1);
+      border-color: var(--primary) !important;
+      background-color: rgba(var(--primary-rgb), 0.1);
     }
   }
   
@@ -130,7 +130,7 @@
 
 // AI Widget Card Styles
 .ai-widget-card {
-  border-left: 4px solid var(--bs-warning);
+  border-left: 4px solid var(--warning);
 
   .ai-badge {
     background: linear-gradient(135deg, #FFD93D 0%, #FF9800 100%);
@@ -150,7 +150,7 @@
     }
 
     &:focus {
-      outline: 2px solid var(--bs-primary);
+      outline: 2px solid var(--primary);
       outline-offset: -2px;
     }
   }
@@ -930,12 +930,12 @@
       transition: background-color 0.2s ease;
 
       &:hover {
-        background-color: rgba(var(--bs-primary-rgb), 0.05);
+        background-color: rgba(var(--primary-rgb), 0.05);
       }
     }
 
     .fc-daygrid-day.fc-day-today {
-      background-color: rgba(var(--bs-primary-rgb), 0.08);
+      background-color: rgba(var(--primary-rgb), 0.08);
     }
 
     .fc-event {
@@ -996,17 +996,17 @@
   transition: all 0.2s ease;
 
   &:hover {
-    border-color: var(--bs-primary);
+    border-color: var(--primary);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   }
 
   &.border-primary {
-    box-shadow: 0 2px 12px rgba(var(--bs-primary-rgb), 0.15);
+    box-shadow: 0 2px 12px rgba(var(--primary-rgb), 0.15);
   }
 }
 
 .bg-soft-primary {
-  background-color: rgba(var(--bs-primary-rgb), 0.08) !important;
+  background-color: rgba(var(--primary-rgb), 0.08) !important;
 }
 
 // Slot status indicators
@@ -1070,7 +1070,7 @@
 
     // Touch feedback
     &:active {
-      background-color: rgba(var(--bs-primary-rgb), 0.15);
+      background-color: rgba(var(--primary-rgb), 0.15);
     }
   }
 
@@ -1087,7 +1087,7 @@
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background-color: var(--bs-primary);
+      background-color: var(--primary);
     }
   }
 }
@@ -1100,12 +1100,12 @@
   // Touch feedback
   &:active {
     transform: scale(0.98);
-    background-color: rgba(var(--bs-primary-rgb), 0.1);
+    background-color: rgba(var(--primary-rgb), 0.1);
   }
 
   // Focus styles for accessibility
   &:focus {
-    outline: 2px solid var(--bs-primary);
+    outline: 2px solid var(--primary);
     outline-offset: 2px;
   }
 
@@ -1503,7 +1503,7 @@
   }
 
   .fc-daygrid-day.fc-day-today {
-    border: 2px solid var(--bs-primary);
+    border: 2px solid var(--primary);
   }
 }
 

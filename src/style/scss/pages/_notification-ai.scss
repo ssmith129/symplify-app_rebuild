@@ -1,7 +1,8 @@
 // src/style/scss/pages/_notification-ai.scss
 // AI-Enhanced Notification & Communication Styles for Symplify Platform
 
-// Criticality color variables — WCAG AAA text colors
+// Criticality color variables — kept as SCSS vars for rgba() interpolation
+// These correspond to --clinical-* tokens in _variables.scss
 $criticality-critical: #991B1B;
 $criticality-critical-border: #DC2626;
 $criticality-critical-bg: rgba(153, 27, 27, 0.06);
@@ -17,9 +18,6 @@ $criticality-low-bg: rgba(22, 101, 52, 0.05);
 $criticality-info: #1E40AF;
 $criticality-info-border: #3B82F6;
 $criticality-info-bg: rgba(30, 64, 175, 0.05);
-
-// Metadata text — bumped from #595F6E for contrast breathing room
-$meta-text: #4A4F5C;
 
 // Pulse animation for critical notifications
 @keyframes pulse-critical {
@@ -60,11 +58,11 @@ $meta-text: #4A4F5C;
 .notification-dropdown-ai {
   width: 420px;
   max-height: 650px;
-  background: var(--bs-body-bg);
+  background: var(--white);
   border-radius: 12px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
   overflow: hidden;
-  border: 1px solid var(--bs-border-color);
+  border: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
 
@@ -74,8 +72,8 @@ $meta-text: #4A4F5C;
     justify-content: space-between;
     align-items: center;
     padding: 12px 16px;
-    border-bottom: 1px solid var(--bs-border-color);
-    background: var(--bs-tertiary-bg);
+    border-bottom: 1px solid var(--border-color);
+    background: var(--light);
     gap: 8px;
   }
 
@@ -88,7 +86,7 @@ $meta-text: #4A4F5C;
     h6 {
       font-weight: 700;
       font-size: 14px;
-      color: var(--bs-heading-color);
+      color: var(--heading-color);
       display: flex;
       align-items: center;
       gap: 6px;
@@ -104,8 +102,8 @@ $meta-text: #4A4F5C;
     align-items: center;
     padding: 2px 8px;
     border-radius: 10px;
-    background: var(--bs-primary);
-    color: #fff;
+    background: var(--primary);
+    color: var(--white);
     font-size: 11px;
     font-weight: 600;
     white-space: nowrap;
@@ -125,16 +123,16 @@ $meta-text: #4A4F5C;
     align-items: center;
     justify-content: center;
     border-radius: 8px;
-    border: 1px solid var(--bs-border-color);
-    background: var(--bs-body-bg);
-    color: $meta-text;
+    border: 1px solid var(--border-color);
+    background: var(--white);
+    color: var(--body-color);
     cursor: pointer;
     transition: all 0.2s;
 
     &:hover {
-      background: var(--bs-primary);
-      color: #fff;
-      border-color: var(--bs-primary);
+      background: var(--primary);
+      color: var(--white);
+      border-color: var(--primary);
     }
 
     i { font-size: 16px; }
@@ -146,7 +144,7 @@ $meta-text: #4A4F5C;
     gap: 4px;
     font-size: 12px;
     font-weight: 600;
-    color: var(--bs-primary);
+    color: var(--primary);
     text-decoration: none;
     white-space: nowrap;
     padding: 4px 8px;
@@ -156,7 +154,7 @@ $meta-text: #4A4F5C;
     &:hover {
       background: rgba(99, 102, 241, 0.08);
       text-decoration: none;
-      color: var(--bs-primary);
+      color: var(--primary);
     }
 
     i { font-size: 14px; }
@@ -166,8 +164,8 @@ $meta-text: #4A4F5C;
   .dd-filter-row {
     display: flex;
     gap: 0;
-    border-bottom: 1px solid var(--bs-border-color);
-    background: var(--bs-body-bg);
+    border-bottom: 1px solid var(--border-color);
+    background: var(--white);
   }
 
   .dd-filter-tab {
@@ -182,7 +180,7 @@ $meta-text: #4A4F5C;
     background: none;
     font-size: 12px;
     font-weight: 600;
-    color: $meta-text;
+    color: var(--body-color);
     cursor: pointer;
     transition: all 0.15s;
     min-height: 44px;
@@ -194,27 +192,27 @@ $meta-text: #4A4F5C;
       font-size: 12px;
       padding: 1px 6px;
       border-radius: 8px;
-      background: var(--bs-secondary-bg);
-      color: $meta-text;
+      background: var(--light);
+      color: var(--body-color);
     }
 
     &:hover {
-      color: var(--bs-heading-color);
-      background: var(--bs-tertiary-bg);
+      color: var(--heading-color);
+      background: var(--light);
     }
 
     &.active {
-      color: var(--bs-primary);
-      border-bottom-color: var(--bs-primary);
+      color: var(--primary);
+      border-bottom-color: var(--primary);
 
       .dd-filter-count {
-        background: var(--bs-primary);
-        color: #fff;
+        background: var(--primary);
+        color: var(--white);
       }
     }
 
     &:focus-visible {
-      outline: 2px solid var(--bs-primary);
+      outline: 2px solid var(--primary);
       outline-offset: -2px;
     }
   }
@@ -228,7 +226,7 @@ $meta-text: #4A4F5C;
 
     &::-webkit-scrollbar { width: 5px; }
     &::-webkit-scrollbar-thumb {
-      background: var(--bs-secondary-bg);
+      background: var(--light);
       border-radius: 3px;
     }
   }
@@ -241,7 +239,7 @@ $meta-text: #4A4F5C;
   .dd-empty {
     padding: 40px 20px;
     text-align: center;
-    color: $meta-text;
+    color: var(--body-color);
 
     i {
       font-size: 40px;
@@ -264,7 +262,7 @@ $meta-text: #4A4F5C;
   .dd-notif-card {
     padding: 12px 14px;
     border-radius: 8px;
-    border: 1px solid var(--bs-border-color);
+    border: 1px solid var(--border-color);
     border-left: 4px solid transparent;
     cursor: pointer;
     transition: all 0.2s;
@@ -275,13 +273,13 @@ $meta-text: #4A4F5C;
     }
 
     &:focus-visible {
-      outline: 2px solid var(--bs-primary);
+      outline: 2px solid var(--primary);
       outline-offset: -2px;
     }
 
     &.read {
       opacity: 0.6;
-      background: var(--bs-body-bg) !important;
+      background: var(--white) !important;
     }
 
     // Severity background tinting — matches full page
@@ -319,7 +317,7 @@ $meta-text: #4A4F5C;
   .dd-card-title {
     font-size: 14px;
     font-weight: 600;
-    color: var(--bs-heading-color);
+    color: var(--heading-color);
     line-height: 1.35;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -367,7 +365,7 @@ $meta-text: #4A4F5C;
   // Message: 13px (Rec — increased from 12px)
   .dd-card-message {
     font-size: 13px;
-    color: $meta-text;
+    color: var(--body-color);
     margin-bottom: 6px;
     line-height: 1.45;
     display: -webkit-box;
@@ -382,7 +380,7 @@ $meta-text: #4A4F5C;
     justify-content: space-between;
     align-items: center;
     font-size: 12px;
-    color: $meta-text;
+    color: var(--body-color);
     margin-bottom: 8px;
   }
 
@@ -425,44 +423,44 @@ $meta-text: #4A4F5C;
 
     &.dd-action-danger {
       background: $criticality-critical;
-      color: #fff;
+      color: var(--white);
       border-color: $criticality-critical;
-      &:hover { background: #7F1717; }
+      &:hover { filter: brightness(0.85); }
     }
 
     &.dd-action-primary {
-      background: var(--bs-primary);
-      color: #fff;
-      border-color: var(--bs-primary);
+      background: var(--primary);
+      color: var(--white);
+      border-color: var(--primary);
       &:hover { filter: brightness(0.9); }
     }
 
     &.dd-action-warning {
       background: $criticality-high;
-      color: #fff;
+      color: var(--white);
       border-color: $criticality-high;
       &:hover { filter: brightness(0.9); }
     }
 
     &.dd-action-outline {
       background: transparent;
-      color: var(--bs-primary);
-      border-color: var(--bs-border-color);
-      &:hover { background: var(--bs-tertiary-bg); }
+      color: var(--primary);
+      border-color: var(--border-color);
+      &:hover { background: var(--light); }
     }
 
     &.dd-action-muted {
       background: transparent;
-      color: $meta-text;
-      border-color: var(--bs-border-color);
+      color: var(--body-color);
+      border-color: var(--border-color);
       &:hover {
-        background: var(--bs-tertiary-bg);
-        color: var(--bs-heading-color);
+        background: var(--light);
+        color: var(--heading-color);
       }
     }
 
     &:focus-visible {
-      outline: 2px solid var(--bs-primary);
+      outline: 2px solid var(--primary);
       outline-offset: 1px;
     }
   }
@@ -485,7 +483,7 @@ $meta-text: #4A4F5C;
 
     p {
       font-size: 13px;
-      color: var(--bs-heading-color);
+      color: var(--heading-color);
       margin-bottom: 10px;
       display: flex;
       align-items: center;
@@ -512,7 +510,7 @@ $meta-text: #4A4F5C;
     padding: 6px 14px;
     border-radius: 6px;
     background: $criticality-critical;
-    color: #fff;
+    color: var(--white);
     border: none;
     font-weight: 600;
     font-size: 12px;
@@ -524,26 +522,26 @@ $meta-text: #4A4F5C;
   .dd-ack-cancel {
     padding: 6px 14px;
     border-radius: 6px;
-    background: var(--bs-body-bg);
-    color: $meta-text;
-    border: 1px solid var(--bs-border-color);
+    background: var(--white);
+    color: var(--body-color);
+    border: 1px solid var(--border-color);
     font-weight: 600;
     font-size: 12px;
     cursor: pointer;
     min-height: 36px;
-    &:hover { background: var(--bs-tertiary-bg); }
+    &:hover { background: var(--light); }
   }
 
   // --- Footer ---
   .dd-footer {
     padding: 10px 16px;
-    border-top: 1px solid var(--bs-border-color);
+    border-top: 1px solid var(--border-color);
     text-align: center;
-    background: var(--bs-tertiary-bg);
+    background: var(--light);
   }
 
   .dd-view-all-footer {
-    color: var(--bs-primary);
+    color: var(--primary);
     font-size: 13px;
     font-weight: 600;
     text-decoration: none;
@@ -551,7 +549,7 @@ $meta-text: #4A4F5C;
 
     &:hover {
       text-decoration: underline;
-      color: var(--bs-primary);
+      color: var(--primary);
     }
   }
 }
@@ -575,7 +573,7 @@ $meta-text: #4A4F5C;
   justify-content: center;
 
   &:hover {
-    background: var(--bs-tertiary-bg);
+    background: var(--light);
   }
 
   .notification-badge-count {
@@ -586,7 +584,7 @@ $meta-text: #4A4F5C;
     height: 18px;
     border-radius: 9px;
     background: $criticality-critical;
-    color: #fff;
+    color: var(--white);
     font-size: 10px;
     font-weight: 600;
     display: flex;
@@ -636,19 +634,19 @@ $meta-text: #4A4F5C;
     gap: 8px;
     padding: 0 14px;
     height: 44px;
-    background: var(--bs-body-bg);
-    border: 1px solid var(--bs-border-color);
+    background: var(--white);
+    border: 1px solid var(--border-color);
     border-radius: 10px;
     transition: border-color 0.2s, box-shadow 0.2s;
 
     &:focus-within {
-      border-color: var(--bs-primary);
+      border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
     }
 
     i {
       font-size: 18px;
-      color: $meta-text;
+      color: var(--body-color);
       flex-shrink: 0;
     }
 
@@ -658,11 +656,11 @@ $meta-text: #4A4F5C;
       outline: none;
       background: transparent;
       font-size: 14px;
-      color: var(--bs-heading-color);
+      color: var(--heading-color);
       min-width: 0;
 
       &::placeholder {
-        color: $meta-text;
+        color: var(--body-color);
       }
     }
   }
@@ -673,19 +671,19 @@ $meta-text: #4A4F5C;
     gap: 6px;
     padding: 0 16px;
     height: 44px;
-    background: var(--bs-body-bg);
-    border: 1px solid var(--bs-border-color);
+    background: var(--white);
+    border: 1px solid var(--border-color);
     border-radius: 10px;
     font-size: 13px;
     font-weight: 600;
-    color: $meta-text;
+    color: var(--body-color);
     cursor: pointer;
     transition: all 0.2s;
     white-space: nowrap;
 
     &:hover {
-      background: var(--bs-tertiary-bg);
-      color: var(--bs-heading-color);
+      background: var(--light);
+      color: var(--heading-color);
     }
 
     i { font-size: 18px; }
@@ -709,25 +707,25 @@ $meta-text: #4A4F5C;
     align-items: center;
     gap: 6px;
     padding: 8px 14px;
-    border: 1px solid var(--bs-border-color);
+    border: 1px solid var(--border-color);
     border-radius: 20px;
-    background: var(--bs-body-bg);
+    background: var(--white);
     cursor: pointer;
     transition: all 0.2s;
     font-size: 13px;
     min-height: 40px;
 
-    i { font-size: 16px; color: $meta-text; }
+    i { font-size: 16px; color: var(--body-color); }
 
     .filter-label {
       font-weight: 600;
-      color: var(--bs-heading-color);
+      color: var(--heading-color);
     }
 
     .filter-count {
       font-weight: 700;
       font-size: 14px;
-      color: var(--bs-heading-color);
+      color: var(--heading-color);
     }
 
     &:hover {
@@ -735,9 +733,9 @@ $meta-text: #4A4F5C;
     }
 
     &.active {
-      background: var(--bs-primary);
-      border-color: var(--bs-primary);
-      i, .filter-label, .filter-count { color: #fff; }
+      background: var(--primary);
+      border-color: var(--primary);
+      i, .filter-label, .filter-count { color: var(--white); }
     }
 
     &.filter-critical:not(.active) {
@@ -761,8 +759,8 @@ $meta-text: #4A4F5C;
   }
 
   .notif-section {
-    background: var(--bs-body-bg);
-    border: 1px solid var(--bs-border-color);
+    background: var(--white);
+    border: 1px solid var(--border-color);
     border-radius: 10px;
     overflow: hidden;
 
@@ -776,13 +774,13 @@ $meta-text: #4A4F5C;
     justify-content: space-between;
     align-items: center;
     padding: 14px 16px;
-    background: var(--bs-tertiary-bg);
+    background: var(--light);
     cursor: pointer;
     transition: background 0.2s;
     user-select: none;
 
-    &:hover { background: var(--bs-secondary-bg); }
-    &:focus-visible { outline: 2px solid var(--bs-primary); outline-offset: -2px; }
+    &:hover { background: var(--light); }
+    &:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
   }
 
   .section-title {
@@ -791,7 +789,7 @@ $meta-text: #4A4F5C;
     gap: 8px;
     font-weight: 700;
     font-size: 15px;
-    color: var(--bs-heading-color);
+    color: var(--heading-color);
 
     i { font-size: 18px; }
   }
@@ -810,10 +808,10 @@ $meta-text: #4A4F5C;
     height: 24px;
     padding: 0 6px;
     border-radius: 12px;
-    background: var(--bs-primary);
+    background: var(--primary);
     font-size: 12px;
     font-weight: 700;
-    color: #fff;
+    color: var(--white);
   }
 
   .section-unread-badge {
@@ -821,8 +819,8 @@ $meta-text: #4A4F5C;
     align-items: center;
     padding: 2px 10px;
     border-radius: 12px;
-    background: var(--bs-primary);
-    color: #fff;
+    background: var(--primary);
+    color: var(--white);
     font-size: 11px;
     font-weight: 600;
   }
@@ -834,16 +832,16 @@ $meta-text: #4A4F5C;
     align-items: center;
     justify-content: center;
     border-radius: 8px;
-    border: 1px solid var(--bs-border-color);
-    background: var(--bs-body-bg);
+    border: 1px solid var(--border-color);
+    background: var(--white);
     cursor: pointer;
-    color: $meta-text;
+    color: var(--body-color);
     transition: all 0.2s;
 
     &:hover {
-      background: var(--bs-primary);
-      color: #fff;
-      border-color: var(--bs-primary);
+      background: var(--primary);
+      color: var(--white);
+      border-color: var(--primary);
     }
 
     i { font-size: 16px; }
@@ -851,7 +849,7 @@ $meta-text: #4A4F5C;
 
   .section-chevron {
     font-size: 18px;
-    color: $meta-text;
+    color: var(--body-color);
   }
 
   // --- Section body & empty state ---
@@ -877,7 +875,7 @@ $meta-text: #4A4F5C;
     position: relative;
     padding: 14px 16px;
     border-radius: 8px;
-    border: 1px solid var(--bs-border-color);
+    border: 1px solid var(--border-color);
     border-left: 4px solid transparent;
     margin-bottom: 6px;
     cursor: pointer;
@@ -889,19 +887,19 @@ $meta-text: #4A4F5C;
     }
 
     &:focus-visible {
-      outline: 2px solid var(--bs-primary);
+      outline: 2px solid var(--primary);
       outline-offset: -2px;
     }
 
     &.read {
       opacity: 0.65;
-      background: var(--bs-body-bg);
+      background: var(--white);
     }
 
     // Expanded state — visual feedback
     &.expanded {
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-      border-color: var(--bs-primary);
+      border-color: var(--primary);
       border-left-width: 4px;
     }
 
@@ -963,7 +961,7 @@ $meta-text: #4A4F5C;
   .notif-card-title {
     font-size: 15px;
     font-weight: 600;
-    color: var(--bs-heading-color);
+    color: var(--heading-color);
     margin: 0;
     line-height: 1.4;
   }
@@ -1007,7 +1005,7 @@ $meta-text: #4A4F5C;
 
   .notif-card-message {
     font-size: 13px;
-    color: $meta-text;
+    color: var(--body-color);
     margin-bottom: 8px;
     line-height: 1.5;
   }
@@ -1017,7 +1015,7 @@ $meta-text: #4A4F5C;
     justify-content: space-between;
     align-items: center;
     font-size: 12px;
-    color: $meta-text;
+    color: var(--body-color);
     margin-bottom: 10px;
   }
 
@@ -1059,41 +1057,41 @@ $meta-text: #4A4F5C;
 
     &.btn-action-danger {
       background: $criticality-critical;
-      color: #fff;
+      color: var(--white);
       border-color: $criticality-critical;
-      &:hover { background: #7F1717; }
+      &:hover { filter: brightness(0.85); }
     }
 
     &.btn-action-primary {
-      background: var(--bs-primary);
-      color: #fff;
-      border-color: var(--bs-primary);
+      background: var(--primary);
+      color: var(--white);
+      border-color: var(--primary);
       &:hover { filter: brightness(0.9); }
     }
 
     &.btn-action-warning {
       background: $criticality-high;
-      color: #fff;
+      color: var(--white);
       border-color: $criticality-high;
       &:hover { filter: brightness(0.9); }
     }
 
     &.btn-action-outline {
       background: transparent;
-      color: var(--bs-primary);
-      border-color: var(--bs-border-color);
+      color: var(--primary);
+      border-color: var(--border-color);
       &:hover {
-        background: var(--bs-tertiary-bg);
+        background: var(--light);
       }
     }
 
     &.btn-action-muted {
       background: transparent;
-      color: $meta-text;
-      border-color: var(--bs-border-color);
+      color: var(--body-color);
+      border-color: var(--border-color);
       &:hover {
-        background: var(--bs-tertiary-bg);
-        color: var(--bs-heading-color);
+        background: var(--light);
+        color: var(--heading-color);
       }
     }
   }
@@ -1102,7 +1100,7 @@ $meta-text: #4A4F5C;
   .ai-reasoning-panel {
     margin-top: 14px;
     padding-top: 14px;
-    border-top: 1px solid var(--bs-border-color);
+    border-top: 1px solid var(--border-color);
     animation: slide-in-right 0.25s ease-out;
   }
 
@@ -1113,17 +1111,17 @@ $meta-text: #4A4F5C;
     margin-bottom: 12px;
     font-size: 14px;
     font-weight: 700;
-    color: var(--bs-heading-color);
+    color: var(--heading-color);
 
     > i {
       font-size: 18px;
-      color: var(--bs-primary);
+      color: var(--primary);
     }
 
     .ai-reasoning-sub {
       font-size: 11px;
       font-weight: 400;
-      color: $meta-text;
+      color: var(--body-color);
       margin-left: auto;
     }
   }
@@ -1145,7 +1143,7 @@ $meta-text: #4A4F5C;
     padding: 10px 12px;
     border-radius: 8px;
     border-left: 3px solid transparent;
-    background: var(--bs-tertiary-bg);
+    background: var(--light);
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -1160,7 +1158,7 @@ $meta-text: #4A4F5C;
 
   .ai-reasoning-value {
     font-size: 12px;
-    color: var(--bs-heading-color);
+    color: var(--heading-color);
     line-height: 1.4;
   }
 
@@ -1171,7 +1169,7 @@ $meta-text: #4A4F5C;
     background: rgba(30, 64, 175, 0.06);
     border: 1px solid rgba(30, 64, 175, 0.15);
     font-size: 12px;
-    color: #1E40AF;
+    color: var(--clinical-info);
     display: flex;
     align-items: center;
     gap: 4px;
@@ -1185,7 +1183,7 @@ $meta-text: #4A4F5C;
   .notif-card-detail {
     margin-top: 12px;
     padding-top: 12px;
-    border-top: 1px solid var(--bs-border-color);
+    border-top: 1px solid var(--border-color);
     animation: slide-in-right 0.2s ease-out;
   }
 
@@ -1206,12 +1204,12 @@ $meta-text: #4A4F5C;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.4px;
-    color: $meta-text;
+    color: var(--body-color);
   }
 
   .detail-value {
     font-size: 13px;
-    color: var(--bs-heading-color);
+    color: var(--heading-color);
   }
 
   .detail-keywords {
@@ -1224,9 +1222,9 @@ $meta-text: #4A4F5C;
     display: inline-block;
     padding: 1px 8px;
     border-radius: 4px;
-    background: var(--bs-tertiary-bg);
+    background: var(--light);
     font-size: 11px;
-    color: $meta-text;
+    color: var(--body-color);
   }
 
   // --- Acknowledge confirmation overlay ---
@@ -1249,7 +1247,7 @@ $meta-text: #4A4F5C;
 
   .ack-confirm-msg {
     font-size: 14px;
-    color: var(--bs-heading-color);
+    color: var(--heading-color);
     margin-bottom: 12px;
     display: flex;
     align-items: center;
@@ -1275,7 +1273,7 @@ $meta-text: #4A4F5C;
     padding: 8px 18px;
     border-radius: 8px;
     background: $criticality-critical;
-    color: #fff;
+    color: var(--white);
     border: none;
     font-weight: 600;
     font-size: 13px;
@@ -1287,22 +1285,22 @@ $meta-text: #4A4F5C;
   .btn-confirm-cancel {
     padding: 8px 18px;
     border-radius: 8px;
-    background: var(--bs-body-bg);
-    color: $meta-text;
-    border: 1px solid var(--bs-border-color);
+    background: var(--white);
+    color: var(--body-color);
+    border: 1px solid var(--border-color);
     font-weight: 600;
     font-size: 13px;
     cursor: pointer;
     min-height: 40px;
-    &:hover { background: var(--bs-tertiary-bg); }
+    &:hover { background: var(--light); }
   }
 
   // --- Action legend ---
   .action-legend {
     margin-top: 24px;
     padding: 16px 20px;
-    background: var(--bs-tertiary-bg);
-    border: 1px solid var(--bs-border-color);
+    background: var(--light);
+    border: 1px solid var(--border-color);
     border-radius: 10px;
   }
 
@@ -1312,7 +1310,7 @@ $meta-text: #4A4F5C;
     gap: 6px;
     font-size: 13px;
     font-weight: 700;
-    color: $meta-text;
+    color: var(--body-color);
     margin-bottom: 10px;
 
     i { font-size: 16px; }
@@ -1347,7 +1345,7 @@ $meta-text: #4A4F5C;
   }
 
   .legend-desc {
-    color: $meta-text;
+    color: var(--body-color);
   }
 }
 
@@ -1356,9 +1354,9 @@ $meta-text: #4A4F5C;
   .notification-timeline {
     .timeline-item {
       padding: 16px;
-      background: var(--bs-body-bg);
+      background: var(--white);
       border-radius: 8px;
-      border: 1px solid var(--bs-border-color);
+      border: 1px solid var(--border-color);
       margin-bottom: 8px;
     }
   }
@@ -1417,8 +1415,8 @@ $meta-text: #4A4F5C;
   }
 
   &.normal {
-    background: var(--bs-secondary-bg);
-    color: var(--bs-secondary-color);
+    background: var(--light);
+    color: var(--body-color);
   }
 
   &.low {
@@ -1431,7 +1429,7 @@ $meta-text: #4A4F5C;
 .email-sidebar-ai {
   .sidebar-header {
     padding: 16px;
-    border-bottom: 1px solid var(--bs-border-color);
+    border-bottom: 1px solid var(--border-color);
 
     h6 {
       margin-bottom: 0;
@@ -1449,12 +1447,12 @@ $meta-text: #4A4F5C;
     border-left: 3px solid transparent;
 
     &:hover {
-      background: var(--bs-tertiary-bg);
+      background: var(--light);
     }
 
     &.active {
       background: rgba(99, 102, 241, 0.1);
-      border-left-color: var(--bs-primary);
+      border-left-color: var(--primary);
     }
 
     &.urgent {
@@ -1474,8 +1472,8 @@ $meta-text: #4A4F5C;
     }
 
     .folder-badge {
-      background: var(--bs-primary);
-      color: #fff;
+      background: var(--primary);
+      color: var(--white);
       padding: 2px 6px;
       border-radius: 10px;
       font-size: 10px;
@@ -1494,23 +1492,23 @@ $meta-text: #4A4F5C;
   flex-wrap: wrap;
   gap: 8px;
   padding: 12px;
-  background: var(--bs-tertiary-bg);
+  background: var(--light);
   border-radius: 8px;
   margin-top: 8px;
 
   .quick-response-btn {
     padding: 6px 12px;
     border-radius: 16px;
-    border: 1px solid var(--bs-border-color);
-    background: var(--bs-body-bg);
+    border: 1px solid var(--border-color);
+    background: var(--white);
     font-size: 12px;
     cursor: pointer;
     transition: all 0.2s;
 
     &:hover {
-      background: var(--bs-primary);
-      color: #fff;
-      border-color: var(--bs-primary);
+      background: var(--primary);
+      color: var(--white);
+      border-color: var(--primary);
     }
   }
 }

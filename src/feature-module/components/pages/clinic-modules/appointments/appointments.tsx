@@ -220,18 +220,9 @@ const Appointments = () => {
           />
           {/* End Page Header */}
 
-          {/* Smart Scheduler AI Section */}
-          {showSmartScheduler && (
-            <div className="row mb-4">
-              <div className="col-lg-12">
-                <SmartScheduler
-                  patientId="patient-new"
-                  appointmentType="General Consultation"
-                  onBook={handleSmartBook}
-                />
-              </div>
-            </div>
-          )}
+          {/* Two-column layout: table (75%) + AI scheduler sidebar (25%) */}
+          <div className={`appointments-layout ${showSmartScheduler ? 'with-scheduler' : ''}`}>
+          <div className="appointments-column">
           {/*  Start Filter */}
           <div className=" d-flex align-items-center justify-content-between flex-wrap">
             <div className="d-flex align-items-center gap-2">
@@ -895,6 +886,17 @@ const Appointments = () => {
             />
           </div>
           {/*  End Table */}
+          </div>{/* End appointments-column */}
+          {showSmartScheduler && (
+            <div className="ai-scheduler-column">
+              <SmartScheduler
+                patientId="patient-new"
+                appointmentType="General Consultation"
+                onBook={handleSmartBook}
+              />
+            </div>
+          )}
+          </div>{/* End appointments-layout */}
         </div>
         {/* End Content */}
         {/* Footer Start */}

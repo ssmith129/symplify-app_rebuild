@@ -19,6 +19,78 @@
   color: var(--warning);
 }
 
+// Appointments two-column layout (75% table / 25% AI scheduler)
+.appointments-layout {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+
+  .appointments-column {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .ai-scheduler-column {
+    width: 25%;
+    flex-shrink: 0;
+    position: sticky;
+    top: var(--space-4);
+
+    .smart-scheduler {
+      .card-header {
+        padding: var(--space-3) var(--space-4);
+
+        h5 {
+          font-size: var(--text-base);
+        }
+
+        small {
+          font-size: var(--text-xs);
+        }
+      }
+
+      .card-body {
+        padding: var(--space-3);
+      }
+
+      .slot-item {
+        flex-direction: column;
+        padding: var(--space-3) !important;
+
+        .slot-factors {
+          margin-top: var(--space-2);
+        }
+      }
+    }
+  }
+
+  &:not(.with-scheduler) {
+    .appointments-column {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 1199.98px) {
+  .appointments-layout {
+    .ai-scheduler-column {
+      width: 33%;
+    }
+  }
+}
+
+@media (max-width: 991.98px) {
+  .appointments-layout {
+    flex-direction: column;
+
+    .ai-scheduler-column {
+      width: 100%;
+      position: static;
+      order: -1;
+    }
+  }
+}
+
 // Smart Scheduler Styles
 .smart-scheduler {
   .slot-item {

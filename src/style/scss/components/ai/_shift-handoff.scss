@@ -1,42 +1,45 @@
 /**
  * Feature 7: AI-Powered Shift Handoff Styles
- * Comprehensive styling for SBAR generation and shift handoff components
+ * Aligned with Symplify Design System tokens
+ * Uses clinical tokens, spacing scale, typography scale, and component patterns
  */
 
-// Variables — now using clinical design tokens from _variables.scss
-// See :root { --clinical-* } in _variables.scss for token definitions
-
+// =====================
 // Loading State
+// =====================
 .shift-handoff-loading {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 400px;
-  padding: 2rem;
+  padding: var(--space-8);
   background: var(--white);
-  border-radius: 12px;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-subtle);
 
   .loading-content {
     text-align: center;
     max-width: 400px;
 
     h3 {
-      margin: 1.5rem 0 0.5rem;
-      font-size: 1.25rem;
+      margin: var(--space-6) 0 var(--space-2);
+      font-size: var(--text-xl);
+      font-weight: 600;
       color: var(--heading-color);
     }
 
     p {
       color: var(--body-color);
-      margin-bottom: 1.5rem;
+      font-size: var(--text-base);
+      margin-bottom: var(--space-6);
     }
   }
 
   .loading-spinner {
-    width: 60px;
-    height: 60px;
+    width: 48px;
+    height: 48px;
     margin: 0 auto;
-    border: 4px solid var(--border-color);
+    border: 3px solid var(--border-color);
     border-top-color: var(--primary);
     border-radius: 50%;
     animation: spin 1s linear infinite;
@@ -44,7 +47,7 @@
 
   .loading-progress {
     width: 100%;
-    height: 4px;
+    height: 3px;
     background: var(--border-color);
     border-radius: 2px;
     overflow: hidden;
@@ -68,103 +71,117 @@
   100% { transform: translateX(100%); }
 }
 
+// =====================
 // Error State
+// =====================
 .shift-handoff-error {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 3rem;
+  padding: var(--space-12);
   background: var(--clinical-critical-bg);
-  border-radius: 12px;
+  border: 1px solid var(--clinical-critical-border);
+  border-radius: var(--radius-card);
   text-align: center;
 
   .error-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
+    font-size: 2.5rem;
+    color: var(--clinical-critical);
+    margin-bottom: var(--space-4);
   }
 
   h3 {
     color: var(--clinical-critical);
-    margin-bottom: 0.5rem;
+    font-size: var(--text-lg);
+    font-weight: 600;
+    margin-bottom: var(--space-2);
   }
 
   p {
     color: var(--body-color);
-    margin-bottom: 1.5rem;
+    font-size: var(--text-base);
+    margin-bottom: var(--space-6);
+    max-width: 400px;
   }
 }
 
+// =====================
 // Main Summary Container
+// =====================
 .shift-handoff-summary {
-  padding: 1.5rem;
+  padding: var(--space-6);
   background: var(--white);
-  border-radius: 12px;
-  box-shadow: var(--shadow-medium);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-subtle);
+  border: 1px solid var(--border-color);
 }
 
+// =====================
 // Header Section
+// =====================
 .handoff-header {
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--space-6);
 
   .header-top {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
   }
 
   .header-title {
     display: flex;
     align-items: center;
-    gap: 1rem;
-
-    .shift-icon {
-      font-size: 2.5rem;
-    }
+    gap: var(--space-3);
 
     .title-text {
       h2 {
-        margin: 0 0 0.25rem;
-        font-size: 1.5rem;
+        margin: 0 0 var(--space-1);
+        font-size: var(--text-2xl);
         font-weight: 600;
         color: var(--heading-color);
+        display: flex;
+        align-items: center;
+
+        i {
+          color: var(--primary);
+        }
       }
 
       .shift-info {
-        font-size: 0.875rem;
+        font-size: var(--text-sm);
         color: var(--body-color);
+        font-weight: 500;
       }
     }
   }
 
-  // Rec 1: Differentiated CTAs
   .header-actions {
     display: flex;
-    gap: 1rem;
+    gap: var(--space-3);
     flex-wrap: wrap;
     align-items: center;
 
     .btn {
-      border-radius: 8px;
+      border-radius: var(--radius-card);
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      min-height: 44px; // WCAG touch target
+      gap: var(--space-2);
+      min-height: var(--touch-target-mobile);
     }
 
-    // Secondary CTA — ghost/outlined style
     .btn-audio {
-      padding: 0.5rem 1rem;
+      padding: var(--space-2) var(--space-4);
       background: transparent;
       color: var(--clinical-info);
       border: 1.5px solid var(--clinical-info-border);
-      font-size: 0.8125rem;
+      font-size: var(--text-sm);
 
       &:hover {
         background: var(--clinical-info-bg);
@@ -178,113 +195,126 @@
       }
     }
 
-    // Primary CTA — large, high-contrast filled button
     .btn-acknowledge {
-      padding: 0.75rem 1.5rem;
+      padding: var(--space-3) var(--space-6);
       background: var(--clinical-stable);
       color: var(--white);
       border: none;
-      font-size: 1rem;
-      box-shadow: var(--shadow-medium);
+      font-size: var(--text-base);
+      box-shadow: var(--shadow-subtle);
 
       &:hover:not(:disabled) {
-        background: var(--clinical-stable);
-        filter: brightness(0.9);
+        filter: brightness(0.92);
         transform: translateY(-1px);
-        box-shadow: var(--shadow-elevated);
+        box-shadow: var(--shadow-medium);
       }
 
       &.acknowledged {
-        background: var(--clinical-stable);
+        opacity: 0.85;
         box-shadow: none;
         cursor: default;
       }
 
       &:disabled {
-        opacity: 0.9;
+        opacity: 0.7;
       }
     }
   }
 }
 
+// =====================
 // Nurse Transfer Section
+// =====================
 .nurse-transfer {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
-  padding: 1rem;
+  gap: var(--space-4);
+  padding: var(--space-4);
   background: var(--light);
-  border-radius: 8px;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--border-color);
 
   .nurse-card {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1rem;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
     background: var(--white);
-    border-radius: 8px;
-    box-shadow: var(--shadow-subtle);
+    border-radius: var(--radius-card);
+    border: 1px solid var(--border-color);
 
     .nurse-icon {
-      font-size: 1.25rem;
+      font-size: var(--text-lg);
+      color: var(--primary);
     }
 
     .nurse-label {
-      font-size: 0.75rem;
+      font-size: var(--text-xs);
       color: var(--body-color);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 500;
     }
 
     .nurse-name {
       font-weight: 600;
+      font-size: var(--text-base);
       color: var(--heading-color);
     }
   }
 
   .transfer-arrow {
-    font-size: 1.5rem;
+    font-size: var(--text-xl);
     color: var(--primary);
     font-weight: bold;
   }
 }
 
+// =====================
 // Statistics Cards
+// =====================
 .handoff-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
 
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
   }
 
   @media (max-width: 480px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2);
   }
 
-  // Rec 5: Stat cards with WCAG AAA contrast — dark text on light tinted backgrounds
   .stat-card {
-    padding: 1.25rem;
-    border-radius: 12px;
+    padding: var(--space-4);
+    border-radius: var(--radius-card);
     text-align: center;
-    position: relative;
+    border: 1px solid transparent;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-subtle);
+    }
 
     .stat-icon {
-      font-size: 1.25rem;
-      margin-bottom: 0.25rem;
-      opacity: 0.7;
+      font-size: var(--text-lg);
+      margin-bottom: var(--space-1);
     }
 
     .stat-value {
-      font-size: 2rem;
+      font-size: var(--text-2xl);
       font-weight: 700;
-      line-height: 1;
-      margin-bottom: 0.5rem;
+      line-height: 1.2;
+      margin-bottom: var(--space-1);
     }
 
     .stat-label {
-      font-size: 0.75rem;
+      font-size: var(--text-xs);
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -292,39 +322,40 @@
 
     &.total {
       background: var(--clinical-info-bg);
-      .stat-icon, .stat-value { color: var(--clinical-info); }
-      .stat-label { color: var(--clinical-info); }
+      border-color: var(--clinical-info-border);
+      .stat-icon, .stat-value, .stat-label { color: var(--clinical-info); }
     }
 
     &.critical {
       background: var(--clinical-critical-bg);
-      .stat-icon, .stat-value { color: var(--clinical-critical); }
-      .stat-label { color: var(--clinical-critical); }
+      border-color: var(--clinical-critical-border);
+      .stat-icon, .stat-value, .stat-label { color: var(--clinical-critical); }
     }
 
     &.high {
       background: var(--clinical-urgent-bg);
-      .stat-icon, .stat-value { color: var(--clinical-urgent); }
-      .stat-label { color: var(--clinical-urgent); }
+      border-color: var(--clinical-urgent-border);
+      .stat-icon, .stat-value, .stat-label { color: var(--clinical-urgent); }
     }
 
     &.stable {
       background: var(--clinical-stable-bg);
-      .stat-icon, .stat-value { color: var(--clinical-stable); }
-      .stat-label { color: var(--clinical-stable); }
+      border-color: var(--clinical-stable-border);
+      .stat-icon, .stat-value, .stat-label { color: var(--clinical-stable); }
     }
   }
 }
 
+// =====================
 // AI Summary Card
+// =====================
 .ai-summary-card {
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
+  padding: var(--space-5);
+  margin-bottom: var(--space-6);
   background: linear-gradient(135deg, var(--primary) 0%, var(--purple) 100%);
-  border-radius: 12px;
+  border-radius: var(--radius-card);
   color: var(--white);
 
-  // Rec 3: Light variant reduces visual weight
   &.light {
     background: var(--white);
     border: 1px solid var(--border-color);
@@ -350,39 +381,37 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: var(--space-4);
   }
 
   .ai-badge {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.375rem 0.75rem;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-3);
     background: rgba(255, 255, 255, 0.2);
     border-radius: 20px;
-    font-size: 0.75rem;
+    font-size: var(--text-sm);
     font-weight: 600;
   }
 
   .generated-time {
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     opacity: 0.8;
   }
 
-  // Rec 2: Structured summary replaces dense paragraph
   .summary-structured {
     background: rgba(255, 255, 255, 0.97);
-    border-radius: 8px;
-    padding: 0.75rem 1rem;
+    border-radius: var(--radius-card);
+    padding: var(--space-3) var(--space-4);
     display: flex;
     flex-direction: column;
-    gap: 0;
 
     .summary-row {
       display: flex;
-      gap: 0.75rem;
-      padding: 0.4rem 0;
-      font-size: 0.9375rem;
+      gap: var(--space-3);
+      padding: var(--space-2) 0;
+      font-size: var(--text-base);
       line-height: 1.5;
       border-bottom: 1px solid rgba(0, 0, 0, 0.06);
       color: var(--gray-900);
@@ -393,35 +422,38 @@
     }
 
     .summary-key {
-      font-weight: 700;
+      font-weight: 600;
       min-width: 120px;
       flex-shrink: 0;
       color: var(--gray-700);
+      font-size: var(--text-sm);
     }
 
     .summary-val {
       color: var(--gray-600);
+      font-size: var(--text-base);
     }
   }
 
   .summary-text {
     margin: 0;
-    font-size: 0.9375rem;
+    font-size: var(--text-base);
     line-height: 1.7;
-    opacity: 0.95;
     background-color: var(--white);
     color: var(--gray-900);
-    padding: 0.75rem 1rem;
-    border-radius: 8px;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-card);
   }
 }
 
-// Rec 4: Collapsible Vitals Legend
+// =====================
+// Collapsible Vitals Legend
+// =====================
 .vitals-legend {
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--space-5);
   background: var(--light);
   border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border-radius: var(--radius-card);
   overflow: hidden;
 
   .legend-toggle {
@@ -429,15 +461,16 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: 0.625rem 1rem;
+    padding: var(--space-3) var(--space-4);
     background: none;
     border: none;
     cursor: pointer;
     color: var(--gray-700);
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
+    transition: background 0.15s ease;
 
     &:hover {
-      background: var(--light);
+      background: rgba(0, 0, 0, 0.02);
     }
   }
 
@@ -445,89 +478,108 @@
     font-weight: 600;
     display: inline-flex;
     align-items: center;
-    gap: 0.375rem;
+    gap: var(--space-1);
   }
 
   .legend-body {
-    padding: 0 1rem 0.75rem;
+    padding: 0 var(--space-4) var(--space-3);
   }
 
   .legend-items,
   .legend-arrows {
     display: inline-flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-top: 0.375rem;
+    gap: var(--space-2);
+    margin-top: var(--space-1);
   }
 
   .legend-chip {
     display: inline-flex;
     align-items: center;
-    gap: 0.25rem;
-    font-size: 0.75rem;
+    gap: var(--space-1);
+    font-size: var(--text-xs);
     color: var(--gray-600);
     background: var(--white);
-    padding: 0.25rem 0.5rem;
+    padding: var(--space-1) var(--space-2);
     border-radius: 4px;
     border: 1px solid var(--border-color);
   }
 }
 
+// =====================
 // Tabs
+// =====================
 .handoff-tabs {
   display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: 0.5rem;
+  gap: var(--space-1);
+  margin-bottom: var(--space-5);
+  border-bottom: 2px solid var(--border-color);
 
   .tab-btn {
-    padding: 0.625rem 1.25rem;
+    padding: var(--space-3) var(--space-5);
     border: none;
     background: transparent;
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     font-weight: 500;
     color: var(--body-color);
     cursor: pointer;
-    border-radius: 8px 8px 0 0;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
     transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--touch-target-desktop);
 
     &:hover {
-      background: var(--light);
       color: var(--heading-color);
+      background: var(--light);
     }
 
     &.active {
-      background: var(--primary);
-      color: var(--white);
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+      font-weight: 600;
     }
 
     &.priority.active {
-      background: var(--clinical-critical);
+      color: var(--clinical-critical);
+      border-bottom-color: var(--clinical-critical);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: -2px;
     }
   }
 }
 
+// =====================
 // Patient Cards Grid
+// =====================
 .patient-cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
 
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
+    gap: var(--space-3);
   }
 }
 
+// =====================
 // Patient Handoff Card
+// =====================
 .patient-handoff-card {
-  padding: 1.25rem;
+  padding: var(--space-5);
   background: var(--white);
   border: 1px solid var(--border-color);
   border-left: 4px solid;
-  border-radius: 12px;
+  border-radius: var(--radius-card);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: box-shadow 0.2s ease, transform 0.15s ease;
 
   &:hover {
     box-shadow: var(--shadow-medium);
@@ -539,74 +591,85 @@
     outline-offset: 2px;
   }
 
-  // Reviewed state
   &.reviewed {
     border-left-color: var(--clinical-stable) !important;
     background: var(--clinical-stable-bg);
+
+    .click-indicator span {
+      color: var(--clinical-stable);
+    }
   }
 
   .card-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 0.75rem;
+    margin-bottom: var(--space-3);
 
     .patient-info {
       .patient-name {
-        margin: 0 0 0.25rem;
-        font-size: 1.125rem;
+        margin: 0 0 var(--space-1);
+        font-size: var(--text-lg);
         font-weight: 600;
         color: var(--heading-color);
         display: flex;
         align-items: center;
-        gap: 0.375rem;
+        gap: var(--space-2);
 
         .reviewed-badge {
           color: var(--clinical-stable);
-          font-size: 1rem;
+          font-size: var(--text-base);
           line-height: 1;
         }
       }
 
       .patient-details {
-        font-size: 0.8125rem;
+        font-size: var(--text-sm);
         color: var(--body-color);
       }
     }
 
     .priority-tag {
-      padding: 0.25rem 0.75rem;
+      padding: var(--space-1) var(--space-3);
       border-radius: 20px;
-      font-size: 0.6875rem;
+      font-size: var(--text-xs);
       font-weight: 600;
       text-transform: uppercase;
+      letter-spacing: 0.3px;
+      flex-shrink: 0;
     }
   }
 
   .diagnosis-row {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
-    padding: 0.5rem;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+    padding: var(--space-2) var(--space-3);
     background: var(--light);
     border-radius: 6px;
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     color: var(--heading-color);
+
+    .diagnosis-icon {
+      color: var(--primary);
+      flex-shrink: 0;
+    }
   }
 
   .sbar-preview {
-    margin-bottom: 0.75rem;
-    padding: 0.75rem;
+    margin-bottom: var(--space-3);
+    padding: var(--space-3);
     background: var(--light);
     border-radius: 6px;
-    font-size: 0.875rem;
+    font-size: var(--text-base);
+    line-height: 1.5;
 
     .sbar-label {
       font-weight: 700;
       color: var(--gray-700);
-      margin-right: 0.375rem;
-      font-size: 0.75rem;
+      margin-right: var(--space-1);
+      font-size: var(--text-xs);
       text-transform: uppercase;
       letter-spacing: 0.3px;
     }
@@ -619,32 +682,37 @@
   .vitals-trends {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+    flex-wrap: wrap;
 
     .trends-label {
-      font-size: 0.75rem;
+      font-size: var(--text-xs);
       color: var(--body-color);
+      font-weight: 500;
     }
 
     .trends-badges {
       display: flex;
-      gap: 0.5rem;
+      gap: var(--space-2);
+      flex-wrap: wrap;
     }
 
     .trend-badge {
-      padding: 0.25rem 0.5rem;
+      padding: var(--space-1) var(--space-2);
       background: var(--light);
+      border: 1px solid var(--border-color);
       border-radius: 4px;
-      font-size: 0.75rem;
+      font-size: var(--text-xs);
       font-weight: 600;
+      display: inline-flex;
+      align-items: center;
     }
   }
 
-  // Inline tasks surfaced on card
   .inline-tasks {
-    margin-bottom: 0.75rem;
-    padding: 0.625rem 0.75rem;
+    margin-bottom: var(--space-3);
+    padding: var(--space-3);
     background: var(--clinical-caution-bg);
     border: 1px solid var(--clinical-caution-border);
     border-radius: 6px;
@@ -652,11 +720,11 @@
     .inline-tasks-header {
       display: flex;
       align-items: center;
-      gap: 0.375rem;
-      font-size: 0.75rem;
+      gap: var(--space-1);
+      font-size: var(--text-xs);
       font-weight: 600;
       color: var(--clinical-caution);
-      margin-bottom: 0.375rem;
+      margin-bottom: var(--space-2);
     }
 
     .inline-tasks-list {
@@ -668,63 +736,74 @@
     .inline-task-item {
       display: flex;
       align-items: center;
-      gap: 0.375rem;
-      padding: 0.25rem 0;
-      font-size: 0.8125rem;
+      gap: var(--space-1);
+      padding: var(--space-1) 0;
+      font-size: var(--text-sm);
       color: var(--clinical-caution);
 
-      i { font-size: 0.875rem; color: var(--clinical-caution); }
+      i { font-size: var(--text-base); color: var(--clinical-caution); }
     }
 
     .inline-task-more {
-      font-size: 0.75rem;
+      font-size: var(--text-xs);
       color: var(--clinical-caution);
       font-style: italic;
-      padding-top: 0.25rem;
+      padding-top: var(--space-1);
     }
   }
 
   .quick-stats {
     display: flex;
-    gap: 1rem;
-    margin-bottom: 0.75rem;
+    gap: var(--space-4);
+    margin-bottom: var(--space-3);
 
     .stat-item {
       display: flex;
       align-items: center;
-      gap: 0.25rem;
-      font-size: 0.8125rem;
+      gap: var(--space-1);
+      font-size: var(--text-sm);
       color: var(--body-color);
+
+      .stat-icon {
+        color: var(--gray-400);
+      }
     }
   }
 
   .alert-area {
-    margin-bottom: 0.75rem;
+    margin-bottom: var(--space-3);
   }
 
   .alert-banner {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.625rem 0.75rem;
+    gap: var(--space-2);
+    padding: var(--space-3);
     border-radius: 6px;
-    font-size: 0.8125rem;
-    min-height: 40px;
+    font-size: var(--text-sm);
+    min-height: var(--touch-target-desktop);
 
     .alert-severity-label {
       font-weight: 700;
-      font-size: 0.6875rem;
+      font-size: var(--text-xs);
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      flex-shrink: 0;
+    }
+
+    .alert-text {
+      line-height: 1.4;
     }
 
     &.critical {
       background: var(--clinical-critical-bg);
+      border: 1px solid var(--clinical-critical-border);
       color: var(--clinical-critical);
     }
 
     &.warning {
       background: var(--clinical-urgent-bg);
+      border: 1px solid var(--clinical-urgent-border);
       color: var(--clinical-urgent);
     }
 
@@ -732,45 +811,40 @@
       background: var(--clinical-stable-bg);
       color: var(--clinical-stable);
 
-      .alert-icon {
-        opacity: 0.6;
-      }
-
-      .alert-text {
-        opacity: 0.7;
-        font-style: italic;
-      }
+      .alert-icon { opacity: 0.6; }
+      .alert-text { opacity: 0.7; font-style: italic; }
     }
   }
 
   .expanded-content {
-    margin-top: 1rem;
-    padding-top: 1rem;
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
     border-top: 1px solid var(--border-color);
 
     .section-title {
-      margin: 0 0 0.75rem;
-      font-size: 0.875rem;
+      margin: 0 0 var(--space-3);
+      font-size: var(--text-base);
       font-weight: 600;
       color: var(--heading-color);
     }
 
     .events-timeline {
-      margin-bottom: 1rem;
+      margin-bottom: var(--space-4);
 
       .timeline-item {
         display: flex;
-        gap: 0.75rem;
-        padding: 0.5rem 0;
-        font-size: 0.8125rem;
+        gap: var(--space-3);
+        padding: var(--space-2) 0;
+        font-size: var(--text-sm);
 
         .event-time {
           font-weight: 600;
           min-width: 50px;
+          color: var(--body-color);
         }
 
-        &.severity-critical { color: var(--clinical-critical); }
-        &.severity-warning { color: var(--clinical-urgent); }
+        &.severity-critical { color: var(--clinical-critical); .event-time { color: var(--clinical-critical); } }
+        &.severity-warning { color: var(--clinical-urgent); .event-time { color: var(--clinical-urgent); } }
         &.severity-info { color: var(--body-color); }
       }
     }
@@ -783,44 +857,42 @@
       .task-item {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
-        padding: 0.375rem 0;
-        font-size: 0.8125rem;
+        gap: var(--space-2);
+        padding: var(--space-1) 0;
+        font-size: var(--text-sm);
         color: var(--heading-color);
 
-        .task-checkbox {
-          color: var(--body-color);
-        }
+        .task-checkbox { color: var(--body-color); }
       }
     }
   }
 
-  // Click indicator — 44px min target
   .click-indicator {
-    text-align: right;
-    margin-top: 0.75rem;
-    padding-top: 0.75rem;
+    margin-top: var(--space-3);
+    padding-top: var(--space-3);
     border-top: 1px solid var(--border-color);
 
     span {
       display: inline-flex;
       align-items: center;
-      gap: 0.375rem;
-      font-size: 0.875rem;
+      gap: var(--space-1);
+      font-size: var(--text-sm);
       color: var(--primary);
       font-weight: 600;
-      padding: 0.5rem 0;
-      min-height: 44px;
+      padding: var(--space-2) 0;
+      min-height: var(--touch-target-desktop);
     }
   }
 }
 
+// =====================
 // Sticky Acknowledge Bar
+// =====================
 .acknowledge-bar {
   position: sticky;
   bottom: 0;
-  margin: 1.5rem -1.5rem -1.5rem;
-  padding: 1rem 1.5rem;
+  margin: var(--space-6) calc(var(--space-6) * -1) calc(var(--space-6) * -1);
+  padding: var(--space-4) var(--space-6);
   background: var(--white);
   border-top: 2px solid var(--border-color);
   box-shadow: var(--shadow-elevated);
@@ -835,25 +907,25 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1.5rem;
+    gap: var(--space-5);
     flex-wrap: wrap;
   }
 
   .review-progress {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: var(--space-3);
     flex: 1;
     min-width: 200px;
 
     .review-count {
-      font-size: 0.8125rem;
+      font-size: var(--text-sm);
       font-weight: 600;
       color: var(--gray-700);
       white-space: nowrap;
       display: flex;
       align-items: center;
-      gap: 0.375rem;
+      gap: var(--space-1);
     }
 
     .review-progress-bar {
@@ -874,53 +946,57 @@
   }
 
   .btn-acknowledge {
-    padding: 0.75rem 1.5rem;
+    padding: var(--space-3) var(--space-6);
     background: var(--clinical-stable);
     color: var(--white);
     border: none;
-    border-radius: 8px;
-    font-size: 0.9375rem;
+    border-radius: var(--radius-card);
+    font-size: var(--text-base);
     font-weight: 600;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    min-height: 44px;
+    gap: var(--space-2);
+    min-height: var(--touch-target-mobile);
     transition: all 0.2s ease;
-    box-shadow: var(--shadow-medium);
+    box-shadow: var(--shadow-subtle);
 
     &:hover:not(:disabled) {
-      background: var(--clinical-stable);
-      filter: brightness(0.9);
-      box-shadow: var(--shadow-elevated);
+      filter: brightness(0.92);
+      box-shadow: var(--shadow-medium);
     }
 
     &.acknowledged {
-      background: var(--clinical-stable);
+      opacity: 0.85;
       box-shadow: none;
       cursor: default;
     }
 
     &:disabled {
-      opacity: 0.9;
+      opacity: 0.7;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--clinical-stable);
+      outline-offset: 2px;
     }
   }
 
   .acknowledge-confirm {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: var(--space-4);
     flex-wrap: wrap;
 
     > span {
-      font-size: 0.8125rem;
+      font-size: var(--text-sm);
       font-weight: 500;
       color: var(--gray-700);
     }
 
     .confirm-actions {
       display: flex;
-      gap: 0.5rem;
+      gap: var(--space-2);
     }
   }
 }
@@ -952,56 +1028,61 @@
 
         .btn {
           flex: 1;
+          min-height: var(--touch-target-mobile);
         }
       }
     }
   }
 }
 
+// =====================
 // Modal Styles
+// =====================
 .modal-overlay {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  padding: 1rem;
+  padding: var(--space-4);
 }
 
-.modal-content {
+.shift-handoff-summary .modal-content {
   width: 100%;
   max-width: 800px;
   max-height: 90vh;
   background: var(--white);
-  border-radius: 16px;
+  border-radius: var(--radius-modal);
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  box-shadow: var(--shadow-elevated);
 
   .modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.25rem 1.5rem;
+    padding: var(--space-5);
     border-bottom: 1px solid var(--border-color);
 
     .modal-title {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: var(--space-3);
 
       .priority-badge {
-        padding: 0.375rem 0.75rem;
+        padding: var(--space-1) var(--space-3);
         border-radius: 20px;
-        font-size: 0.75rem;
+        font-size: var(--text-sm);
         font-weight: 600;
       }
 
       h3 {
         margin: 0;
-        font-size: 1.25rem;
+        font-size: var(--text-xl);
         color: var(--heading-color);
       }
     }
@@ -1012,45 +1093,58 @@
       border: none;
       background: var(--light);
       border-radius: 50%;
-      font-size: 1.25rem;
+      font-size: var(--text-xl);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background 0.2s ease;
+      transition: background 0.15s ease;
+      color: var(--gray-600);
+      flex-shrink: 0;
 
       &:hover {
         background: var(--border-color);
+        color: var(--heading-color);
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
       }
     }
   }
 
   .modal-body {
-    padding: 1.5rem;
+    padding: var(--space-6);
     overflow-y: auto;
     flex: 1;
   }
 }
 
+// =====================
 // SBAR Generator Styles
+// =====================
 .sbar-generator {
   .patient-detail-header {
-    margin-bottom: 1.5rem;
-    padding: 1rem;
+    margin-bottom: var(--space-5);
+    padding: var(--space-4);
     background: var(--light);
-    border-radius: 8px;
+    border-radius: var(--radius-card);
+    border: 1px solid var(--border-color);
 
     .patient-meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 1.5rem;
+      gap: var(--space-5);
 
       .meta-item {
-        font-size: 0.875rem;
+        font-size: var(--text-base);
         color: var(--heading-color);
 
         strong {
           color: var(--body-color);
+          font-weight: 500;
+          margin-right: var(--space-1);
         }
       }
     }
@@ -1059,28 +1153,41 @@
   .sbar-tabs {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
+    gap: var(--space-2);
+    margin-bottom: var(--space-5);
+    padding-bottom: var(--space-4);
     border-bottom: 1px solid var(--border-color);
 
     .sbar-tab {
-      padding: 0.5rem 1rem;
+      padding: var(--space-2) var(--space-4);
       border: 1px solid var(--border-color);
       background: var(--white);
       border-radius: 6px;
-      font-size: 0.8125rem;
+      font-size: var(--text-sm);
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      min-height: var(--touch-target-desktop);
+      font-weight: 500;
+      color: var(--body-color);
 
       &:hover {
         background: var(--light);
+        border-color: var(--gray-300);
       }
 
       &.active {
         background: var(--primary);
         border-color: var(--primary);
         color: var(--white);
+        font-weight: 600;
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
       }
     }
   }
@@ -1088,27 +1195,27 @@
   .sbar-sections {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: var(--space-3);
 
     .sbar-section {
-      padding: 1.25rem;
+      padding: var(--space-5);
       background: var(--light);
       border-left: 4px solid;
-      border-radius: 0 8px 8px 0;
+      border-radius: 0 var(--radius-card) var(--radius-card) 0;
 
       .section-header {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
-        margin-bottom: 0.75rem;
+        gap: var(--space-2);
+        margin-bottom: var(--space-3);
 
         .section-icon {
-          font-size: 1.25rem;
+          font-size: var(--text-lg);
         }
 
         .section-title {
           margin: 0;
-          font-size: 0.875rem;
+          font-size: var(--text-sm);
           font-weight: 600;
           text-transform: uppercase;
           letter-spacing: 0.5px;
@@ -1117,7 +1224,7 @@
 
       .section-content {
         margin: 0;
-        font-size: 0.9375rem;
+        font-size: var(--text-base);
         line-height: 1.6;
         color: var(--heading-color);
       }
@@ -1125,8 +1232,8 @@
   }
 
   .content-title {
-    margin: 0 0 1rem;
-    font-size: 1rem;
+    margin: 0 0 var(--space-4);
+    font-size: var(--text-md);
     font-weight: 600;
     color: var(--heading-color);
   }
@@ -1134,61 +1241,66 @@
   .vitals-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1rem;
+    gap: var(--space-4);
 
     .vital-card {
-      padding: 1rem;
+      padding: var(--space-4);
       background: var(--light);
-      border-radius: 8px;
+      border-radius: var(--radius-card);
+      border: 1px solid var(--border-color);
 
       .vital-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 0.5rem;
+        margin-bottom: var(--space-2);
 
         .vital-name {
-          font-size: 0.875rem;
+          font-size: var(--text-base);
           font-weight: 600;
           color: var(--heading-color);
         }
 
         .vital-trend {
-          font-size: 0.75rem;
+          font-size: var(--text-xs);
           font-weight: 600;
         }
       }
 
       .vital-value {
-        font-size: 1.75rem;
+        font-size: var(--text-2xl);
         font-weight: 700;
         color: var(--heading-color);
-        margin-bottom: 0.25rem;
+        margin-bottom: var(--space-1);
       }
 
       .vital-change {
-        font-size: 0.75rem;
-        margin-bottom: 0.75rem;
+        font-size: var(--text-xs);
+        margin-bottom: var(--space-3);
       }
 
       .vital-history {
-        padding-top: 0.75rem;
+        padding-top: var(--space-3);
         border-top: 1px solid var(--border-color);
 
         .history-label {
-          font-size: 0.6875rem;
+          font-size: var(--text-xs);
           color: var(--body-color);
           display: block;
-          margin-bottom: 0.25rem;
+          margin-bottom: var(--space-1);
         }
 
         .history-values {
           display: flex;
-          gap: 0.5rem;
+          gap: var(--space-2);
 
           .history-value {
-            font-size: 0.75rem;
+            font-size: var(--text-xs);
             color: var(--body-color);
+            background: var(--white);
+            padding: var(--space-1);
+            border-radius: 3px;
+            font-variant-numeric: tabular-nums;
           }
         }
       }
@@ -1198,14 +1310,17 @@
   .medications-list {
     .medication-item {
       display: flex;
-      gap: 1rem;
-      padding: 1rem;
-      margin-bottom: 0.75rem;
+      gap: var(--space-4);
+      padding: var(--space-4);
+      margin-bottom: var(--space-3);
       background: var(--light);
-      border-radius: 8px;
+      border-radius: var(--radius-card);
+      border: 1px solid var(--border-color);
 
       .med-icon {
-        font-size: 1.5rem;
+        font-size: var(--text-xl);
+        color: var(--primary);
+        flex-shrink: 0;
       }
 
       .med-details {
@@ -1213,27 +1328,29 @@
 
         .med-name {
           font-weight: 600;
+          font-size: var(--text-base);
           color: var(--heading-color);
-          margin-bottom: 0.25rem;
+          margin-bottom: var(--space-1);
         }
 
         .med-info {
           display: flex;
-          gap: 1rem;
-          font-size: 0.8125rem;
+          gap: var(--space-4);
+          font-size: var(--text-sm);
           color: var(--body-color);
         }
 
         .med-notes {
-          margin-top: 0.5rem;
-          padding: 0.5rem;
+          margin-top: var(--space-2);
+          padding: var(--space-2) var(--space-3);
           background: var(--clinical-urgent-bg);
+          border: 1px solid var(--clinical-urgent-border);
           border-radius: 4px;
-          font-size: 0.8125rem;
+          font-size: var(--text-sm);
           color: var(--clinical-urgent);
 
           .notes-icon {
-            margin-right: 0.25rem;
+            margin-right: var(--space-1);
           }
         }
       }
@@ -1244,16 +1361,17 @@
     .task-item {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
-      padding: 0.75rem 1rem;
-      margin-bottom: 0.5rem;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      margin-bottom: var(--space-2);
       background: var(--light);
       border-radius: 6px;
-      font-size: 0.9375rem;
+      font-size: var(--text-base);
+      border: 1px solid var(--border-color);
 
       .task-checkbox {
         color: var(--body-color);
-        font-size: 1.25rem;
+        font-size: var(--text-lg);
       }
     }
   }
@@ -1262,26 +1380,27 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    padding: 2rem;
+    gap: var(--space-2);
+    padding: var(--space-8);
     color: var(--clinical-stable);
 
     .check-icon {
-      font-size: 1.5rem;
+      font-size: var(--text-xl);
     }
   }
 
   .events-timeline {
     .event-item {
       display: flex;
-      gap: 1rem;
-      margin-bottom: 1rem;
+      gap: var(--space-4);
+      margin-bottom: var(--space-4);
 
       .event-time {
         min-width: 50px;
-        font-size: 0.8125rem;
+        font-size: var(--text-sm);
         font-weight: 600;
         color: var(--body-color);
+        font-variant-numeric: tabular-nums;
       }
 
       .event-indicator {
@@ -1293,6 +1412,7 @@
           width: 12px;
           height: 12px;
           border-radius: 50%;
+          flex-shrink: 0;
 
           &.critical { background: var(--clinical-critical); }
           &.warning { background: var(--clinical-urgent); }
@@ -1302,27 +1422,29 @@
         .indicator-line {
           width: 2px;
           flex: 1;
-          min-height: 30px;
+          min-height: 24px;
           background: var(--border-color);
         }
       }
 
       .event-content {
         flex: 1;
-        padding-bottom: 1rem;
+        padding-bottom: var(--space-4);
 
         .event-text {
           display: block;
-          font-size: 0.9375rem;
+          font-size: var(--text-base);
           color: var(--heading-color);
-          margin-bottom: 0.25rem;
+          margin-bottom: var(--space-1);
+          line-height: 1.5;
         }
 
         .event-severity-badge {
           display: inline-block;
-          padding: 0.125rem 0.5rem;
+          padding: 2px var(--space-2);
           border-radius: 4px;
-          font-size: 0.6875rem;
+          font-size: var(--text-xs);
+          font-weight: 600;
           text-transform: uppercase;
 
           &.critical {
@@ -1345,72 +1467,80 @@
   .ai-confidence {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+    padding-top: var(--space-5);
     border-top: 1px solid var(--border-color);
 
     .confidence-label {
-      font-size: 0.8125rem;
+      font-size: var(--text-sm);
       color: var(--body-color);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
     }
 
     .confidence-bar {
       flex: 1;
-      height: 8px;
+      height: 6px;
       background: var(--border-color);
-      border-radius: 4px;
+      border-radius: 3px;
       overflow: hidden;
 
       .confidence-fill {
         height: 100%;
-        background: linear-gradient(90deg, var(--primary), var(--purple));
-        border-radius: 4px;
+        background: linear-gradient(90deg, var(--primary), var(--indigo));
+        border-radius: 3px;
       }
     }
 
     .confidence-value {
-      font-size: 0.875rem;
+      font-size: var(--text-base);
       font-weight: 600;
       color: var(--primary);
+      font-variant-numeric: tabular-nums;
     }
   }
 }
 
+// =====================
 // Handoff Timeline
+// =====================
 .handoff-timeline {
-  padding: 1.5rem;
+  padding: var(--space-6);
   background: var(--white);
-  border-radius: 12px;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--border-color);
 
   .timeline-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: var(--space-4);
 
     h3 {
       margin: 0;
-      font-size: 1.25rem;
+      font-size: var(--text-xl);
       font-weight: 600;
     }
 
     .time-range {
-      font-size: 0.875rem;
+      font-size: var(--text-base);
       color: var(--body-color);
     }
   }
 
   .timeline-legend {
     display: flex;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
+    gap: var(--space-5);
+    margin-bottom: var(--space-5);
 
     .legend-item {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      font-size: 0.75rem;
+      gap: var(--space-2);
+      font-size: var(--text-sm);
       color: var(--body-color);
 
       .legend-dot {
@@ -1425,39 +1555,37 @@
     }
   }
 
-  .timeline-container {
-    position: relative;
-  }
-
   .no-events {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 3rem;
+    padding: var(--space-12);
     color: var(--body-color);
 
     .no-events-icon {
-      font-size: 3rem;
-      margin-bottom: 1rem;
+      font-size: 2.5rem;
+      margin-bottom: var(--space-4);
+      opacity: 0.5;
     }
   }
 
   .timeline-slot {
     display: flex;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
 
     .slot-time {
       min-width: 60px;
 
       .time-badge {
         display: inline-block;
-        padding: 0.25rem 0.5rem;
+        padding: var(--space-1) var(--space-2);
         background: var(--light);
         border-radius: 4px;
-        font-size: 0.8125rem;
+        font-size: var(--text-sm);
         font-weight: 600;
+        font-variant-numeric: tabular-nums;
       }
     }
 
@@ -1474,6 +1602,7 @@
         border: 2px solid var(--white);
         border-radius: 50%;
         box-shadow: 0 0 0 2px var(--primary);
+        flex-shrink: 0;
       }
 
       .connector-line {
@@ -1488,22 +1617,22 @@
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
+      gap: var(--space-2);
 
       .event-card {
-        padding: 0.75rem 1rem;
+        padding: var(--space-3) var(--space-4);
         background: var(--light);
         border-left: 3px solid;
-        border-radius: 0 8px 8px 0;
+        border-radius: 0 var(--radius-card) var(--radius-card) 0;
 
         .event-header {
           display: flex;
           align-items: center;
-          gap: 0.5rem;
-          margin-bottom: 0.25rem;
+          gap: var(--space-2);
+          margin-bottom: var(--space-1);
 
           .event-patient {
-            font-size: 0.8125rem;
+            font-size: var(--text-sm);
             font-weight: 600;
             color: var(--heading-color);
           }
@@ -1511,8 +1640,9 @@
 
         .event-description {
           margin: 0;
-          font-size: 0.8125rem;
+          font-size: var(--text-sm);
           color: var(--body-color);
+          line-height: 1.5;
         }
       }
     }
@@ -1520,9 +1650,9 @@
 
   .timeline-summary {
     display: flex;
-    gap: 2rem;
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
+    gap: var(--space-8);
+    margin-top: var(--space-5);
+    padding-top: var(--space-5);
     border-top: 1px solid var(--border-color);
 
     .summary-stat {
@@ -1530,28 +1660,35 @@
 
       .stat-value {
         display: block;
-        font-size: 1.5rem;
+        font-size: var(--text-2xl);
         font-weight: 700;
         color: var(--heading-color);
       }
 
       .stat-label {
-        font-size: 0.75rem;
+        font-size: var(--text-xs);
         color: var(--body-color);
+        font-weight: 500;
       }
     }
   }
 }
 
-// Responsive Adjustments
+// =====================
+// Responsive — Main Page
+// =====================
 @media (max-width: 768px) {
   .shift-handoff-summary {
-    padding: 1rem;
+    padding: var(--space-4);
   }
 
   .handoff-header {
     .header-top {
       flex-direction: column;
+    }
+
+    .header-title .title-text h2 {
+      font-size: var(--text-xl);
     }
 
     .header-actions {
@@ -1561,15 +1698,22 @@
       .btn {
         flex: 1;
         text-align: center;
+        justify-content: center;
       }
     }
   }
 
   .nurse-transfer {
     flex-direction: column;
+    gap: var(--space-2);
 
     .transfer-arrow {
       transform: rotate(90deg);
+    }
+
+    .nurse-card {
+      width: 100%;
+      justify-content: center;
     }
   }
 
@@ -1579,12 +1723,19 @@
 
     .tab-btn {
       white-space: nowrap;
+      padding: var(--space-2) var(--space-4);
+      font-size: var(--text-sm);
     }
   }
 
-  .modal-content {
+  .shift-handoff-summary .modal-content {
     max-height: 95vh;
-    margin: 0.5rem;
+    margin: var(--space-2);
+    border-radius: var(--radius-card);
+
+    .modal-body {
+      padding: var(--space-4);
+    }
   }
 
   .sbar-generator {
@@ -1592,22 +1743,46 @@
       overflow-x: auto;
       flex-wrap: nowrap;
       -webkit-overflow-scrolling: touch;
+      gap: var(--space-1);
 
       .sbar-tab {
         white-space: nowrap;
+        flex-shrink: 0;
       }
+    }
+
+    .patient-detail-header .patient-meta {
+      gap: var(--space-3);
+    }
+
+    .vitals-grid {
+      grid-template-columns: 1fr;
     }
   }
 }
 
-// =====================
-// Shift Handoff Widget
-// Dashboard compact view
-// =====================
+@media (max-width: 480px) {
+  .handoff-stats {
+    .stat-card {
+      padding: var(--space-3);
 
+      .stat-value {
+        font-size: var(--text-xl);
+      }
+    }
+  }
+
+  .patient-handoff-card {
+    padding: var(--space-4);
+  }
+}
+
+// =====================
+// Shift Handoff Widget (Dashboard)
+// =====================
 .shift-handoff-widget {
   overflow: hidden;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  transition: box-shadow 0.2s ease;
 
   &:hover {
     box-shadow: var(--shadow-medium);
@@ -1620,15 +1795,14 @@
 
   .priority-patients-list {
     .patient-row {
-      transition: background-color 0.15s ease, transform 0.1s ease;
+      transition: background-color 0.15s ease;
       border-radius: 6px;
-      margin: 0 -8px;
-      padding-left: 8px !important;
-      padding-right: 8px !important;
+      margin: 0 calc(var(--space-2) * -1);
+      padding-left: var(--space-2) !important;
+      padding-right: var(--space-2) !important;
 
       &:hover {
-        background-color: rgba(0, 0, 0, 0.02);
-        transform: translateX(2px);
+        background-color: var(--light);
       }
 
       &:last-child {
@@ -1646,27 +1820,25 @@
   }
 
   .vitals-trends-preview {
-    padding: 8px 0;
+    padding: var(--space-2) 0;
     border-top: 1px solid var(--border-color);
 
     .d-flex {
-      gap: 12px;
+      gap: var(--space-3);
     }
   }
 
-  // Collapsed state compact styling
   &.collapsed {
     .card-body {
-      padding: 0.5rem 1rem;
+      padding: var(--space-2) var(--space-4);
     }
   }
 }
 
-// Widget animation
 @keyframes widgetFadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
@@ -1679,7 +1851,7 @@
 }
 
 // Dark mode support
-@media (prefers-color-scheme: dark) {
+:root[data-bs-theme="dark"] {
   .shift-handoff-widget {
     .ai-summary-preview {
       background-color: rgba(123, 31, 162, 0.15) !important;
@@ -1689,34 +1861,58 @@
       background-color: rgba(255, 255, 255, 0.05);
     }
   }
+
+  .shift-handoff-summary {
+    background: var(--dark);
+    border-color: var(--gray-700);
+  }
+
+  .patient-handoff-card {
+    background: var(--dark);
+    border-color: var(--gray-700);
+
+    .diagnosis-row,
+    .sbar-preview {
+      background: var(--gray-800);
+    }
+  }
+
+  .nurse-transfer {
+    background: var(--gray-800);
+    border-color: var(--gray-700);
+
+    .nurse-card {
+      background: var(--dark);
+      border-color: var(--gray-700);
+    }
+  }
+
+  .acknowledge-bar {
+    background: var(--dark);
+    border-top-color: var(--gray-700);
+  }
 }
 
-// ============================================
-// Responsive adjustments for Shift Handoff Widget
-// Target breakpoints: Mobile (320px-768px), Tablet (769px-1024px), Desktop (1025px+)
-// ============================================
-
-// Tablet breakpoint — aligned to platform $breakpoints (md → lg)
+// Widget responsive — Tablet
 @media (min-width: 768px) and (max-width: 991.98px) {
   .shift-handoff-widget {
     .card-header {
-      padding: 0.75rem 1rem;
+      padding: var(--space-3) var(--space-4);
 
       h5 {
-        font-size: 1rem;
+        font-size: var(--text-md);
       }
 
       .btn-outline-primary {
-        padding: 4px 10px !important;
-        font-size: 0.75rem;
+        padding: var(--space-1) var(--space-3);
+        font-size: var(--text-sm);
       }
     }
 
     .card-body {
-      padding: 0.875rem;
+      padding: var(--space-3);
     }
 
-    // Adjust stats grid for tablet
     .row.g-2 > .col-6.col-md-3 {
       flex: 0 0 50%;
       max-width: 50%;
@@ -1724,32 +1920,32 @@
 
     .priority-patients-list {
       .patient-row {
-        padding: 0.625rem 0;
+        padding: var(--space-2) 0;
       }
     }
 
     .ai-summary-preview {
-      padding: 0.625rem !important;
+      padding: var(--space-3) !important;
 
       p {
-        font-size: 0.75rem !important;
+        font-size: var(--text-sm) !important;
       }
     }
   }
 }
 
-// Mobile breakpoint — aligned to platform $breakpoints (< md)
+// Widget responsive — Mobile
 @media (max-width: 767.98px) {
   .shift-handoff-widget {
     .card-header {
-      padding: 0.625rem 0.875rem;
+      padding: var(--space-2) var(--space-3);
 
       h5 {
-        font-size: 0.9375rem;
+        font-size: var(--text-base);
       }
 
       .btn-outline-primary {
-        padding: 4px 8px !important;
+        padding: var(--space-1) var(--space-2);
 
         span {
           display: none;
@@ -1760,45 +1956,41 @@
         }
       }
 
-      // Smaller collapse button
       .btn-sm.btn-light {
-        padding: 0.25rem;
+        padding: var(--space-1);
 
         i {
-          font-size: 12px;
+          font-size: var(--text-sm);
         }
       }
     }
 
     .card-body {
-      padding: 0.75rem;
+      padding: var(--space-3);
     }
 
-    // Stack stats 2x2 on mobile
     .row.g-2 > div {
       flex: 0 0 50%;
       max-width: 50%;
     }
 
-    // Smaller stat cards
     .text-center.p-2 {
-      padding: 0.5rem !important;
+      padding: var(--space-2) !important;
 
       h5 {
-        font-size: 1rem;
-        margin-bottom: 0.125rem;
+        font-size: var(--text-md);
+        margin-bottom: 2px;
       }
 
       .fs-11, span {
-        font-size: 0.625rem !important;
+        font-size: var(--text-xs) !important;
       }
     }
 
-    // Shift info section
     .d-flex.align-items-center.justify-content-between.mb-3.pb-2 {
       flex-direction: column;
       align-items: flex-start !important;
-      gap: 0.5rem;
+      gap: var(--space-2);
 
       .text-end {
         text-align: left !important;
@@ -1807,66 +1999,64 @@
 
     .priority-patients-list {
       .patient-row {
-        padding: 0.5rem 0;
+        padding: var(--space-2) 0;
 
         .fs-13 {
-          font-size: 0.75rem !important;
+          font-size: var(--text-sm) !important;
         }
 
         .fs-11 {
-          font-size: 0.625rem !important;
+          font-size: var(--text-xs) !important;
         }
       }
     }
 
     .ai-summary-preview {
-      padding: 0.5rem !important;
+      padding: var(--space-2) !important;
 
       p {
-        font-size: 0.6875rem !important;
+        font-size: var(--text-xs) !important;
         -webkit-line-clamp: 3 !important;
       }
     }
 
-    // Smaller vitals trends
     .vitals-trends-preview {
       .fs-11 {
-        font-size: 0.5625rem !important;
+        font-size: var(--text-xs) !important;
       }
 
       .fs-12 {
-        font-size: 0.625rem !important;
+        font-size: var(--text-xs) !important;
       }
     }
 
-    // Full width button on mobile
     .btn-primary {
-      font-size: 0.8125rem;
-      padding: 0.5rem 1rem;
+      font-size: var(--text-sm);
+      padding: var(--space-2) var(--space-4);
       max-width: 100% !important;
       width: 100%;
     }
   }
 }
 
-// Extra small mobile (< 375px)
+// Extra small mobile
 @media (max-width: 374px) {
   .shift-handoff-widget {
     .card-header {
-      padding: 0.5rem 0.625rem;
+      padding: var(--space-2);
 
       h5 {
-        font-size: 0.875rem;
+        font-size: var(--text-base);
       }
     }
 
     .card-body {
-      padding: 0.5rem;
+      padding: var(--space-2);
     }
 
     .text-center.p-2 {
       h5 {
-        font-size: 0.875rem;
+        font-size: var(--text-base);
       }
     }
 
@@ -1874,51 +2064,55 @@
       .patient-row {
         flex-direction: column;
         align-items: flex-start !important;
-        gap: 4px;
+        gap: var(--space-1);
 
         .badge {
-          margin-left: 16px !important;
-          margin-top: 4px;
+          margin-left: var(--space-4) !important;
+          margin-top: var(--space-1);
         }
       }
     }
 
     .btn-primary {
-      font-size: 0.75rem;
-      padding: 0.375rem 0.75rem;
+      font-size: var(--text-sm);
+      padding: var(--space-1) var(--space-3);
     }
   }
 }
 
-// Large desktop — aligned to platform $breakpoints (≥ xxl)
+// Large desktop
 @media (min-width: 1400px) {
   .shift-handoff-widget {
     .card-header {
-      padding: 1rem 1.5rem;
+      padding: var(--space-4) var(--space-6);
 
       h5 {
-        font-size: 1.125rem;
+        font-size: var(--text-lg);
       }
     }
 
     .card-body {
-      padding: 1.25rem;
+      padding: var(--space-5);
     }
 
     .priority-patients-list {
       .patient-row {
-        padding: 0.75rem 0;
+        padding: var(--space-3) 0;
       }
     }
   }
 }
 
-// Accessibility: Reduced motion preference
+// Accessibility: Reduced motion
 @media (prefers-reduced-motion: reduce) {
-  .shift-handoff-widget {
+  .shift-handoff-widget,
+  .patient-handoff-card,
+  .stat-card {
     animation: none !important;
     transition: none !important;
+  }
 
+  .shift-handoff-widget {
     .card-header,
     .card-body,
     .patient-row {

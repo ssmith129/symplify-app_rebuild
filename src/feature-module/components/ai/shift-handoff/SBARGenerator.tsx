@@ -14,36 +14,36 @@ export const SBARGenerator: React.FC<SBARGeneratorProps> = ({ patient }) => {
       title: 'Situation',
       icon: 'ti-alert-octagon',
       content: patient.sbar.situation,
-      color: '#F44336'
+      color: 'var(--clinical-critical)'
     },
     {
       key: 'background',
       title: 'Background',
       icon: 'ti-clipboard-list',
       content: patient.sbar.background,
-      color: '#2196F3'
+      color: 'var(--clinical-info)'
     },
     {
       key: 'assessment',
       title: 'Assessment',
       icon: 'ti-search',
       content: patient.sbar.assessment,
-      color: '#FF9800'
+      color: 'var(--clinical-urgent)'
     },
     {
       key: 'recommendation',
       title: 'Recommendation',
       icon: 'ti-bulb',
       content: patient.sbar.recommendation,
-      color: '#4CAF50'
+      color: 'var(--clinical-stable)'
     }
   ];
 
   const getTrendInfo = (trend: string) => {
     switch (trend) {
-      case 'improving': return { label: 'Improving', color: '#4CAF50', icon: '↑' };
-      case 'declining': return { label: 'Declining', color: '#F44336', icon: '↓' };
-      default: return { label: 'Stable', color: '#9E9E9E', icon: '→' };
+      case 'improving': return { label: 'Improving', color: 'var(--clinical-stable)', icon: '↑' };
+      case 'declining': return { label: 'Declining', color: 'var(--clinical-critical)', icon: '↓' };
+      default: return { label: 'Stable', color: 'var(--gray-400)', icon: '→' };
     }
   };
 
@@ -156,7 +156,7 @@ export const SBARGenerator: React.FC<SBARGeneratorProps> = ({ patient }) => {
                       {vital.metric === 'Heart Rate' && ' bpm'}
                       {vital.metric === 'Blood Pressure' && ' mmHg'}
                     </div>
-                    <div className="vital-change" style={{ color: change >= 0 ? '#4CAF50' : '#F44336' }}>
+                    <div className="vital-change" style={{ color: change >= 0 ? 'var(--clinical-stable)' : 'var(--clinical-critical)' }}>
                       {change >= 0 ? '+' : ''}{change.toFixed(vital.metric === 'Temperature' ? 1 : 0)} from last reading
                     </div>
                     <div className="vital-history">

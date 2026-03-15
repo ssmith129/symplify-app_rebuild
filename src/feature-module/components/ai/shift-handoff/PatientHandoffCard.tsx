@@ -27,11 +27,11 @@ const METRIC_MAP: Record<string, { abbr: string; icon: string }> = {
 const getTrendInfo = (_metric: string, trend: string) => {
   switch (trend) {
     case 'improving':
-      return { icon: '↑', color: '#166534', label: 'Improving' };
+      return { icon: '↑', color: 'var(--clinical-stable)', label: 'Improving' };
     case 'declining':
-      return { icon: '↓', color: '#991B1B', label: 'Declining' };
+      return { icon: '↓', color: 'var(--clinical-critical)', label: 'Declining' };
     default:
-      return { icon: '→', color: '#6B7280', label: 'Stable' };
+      return { icon: '→', color: 'var(--gray-500)', label: 'Stable' };
   }
 };
 

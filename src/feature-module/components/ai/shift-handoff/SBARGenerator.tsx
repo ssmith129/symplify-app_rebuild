@@ -9,30 +9,30 @@ export const SBARGenerator: React.FC<SBARGeneratorProps> = ({ patient }) => {
   const [activeTab, setActiveTab] = useState<'sbar' | 'vitals' | 'meds' | 'tasks' | 'events'>('sbar');
 
   const sbarSections = [
-    { 
-      key: 'situation', 
-      title: 'Situation', 
+    {
+      key: 'situation',
+      title: 'Situation',
       icon: 'ti-alert-octagon',
       content: patient.sbar.situation,
       color: '#F44336'
     },
-    { 
-      key: 'background', 
-      title: 'Background', 
+    {
+      key: 'background',
+      title: 'Background',
       icon: 'ti-clipboard-list',
       content: patient.sbar.background,
       color: '#2196F3'
     },
-    { 
-      key: 'assessment', 
-      title: 'Assessment', 
+    {
+      key: 'assessment',
+      title: 'Assessment',
       icon: 'ti-search',
       content: patient.sbar.assessment,
       color: '#FF9800'
     },
-    { 
-      key: 'recommendation', 
-      title: 'Recommendation', 
+    {
+      key: 'recommendation',
+      title: 'Recommendation',
       icon: 'ti-bulb',
       content: patient.sbar.recommendation,
       color: '#4CAF50'

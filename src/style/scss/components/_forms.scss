@@ -7,7 +7,7 @@
 //
 .form-control {
     padding: 0.5rem 0.75rem;
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     font-weight: $font-weight-normal;
     color: $body-color;
     background-color: $white;
@@ -24,11 +24,11 @@
     }
 }
 .form-control-sm {
-    font-size: 0.75rem;
+    font-size: var(--text-sm);
     padding: 5px 12px;
 }
 .form-control-lg {
-    font-size: 1rem;
+    font-size: var(--text-md);
     padding: 8px 12px;
 }
 
@@ -69,7 +69,7 @@ select.form-control-sm {
     }
 }
 .form-select {
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     background-color: var(--white);
     border-color: var(--border-color);
     &:focus {

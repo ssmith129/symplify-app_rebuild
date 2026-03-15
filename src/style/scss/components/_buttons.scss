@@ -57,6 +57,11 @@
 	&.btn-outline-white {
 		border-color: $border-color;
 	}
+
+	&:focus-visible {
+		outline: 2px solid var(--primary);
+		outline-offset: 2px;
+	}
 }
 
 .btn.disabled, .btn:disabled, fieldset:disabled .btn {
@@ -71,19 +76,25 @@
 }
 @each $state in map.keys($theme-colors) {
 	.btn-#{$state} {
-		color: #fff;
+		color: var(--white);
 		background-color: var(--#{$state});
 		border-color: var(--#{$state});
-		&:hover, &:active, &.active, &.disabled, &:disabled, &.show {
-			color: #fff;
+		&:hover, &:active, &.active, &.show {
+			color: var(--white);
 			background-color: var(--#{$state}-hover);
 			border-color: var(--#{$state}-hover);
+		}
+		&.disabled, &:disabled {
+			background-color: var(--#{$state});
+			border-color: var(--#{$state});
+			color: var(--white);
+			opacity: 0.5;
 		}
 	}
 	.btn-check:checked + .btn-#{$state},  .btn-#{$state}:first-child:active, :not(.btn-check) + .btn-#{$state}:active, .btn-check+.btn-#{$state}:hover {
 		background-color: var(--#{$state}-hover);
 		border-color: var(--#{$state}-hover);
-		color: #fff;
+		color: var(--white);
 	}
 }
 .btn-light {
@@ -110,7 +121,7 @@
 		border-color: $border-color;
 	}
 	&:active, &.active {
-		color: #fff;
+		color: var(--white);
 		background-color: $primary;
 		border-color: $primary;
 	}
@@ -284,7 +295,7 @@
 
 .btn-liner-gradient{
 	background: linear-gradient(90deg, #2E37A4 0%, #0E9384 100%);
-	color: #fff !important;
+	color: var(--white) !important;
 	border: none;
 	box-shadow: none;
 	padding: 6px 10px;

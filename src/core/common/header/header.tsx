@@ -6,7 +6,7 @@ import { updateTheme } from "../../redux/themeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { setMobileSidebar } from "../../redux/sidebarSlice";
 import { all_routes } from "../../../feature-module/routes/all_routes";
-import { AIAssistantPopup, NotificationDropdownAI } from "../../../feature-module/components/ai";
+import { NotificationDropdownAI } from "../../../feature-module/components/ai";
 import RoleSelectorDropdown from './RoleSelectorDropdown';
 
 const Header = () => {
@@ -17,7 +17,6 @@ const Header = () => {
     const saved = localStorage.getItem("hiddenLayoutActive");
     return saved ? JSON.parse(saved) : false;
   });
-  const [isAIAssistantOpen, setIsAIAssistantOpen] = useState(false);
 
   useEffect(() => {
     const htmlElement: any = document.documentElement;
@@ -145,17 +144,6 @@ const Header = () => {
                 <i className="ti ti-search fs-16" />
               </button>
             </div>
-            {/* AI Assistant */}
-            <div className="header-item d-none d-lg-flex me-3">
-              <button
-                type="button"
-                className="btn btn-icon rounded-circle btn-liner-gradient ai-header-btn"
-                onClick={() => setIsAIAssistantOpen(true)}
-                aria-label="Open AI Assistant"
-              >
-                <i className="ti ti-chart-bubble-filled fs-16" />
-              </button>
-            </div>
             {/* Appointment */}
             <div className="header-item">
               <div className="dropdown me-2">
@@ -278,30 +266,6 @@ const Header = () => {
         </div>
       </header>
       {/* Topbar End */}
-      {/* AI Assistance - Floating icon on tablet/mobile */}
-      <button
-        onClick={() => setIsAIAssistantOpen(true)}
-        className="btn btn-liner-gradient btn-icon rounded-circle d-flex d-lg-none ai-float-btn"
-        aria-label="Open AI Assistant"
-        style={{
-          position: 'fixed',
-          bottom: '24px',
-          right: '24px',
-          zIndex: 1050,
-          width: '44px',
-          height: '44px',
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)',
-        }}
-      >
-        <i className="ti ti-chart-bubble-filled fs-20" />
-      </button>
-      {/* AI Assistant Popup */}
-      <AIAssistantPopup
-        isOpen={isAIAssistantOpen}
-        onClose={() => setIsAIAssistantOpen(false)}
-        userRole="admin"
-        userName="Jimmy Anderson"
-      />
 
       {/* Search Modal */}
       <div className="modal fade" id="searchModal">

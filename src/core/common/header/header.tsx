@@ -13,10 +13,6 @@ const Header = () => {
 
   const dispatch = useDispatch();
   const themeSettings = useSelector((state: any) => state.theme.themeSettings);
-  const [isHiddenLayoutActive, setIsHiddenLayoutActive] = useState(() => {
-    const saved = localStorage.getItem("hiddenLayoutActive");
-    return saved ? JSON.parse(saved) : false;
-  });
 
   useEffect(() => {
     const htmlElement: any = document.documentElement;
@@ -40,30 +36,18 @@ const Header = () => {
     dispatch(setMobileSidebar(!mobileSidebar));
   };
 
-  const handleToggleHiddenLayout = () => {
-    // Only apply this functionality when layout is "hidden"
-    if (themeSettings["data-layout"] === "hidden") {
-      const newState = !isHiddenLayoutActive;
-      setIsHiddenLayoutActive(newState);
-      localStorage.setItem("hiddenLayoutActive", JSON.stringify(newState));
+  const handleToggleSidebar = () => {
+    const rootElement = document.documentElement;
+    const isMini = rootElement.getAttribute("data-layout") === "mini";
+    const updatedLayout = isMini ? "default" : "mini";
+    dispatch(updateTheme({ "data-layout": updatedLayout }));
+    if (isMini) {
+      rootElement.classList.remove("mini-sidebar");
+    } else {
+      rootElement.classList.add("mini-sidebar");
     }
   };
 
-  // Sync body class with hidden layout state
-  useEffect(() => {
-    const bodyElement = document.body;
-    if (themeSettings["data-layout"] === "hidden") {
-      if (isHiddenLayoutActive) {
-        bodyElement.classList.add("hidden-layout");
-      } else {
-        bodyElement.classList.remove("hidden-layout");
-      }
-    } else {
-      bodyElement.classList.remove("hidden-layout");
-      setIsHiddenLayoutActive(false);
-      localStorage.removeItem("hiddenLayoutActive");
-    }
-  }, [isHiddenLayoutActive, themeSettings["data-layout"]]);
 
   return (
     <>
@@ -107,7 +91,7 @@ const Header = () => {
             <button
               className="sidenav-toggle-btn btn border-0 p-0 active"
               id="toggle_btn2"
-              onClick={handleToggleHiddenLayout}
+              onClick={handleToggleSidebar}
             >
               <i className="ti ti-arrow-right" />
             </button>

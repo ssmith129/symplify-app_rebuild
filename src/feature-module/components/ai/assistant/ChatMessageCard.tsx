@@ -7,12 +7,12 @@ interface ChatMessageCardProps {
 }
 
 const SEVERITY_COLORS: Record<string, string> = {
-  critical: 'var(--bs-danger, #EF1E1E)',
-  major: 'var(--bs-danger, #EF1E1E)',
-  high: '#e67e22',
-  moderate: 'var(--bs-warning, #C9A227)',
-  minor: 'var(--bs-success, #27AE60)',
-  low: 'var(--bs-success, #27AE60)',
+  critical: 'var(--clinical-critical)',
+  major: 'var(--clinical-critical)',
+  high: 'var(--clinical-urgent)',
+  moderate: 'var(--clinical-caution)',
+  minor: 'var(--clinical-stable)',
+  low: 'var(--clinical-stable)',
 };
 
 const RISK_ICONS: Record<string, string> = {
@@ -78,7 +78,7 @@ const DrugInteractionCard: React.FC<{ data: Record<string, unknown> }> = ({ data
 const TriageCard: React.FC<{ data: Record<string, unknown> }> = ({ data }) => {
   const priority = data.priority as number;
   const labels = ['', 'Resuscitation', 'Emergency', 'Urgent', 'Semi-Urgent', 'Non-Urgent'];
-  const colors = ['', '#DC2626', '#EA580C', '#D97706', '#2563EB', '#16A34A'];
+  const colors = ['', 'var(--clinical-critical)', 'var(--clinical-urgent)', 'var(--clinical-caution)', 'var(--primary)', 'var(--clinical-stable)'];
 
   return (
     <div className="chat-card chat-card-triage" style={{ borderLeftColor: colors[priority] || '#6b7280' }}>
@@ -195,7 +195,7 @@ const ComplianceCard: React.FC<{ data: Record<string, unknown> }> = ({ data }) =
   const score = data.overallScore as number;
   const cats = (data.categories as { name: string; score: number; status: string }[]) || [];
   const statusIcon: Record<string, string> = { pass: 'ti-circle-check', warning: 'ti-alert-triangle', fail: 'ti-circle-x' };
-  const statusColor: Record<string, string> = { pass: 'var(--bs-success)', warning: 'var(--bs-warning)', fail: 'var(--bs-danger)' };
+  const statusColor: Record<string, string> = { pass: 'var(--clinical-stable)', warning: 'var(--clinical-caution)', fail: 'var(--clinical-critical)' };
 
   return (
     <div className="chat-card chat-card-compliance">

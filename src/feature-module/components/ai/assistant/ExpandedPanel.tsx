@@ -132,7 +132,7 @@ const AlertsExpanded: React.FC = () => {
     { event: 'Fall risk increase', patient: 'Robert Johnson', risk: 'moderate', time: '6 hours', confidence: 82 },
   ];
 
-  const riskColors: Record<string, string> = { critical: '#DC2626', high: '#EA580C', moderate: '#D97706', low: '#16A34A' };
+  const riskColors: Record<string, string> = { critical: 'var(--clinical-critical)', high: 'var(--clinical-urgent)', moderate: 'var(--clinical-caution)', low: 'var(--clinical-stable)' };
 
   return (
     <div className="ep-content">

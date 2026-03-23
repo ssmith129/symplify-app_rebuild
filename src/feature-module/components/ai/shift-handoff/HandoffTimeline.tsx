@@ -66,9 +66,9 @@ export const HandoffTimeline: React.FC<HandoffTimelineProps> = ({
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
-      case 'critical': return 'var(--clinical-critical)';
-      case 'warning': return 'var(--clinical-urgent)';
-      default: return 'var(--gray-400)';
+      case 'critical': return '#F44336';
+      case 'warning': return '#FF9800';
+      default: return '#9E9E9E';
     }
   };
 

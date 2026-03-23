@@ -19,10 +19,10 @@ interface ShiftHandoffSummaryProps {
 }
 
 const PRIORITY_CONFIG = {
-  critical: { color: 'var(--clinical-critical)', bgColor: 'var(--clinical-critical-bg)', label: 'Critical' },
-  high: { color: 'var(--clinical-urgent)', bgColor: 'var(--clinical-urgent-bg)', label: 'High' },
-  moderate: { color: 'var(--clinical-caution)', bgColor: 'var(--clinical-caution-bg)', label: 'Moderate' },
-  stable: { color: 'var(--clinical-stable)', bgColor: 'var(--clinical-stable-bg)', label: 'Stable' }
+  critical: { color: '#991B1B', bgColor: '#FEE2E2', label: 'Critical' },
+  high: { color: '#C2410C', bgColor: '#FFF7ED', label: 'High' },
+  moderate: { color: '#78350F', bgColor: '#FEF9C3', label: 'Moderate' },
+  stable: { color: '#166534', bgColor: '#DCFCE7', label: 'Stable' }
 };
 
 const ShiftHandoffSummary: React.FC<ShiftHandoffSummaryProps> = ({
@@ -263,9 +263,9 @@ const ShiftHandoffSummary: React.FC<ShiftHandoffSummaryProps> = ({
               <span className="legend-chip"><i className="ti ti-temperature" /> Temp = Temperature</span>
             </div>
             <div className="legend-arrows">
-              <span className="legend-chip"><span style={{color: 'var(--clinical-stable)'}}>↑ Improving</span></span>
-              <span className="legend-chip"><span style={{color: 'var(--gray-500)'}}>→ Stable</span></span>
-              <span className="legend-chip"><span style={{color: 'var(--clinical-critical)'}}>↓ Declining</span></span>
+              <span className="legend-chip"><span style={{color: '#166534'}}>↑ Improving</span></span>
+              <span className="legend-chip"><span style={{color: '#6B7280'}}>→ Stable</span></span>
+              <span className="legend-chip"><span style={{color: '#991B1B'}}>↓ Declining</span></span>
             </div>
           </div>
         )}

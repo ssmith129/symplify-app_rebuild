@@ -306,7 +306,7 @@ export const SidebarData = [
         submenuItems: [],
       },
       {
-        label: "specializations",
+        label: "Specializations",
         link: routes.specializations,
         submenu: false,
         showSubRoute: false,

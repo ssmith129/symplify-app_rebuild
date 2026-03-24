@@ -166,7 +166,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onExpandEnter, onExpandLeave }) => {
           <div>
             {/* Logo Normal */}
             <Link to={all_routes.dashboard} className="logo logo-normal">
-              <ImageWithBasePath src="assets/img/logo.svg" alt="Logo" />
+              <img src="https://cdn.builder.io/api/v1/image/assets%2Fba69a23156414a589de97341511272c9%2Fa91e18e921094a9cbd9ae980257d3d46?format=webp&width=800&height=1200" alt="Logo" style={{ height: 32 }} />
             </Link>
             {/* Logo Small */}
             <Link to={all_routes.dashboard} className="logo-small">

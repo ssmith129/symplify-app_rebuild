@@ -129,20 +129,7 @@ const SidebarTwo: React.FC<SidebarTwoProps> = ({ onExpandEnter, onExpandLeave })
         onMouseLeave={onMouseLeave}>
         {/* Start Logo */}
         <div className="sidebar-logo">
-          <div>
-            {/* Logo Normal */}
-            <Link to={all_routes.dashboard} className="logo logo-normal">
-              <ImageWithBasePath src="assets/img/logo.svg" alt="Logo" />
-            </Link>
-            {/* Logo Small */}
-            <Link to={all_routes.dashboard} className="logo-small">
-              <ImageWithBasePath src="assets/img/logo-small.svg" alt="Logo" />
-            </Link>
-            {/* Logo Dark */}
-            <Link to={all_routes.dashboard} className="dark-logo">
-              <ImageWithBasePath src="assets/img/logo-white.svg" alt="Logo" />
-            </Link>
-          </div>
+          <div></div>
          <button
             className="sidenav-toggle-btn btn border-0 p-0 active"
             id="toggle_btn"

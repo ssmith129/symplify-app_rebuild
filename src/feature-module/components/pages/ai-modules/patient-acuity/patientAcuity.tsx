@@ -95,11 +95,6 @@ const PatientAcuity: React.FC = () => {
           <div className="row align-items-center">
             <div className="col">
               <h3 className="page-title">Patient Acuity Dashboard</h3>
-              <ul className="breadcrumb mb-0">
-                <li className="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-                <li className="breadcrumb-item"><a href="#">AI Modules</a></li>
-                <li className="breadcrumb-item active">Patient Acuity</li>
-              </ul>
             </div>
             <div className="col-auto d-flex gap-2 align-items-center">
               <span className="pa-live-indicator">

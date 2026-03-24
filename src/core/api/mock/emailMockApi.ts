@@ -139,6 +139,66 @@ export const getMockEmails = (): AnalyzedEmail[] => {
       read: true,
       starred: false,
       hasAttachments: false
+    },
+    {
+      id: 'email-005',
+      subject: 'Abnormal Radiology Results - Chest CT',
+      preview: 'Findings on chest CT for patient Maria Santos show a 1.8cm pulmonary nodule requiring follow-up...',
+      sender: { email: 'radiology@hospital.org', name: 'Radiology Department', isInternal: true, trustScore: 90 },
+      timestamp: new Date(Date.now() - 45 * 60000).toISOString(),
+      read: false,
+      starred: false,
+      hasAttachments: true
+    },
+    {
+      id: 'email-006',
+      subject: 'Medication Interaction Alert - Patient #4821',
+      preview: 'Pharmacy flag: Potential interaction between newly prescribed Warfarin and existing Amiodarone regimen...',
+      sender: { email: 'pharmacy@hospital.org', name: 'Pharmacy Services', isInternal: true, trustScore: 90 },
+      timestamp: new Date(Date.now() - 1.5 * 3600000).toISOString(),
+      read: false,
+      starred: true,
+      hasAttachments: false
+    },
+    {
+      id: 'email-007',
+      subject: 'Appointment Reschedule Request',
+      preview: 'Patient Robert Chen has requested to reschedule his post-op follow-up from March 28 to April 2...',
+      sender: { email: 'scheduling@hospital.org', name: 'Patient Scheduling', isInternal: true, trustScore: 70 },
+      timestamp: new Date(Date.now() - 3 * 3600000).toISOString(),
+      read: true,
+      starred: false,
+      hasAttachments: false
+    },
+    {
+      id: 'email-008',
+      subject: 'URGENT: Blood Bank Shortage - Type O Negative',
+      preview: 'Current supply of O-negative blood is critically low. All elective procedures requiring transfusion...',
+      sender: { email: 'bloodbank@hospital.org', name: 'Blood Bank Services', isInternal: true, trustScore: 85 },
+      timestamp: new Date(Date.now() - 50 * 60000).toISOString(),
+      read: false,
+      starred: false,
+      hasAttachments: false
+    },
+    {
+      id: 'email-009',
+      subject: 'Mandatory Compliance Training Due',
+      preview: 'Reminder: Annual HIPAA and infection control training modules must be completed by April 15...',
+      sender: { email: 'training@hospital.org', name: 'HR & Compliance', isInternal: true, trustScore: 60 },
+      timestamp: new Date(Date.now() - 6 * 3600000).toISOString(),
+      read: true,
+      starred: false,
+      hasAttachments: true
+    },
+    {
+      id: 'email-010',
+      subject: 'Discharge Summary Review - Bed 4C-112',
+      preview: 'Please review and co-sign the discharge summary for patient Thompson before end of shift today...',
+      sender: { email: 'records@hospital.org', name: 'Medical Records', isInternal: true, trustScore: 75 },
+      timestamp: new Date(Date.now() - 4 * 3600000).toISOString(),
+      read: false,
+      starred: false,
+      hasAttachments: true
     }
   ];
 

@@ -30,15 +30,23 @@ export interface EmailAnalysis {
   requiresAction: boolean;
 }
 
+export interface EmailAttachment {
+  name: string;
+  size: string;
+  icon: string; // tabler icon class e.g. 'ti-file-text'
+}
+
 export interface AnalyzedEmail {
   id: string;
   subject: string;
   preview: string;
+  body: string;
   sender: EmailSender;
   timestamp: string;
   read: boolean;
   starred: boolean;
   hasAttachments: boolean;
+  attachments?: EmailAttachment[];
   analysis: EmailAnalysis;
 }
 

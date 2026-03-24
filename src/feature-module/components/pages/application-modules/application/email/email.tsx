@@ -472,25 +472,33 @@ const Email = () => {
 
                     {/* Body */}
                     <div className="email-body-block">
-                      <p>{selectedEmail.preview}</p>
-                      <p className="email-body-placeholder">
-                        [Full email content would appear here in production]
-                      </p>
+                      {selectedEmail.body.split('\n\n').map((paragraph, idx) => (
+                        <p key={idx}>
+                          {paragraph.split('\n').map((line, lidx, arr) => (
+                            <span key={lidx}>
+                              {line}
+                              {lidx < arr.length - 1 && <br />}
+                            </span>
+                          ))}
+                        </p>
+                      ))}
                     </div>
 
                     {/* Attachments */}
-                    {selectedEmail.hasAttachments && (
+                    {selectedEmail.hasAttachments && selectedEmail.attachments && selectedEmail.attachments.length > 0 && (
                       <div className="email-attachments-block">
                         <h6>
-                          <i className="ti ti-paperclip" /> Attachments
+                          <i className="ti ti-paperclip" /> Attachments ({selectedEmail.attachments.length})
                         </h6>
-                        <div className="email-attachment-item">
-                          <i className="ti ti-file-text" />
-                          <div>
-                            <span className="email-attachment-name">document.pdf</span>
-                            <span className="email-attachment-size">245 KB</span>
+                        {selectedEmail.attachments.map((att, idx) => (
+                          <div className="email-attachment-item" key={idx}>
+                            <i className={`ti ${att.icon}`} />
+                            <div>
+                              <span className="email-attachment-name">{att.name}</span>
+                              <span className="email-attachment-size">{att.size}</span>
+                            </div>
                           </div>
-                        </div>
+                        ))}
                       </div>
                     )}
                   </div>

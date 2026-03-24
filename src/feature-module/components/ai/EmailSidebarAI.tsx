@@ -39,7 +39,6 @@ export const EmailSidebarAI: React.FC<EmailSidebarAIProps> = ({
           <i className="ti ti-sparkles text-warning me-2" />
           Smart Folders
         </h6>
-        <small className="text-muted">AI-organized</small>
       </div>
       
       <div className="folder-list">

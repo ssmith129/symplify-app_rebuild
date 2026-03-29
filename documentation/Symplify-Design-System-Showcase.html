@@ -1,0 +1,2002 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Symplify Design System v1.7.4 — Interactive Showcase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════
+   SYMPLIFY DESIGN SYSTEM — INTERACTIVE SHOWCASE
+   Version 1.7.4 | Extracted from production SCSS codebase
+   ══════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Brand Colors ── */
+  --primary: #2E37A4;
+  --primary-hover: #3C449C;
+  --primary-transparent: #ECEDF7;
+  --primary-rgb: 46, 55, 164;
+  --secondary: #00D3C7;
+  --secondary-hover: #17C2B9;
+  --secondary-transparent: #E8FBFA;
+  --secondary-rgb: 0, 211, 199;
+
+  /* ── Semantic / Status ── */
+  --success: #27AE60;
+  --success-hover: #37A465;
+  --success-transparent: #F4FBF7;
+  --info: #2F80ED;
+  --info-hover: #3D7FD7;
+  --info-transparent: #F4F9FE;
+  --warning: #E2B93B;
+  --warning-hover: #CEAD47;
+  --warning-transparent: #FEFBF5;
+  --danger: #EF1E1E;
+  --danger-hover: #D93030;
+  --danger-transparent: #FEF4F4;
+  --orange: #E04F16;
+  --orange-transparent: #FDF6F3;
+  --indigo: #3538CD;
+  --indigo-transparent: #EDEDFB;
+  --teal: #0E9384;
+  --teal-transparent: #E9F5F4;
+  --purple: #800080;
+  --purple-transparent: #F9F2F9;
+  --pink: #DD2590;
+  --pink-transparent: #FDF4F9;
+  --cyan: #00D3C7;
+
+  /* ── Neutrals ── */
+  --gray-100: #CED1D7;
+  --gray-200: #B6BBC4;
+  --gray-300: #9DA4B0;
+  --gray-400: #858D9C;
+  --gray-500: #6C7688;
+  --gray-600: #545F74;
+  --gray-700: #3B4961;
+  --gray-800: #23324D;
+  --gray-900: #0A1B39;
+
+  /* ── Surfaces ── */
+  --white: #FFFFFF;
+  --light: #F5F6F8;
+  --dark: #0B0D0E;
+  --border-color: #E7E8EB;
+  --body-color: #6C7688;
+  --heading-color: #0A1B39;
+
+  /* ── Shadows ── */
+  --box-shadow-sm: 0px 1px 1px 0px rgba(0,0,0,0.05);
+  --box-shadow: 0px 0px 35px 0px rgba(104,134,177,0.15);
+  --box-shadow-lg: 0 0 45px 0 rgba(108,118,136,0.2);
+
+  /* ── Radius ── */
+  --radius: 0.3rem;
+  --radius-lg: 0.6rem;
+  --radius-pill: 50px;
+
+  /* ── Layout ── */
+  --sidebar-width: 260px;
+  --topbar-height: 55px;
+
+  /* ── Showcase-specific ── */
+  --showcase-bg: #F8F9FB;
+  --showcase-nav-bg: rgba(255,255,255,0.92);
+  --showcase-gutter: 32px;
+  --showcase-section-gap: 80px;
+}
+
+[data-theme="dark"] {
+  --white: #0D0F1A;
+  --light: #141628;
+  --dark: #E3E3E3;
+  --border-color: #1E2140;
+  --body-color: #9FACBF;
+  --heading-color: #D9DCFF;
+  --gray-100: #2A2D3A;
+  --gray-200: #3A3E4E;
+  --gray-300: #4A4F62;
+  --gray-400: #5C6275;
+  --gray-500: #79818F;
+  --gray-600: #8891A3;
+  --gray-700: #96A3B8;
+  --gray-800: #A4B3CE;
+  --gray-900: #D9DCFF;
+  --primary-transparent: #1A1D3A;
+  --secondary-transparent: #0F2E2C;
+  --success-transparent: #0F2518;
+  --info-transparent: #0F1D30;
+  --warning-transparent: #2A2008;
+  --danger-transparent: #2A0E0E;
+  --showcase-bg: #0A0C18;
+  --showcase-nav-bg: rgba(13,15,26,0.95);
+  --box-shadow: 0px 4px 14px rgba(0,0,0,0.5);
+  --box-shadow-sm: 0px 1px 2px rgba(0,0,0,0.3);
+}
+
+/* ══════════════════════════════════════════════════════════
+   RESET & BASE
+   ══════════════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--body-color);
+  background: var(--showcase-bg);
+  transition: background 0.3s, color 0.3s;
+}
+
+/* ══════════════════════════════════════════════════════════
+   NAVIGATION
+   ══════════════════════════════════════════════════════════ */
+
+.showcase-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 64px;
+  background: var(--showcase-nav-bg);
+  backdrop-filter: blur(20px) saturate(1.8);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  padding: 0 32px;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.nav-brand-icon {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: -0.5px;
+}
+
+.nav-brand-text {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--heading-color);
+  letter-spacing: -0.3px;
+}
+
+.nav-brand-version {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--gray-400);
+  background: var(--light);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-color);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 40px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex: 1;
+}
+
+.nav-links::-webkit-scrollbar { display: none; }
+
+.nav-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gray-500);
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.nav-link:hover, .nav-link.active {
+  color: var(--primary);
+  background: var(--primary-transparent);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  margin-left: 16px;
+}
+
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background: var(--white);
+  color: var(--gray-600);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: all 0.2s;
+}
+
+.theme-toggle:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-transparent);
+}
+
+/* ══════════════════════════════════════════════════════════
+   LAYOUT
+   ══════════════════════════════════════════════════════════ */
+
+.showcase-main {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 96px 32px 64px;
+}
+
+.section {
+  margin-bottom: var(--showcase-section-gap);
+  animation: sectionFadeIn 0.6s ease both;
+}
+
+@keyframes sectionFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.section-header {
+  margin-bottom: 32px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.section-number {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--heading-color);
+  line-height: 1.2;
+  letter-spacing: -0.3px;
+}
+
+.section-desc {
+  font-size: 15px;
+  color: var(--gray-500);
+  margin-top: 8px;
+  max-width: 640px;
+  line-height: 1.7;
+}
+
+.subsection {
+  margin-bottom: 40px;
+}
+
+.subsection-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--heading-color);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.subsection-title::before {
+  content: '';
+  width: 3px;
+  height: 16px;
+  background: var(--primary);
+  border-radius: 2px;
+}
+
+/* ── Component Card ── */
+.component-card {
+  background: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 24px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.component-card:hover {
+  border-color: rgba(var(--primary-rgb), 0.3);
+  box-shadow: 0 4px 20px rgba(var(--primary-rgb), 0.06);
+}
+
+.component-card-header {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--light);
+}
+
+.component-card-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gray-600);
+}
+
+.component-card-tag {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tag-core { background: var(--primary-transparent); color: var(--primary); }
+.tag-clinical { background: var(--danger-transparent); color: var(--danger); }
+.tag-ai { background: var(--indigo-transparent); color: var(--indigo); }
+.tag-layout { background: var(--teal-transparent); color: var(--teal); }
+
+.component-card-body {
+  padding: 32px 24px;
+}
+
+/* ── Grid helpers ── */
+.grid { display: grid; gap: 24px; }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-5 { grid-template-columns: repeat(5, 1fr); }
+.grid-auto { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+
+@media (max-width: 768px) {
+  .grid-2, .grid-3, .grid-4, .grid-5 { grid-template-columns: 1fr; }
+  .showcase-nav { padding: 0 16px; }
+  .nav-links { display: none; }
+  .showcase-main { padding: 80px 16px 40px; }
+  .section-title { font-size: 24px; }
+}
+
+.flex { display: flex; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.gap-8 { gap: 8px; }
+.gap-12 { gap: 12px; }
+.gap-16 { gap: 16px; }
+.gap-24 { gap: 24px; }
+
+/* ══════════════════════════════════════════════════════════
+   HERO SECTION
+   ══════════════════════════════════════════════════════════ */
+
+.hero {
+  text-align: center;
+  padding: 60px 0 80px;
+  position: relative;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(var(--primary-rgb), 0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--white);
+  border: 1px solid var(--border-color);
+  padding: 6px 16px 6px 8px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gray-600);
+  margin-bottom: 24px;
+  box-shadow: var(--box-shadow-sm);
+}
+
+.hero-badge-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--success);
+  border-radius: 50%;
+  animation: pulse 2s ease infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.85); }
+}
+
+.hero-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 400;
+  color: var(--heading-color);
+  line-height: 1.1;
+  margin-bottom: 16px;
+  letter-spacing: -0.5px;
+}
+
+.hero-title span {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-size: 17px;
+  color: var(--gray-500);
+  max-width: 560px;
+  margin: 0 auto 32px;
+  line-height: 1.7;
+}
+
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.hero-stat {
+  text-align: center;
+}
+
+.hero-stat-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--heading-color);
+}
+
+.hero-stat-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--gray-400);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   COLOR PALETTE
+   ══════════════════════════════════════════════════════════ */
+
+.color-swatch {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.color-swatch:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+.color-swatch-fill {
+  height: 72px;
+  transition: transform 0.3s;
+}
+
+.color-swatch:hover .color-swatch-fill {
+  transform: scale(1.02);
+}
+
+.color-swatch-info {
+  padding: 12px;
+  background: var(--white);
+}
+
+.color-swatch-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--heading-color);
+}
+
+.color-swatch-hex {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--gray-400);
+  margin-top: 2px;
+}
+
+/* ── Gray scale strip ── */
+.gray-strip {
+  display: flex;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.gray-strip-item {
+  flex: 1;
+  height: 56px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  transition: flex 0.3s;
+  cursor: pointer;
+}
+
+.gray-strip-item:hover { flex: 2; }
+
+/* ══════════════════════════════════════════════════════════
+   TYPOGRAPHY
+   ══════════════════════════════════════════════════════════ */
+
+.type-specimen {
+  padding: 24px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+}
+
+.type-specimen-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--gray-400);
+  margin-bottom: 8px;
+}
+
+.type-scale-row {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.type-scale-row:last-child { border-bottom: none; }
+
+.type-scale-meta {
+  flex-shrink: 0;
+  width: 120px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--gray-400);
+}
+
+.type-scale-sample {
+  color: var(--heading-color);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.3;
+}
+
+/* ══════════════════════════════════════════════════════════
+   BUTTONS
+   ══════════════════════════════════════════════════════════ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.btn-sm { font-size: 12px; padding: 5px 10px; }
+.btn-lg { font-size: 14px; padding: 8px 16px; }
+.btn-icon { width: 32px; height: 32px; padding: 0; border-radius: 50%; }
+
+.btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+.btn-primary:hover { background: var(--primary-hover); border-color: var(--primary-hover); }
+
+.btn-secondary { background: var(--secondary); color: #fff; border-color: var(--secondary); }
+.btn-secondary:hover { background: var(--secondary-hover); border-color: var(--secondary-hover); }
+
+.btn-success { background: var(--success); color: #fff; border-color: var(--success); }
+.btn-success:hover { background: var(--success-hover); }
+
+.btn-danger { background: var(--danger); color: #fff; border-color: var(--danger); }
+.btn-danger:hover { background: var(--danger-hover); }
+
+.btn-warning { background: var(--warning); color: #fff; border-color: var(--warning); }
+.btn-warning:hover { background: var(--warning-hover); }
+
+.btn-info { background: var(--info); color: #fff; border-color: var(--info); }
+.btn-info:hover { background: var(--info-hover); }
+
+.btn-dark { background: #0B0D0E; color: #fff; border-color: #0B0D0E; }
+.btn-light { background: var(--light); color: var(--gray-900); border-color: var(--border-color); }
+
+.btn-outline-primary { background: transparent; color: var(--primary); border-color: var(--primary); }
+.btn-outline-primary:hover { background: var(--primary); color: #fff; }
+.btn-outline-secondary { background: transparent; color: var(--secondary); border-color: var(--secondary); }
+.btn-outline-secondary:hover { background: var(--secondary); color: #fff; }
+.btn-outline-danger { background: transparent; color: var(--danger); border-color: var(--danger); }
+.btn-outline-danger:hover { background: var(--danger); color: #fff; }
+
+.btn-soft-primary { background: var(--primary-transparent); color: var(--primary); border-color: var(--primary); }
+.btn-soft-primary:hover { background: var(--primary); color: #fff; }
+.btn-soft-success { background: var(--success-transparent); color: var(--success); border-color: var(--success); }
+.btn-soft-success:hover { background: var(--success); color: #fff; }
+.btn-soft-danger { background: var(--danger-transparent); color: var(--danger); border-color: var(--danger); }
+.btn-soft-danger:hover { background: var(--danger); color: #fff; }
+
+.btn-gradient {
+  background: linear-gradient(90deg, #2E37A4, #0E9384);
+  color: #fff;
+  border: none;
+}
+.btn-gradient:hover {
+  background: linear-gradient(-90deg, #2E37A4, #0E9384);
+}
+
+.btn-white { background: var(--white); color: var(--gray-900); border-color: var(--border-color); }
+.btn-white:hover { background: var(--light); }
+
+.btn:disabled, .btn.disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ══════════════════════════════════════════════════════════
+   FORM CONTROLS
+   ══════════════════════════════════════════════════════════ */
+
+.form-control {
+  width: 100%;
+  padding: 8px 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--body-color);
+  background: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-control:focus { border-color: var(--primary); }
+.form-control::placeholder { color: var(--gray-400); }
+.form-control:disabled { background: var(--light); cursor: not-allowed; }
+
+.form-control-sm { font-size: 12px; padding: 5px 12px; }
+.form-control-lg { font-size: 16px; padding: 8px 12px; }
+
+.form-control.is-invalid { border-color: var(--danger); }
+.form-control.is-valid { border-color: var(--success); }
+
+.form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--heading-color);
+  margin-bottom: 6px;
+}
+
+.form-text {
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.form-text.text-danger { color: var(--danger); }
+.form-text.text-success { color: var(--success); }
+
+.form-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236C7688' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.form-check-input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+.form-check-label {
+  font-size: 14px;
+  color: var(--body-color);
+  cursor: pointer;
+}
+
+/* ══════════════════════════════════════════════════════════
+   CARDS
+   ══════════════════════════════════════════════════════════ */
+
+.card {
+  background: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  transition: box-shadow 0.2s;
+}
+
+.card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+
+.card-header {
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--heading-color);
+}
+
+.card-body { padding: 20px; }
+.card-footer {
+  padding: 12px 20px;
+  border-top: 1px solid var(--border-color);
+  background: var(--white);
+}
+
+/* ══════════════════════════════════════════════════════════
+   TABLE
+   ══════════════════════════════════════════════════════════ */
+
+.table-container {
+  overflow-x: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+}
+
+table th {
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--heading-color);
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--light);
+}
+
+table td {
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--gray-600);
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: middle;
+}
+
+table tr:last-child td { border-bottom: none; }
+table tr:hover td { background: rgba(var(--primary-rgb), 0.02); }
+
+/* ══════════════════════════════════════════════════════════
+   BADGES
+   ══════════════════════════════════════════════════════════ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius);
+  line-height: 1.4;
+  gap: 4px;
+}
+
+.badge-primary { background: var(--primary); color: #fff; }
+.badge-secondary { background: var(--secondary); color: #fff; }
+.badge-success { background: var(--success); color: #fff; }
+.badge-danger { background: var(--danger); color: #fff; }
+.badge-warning { background: var(--warning); color: #fff; }
+.badge-info { background: var(--info); color: #fff; }
+
+.badge-soft-primary { background: var(--primary-transparent); color: var(--primary); }
+.badge-soft-secondary { background: var(--secondary-transparent); color: var(--secondary); }
+.badge-soft-success { background: var(--success-transparent); color: var(--success); }
+.badge-soft-danger { background: var(--danger-transparent); color: var(--danger); }
+.badge-soft-warning { background: var(--warning-transparent); color: var(--warning); }
+.badge-soft-info { background: var(--info-transparent); color: var(--info); }
+.badge-soft-indigo { background: var(--indigo-transparent); color: var(--indigo); }
+.badge-soft-teal { background: var(--teal-transparent); color: var(--teal); }
+.badge-soft-orange { background: var(--orange-transparent); color: var(--orange); }
+.badge-soft-purple { background: var(--purple-transparent); color: var(--purple); }
+
+.badge-outline-primary { background: transparent; color: var(--primary); border: 1px solid var(--primary); }
+.badge-outline-danger { background: transparent; color: var(--danger); border: 1px solid var(--danger); }
+.badge-outline-success { background: transparent; color: var(--success); border: 1px solid var(--success); }
+
+.badge-pill { border-radius: var(--radius-pill); }
+
+/* Clinical severity badges */
+.severity-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.severity-minor { background: #d4edda; color: #155724; }
+.severity-moderate { background: #fff3cd; color: #856404; }
+.severity-major { background: #f8d7da; color: #721c24; }
+.severity-contraindicated { background: #721c24; color: #fff; }
+
+/* ══════════════════════════════════════════════════════════
+   ALERTS
+   ══════════════════════════════════════════════════════════ */
+
+.alert {
+  padding: 12px 16px;
+  border-radius: 5px;
+  font-size: 13px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  line-height: 1.5;
+}
+
+.alert-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+.alert-primary { background: var(--primary-transparent); color: var(--primary); }
+.alert-success { background: var(--success-transparent); color: var(--success); }
+.alert-warning { background: var(--warning-transparent); color: var(--warning); }
+.alert-danger { background: var(--danger-transparent); color: var(--danger); }
+.alert-info { background: var(--info-transparent); color: var(--info); }
+
+/* ══════════════════════════════════════════════════════════
+   AVATARS
+   ══════════════════════════════════════════════════════════ */
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
+  font-weight: 600;
+  color: #fff;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.avatar img { width: 100%; height: 100%; object-fit: cover; }
+.avatar.rounded { border-radius: 50%; }
+
+.avatar-xs { width: 24px; height: 24px; font-size: 10px; }
+.avatar-sm { width: 32px; height: 32px; font-size: 12px; }
+.avatar-md { width: 40px; height: 40px; font-size: 14px; }
+.avatar-lg { width: 48px; height: 48px; font-size: 16px; }
+.avatar-xl { width: 56px; height: 56px; font-size: 20px; }
+
+.avatar.online::after, .avatar.offline::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--white);
+}
+
+.avatar.online::after { background: var(--success); }
+.avatar.offline::after { background: var(--danger); }
+
+.avatar-group {
+  display: flex;
+  align-items: center;
+}
+
+.avatar-group .avatar {
+  margin-left: -10px;
+  border: 2px solid var(--white);
+}
+
+.avatar-group .avatar:first-child { margin-left: 0; }
+
+/* ══════════════════════════════════════════════════════════
+   PROGRESS
+   ══════════════════════════════════════════════════════════ */
+
+.progress {
+  height: 8px;
+  background: var(--light);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--primary);
+  transition: width 1s ease;
+}
+
+.progress-sm { height: 5px; }
+.progress-lg { height: 12px; }
+
+/* ══════════════════════════════════════════════════════════
+   MODAL PREVIEW
+   ══════════════════════════════════════════════════════════ */
+
+.modal-preview {
+  background: var(--white);
+  border-radius: 10px;
+  box-shadow: var(--box-shadow);
+  max-width: 420px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.modal-preview-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-preview-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--heading-color);
+}
+
+.modal-preview-close {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: var(--light);
+  color: var(--gray-600);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: all 0.2s;
+}
+
+.modal-preview-close:hover { background: var(--danger-transparent); color: var(--danger); }
+
+.modal-preview-body { padding: 20px; }
+.modal-preview-footer {
+  padding: 16px 20px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   CLINICAL COMPONENTS PREVIEW
+   ══════════════════════════════════════════════════════════ */
+
+.patient-card-preview {
+  border-left: 4px solid;
+  border-radius: 12px;
+  padding: 20px;
+  background: var(--white);
+  border: 1px solid var(--border-color);
+  transition: all 0.2s;
+}
+
+.patient-card-preview:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
+}
+
+.patient-card-preview.priority-critical { border-left: 4px solid #F44336; }
+.patient-card-preview.priority-high { border-left: 4px solid #FF9800; }
+.patient-card-preview.priority-stable { border-left: 4px solid #4CAF50; }
+
+.vital-card {
+  padding: 16px;
+  background: var(--light);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.vital-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--heading-color);
+}
+
+.vital-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--gray-400);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 4px;
+}
+
+.vital-trend {
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.trend-up { color: var(--danger); }
+.trend-down { color: var(--success); }
+.trend-stable { color: var(--gray-400); }
+
+/* AI Confidence Bar */
+.confidence-bar-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.confidence-bar {
+  flex: 1;
+  height: 8px;
+  background: var(--light);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.confidence-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  border-radius: var(--radius-pill);
+  transition: width 1.5s ease;
+}
+
+.confidence-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: #667eea;
+  min-width: 40px;
+}
+
+/* SBAR Section */
+.sbar-section {
+  padding: 16px 20px;
+  background: var(--light);
+  border-left: 4px solid;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 12px;
+}
+
+.sbar-section.sbar-s { border-color: var(--info); }
+.sbar-section.sbar-b { border-color: var(--secondary); }
+.sbar-section.sbar-a { border-color: var(--warning); }
+.sbar-section.sbar-r { border-color: var(--success); }
+
+.sbar-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.sbar-text {
+  font-size: 13px;
+  color: var(--body-color);
+  line-height: 1.6;
+}
+
+/* Drug Interaction Alert */
+.drug-alert {
+  padding: 16px 20px;
+  border-radius: 8px;
+  border-left: 4px solid;
+  margin-bottom: 12px;
+}
+
+.drug-alert.minor { background: #d4edda; border-color: #28a745; }
+.drug-alert.moderate { background: #fff3cd; border-color: #ffc107; }
+.drug-alert.major { background: #f8d7da; border-color: #dc3545; }
+
+.drug-alert-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.drug-alert-desc { font-size: 12px; opacity: 0.85; line-height: 1.5; }
+
+/* ══════════════════════════════════════════════════════════
+   SPACING & SHADOW DEMOS
+   ══════════════════════════════════════════════════════════ */
+
+.spacing-demo {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.spacing-block {
+  background: var(--primary);
+  border-radius: 4px;
+  position: relative;
+}
+
+.spacing-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--gray-400);
+  text-align: center;
+  margin-top: 8px;
+}
+
+.shadow-demo {
+  padding: 24px;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+
+.shadow-demo-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--gray-400);
+  margin-top: 12px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   RESPONSIVE BREAKPOINT VISUAL
+   ══════════════════════════════════════════════════════════ */
+
+.breakpoint-bar {
+  position: relative;
+  height: 40px;
+  background: var(--light);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.breakpoint-segment {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  color: #fff;
+  border-right: 2px solid rgba(255,255,255,0.3);
+  transition: opacity 0.3s;
+}
+
+.breakpoint-segment:hover { opacity: 0.85; }
+
+/* ══════════════════════════════════════════════════════════
+   TOKEN TABLE
+   ══════════════════════════════════════════════════════════ */
+
+.token-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.token-cell {
+  padding: 12px 16px;
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.token-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--heading-color);
+}
+
+.token-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--gray-400);
+}
+
+/* Copy tooltip */
+.copy-toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--gray-900);
+  color: #fff;
+  padding: 8px 20px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s;
+  z-index: 1000;
+}
+
+.copy-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════ NAVIGATION ════════════════ -->
+<nav class="showcase-nav">
+  <a class="nav-brand" href="#">
+    <div class="nav-brand-icon">S+</div>
+    <span class="nav-brand-text">Symplify</span>
+    <span class="nav-brand-version">v1.7.4</span>
+  </a>
+  <div class="nav-links">
+    <a href="#colors" class="nav-link">Colors</a>
+    <a href="#typography" class="nav-link">Typography</a>
+    <a href="#spacing" class="nav-link">Spacing</a>
+    <a href="#buttons" class="nav-link">Buttons</a>
+    <a href="#forms" class="nav-link">Forms</a>
+    <a href="#cards" class="nav-link">Cards</a>
+    <a href="#tables" class="nav-link">Tables</a>
+    <a href="#badges" class="nav-link">Badges</a>
+    <a href="#alerts" class="nav-link">Alerts</a>
+    <a href="#avatars" class="nav-link">Avatars</a>
+    <a href="#modals" class="nav-link">Modals</a>
+    <a href="#clinical" class="nav-link">Clinical</a>
+    <a href="#layout" class="nav-link">Layout</a>
+    <a href="#theming" class="nav-link">Theming</a>
+  </div>
+  <div class="nav-actions">
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode">☀</button>
+  </div>
+</nav>
+
+<main class="showcase-main">
+
+<!-- ════════════════ HERO ════════════════ -->
+<section class="hero">
+  <div class="hero-badge">
+    <span class="hero-badge-dot"></span>
+    Healthcare Enterprise Design System
+  </div>
+  <h1 class="hero-title">The <span>Symplify</span><br>Design System</h1>
+  <p class="hero-subtitle">Production-grade tokens, components, and patterns extracted from the v1.7.4 codebase. Built for clinical safety, WCAG 2.1 AA compliance, and healthcare workflow optimization.</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-value">74</div>
+      <div class="hero-stat-label">Design Tokens</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-value">22</div>
+      <div class="hero-stat-label">Components</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-value">13</div>
+      <div class="hero-stat-label">Theme Variants</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-value">10</div>
+      <div class="hero-stat-label">AI Components</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ COLORS ════════════════ -->
+<section class="section" id="colors">
+  <div class="section-header">
+    <div class="section-number">01 — Tokens</div>
+    <h2 class="section-title">Color Palette</h2>
+    <p class="section-desc">CSS custom properties on :root enabling runtime theming. Click any swatch to copy the hex value.</p>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Brand Colors</div>
+    <div class="grid grid-5" style="grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));">
+      <div class="color-swatch" onclick="copyColor('#2E37A4')">
+        <div class="color-swatch-fill" style="background:#2E37A4"></div>
+        <div class="color-swatch-info"><div class="color-swatch-name">Primary</div><div class="color-swatch-hex">#2E37A4</div></div>
+      </div>
+      <div class="color-swatch" onclick="copyColor('#3C449C')">
+        <div class="color-swatch-fill" style="background:#3C449C"></div>
+        <div class="color-swatch-info"><div class="color-swatch-name">Primary Hover</div><div class="color-swatch-hex">#3C449C</div></div>
+      </div>
+      <div class="color-swatch" onclick="copyColor('#ECEDF7')">
+        <div class="color-swatch-fill" style="background:#ECEDF7"></div>
+        <div class="color-swatch-info"><div class="color-swatch-name">Primary Transparent</div><div class="color-swatch-hex">#ECEDF7</div></div>
+      </div>
+      <div class="color-swatch" onclick="copyColor('#00D3C7')">
+        <div class="color-swatch-fill" style="background:#00D3C7"></div>
+        <div class="color-swatch-info"><div class="color-swatch-name">Secondary</div><div class="color-swatch-hex">#00D3C7</div></div>
+      </div>
+      <div class="color-swatch" onclick="copyColor('#17C2B9')">
+        <div class="color-swatch-fill" style="background:#17C2B9"></div>
+        <div class="color-swatch-info"><div class="color-swatch-name">Secondary Hover</div><div class="color-swatch-hex">#17C2B9</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Semantic / Status Colors</div>
+    <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));">
+      <div class="color-swatch" onclick="copyColor('#27AE60')"><div class="color-swatch-fill" style="background:#27AE60"></div><div class="color-swatch-info"><div class="color-swatch-name">Success</div><div class="color-swatch-hex">#27AE60</div></div></div>
+      <div class="color-swatch" onclick="copyColor('#2F80ED')"><div class="color-swatch-fill" style="background:#2F80ED"></div><div class="color-swatch-info"><div class="color-swatch-name">Info</div><div class="color-swatch-hex">#2F80ED</div></div></div>
+      <div class="color-swatch" onclick="copyColor('#E2B93B')"><div class="color-swatch-fill" style="background:#E2B93B"></div><div class="color-swatch-info"><div class="color-swatch-name">Warning</div><div class="color-swatch-hex">#E2B93B</div></div></div>
+      <div class="color-swatch" onclick="copyColor('#EF1E1E')"><div class="color-swatch-fill" style="background:#EF1E1E"></div><div class="color-swatch-info"><div class="color-swatch-name">Danger</div><div class="color-swatch-hex">#EF1E1E</div></div></div>
+      <div class="color-swatch" onclick="copyColor('#E04F16')"><div class="color-swatch-fill" style="background:#E04F16"></div><div class="color-swatch-info"><div class="color-swatch-name">Orange</div><div class="color-swatch-hex">#E04F16</div></div></div>
+      <div class="color-swatch" onclick="copyColor('#3538CD')"><div class="color-swatch-fill" style="background:#3538CD"></div><div class="color-swatch-info"><div class="color-swatch-name">Indigo</div><div class="color-swatch-hex">#3538CD</div></div></div>
+      <div class="color-swatch" onclick="copyColor('#0E9384')"><div class="color-swatch-fill" style="background:#0E9384"></div><div class="color-swatch-info"><div class="color-swatch-name">Teal</div><div class="color-swatch-hex">#0E9384</div></div></div>
+      <div class="color-swatch" onclick="copyColor('#800080')"><div class="color-swatch-fill" style="background:#800080"></div><div class="color-swatch-info"><div class="color-swatch-name">Purple</div><div class="color-swatch-hex">#800080</div></div></div>
+      <div class="color-swatch" onclick="copyColor('#DD2590')"><div class="color-swatch-fill" style="background:#DD2590"></div><div class="color-swatch-info"><div class="color-swatch-name">Pink</div><div class="color-swatch-hex">#DD2590</div></div></div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Neutral Scale (Gray 100–900)</div>
+    <div class="gray-strip">
+      <div class="gray-strip-item" style="background:#CED1D7; color:#0A1B39" onclick="copyColor('#CED1D7')">100</div>
+      <div class="gray-strip-item" style="background:#B6BBC4; color:#0A1B39" onclick="copyColor('#B6BBC4')">200</div>
+      <div class="gray-strip-item" style="background:#9DA4B0; color:#fff" onclick="copyColor('#9DA4B0')">300</div>
+      <div class="gray-strip-item" style="background:#858D9C; color:#fff" onclick="copyColor('#858D9C')">400</div>
+      <div class="gray-strip-item" style="background:#6C7688; color:#fff" onclick="copyColor('#6C7688')">500</div>
+      <div class="gray-strip-item" style="background:#545F74; color:#fff" onclick="copyColor('#545F74')">600</div>
+      <div class="gray-strip-item" style="background:#3B4961; color:#fff" onclick="copyColor('#3B4961')">700</div>
+      <div class="gray-strip-item" style="background:#23324D; color:#fff" onclick="copyColor('#23324D')">800</div>
+      <div class="gray-strip-item" style="background:#0A1B39; color:#fff" onclick="copyColor('#0A1B39')">900</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ TYPOGRAPHY ════════════════ -->
+<section class="section" id="typography">
+  <div class="section-header">
+    <div class="section-number">02 — Tokens</div>
+    <h2 class="section-title">Typography Scale</h2>
+    <p class="section-desc">Inter for all UI text. Optimized for clinical readability at small sizes with clear numeric distinctions.</p>
+  </div>
+
+  <div class="component-card">
+    <div class="component-card-header">
+      <span class="component-card-label">Type Scale — Inter</span>
+      <span class="component-card-tag tag-core">Core Token</span>
+    </div>
+    <div class="component-card-body">
+      <div class="type-scale-row"><div class="type-scale-meta">32px / Bold</div><div class="type-scale-sample" style="font-size:32px;font-weight:700">Dashboard KPI</div></div>
+      <div class="type-scale-row"><div class="type-scale-meta">24px / Bold</div><div class="type-scale-sample" style="font-size:24px;font-weight:700">Page Title</div></div>
+      <div class="type-scale-row"><div class="type-scale-meta">20px / SemiBold</div><div class="type-scale-sample" style="font-size:20px;font-weight:600">Section Header</div></div>
+      <div class="type-scale-row"><div class="type-scale-meta">18px / SemiBold</div><div class="type-scale-sample" style="font-size:18px;font-weight:600">Widget Title</div></div>
+      <div class="type-scale-row"><div class="type-scale-meta">16px / SemiBold</div><div class="type-scale-sample" style="font-size:16px;font-weight:600">Card Title</div></div>
+      <div class="type-scale-row"><div class="type-scale-meta">14px / Normal</div><div class="type-scale-sample" style="font-size:14px;font-weight:400">Body text — the default size for form inputs, descriptions, and card content throughout the platform.</div></div>
+      <div class="type-scale-row"><div class="type-scale-meta">13px / Medium</div><div class="type-scale-sample" style="font-size:13px;font-weight:500;color:var(--gray-600)">Table cell text, secondary data, navigation items</div></div>
+      <div class="type-scale-row"><div class="type-scale-meta">12px / SemiBold</div><div class="type-scale-sample" style="font-size:12px;font-weight:600;color:var(--gray-500)">Button label, compact UI, small badge</div></div>
+      <div class="type-scale-row"><div class="type-scale-meta">11px / Medium</div><div class="type-scale-sample" style="font-size:11px;font-weight:500;color:var(--gray-400)">Timestamp, metadata, trend labels</div></div>
+      <div class="type-scale-row"><div class="type-scale-meta">10px / Medium</div><div class="type-scale-sample" style="font-size:10px;font-weight:500;color:var(--gray-400)">SMALLEST — Timestamps only (fs-10)</div></div>
+    </div>
+  </div>
+
+  <div class="component-card">
+    <div class="component-card-header">
+      <span class="component-card-label">Monospace — JetBrains Mono</span>
+      <span class="component-card-tag tag-core">Core Token</span>
+    </div>
+    <div class="component-card-body">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:14px; color:var(--heading-color); line-height:1.8;">
+        Patient ID: <strong>PX-2024-00847</strong><br>
+        Dosage: <strong>250mg</strong> q8h — Vitals: <strong>120/80</strong> mmHg, HR <strong>72</strong> bpm, SpO₂ <strong>98%</strong><br>
+        MRN: <strong>MRN-4829103</strong> | Room: <strong>ICU-4B</strong> | Bed: <strong>12</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ SPACING ════════════════ -->
+<section class="section" id="spacing">
+  <div class="section-header">
+    <div class="section-number">03 — Tokens</div>
+    <h2 class="section-title">Spacing & Elevation</h2>
+    <p class="section-desc">4px base unit, 8px primary grid. Three elevation tiers for clinical information hierarchy.</p>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="component-card">
+      <div class="component-card-header"><span class="component-card-label">Spacing Scale (4px base)</span><span class="component-card-tag tag-core">Core Token</span></div>
+      <div class="component-card-body">
+        <div class="spacing-demo">
+          <div style="text-align:center"><div class="spacing-block" style="width:20px;height:4px"></div><div class="spacing-label">4px</div></div>
+          <div style="text-align:center"><div class="spacing-block" style="width:20px;height:8px"></div><div class="spacing-label">8px</div></div>
+          <div style="text-align:center"><div class="spacing-block" style="width:20px;height:12px"></div><div class="spacing-label">12px</div></div>
+          <div style="text-align:center"><div class="spacing-block" style="width:20px;height:16px"></div><div class="spacing-label">16px</div></div>
+          <div style="text-align:center"><div class="spacing-block" style="width:20px;height:20px"></div><div class="spacing-label">20px</div></div>
+          <div style="text-align:center"><div class="spacing-block" style="width:20px;height:24px"></div><div class="spacing-label">24px</div></div>
+          <div style="text-align:center"><div class="spacing-block" style="width:20px;height:32px"></div><div class="spacing-label">32px</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="component-card">
+      <div class="component-card-header"><span class="component-card-label">Elevation / Shadows</span><span class="component-card-tag tag-core">Core Token</span></div>
+      <div class="component-card-body">
+        <div class="grid grid-3" style="gap:16px">
+          <div class="shadow-demo" style="box-shadow:var(--box-shadow-sm)"><div style="font-size:13px;font-weight:600;color:var(--heading-color)">Subtle</div><div class="shadow-demo-label">--box-shadow-sm</div></div>
+          <div class="shadow-demo" style="box-shadow:var(--box-shadow)"><div style="font-size:13px;font-weight:600;color:var(--heading-color)">Default</div><div class="shadow-demo-label">--box-shadow</div></div>
+          <div class="shadow-demo" style="box-shadow:var(--box-shadow-lg)"><div style="font-size:13px;font-weight:600;color:var(--heading-color)">Elevated</div><div class="shadow-demo-label">--box-shadow-lg</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="component-card">
+    <div class="component-card-header"><span class="component-card-label">Border Radius</span><span class="component-card-tag tag-core">Core Token</span></div>
+    <div class="component-card-body">
+      <div class="flex gap-24 flex-wrap items-center">
+        <div style="text-align:center"><div style="width:64px;height:64px;border:2px solid var(--primary);border-radius:var(--radius);margin:0 auto"></div><div class="spacing-label" style="margin-top:10px">0.3rem<br>(default)</div></div>
+        <div style="text-align:center"><div style="width:64px;height:64px;border:2px solid var(--primary);border-radius:var(--radius-lg);margin:0 auto"></div><div class="spacing-label" style="margin-top:10px">0.6rem<br>(large)</div></div>
+        <div style="text-align:center"><div style="width:64px;height:64px;border:2px solid var(--primary);border-radius:50%;margin:0 auto"></div><div class="spacing-label" style="margin-top:10px">50%<br>(pill/circle)</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ BUTTONS ════════════════ -->
+<section class="section" id="buttons">
+  <div class="section-header">
+    <div class="section-number">04 — Components</div>
+    <h2 class="section-title">Buttons</h2>
+    <p class="section-desc">Three-tier variant system: solid, outline, and soft. All 13 semantic colors supported.</p>
+  </div>
+
+  <div class="component-card">
+    <div class="component-card-header"><span class="component-card-label">Solid Variants</span><span class="component-card-tag tag-core">Core</span></div>
+    <div class="component-card-body">
+      <div class="flex gap-8 flex-wrap">
+        <button class="btn btn-primary">Primary</button>
+        <button class="btn btn-secondary">Secondary</button>
+        <button class="btn btn-success">Success</button>
+        <button class="btn btn-danger">Danger</button>
+        <button class="btn btn-warning">Warning</button>
+        <button class="btn btn-info">Info</button>
+        <button class="btn btn-dark">Dark</button>
+        <button class="btn btn-light">Light</button>
+        <button class="btn btn-gradient">Gradient CTA</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="component-card">
+    <div class="component-card-header"><span class="component-card-label">Outline Variants</span><span class="component-card-tag tag-core">Core</span></div>
+    <div class="component-card-body">
+      <div class="flex gap-8 flex-wrap">
+        <button class="btn btn-outline-primary">Primary</button>
+        <button class="btn btn-outline-secondary">Secondary</button>
+        <button class="btn btn-outline-danger">Danger</button>
+        <button class="btn btn-white">White</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="component-card">
+    <div class="component-card-header"><span class="component-card-label">Soft Variants</span><span class="component-card-tag tag-core">Core</span></div>
+    <div class="component-card-body">
+      <div class="flex gap-8 flex-wrap">
+        <button class="btn btn-soft-primary">Primary</button>
+        <button class="btn btn-soft-success">Success</button>
+        <button class="btn btn-soft-danger">Danger</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="component-card">
+    <div class="component-card-header"><span class="component-card-label">Sizes & States</span><span class="component-card-tag tag-core">Core</span></div>
+    <div class="component-card-body">
+      <div class="flex gap-12 items-center flex-wrap" style="margin-bottom:16px">
+        <button class="btn btn-primary btn-sm">Small</button>
+        <button class="btn btn-primary">Default</button>
+        <button class="btn btn-primary btn-lg">Large</button>
+        <button class="btn btn-primary btn-icon">✓</button>
+      </div>
+      <div class="flex gap-12 items-center flex-wrap">
+        <button class="btn btn-primary" disabled>Disabled</button>
+        <button class="btn btn-outline-primary" disabled>Disabled Outline</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ FORMS ════════════════ -->
+<section class="section" id="forms">
+  <div class="section-header">
+    <div class="section-number">05 — Components</div>
+    <h2 class="section-title">Form Controls</h2>
+    <p class="section-desc">Clinical data entry components. Focus state uses --primary. Validation with icon + text, never color alone.</p>
+  </div>
+
+  <div class="component-card">
+    <div class="component-card-header"><span class="component-card-label">Input Variants & States</span><span class="component-card-tag tag-core">Core</span></div>
+    <div class="component-card-body">
+      <div class="grid grid-2" style="gap:20px">
+        <div><label class="form-label">Patient Name</label><input type="text" class="form-control" placeholder="Enter patient name"></div>
+        <div><label class="form-label">Medical Record Number</label><input type="text" class="form-control" value="MRN-4829103" style="font-family:'JetBrains Mono',monospace"></div>
+        <div><label class="form-label">Email (Invalid)</label><input type="text" class="form-control is-invalid" value="invalid-email"><div class="form-text text-danger">⚠ Please enter a valid email address</div></div>
+        <div><label class="form-label">Phone (Valid)</label><input type="text" class="form-control is-valid" value="+1 (916) 555-0147"><div class="form-text text-success">✓ Valid phone number</div></div>
+        <div><label class="form-label">Department</label><select class="form-control form-select"><option>Cardiology</option><option>Neurology</option><option>Oncology</option></select></div>
+        <div><label class="form-label">Disabled Field</label><input type="text" class="form-control" value="Read-only data" disabled></div>
+      </div>
+      <div style="margin-top:20px; display:flex; gap:24px; flex-wrap:wrap">
+        <label class="form-check"><input type="checkbox" class="form-check-input" checked><span class="form-check-label">Allergy confirmed</span></label>
+        <label class="form-check"><input type="checkbox" class="form-check-input"><span class="form-check-label">Consent obtained</span></label>
+        <label class="form-check"><input type="radio" name="status" class="form-check-input" checked><span class="form-check-label">Active</span></label>
+        <label class="form-check"><input type="radio" name="status" class="form-check-input"><span class="form-check-label">Inactive</span></label>
+      </div>
+    </div>
+  </div>
+
+  <div class="component-card">
+    <div class="component-card-header"><span class="component-card-label">Input Sizes</span><span class="component-card-tag tag-core">Core</span></div>
+    <div class="component-card-body">
+      <div class="flex flex-col gap-12" style="max-width:400px">
+        <input type="text" class="form-control form-control-sm" placeholder="Small (12px / 5px 12px)">
+        <input type="text" class="form-control" placeholder="Default (14px / 8px 12px)">
+        <input type="text" class="form-control form-control-lg" placeholder="Large (16px / 8px 12px)">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ CARDS ════════════════ -->
+<section class="section" id="cards">
+  <div class="section-header">
+    <div class="section-number">06 — Components</div>
+    <h2 class="section-title">Cards</h2>
+    <p class="section-desc">Primary content container. 1px border, 5px radius, 20px body padding. AI cards feature left accent border.</p>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Patient Overview</span><span class="badge badge-soft-success">Active</span></div>
+      <div class="card-body"><p style="font-size:13px;color:var(--body-color)">Standard card with header, body, and footer sections. Uses --white background with --border-color borders throughout.</p></div>
+      <div class="card-footer" style="display:flex;justify-content:flex-end;gap:8px"><button class="btn btn-light btn-sm">Cancel</button><button class="btn btn-primary btn-sm">Save Changes</button></div>
+    </div>
+
+    <div class="card" style="border-left:4px solid var(--warning)">
+      <div class="card-header">
+        <span class="card-title" style="display:flex;align-items:center;gap:8px">✦ AI Clinical Insights<span class="badge badge-soft-warning" style="font-size:10px">AI-Powered</span></span>
+      </div>
+      <div class="card-body"><p style="font-size:13px;color:var(--body-color)">AI widget card distinguished by 4px left border in --warning. Badge uses gold-to-orange gradient in production. Supports collapse/expand via smart-widget-card class.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ TABLES ════════════════ -->
+<section class="section" id="tables">
+  <div class="section-header">
+    <div class="section-number">07 — Components</div>
+    <h2 class="section-title">Data Tables</h2>
+    <p class="section-desc">Dense clinical data with 8px/16px header padding, 12px/16px body cells. Vertical-align middle.</p>
+  </div>
+
+  <div class="component-card">
+    <div class="component-card-header"><span class="component-card-label">Patient List Table</span><span class="component-card-tag tag-clinical">Clinical</span></div>
+    <div class="component-card-body" style="padding:0">
+      <div class="table-container">
+        <table>
+          <thead><tr><th>Patient</th><th>MRN</th><th>Department</th><th>Status</th><th>Priority</th><th>Last Visit</th></tr></thead>
+          <tbody>
+            <tr><td style="font-weight:600;color:var(--heading-color)">Sarah Mitchell</td><td style="font-family:'JetBrains Mono',monospace;font-size:12px">MRN-482910</td><td>Cardiology</td><td><span class="badge badge-soft-success badge-pill">Active</span></td><td><span class="severity-badge severity-moderate">Moderate</span></td><td>Mar 24, 2026</td></tr>
+            <tr><td style="font-weight:600;color:var(--heading-color)">James Rodriguez</td><td style="font-family:'JetBrains Mono',monospace;font-size:12px">MRN-371824</td><td>Neurology</td><td><span class="badge badge-soft-success badge-pill">Active</span></td><td><span class="severity-badge severity-major">Critical</span></td><td>Mar 25, 2026</td></tr>
+            <tr><td style="font-weight:600;color:var(--heading-color)">Emily Chen</td><td style="font-family:'JetBrains Mono',monospace;font-size:12px">MRN-592047</td><td>Oncology</td><td><span class="badge badge-soft-warning badge-pill">Pending</span></td><td><span class="severity-badge severity-minor">Stable</span></td><td>Mar 22, 2026</td></tr>
+            <tr><td style="font-weight:600;color:var(--heading-color)">Robert Kim</td><td style="font-family:'JetBrains Mono',monospace;font-size:12px">MRN-814293</td><td>Pulmonology</td><td><span class="badge badge-soft-danger badge-pill">Discharged</span></td><td><span class="severity-badge severity-minor">Stable</span></td><td>Mar 20, 2026</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ BADGES ════════════════ -->
+<section class="section" id="badges">
+  <div class="section-header">
+    <div class="section-number">08 — Components</div>
+    <h2 class="section-title">Badges & Severity Indicators</h2>
+    <p class="section-desc">Solid, soft, and outline variants. Clinical severity badges follow established healthcare color conventions.</p>
+  </div>
+
+  <div class="component-card">
+    <div class="component-card-header"><span class="component-card-label">Badge Variants</span><span class="component-card-tag tag-core">Core</span></div>
+    <div class="component-card-body">
+      <div style="margin-bottom:16px"><span style="font-size:12px;font-weight:600;color:var(--gray-500);display:block;margin-bottom:8px">Solid</span><div class="flex gap-8 flex-wrap"><span class="badge badge-primary">Primary</span><span class="badge badge-secondary">Secondary</span><span class="badge badge-success">Success</span><span class="badge badge-danger">Danger</span><span class="badge badge-warning">Warning</span><span class="badge badge-info">Info</span></div></div>
+      <div style="margin-bottom:16px"><span style="font-size:12px;font-weight:600;color:var(--gray-500);display:block;margin-bottom:8px">Soft</span><div class="flex gap-8 flex-wrap"><span class="badge badge-soft-primary">Primary</span><span class="badge badge-soft-success">Success</span><span class="badge badge-soft-danger">Danger</span><span class="badge badge-soft-warning">Warning</span><span class="badge badge-soft-info">Info</span><span class="badge badge-soft-indigo">Indigo</span><span class="badge badge-soft-teal">Teal</span><span class="badge badge-soft-orange">Orange</span><span class="badge badge-soft-purple">Purple</span></div></div>
+      <div><span style="font-size:12px;font-weight:600;color:var(--gray-500);display:block;margin-bottom:8px">Outline</span><div class="flex gap-8 flex-wrap"><span class="badge badge-outline-primary">Primary</span><span class="badge badge-outline-danger">Danger</span><span class="badge badge-outline-success">Success</span></div></div>
+    </div>
+  </div>
+
+  <div class="component-card">
+    <div class="component-card-header"><span class="component-card-label">Clinical Severity Badges</span><span class="component-card-tag tag-clinical">Clinical</span></div>
+    <div class="component-card-body">
+      <div class="flex gap-12 flex-wrap items-center">
+        <span class="severity-badge severity-minor">Minor</span>
+        <span class="severity-badge severity-moderate">Moderate</span>
+        <span class="severity-badge severity-major">Major</span>
+        <span class="severity-badge severity-contraindicated">Contraindicated</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ ALERTS ════════════════ -->
+<section class="section" id="alerts">
+  <div class="section-header">
+    <div class="section-number">09 — Components</div>
+    <h2 class="section-title">Alerts</h2>
+    <p class="section-desc">Transparent background approach. Clinical safety alerts should be non-dismissible.</p>
+  </div>
+
+  <div class="component-card">
+    <div class="component-card-header"><span class="component-card-label">Alert Variants</span><span class="component-card-tag tag-core">Core</span></div>
+    <div class="component-card-body">
+      <div class="flex flex-col gap-12">
+        <div class="alert alert-success"><span class="alert-icon">✓</span><div><strong>Success:</strong> Patient record saved successfully. MRN-482910 updated.</div></div>
+        <div class="alert alert-info"><span class="alert-icon">ℹ</span><div><strong>Info:</strong> Lab results for Patient Chen are pending review. Expected by 4:00 PM.</div></div>
+        <div class="alert alert-warning"><span class="alert-icon">⚠</span><div><strong>Warning:</strong> Drug interaction detected between Warfarin and Aspirin. Review recommended.</div></div>
+        <div class="alert alert-danger"><span class="alert-icon">✕</span><div><strong>Critical Alert:</strong> Patient allergy to Penicillin not documented. Immediate action required.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ AVATARS ════════════════ -->
+<section class="section" id="avatars">
+  <div class="section-header">
+    <div class="section-number">10 — Components</div>
+    <h2 class="section-title">Avatars</h2>
+    <p class="section-desc">8 size tiers (16px–96px) with online/offline status indicators and group overlapping.</p>
+  </div>
+
+  <div class="component-card">
+    <div class="component-card-header"><span class="component-card-label">Sizes & Status</span><span class="component-card-tag tag-core">Core</span></div>
+    <div class="component-card-body">
+      <div class="flex gap-16 items-center flex-wrap">
+        <div class="avatar avatar-xs rounded" style="background:var(--primary)">S</div>
+        <div class="avatar avatar-sm rounded" style="background:var(--info)">JR</div>
+        <div class="avatar avatar-md rounded online" style="background:var(--success)">EC</div>
+        <div class="avatar avatar-lg rounded offline" style="background:var(--teal)">RK</div>
+        <div class="avatar avatar-xl rounded online" style="background:var(--indigo)">SM</div>
+      </div>
+      <div style="margin-top:24px">
+        <div style="font-size:12px;font-weight:600;color:var(--gray-500);margin-bottom:10px">Avatar Group (Overlapping)</div>
+        <div class="avatar-group">
+          <div class="avatar avatar-md rounded" style="background:var(--primary)">A</div>
+          <div class="avatar avatar-md rounded" style="background:var(--info)">B</div>
+          <div class="avatar avatar-md rounded" style="background:var(--success)">C</div>
+          <div class="avatar avatar-md rounded" style="background:var(--warning)">D</div>
+          <div class="avatar avatar-md rounded" style="background:var(--gray-400);font-size:11px">+5</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="component-card">
+    <div class="component-card-header"><span class="component-card-label">Progress Bars</span><span class="component-card-tag tag-core">Core</span></div>
+    <div class="component-card-body">
+      <div class="flex flex-col gap-16">
+        <div><div style="font-size:12px;color:var(--gray-500);margin-bottom:4px">Default (8px)</div><div class="progress"><div class="progress-bar" style="width:72%"></div></div></div>
+        <div><div style="font-size:12px;color:var(--gray-500);margin-bottom:4px">Small (5px)</div><div class="progress progress-sm"><div class="progress-bar" style="width:45%;background:var(--success)"></div></div></div>
+        <div><div style="font-size:12px;color:var(--gray-500);margin-bottom:4px">Large (12px)</div><div class="progress progress-lg"><div class="progress-bar" style="width:88%;background:var(--info)"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ MODALS ════════════════ -->
+<section class="section" id="modals">
+  <div class="section-header">
+    <div class="section-number">11 — Components</div>
+    <h2 class="section-title">Modals & Dialogs</h2>
+    <p class="section-desc">Backdrop blur (10px). Clinical confirmations must not auto-close on backdrop click.</p>
+  </div>
+
+  <div class="component-card">
+    <div class="component-card-header"><span class="component-card-label">Confirmation Dialog (Clinical)</span><span class="component-card-tag tag-clinical">Clinical</span></div>
+    <div class="component-card-body" style="background:var(--light);padding:40px">
+      <div class="modal-preview">
+        <div class="modal-preview-header">
+          <span class="modal-preview-title">⚠ Confirm Medication Override</span>
+          <button class="modal-preview-close">✕</button>
+        </div>
+        <div class="modal-preview-body">
+          <div class="alert alert-danger" style="margin-bottom:16px"><span class="alert-icon">✕</span><div><strong>Drug Interaction:</strong> Warfarin + Aspirin detected. Major severity — increased bleeding risk.</div></div>
+          <p style="font-size:13px;color:var(--body-color);line-height:1.6">By proceeding, you acknowledge this interaction and accept clinical responsibility. This action will be logged in the patient record.</p>
+        </div>
+        <div class="modal-preview-footer">
+          <button class="btn btn-light">Cancel</button>
+          <button class="btn btn-danger">Override & Continue</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ CLINICAL ════════════════ -->
+<section class="section" id="clinical">
+  <div class="section-header">
+    <div class="section-number">12 — Healthcare</div>
+    <h2 class="section-title">Clinical Components</h2>
+    <p class="section-desc">Healthcare-specific components: Patient handoff cards, SBAR sections, drug interaction alerts, vital sign displays, and AI confidence indicators.</p>
+  </div>
+
+  <div class="component-card">
+    <div class="component-card-header"><span class="component-card-label">Patient Handoff Cards</span><span class="component-card-tag tag-clinical">Clinical</span></div>
+    <div class="component-card-body">
+      <div class="grid grid-3" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr))">
+        <div class="patient-card-preview priority-critical">
+          <div class="flex justify-between items-center" style="margin-bottom:12px"><div><div style="font-size:15px;font-weight:600;color:var(--heading-color)">Sarah Mitchell</div><div style="font-size:12px;color:var(--gray-500)">62F · Room ICU-4B · Bed 12</div></div><span class="severity-badge severity-major">Critical</span></div>
+          <div style="padding:8px 12px;background:var(--light);border-radius:6px;font-size:12px;color:var(--body-color);margin-bottom:12px">🏥 Acute MI, post-PCI with stent placement</div>
+          <div class="flex gap-8 flex-wrap"><div class="vital-card" style="flex:1;padding:8px"><div class="vital-value" style="font-size:16px">142/88</div><div class="vital-label" style="font-size:9px">BP</div><div class="vital-trend trend-up" style="font-size:9px">↑ Rising</div></div><div class="vital-card" style="flex:1;padding:8px"><div class="vital-value" style="font-size:16px">96</div><div class="vital-label" style="font-size:9px">HR</div><div class="vital-trend trend-stable" style="font-size:9px">→ Stable</div></div><div class="vital-card" style="flex:1;padding:8px"><div class="vital-value" style="font-size:16px">94%</div><div class="vital-label" style="font-size:9px">SpO₂</div><div class="vital-trend trend-down" style="font-size:9px">↓ Watch</div></div></div>
+        </div>
+        <div class="patient-card-preview priority-high">
+          <div class="flex justify-between items-center" style="margin-bottom:12px"><div><div style="font-size:15px;font-weight:600;color:var(--heading-color)">James Rodriguez</div><div style="font-size:12px;color:var(--gray-500)">45M · Room 3A-201 · Bed 4</div></div><span class="severity-badge severity-moderate">High</span></div>
+          <div style="padding:8px 12px;background:var(--light);border-radius:6px;font-size:12px;color:var(--body-color);margin-bottom:12px">🧠 Post-craniotomy observation, Day 2</div>
+          <div class="flex gap-8 flex-wrap"><div class="vital-card" style="flex:1;padding:8px"><div class="vital-value" style="font-size:16px">118/72</div><div class="vital-label" style="font-size:9px">BP</div><div class="vital-trend trend-stable" style="font-size:9px">→ Stable</div></div><div class="vital-card" style="flex:1;padding:8px"><div class="vital-value" style="font-size:16px">68</div><div class="vital-label" style="font-size:9px">HR</div><div class="vital-trend trend-stable" style="font-size:9px">→ Stable</div></div><div class="vital-card" style="flex:1;padding:8px"><div class="vital-value" style="font-size:16px">99%</div><div class="vital-label" style="font-size:9px">SpO₂</div><div class="vital-trend trend-stable" style="font-size:9px">→ Normal</div></div></div>
+        </div>
+        <div class="patient-card-preview priority-stable">
+          <div class="flex justify-between items-center" style="margin-bottom:12px"><div><div style="font-size:15px;font-weight:600;color:var(--heading-color)">Emily Chen</div><div style="font-size:12px;color:var(--gray-500)">38F · Room 5B-104 · Bed 2</div></div><span class="severity-badge severity-minor">Stable</span></div>
+          <div style="padding:8px 12px;background:var(--light);border-radius:6px;font-size:12px;color:var(--body-color);margin-bottom:12px">💉 Chemotherapy cycle 3, Day 1 recovery</div>
+          <div class="flex gap-8 flex-wrap"><div class="vital-card" style="flex:1;padding:8px"><div class="vital-value" style="font-size:16px">110/68</div><div class="vital-label" style="font-size:9px">BP</div><div class="vital-trend trend-stable" style="font-size:9px">→ Stable</div></div><div class="vital-card" style="flex:1;padding:8px"><div class="vital-value" style="font-size:16px">74</div><div class="vital-label" style="font-size:9px">HR</div><div class="vital-trend trend-stable" style="font-size:9px">→ Normal</div></div><div class="vital-card" style="flex:1;padding:8px"><div class="vital-value" style="font-size:16px">98%</div><div class="vital-label" style="font-size:9px">SpO₂</div><div class="vital-trend trend-stable" style="font-size:9px">→ Normal</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="component-card">
+    <div class="component-card-header"><span class="component-card-label">SBAR Clinical Communication</span><span class="component-card-tag tag-ai">AI-Generated</span></div>
+    <div class="component-card-body">
+      <div style="margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+        <div style="display:flex;align-items:center;gap:8px"><span class="badge badge-soft-indigo" style="font-size:10px">✦ AI Generated</span><span style="font-size:12px;color:var(--gray-400)">Generated at 14:32</span></div>
+        <div class="confidence-bar-wrapper" style="width:200px"><span style="font-size:11px;color:var(--gray-400)">Confidence</span><div class="confidence-bar"><div class="confidence-fill" style="width:92%"></div></div><span class="confidence-value">92%</span></div>
+      </div>
+      <div class="sbar-section sbar-s"><div class="sbar-label" style="color:var(--info)">S — Situation</div><div class="sbar-text">Sarah Mitchell, 62F, post-PCI with stent placement in ICU-4B. BP trending upward 142/88, SpO₂ dropped to 94% on room air.</div></div>
+      <div class="sbar-section sbar-b"><div class="sbar-label" style="color:var(--secondary)">B — Background</div><div class="sbar-text">Admitted for acute MI 48 hours ago. History of HTN, DM2, hyperlipidemia. Heparin drip at 1000u/hr. Last troponin 2.4 (trending down).</div></div>
+      <div class="sbar-section sbar-a"><div class="sbar-label" style="color:var(--warning)">A — Assessment</div><div class="sbar-text">Hemodynamically stable but concerning BP elevation and mild desaturation. May be developing fluid overload post-procedure. Pain controlled 3/10.</div></div>
+      <div class="sbar-section sbar-r"><div class="sbar-label" style="color:var(--success)">R — Recommendation</div><div class="sbar-text">Request cardiology consult for BP management. Consider diuretic. Continuous SpO₂ monitoring. Repeat troponin in 6 hours. Reassess fluid balance.</div></div>
+    </div>
+  </div>
+
+  <div class="component-card">
+    <div class="component-card-header"><span class="component-card-label">Drug Interaction Alerts</span><span class="component-card-tag tag-clinical">Clinical</span></div>
+    <div class="component-card-body">
+      <div class="drug-alert major"><div class="drug-alert-title" style="color:#721c24">⚠ Major Interaction: Warfarin + Aspirin</div><div class="drug-alert-desc" style="color:#721c24">Increased risk of bleeding. Monitor INR closely. Consider alternative antiplatelet if clinically appropriate.</div></div>
+      <div class="drug-alert moderate"><div class="drug-alert-title" style="color:#856404">⚡ Moderate Interaction: Metformin + Lisinopril</div><div class="drug-alert-desc" style="color:#856404">May increase risk of hypoglycemia and lactic acidosis. Monitor renal function and glucose levels.</div></div>
+      <div class="drug-alert minor"><div class="drug-alert-title" style="color:#155724">ℹ Minor Interaction: Omeprazole + Calcium</div><div class="drug-alert-desc" style="color:#155724">Omeprazole may reduce calcium absorption. Consider spacing administration by 2+ hours.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ LAYOUT ════════════════ -->
+<section class="section" id="layout">
+  <div class="section-header">
+    <div class="section-number">13 — Layout</div>
+    <h2 class="section-title">Responsive Breakpoints</h2>
+    <p class="section-desc">Bootstrap 5.3 breakpoints extended with clinical device targets. Sidebar collapses below 992px.</p>
+  </div>
+
+  <div class="component-card">
+    <div class="component-card-header"><span class="component-card-label">Breakpoint Map</span><span class="component-card-tag tag-layout">Layout</span></div>
+    <div class="component-card-body">
+      <div class="breakpoint-bar">
+        <div class="breakpoint-segment" style="left:0;width:16.5%;background:#EF1E1E">xs · 0</div>
+        <div class="breakpoint-segment" style="left:16.5%;width:13.5%;background:#E04F16">sm · 576</div>
+        <div class="breakpoint-segment" style="left:30%;width:16%;background:#E2B93B">md · 768</div>
+        <div class="breakpoint-segment" style="left:46%;width:15%;background:#27AE60">lg · 992</div>
+        <div class="breakpoint-segment" style="left:61%;width:14%;background:#2F80ED">xl · 1200</div>
+        <div class="breakpoint-segment" style="left:75%;width:25%;background:#2E37A4;border-right:none">xxl · 1400</div>
+      </div>
+      <div class="token-grid" style="margin-top:20px">
+        <div class="token-cell"><span class="token-name">--sidenav-width</span><span class="token-value">276px</span></div>
+        <div class="token-cell"><span class="token-name">--sidenav-width-sm</span><span class="token-value">70px</span></div>
+        <div class="token-cell"><span class="token-name">--topbar-height</span><span class="token-value">55px</span></div>
+        <div class="token-cell"><span class="token-name">Content max-width</span><span class="token-value">1600px</span></div>
+        <div class="token-cell"><span class="token-name">Content padding</span><span class="token-value">20px</span></div>
+        <div class="token-cell"><span class="token-name">Content min-height</span><span class="token-value">calc(100vh - 98px)</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ THEMING ════════════════ -->
+<section class="section" id="theming">
+  <div class="section-header">
+    <div class="section-number">14 — System</div>
+    <h2 class="section-title">Theming System</h2>
+    <p class="section-desc">Runtime CSS custom properties. 7 solid + 7 gradient sidebar themes, 6 solid + 7 gradient topbar themes.</p>
+  </div>
+
+  <div class="component-card">
+    <div class="component-card-header"><span class="component-card-label">Sidebar Theme Variants</span><span class="component-card-tag tag-layout">Layout</span></div>
+    <div class="component-card-body">
+      <div style="font-size:12px;font-weight:600;color:var(--gray-500);margin-bottom:10px">Solid Themes</div>
+      <div class="flex gap-8 flex-wrap" style="margin-bottom:20px">
+        <div style="width:48px;height:48px;border-radius:8px;background:#F5F6F8;border:1px solid var(--border-color);cursor:pointer" title="sidebar2 — Light"></div>
+        <div style="width:48px;height:48px;border-radius:8px;background:#0B0D0E;cursor:pointer" title="sidebar3 — Dark"></div>
+        <div style="width:48px;height:48px;border-radius:8px;background:#2E37A4;cursor:pointer" title="sidebar4 — Primary"></div>
+        <div style="width:48px;height:48px;border-radius:8px;background:#00D3C7;cursor:pointer" title="sidebar5 — Secondary"></div>
+        <div style="width:48px;height:48px;border-radius:8px;background:#2F80ED;cursor:pointer" title="sidebar6 — Info"></div>
+        <div style="width:48px;height:48px;border-radius:8px;background:#3538CD;cursor:pointer" title="sidebar7 — Indigo"></div>
+      </div>
+      <div style="font-size:12px;font-weight:600;color:var(--gray-500);margin-bottom:10px">Gradient Themes</div>
+      <div class="flex gap-8 flex-wrap">
+        <div style="width:48px;height:48px;border-radius:8px;background:linear-gradient(180deg,#7A7DF9,#3538CD);cursor:pointer" title="gradient1"></div>
+        <div style="width:48px;height:48px;border-radius:8px;background:linear-gradient(180deg,#4E59DB,#0C1367);cursor:pointer" title="gradient2"></div>
+        <div style="width:48px;height:48px;border-radius:8px;background:linear-gradient(90deg,#2EF4E9,#01ADA3);cursor:pointer" title="gradient3"></div>
+        <div style="width:48px;height:48px;border-radius:8px;background:linear-gradient(90deg,#484545,#030303);cursor:pointer" title="gradient4"></div>
+        <div style="width:48px;height:48px;border-radius:8px;background:linear-gradient(90deg,#B319B3,#530953);cursor:pointer" title="gradient5"></div>
+        <div style="width:48px;height:48px;border-radius:8px;background:linear-gradient(90deg,#F46730,#B73704);cursor:pointer" title="gradient6"></div>
+        <div style="width:48px;height:48px;border-radius:8px;background:linear-gradient(90deg,#64A5FD,#004DB4);cursor:pointer" title="gradient7"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="component-card">
+    <div class="component-card-header"><span class="component-card-label">Dark Mode Comparison</span><span class="component-card-tag tag-layout">Layout</span></div>
+    <div class="component-card-body">
+      <p style="font-size:13px;color:var(--body-color);margin-bottom:16px">Toggle dark mode with the ☀/☾ button in the top navigation to see all components adapt in real-time. Dark mode uses <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--primary)">data-bs-theme="dark"</span> on the root element, overriding all CSS custom properties.</p>
+      <div class="token-grid">
+        <div class="token-cell"><span class="token-name">--white (dark)</span><span class="token-value">#03041A</span></div>
+        <div class="token-cell"><span class="token-name">--light (dark)</span><span class="token-value">#06081F</span></div>
+        <div class="token-cell"><span class="token-name">--border-color (dark)</span><span class="token-value">#202A36</span></div>
+        <div class="token-cell"><span class="token-name">--heading-color (dark)</span><span class="token-value">#BCC7E1</span></div>
+        <div class="token-cell"><span class="token-name">--body-color (dark)</span><span class="token-value">#9FACBF</span></div>
+        <div class="token-cell"><span class="token-name">--box-shadow (dark)</span><span class="token-value">0px 4px 14px rgba(0,0,0,0.75)</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- Copy Toast -->
+<div class="copy-toast" id="copyToast">Copied!</div>
+
+<script>
+// Theme Toggle
+function toggleTheme() {
+  const html = document.documentElement;
+  const btn = document.querySelector('.theme-toggle');
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  btn.textContent = isDark ? '☀' : '☾';
+}
+
+// Copy color on click
+function copyColor(hex) {
+  navigator.clipboard.writeText(hex).then(() => {
+    const toast = document.getElementById('copyToast');
+    toast.textContent = `Copied ${hex}`;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 1500);
+  });
+}
+
+// Active nav link on scroll
+const sections = document.querySelectorAll('.section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(link => link.classList.remove('active'));
+      const activeLink = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+      if (activeLink) activeLink.classList.add('active');
+    }
+  });
+}, { rootMargin: '-100px 0px -60% 0px', threshold: 0 });
+
+sections.forEach(section => observer.observe(section));
+
+// Animate progress bars on scroll
+const progressObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.querySelectorAll('.progress-bar').forEach(bar => {
+        const w = bar.style.width;
+        bar.style.width = '0%';
+        setTimeout(() => bar.style.width = w, 100);
+      });
+      entry.target.querySelectorAll('.confidence-fill').forEach(bar => {
+        const w = bar.style.width;
+        bar.style.width = '0%';
+        setTimeout(() => bar.style.width = w, 100);
+      });
+    }
+  });
+}, { threshold: 0.3 });
+
+document.querySelectorAll('.component-card').forEach(card => progressObserver.observe(card));
+
+// Staggered section animations
+document.querySelectorAll('.section').forEach((section, i) => {
+  section.style.animationDelay = `${i * 0.05}s`;
+});
+</script>
+
+</body>
+</html>

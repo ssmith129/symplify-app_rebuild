@@ -320,6 +320,50 @@ html[data-bs-theme="dark"] {
     .hidden-layout{
         #toggle_btn2{
             display: none;
-        } 
+        }
+    }
+}
+
+// ============================================
+// iPad Pro 11" Tablet Optimization
+// ============================================
+@media (min-width: 768px) and (max-width: 834px) {
+    .navbar-header {
+        padding: 0 0.75rem;
+
+        // Ensure touch-friendly header buttons
+        .btn,
+        .topbar-action-btn,
+        [class*="notification"] {
+            min-height: 44px;
+            min-width: 44px;
+        }
+
+        // Profile dropdown
+        .user-info {
+            .dropdown-toggle {
+                min-height: 44px;
+                padding: 0.375rem 0.5rem;
+            }
+        }
+    }
+
+    .page-header {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+
+        h2, h3 {
+            font-size: 1.25rem;
+        }
+    }
+}
+
+@media (min-width: 835px) and (max-width: 1210px) {
+    .navbar-header {
+        .btn,
+        .topbar-action-btn {
+            min-height: 44px;
+            min-width: 44px;
+        }
     }
 }

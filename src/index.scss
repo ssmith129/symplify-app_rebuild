@@ -762,3 +762,74 @@
     padding: 0.25rem 0.5rem;
   }
 }
+
+// ============================================
+// iPad Pro 11" Tablet Optimization — Global
+// ============================================
+
+// Portrait: 834px
+@media (min-width: 768px) and (max-width: 834px) {
+  // Bottom sheet preference for modals
+  .modal-dialog {
+    max-width: 90vw;
+    margin: auto 5vw;
+  }
+
+  .modal-content {
+    max-height: 85vh;
+    overflow-y: auto;
+    border-radius: 16px 16px 0 0;
+  }
+
+  // Calendar: single column
+  .datepic.appointment-calender {
+    .ant-picker-calendar {
+      font-size: 14px;
+    }
+  }
+
+  // Page header actions wrap
+  .page-header,
+  .d-flex.justify-content-between.flex-wrap {
+    gap: 0.75rem;
+  }
+}
+
+// Landscape: 1210px
+@media (min-width: 835px) and (max-width: 1210px) {
+  .modal-dialog {
+    max-width: 85vw;
+  }
+
+  .modal-content {
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+}
+
+// Touch-coarse: All tablet devices
+@media (pointer: coarse) and (min-width: 768px) and (max-width: 1210px) {
+  // iOS zoom prevention on focus
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="tel"],
+  input[type="search"],
+  input[type="url"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+
+  // Calendar touch targets
+  .ant-picker-calendar .ant-picker-cell {
+    min-height: 44px;
+
+    .ant-picker-cell-inner {
+      min-width: 36px;
+      min-height: 36px;
+      line-height: 36px;
+    }
+  }
+}

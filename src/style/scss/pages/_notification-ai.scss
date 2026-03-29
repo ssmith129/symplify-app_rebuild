@@ -1547,3 +1547,33 @@ $criticality-info-bg: rgba(30, 64, 175, 0.05);
     }
   }
 }
+
+// ============================================
+// iPad Pro 11" Tablet — Notification Optimization
+// ============================================
+@media (min-width: 768px) and (max-width: 1210px) {
+  .notification-dropdown-ai {
+    width: min(420px, calc(100vw - 32px));
+
+    .notification-item {
+      min-height: 56px;
+      padding: 0.75rem;
+    }
+
+    .dd-action-btn {
+      min-height: 44px;
+      min-width: 44px;
+    }
+  }
+
+  .notification-page-ai {
+    .notification-item {
+      min-height: 64px;
+
+      .notif-action-btn {
+        min-height: 44px;
+        padding: 0.5rem 0.75rem;
+      }
+    }
+  }
+}

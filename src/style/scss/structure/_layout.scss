@@ -61,3 +61,48 @@ img {
         }
     }
 }
+
+// ============================================
+// iPad Pro 11" Tablet — Table & Data Views
+// ============================================
+@media (min-width: 768px) and (max-width: 1210px) {
+    // Tables: horizontal scroll in container, pin first column
+    .table-responsive,
+    .dataTables_wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+
+        table {
+            min-width: 600px;
+        }
+
+        // Pin first column (identifier)
+        th:first-child,
+        td:first-child {
+            position: sticky;
+            left: 0;
+            z-index: 1;
+            background: inherit;
+        }
+    }
+
+    // Row height for touch
+    .table tbody tr {
+        td {
+            padding: 0.75rem 0.625rem;
+            vertical-align: middle;
+        }
+    }
+
+    // Card headers wrap on tablet
+    .card-header.d-flex {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    // Line length constraint for readability
+    .card-body p,
+    .card-body .text-muted {
+        max-width: 75ch;
+    }
+}

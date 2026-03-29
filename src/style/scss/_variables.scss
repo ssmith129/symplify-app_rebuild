@@ -181,14 +181,26 @@
     --chart-min-height: 200px;
   }
 }
-@media (min-width: 768px) and (max-width: 991.98px) {
+@media (min-width: 768px) and (max-width: 834px) {
+  // iPad Pro 11" Portrait
   :root {
     --spacing-page: 16px;
     --spacing-card: 16px;
     --spacing-card-header: 0.75rem 1rem;
-    --touch-target: var(--touch-target-mobile);
+    --touch-target: 44px;
     --space-card-inset: var(--space-4);
     --chart-min-height: 250px;
+  }
+}
+@media (min-width: 835px) and (max-width: 1210px) {
+  // iPad Pro 11" Landscape + general tablet landscape
+  :root {
+    --spacing-page: 20px;
+    --spacing-card: 16px;
+    --spacing-card-header: 0.75rem 1.25rem;
+    --touch-target: 44px;
+    --space-card-inset: var(--space-4);
+    --chart-min-height: 280px;
   }
 }
 :root[data-bs-theme=dark] {

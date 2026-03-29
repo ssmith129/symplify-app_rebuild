@@ -876,6 +876,232 @@
 }
 
 // ============================================
+// iPad Pro 11" Tablet Optimization
+// Portrait: 834px | Landscape: 1210px
+// ============================================
+
+// --- Tablet Portrait (768px–834px) ---
+@media (min-width: 768px) and (max-width: 834px) {
+  // Dashboard grid: 2 columns
+  .ai-dashboard-grid {
+    &.row {
+      flex-wrap: wrap !important;
+      overflow-x: visible !important;
+      scroll-snap-type: none !important;
+
+      > [class*="col-"] {
+        flex: 0 0 50% !important;
+        max-width: 50% !important;
+        scroll-snap-align: unset;
+      }
+    }
+
+    .carousel-dots { display: none !important; }
+  }
+
+  // Operations / generic carousel rows: stack to 1 column
+  .dashboard-carousel:not(.ai-dashboard-grid) {
+    &.row {
+      flex-wrap: wrap !important;
+      overflow-x: visible !important;
+      scroll-snap-type: none !important;
+
+      > [class*="col-"] {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+        scroll-snap-align: unset;
+      }
+    }
+
+    .carousel-dots { display: none !important; }
+  }
+
+  // Scheduling section: single column
+  .row > .col-xl-6 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  // Stat cards: 2x2 grid
+  .row.row-gap-3 > .col-md-3 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+
+  // Touch targets
+  .btn { min-height: 44px; }
+  .card-header .btn-sm { min-height: 36px; padding: 0.375rem 0.75rem; }
+
+  // Typography floor
+  .content { font-size: 15px; }
+  .card-body { font-size: 15px; }
+  .fs-12 { font-size: 13px !important; }
+  .fs-13 { font-size: 14px !important; }
+
+  // Content padding
+  .page-wrapper .content {
+    padding: 16px;
+  }
+
+  // Cards breathing room
+  .card {
+    margin-bottom: 16px;
+  }
+
+  // Appointments layout: single column
+  .appointments-layout {
+    flex-direction: column;
+
+    .ai-scheduler-column {
+      width: 100%;
+      position: static;
+      order: -1;
+    }
+  }
+
+  // Modal sizing
+  .modal-dialog {
+    max-width: 90vw;
+    margin: 1rem auto;
+  }
+
+  .modal-content {
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+}
+
+// --- Tablet Landscape (835px–1210px) ---
+@media (min-width: 835px) and (max-width: 1210px) {
+  // Dashboard grid: 2-3 columns based on content
+  .ai-dashboard-grid {
+    &.row {
+      flex-wrap: wrap !important;
+      overflow-x: visible !important;
+      scroll-snap-type: none !important;
+
+      > [class*="col-"] {
+        flex: 0 0 50% !important;
+        max-width: 50% !important;
+        scroll-snap-align: unset;
+
+        &:nth-child(3) {
+          flex: 0 0 100% !important;
+          max-width: 100% !important;
+        }
+      }
+    }
+
+    .carousel-dots { display: none !important; }
+  }
+
+  // Operations carousel: 2 columns
+  .dashboard-carousel:not(.ai-dashboard-grid) {
+    &.row {
+      flex-wrap: wrap !important;
+      overflow-x: visible !important;
+      scroll-snap-type: none !important;
+
+      > [class*="col-"] {
+        flex: 0 0 50% !important;
+        max-width: 50% !important;
+        scroll-snap-align: unset;
+
+        &:last-child:nth-child(odd) {
+          flex: 0 0 100% !important;
+          max-width: 100% !important;
+        }
+      }
+    }
+
+    .carousel-dots { display: none !important; }
+  }
+
+  // Scheduling section: 2 columns
+  .row > .col-xl-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+
+  // Touch targets
+  .btn { min-height: 44px; }
+
+  // Typography floor
+  .content { font-size: 15px; }
+  .fs-12 { font-size: 13px !important; }
+
+  // Content padding
+  .page-wrapper .content {
+    padding: 20px;
+  }
+
+  // Modal sizing
+  .modal-dialog {
+    max-width: 85vw;
+  }
+
+  .modal-content {
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+
+  // Appointments layout
+  .appointments-layout {
+    .ai-scheduler-column {
+      width: 30%;
+    }
+  }
+}
+
+// --- iPad Pro Safe Areas ---
+@supports (padding: env(safe-area-inset-top)) {
+  @media (min-width: 768px) and (max-width: 1210px) {
+    .navbar-header {
+      padding-top: env(safe-area-inset-top);
+    }
+
+    .page-wrapper .content {
+      padding-bottom: calc(16px + env(safe-area-inset-bottom));
+    }
+  }
+}
+
+// --- Touch-first: replace hover with active states ---
+@media (pointer: coarse) {
+  // Touch feedback on cards
+  .smart-widget-card:active,
+  .card:active {
+    transform: scale(0.99);
+    transition: transform 0.1s ease;
+  }
+
+  // Ensure adequate spacing between interactive elements
+  .d-flex.gap-1 { gap: 0.5rem !important; }
+  .d-flex.gap-2 { gap: 0.75rem !important; }
+
+  // Table rows touch-friendly
+  .table tbody tr td {
+    padding: 0.75rem;
+    min-height: 48px;
+  }
+
+  // Form inputs
+  .form-control,
+  .form-select {
+    min-height: 44px;
+    font-size: 16px; // prevents iOS zoom
+  }
+
+  // Dropdown items
+  .dropdown-item {
+    padding: 0.625rem 1rem;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+// ============================================
 // Accessibility: Reduced motion preference
 // ============================================
 @media (prefers-reduced-motion: reduce) {

@@ -1129,3 +1129,90 @@ $email-meta-text: #4A4F5C;
     }
   }
 }
+
+// ============================================
+// iPad Pro 11" Tablet — Email Optimization
+// ============================================
+
+// Portrait: hide sidebar, show list full-width or detail
+@media (min-width: 768px) and (max-width: 834px) {
+  .email-layout {
+    flex-direction: row;
+  }
+
+  .email-sidebar-panel {
+    position: fixed !important;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 1050;
+    width: 280px;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+
+    &.show {
+      transform: translateX(0);
+    }
+  }
+
+  .email-list-panel {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .email-detail-panel {
+    flex: 1.5;
+    min-width: 0;
+  }
+
+  // Touch-friendly email items
+  .email-item {
+    min-height: 72px;
+    padding: 0.75rem;
+  }
+
+  .email-item-star,
+  .email-item-checkbox {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .email-body-block {
+    font-size: 15px;
+    line-height: 1.6;
+
+    p {
+      max-width: 75ch;
+    }
+  }
+}
+
+// Landscape: 3-panel layout
+@media (min-width: 835px) and (max-width: 1210px) {
+  .email-sidebar-panel {
+    width: 220px;
+    flex-shrink: 0;
+  }
+
+  .email-list-panel {
+    width: 300px;
+    flex-shrink: 0;
+  }
+
+  .email-detail-panel {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .email-item {
+    min-height: 64px;
+  }
+
+  .email-body-block {
+    font-size: 15px;
+
+    p {
+      max-width: 75ch;
+    }
+  }
+}

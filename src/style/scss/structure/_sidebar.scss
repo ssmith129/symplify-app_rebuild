@@ -931,3 +931,56 @@
         }
     }
 }
+
+// ============================================
+// iPad Pro 11" Tablet Optimization
+// ============================================
+
+// Tablet portrait: sidebar as drawer overlay
+@media (min-width: 768px) and (max-width: 834px) {
+    .sidebar {
+        transform: translateX(-100%);
+        z-index: 9999;
+        position: fixed;
+
+        &.opened {
+            transform: translateX(0);
+        }
+    }
+
+    .page-wrapper {
+        margin-left: 0 !important;
+    }
+
+    .navbar-header {
+        margin-left: 0 !important;
+    }
+
+    // Menu items: adequate touch targets
+    .sidebar-menu > ul > li > a {
+        min-height: 48px;
+        padding: 0.625rem 1rem;
+        font-size: 15px;
+    }
+
+    // Submenu items
+    .sidebar-menu ul ul li a {
+        min-height: 44px;
+        padding: 0.5rem 1rem 0.5rem 2.5rem;
+    }
+
+    .sidebar-close {
+        display: block !important;
+    }
+}
+
+// Tablet landscape: mini sidebar
+@media (min-width: 835px) and (max-width: 1210px) {
+    .sidebar-menu > ul > li > a {
+        min-height: 44px;
+    }
+
+    .sidebar-menu ul ul li a {
+        min-height: 44px;
+    }
+}

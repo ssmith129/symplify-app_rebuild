@@ -70,17 +70,34 @@ const ALERTS: Alert[] = [
     actions:['Advance PT to next milestone protocol','Evaluate for discharge within 24–48 hours','Ensure home exercise program printed'] },
 ];
 
-const SEVERITY_COLORS = {
-  urgent: { border: '#dc2626', bg: '#fef2f2', text: '#dc2626' },
-  warning: { border: '#ea580c', bg: '#fff7ed', text: '#ea580c' },
-  informational: { border: '#0284c7', bg: '#f0f9ff', text: '#0284c7' },
+const SEVERITY_META = {
+  urgent:        { border: 'var(--clinical-critical)', bg: 'var(--clinical-critical-bg)', text: 'var(--clinical-critical)', icon: 'ti-urgent' },
+  warning:       { border: 'var(--clinical-urgent)',   bg: 'var(--clinical-urgent-bg)',   text: 'var(--clinical-urgent)',   icon: 'ti-alert-triangle' },
+  informational: { border: 'var(--clinical-info)',     bg: 'var(--clinical-info-bg, rgba(2,132,199,0.08))', text: 'var(--clinical-info)', icon: 'ti-info-circle' },
 };
 
 const STAT_DATA = [
-  { label: 'Total Active', value: 18, sub: 'Across all units', cls: 'primary' },
-  { label: 'Urgent', value: 4, sub: 'Require immediate action', cls: 'danger' },
-  { label: 'Warning', value: 8, sub: 'Monitor closely', cls: 'warning' },
-  { label: 'Informational', value: 6, sub: 'For awareness', cls: 'info' },
+  { label: 'Total Active',    value: 18, change: '+3 from last shift', dir: 'neutral' as const, icon: 'ti-bell-ringing', cls: 'total' },
+  { label: 'Urgent',          value: 4,  change: '+1 new alert',       dir: 'up' as const,      icon: 'ti-urgent',       cls: 'critical' },
+  { label: 'Warning',         value: 8,  change: '+2 escalated',       dir: 'up' as const,      icon: 'ti-alert-triangle', cls: 'high' },
+  { label: 'Informational',   value: 6,  change: 'No change',          dir: 'neutral' as const, icon: 'ti-info-circle',  cls: 'moderate' },
+];
+
+const UNIT_ALERT_DIST = [
+  { name: 'ICU',      urgent: 3, warning: 3, informational: 2 },
+  { name: 'CCU',      urgent: 1, warning: 3, informational: 1 },
+  { name: 'Med-Surg', urgent: 0, warning: 2, informational: 3 },
+  { name: 'Tele',     urgent: 0, warning: 1, informational: 1 },
+  { name: 'Ortho',    urgent: 0, warning: 0, informational: 2 },
+];
+
+const RESPONSE_METRICS = [
+  { unit: 'ICU',      avgTime: '4 min',  status: 'safe' as const,    statusText: 'Under SLA' },
+  { unit: 'CCU',      avgTime: '8 min',  status: 'safe' as const,    statusText: 'Under SLA' },
+  { unit: 'Med-Surg', avgTime: '14 min', status: 'caution' as const, statusText: 'Near limit' },
+  { unit: 'Tele',     avgTime: '6 min',  status: 'safe' as const,    statusText: 'Under SLA' },
+  { unit: 'Ortho',    avgTime: '22 min', status: 'danger' as const,  statusText: 'Over SLA' },
+  { unit: 'ER',       avgTime: '11 min', status: 'safe' as const,    statusText: 'Under SLA' },
 ];
 
 /* ────────────────────────────────────────────────────────────
@@ -111,6 +128,8 @@ const PredictiveAlerts: React.FC = () => {
     setDismissed(prev => new Set(prev).add(id));
   };
 
+  const maxUnit = Math.max(...UNIT_ALERT_DIST.map(u => u.urgent + u.warning + u.informational));
+
   return (
     <div className="page-wrapper">
       <div className="content container-fluid">
@@ -126,41 +145,104 @@ const PredictiveAlerts: React.FC = () => {
           }
         />
 
-        {/* ── Stat Cards ── */}
+        {/* ── Stat Cards (PA-style) ── */}
         <div className="row mb-4">
           {STAT_DATA.map((s, i) => (
-            <div className="col-lg-3 col-sm-6" key={i}>
-              <div className={`card pca-stat-card border-start border-4 border-${s.cls}`}>
+            <div className="col" key={i}>
+              <div className={`card pa-stat-card pa-stat-${s.cls}`}>
                 <div className="card-body p-3">
-                  <p className="text-muted text-uppercase fw-semibold fs-12 mb-1">{s.label}</p>
-                  <h2 className="fw-bold mb-1">{s.value}</h2>
-                  <small className="text-muted">{s.sub}</small>
+                  <div className="pa-stat-icon">
+                    <i className={`ti ${s.icon}`} />
+                  </div>
+                  <p className="pa-stat-label">{s.label}</p>
+                  <h2 className="pa-stat-value">{s.value}</h2>
+                  <span className={`pa-stat-change pa-stat-change-${s.dir}`}>
+                    <i className={`ti ${s.dir === 'up' ? 'ti-arrow-up' : s.dir === 'down' ? 'ti-arrow-down' : 'ti-minus'}`} style={{ fontSize: 12 }} />
+                    {s.change}
+                  </span>
                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* ── Alerts Feed ── */}
+        {/* ── Distribution + Response Time (PA-style paired cards) ── */}
+        <div className="row mb-4">
+          <div className="col-lg-6">
+            <div className="card">
+              <div className="card-header d-flex align-items-center justify-content-between">
+                <h5 className="card-title mb-0"><i className="ti ti-chart-bar me-1 text-primary" /> Alert Distribution by Unit</h5>
+              </div>
+              <div className="card-body">
+                {UNIT_ALERT_DIST.map(u => {
+                  const total = u.urgent + u.warning + u.informational;
+                  const pct = (v: number) => `${((v / maxUnit) * 100).toFixed(1)}%`;
+                  return (
+                    <div className="pa-dist-row" key={u.name}>
+                      <span className="pa-dist-label">{u.name}</span>
+                      <div className="pa-dist-track">
+                        <div className="d-flex h-100">
+                          {u.urgent > 0 && <div className="pa-dist-fill pa-dist-critical" style={{ width: pct(u.urgent) }}>{u.urgent}</div>}
+                          {u.warning > 0 && <div className="pa-dist-fill pa-dist-high" style={{ width: pct(u.warning) }}>{u.warning}</div>}
+                          {u.informational > 0 && <div className="pa-dist-fill pa-dist-moderate" style={{ width: pct(u.informational) }}>{u.informational}</div>}
+                        </div>
+                      </div>
+                      <span className="pa-dist-count">{total}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          <div className="col-lg-6">
+            <div className="card">
+              <div className="card-header d-flex align-items-center justify-content-between">
+                <h5 className="card-title mb-0"><i className="ti ti-clock me-1 text-primary" /> Average Response Time</h5>
+              </div>
+              <div className="card-body">
+                <div className="row g-3">
+                  {RESPONSE_METRICS.map(r => (
+                    <div className="col-md-6" key={r.unit}>
+                      <div className="pa-ratio-card">
+                        <p className="pa-ratio-unit">{r.unit}</p>
+                        <h4 className="pa-ratio-value">{r.avgTime} <small>avg response</small></h4>
+                        <span className={`pa-ratio-status pa-ratio-${r.status}`}>
+                          <i className={`ti ${r.status === 'safe' ? 'ti-circle-check' : r.status === 'caution' ? 'ti-alert-circle' : 'ti-alert-triangle'}`} />
+                          {r.statusText}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Alerts Table-Feed (PA-style card with toolbar) ── */}
         <div className="card">
           <div className="card-header d-flex align-items-center justify-content-between">
             <h5 className="card-title mb-0"><i className="ti ti-bell-ringing me-1 text-primary" /> Active Alerts</h5>
-            <small className="text-muted">Last 24 hours</small>
+            <span className="text-muted fs-12">{data.length} alerts · Last 24 hours</span>
           </div>
 
           {/* Toolbar */}
           <div className="d-flex align-items-center justify-content-between flex-wrap gap-2 p-3 border-bottom">
             <div className="d-flex gap-2 flex-wrap">
-              {(['all','urgent','warning','informational'] as const).map(f => (
-                <button
-                  key={f}
-                  className={`btn btn-sm ${severityFilter === f ? 'btn-primary' : 'btn-outline-light'}`}
-                  onClick={() => setSeverityFilter(f)}
-                >
-                  {f !== 'all' && <span className="pa-filter-dot" style={{ background: SEVERITY_COLORS[f]?.border }} />}
-                  {f === 'all' ? `All (${ALERTS.length})` : `${f.charAt(0).toUpperCase() + f.slice(1)}`}
-                </button>
-              ))}
+              {(['all','urgent','warning','informational'] as const).map(f => {
+                const colors: Record<string, string> = { urgent: '#dc2626', warning: '#ea580c', informational: '#0284c7' };
+                return (
+                  <button
+                    key={f}
+                    className={`btn btn-sm ${severityFilter === f ? 'btn-primary' : 'btn-outline-light'}`}
+                    onClick={() => setSeverityFilter(f)}
+                  >
+                    {f !== 'all' && <span className="pa-filter-dot" style={{ background: colors[f] }} />}
+                    {f === 'all' ? `All (${ALERTS.filter(a => !dismissed.has(a.id)).length})` : `${f.charAt(0).toUpperCase() + f.slice(1)}`}
+                  </button>
+                );
+              })}
             </div>
             <div className="d-flex align-items-center gap-3">
               <div className="d-flex align-items-center gap-2 text-muted fs-12 fw-semibold">
@@ -176,78 +258,138 @@ const PredictiveAlerts: React.FC = () => {
           </div>
 
           {/* Feed */}
-          <div className="p-3 d-flex flex-column gap-3">
-            {data.length === 0 ? (
-              <div className="text-center py-5 text-muted">
-                <i className="ti ti-bell-off d-block mb-2" style={{ fontSize: 48 }} />
-                <h6>No Active Alerts</h6>
-                <p className="fs-12">All clear — no alerts match your current filter criteria.</p>
-              </div>
-            ) : data.map(a => {
-              const sc = SEVERITY_COLORS[a.severity];
-              const isExpanded = expandedIds.has(a.id);
-              return (
-                <div key={a.id} className="pca-alert-card" style={{ borderLeftColor: sc.border }} onClick={() => toggle(a.id)}>
-                  {/* Header */}
-                  <div className="d-flex align-items-start justify-content-between p-3 gap-3">
-                    <div className="d-flex gap-3 flex-grow-1 min-w-0">
-                      <div className="pca-severity-icon" style={{ background: sc.bg, color: sc.text }}>
-                        <i className={`ti ${a.severity === 'urgent' ? 'ti-urgent' : a.severity === 'warning' ? 'ti-alert-triangle' : 'ti-info-circle'}`} />
-                      </div>
-                      <div className="min-w-0">
-                        <h6 className="fw-bold mb-1 fs-14">{a.title}</h6>
-                        <p className="text-muted fs-12 mb-1">{a.patient}</p>
-                        <div className="d-flex align-items-center gap-2 flex-wrap">
-                          <span className="pca-severity-tag" style={{ background: sc.bg, color: sc.text, border: `1px solid ${sc.border}30` }}>{a.severity}</span>
+          <div className="table-responsive">
+            <table className="table table-hover mb-0 pca-table">
+              <thead>
+                <tr>
+                  <th style={{ width: 44 }}></th>
+                  <th>Alert</th>
+                  <th>Patient</th>
+                  <th>Severity</th>
+                  <th>Source</th>
+                  <th>Confidence</th>
+                  <th>Time</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.length === 0 ? (
+                  <tr>
+                    <td colSpan={8} className="text-center py-5 text-muted">
+                      <i className="ti ti-bell-off d-block mb-2" style={{ fontSize: 48 }} />
+                      <h6>No Active Alerts</h6>
+                      <p className="fs-12 mb-0">All clear — no alerts match your current filter criteria.</p>
+                    </td>
+                  </tr>
+                ) : data.map(a => {
+                  const sm = SEVERITY_META[a.severity];
+                  const isExpanded = expandedIds.has(a.id);
+                  return (
+                    <React.Fragment key={a.id}>
+                      <tr className="pca-alert-row" onClick={() => toggle(a.id)} style={{ cursor: 'pointer' }}>
+                        <td>
+                          <div className="pca-severity-icon" style={{ background: sm.bg, color: sm.text }}>
+                            <i className={`ti ${sm.icon}`} />
+                          </div>
+                        </td>
+                        <td>
+                          <span className="fw-semibold d-block">{a.title}</span>
+                        </td>
+                        <td>
+                          <div className="d-flex align-items-center gap-2">
+                            <span className="pa-patient-avatar" style={{ background: sm.border, width: 28, height: 28, fontSize: 10 }}>
+                              {a.patient.split(' ').slice(0,2).map(w => w[0]).join('')}
+                            </span>
+                            <small className="text-muted">{a.patient}</small>
+                          </div>
+                        </td>
+                        <td>
+                          <span className={`pa-acuity-badge pa-acuity-${a.severity === 'urgent' ? 'critical' : a.severity === 'warning' ? 'high' : 'moderate'}`}>
+                            <span className="pa-acuity-dot" /> {a.severity}
+                          </span>
+                        </td>
+                        <td>
                           <span className={`pca-type-tag ${a.type === 'ai' ? 'pca-type-ai' : ''}`}>
                             <i className={`ti ${a.type === 'ai' ? 'ti-robot' : 'ti-settings-automation'}`} style={{ fontSize: 11 }} />
-                            {a.type === 'ai' ? ' AI Predicted' : ' Rule-Based'}
+                            {a.type === 'ai' ? ' AI' : ' Rule'}
                           </span>
-                          <span className="d-flex align-items-center gap-1 text-muted fs-11 fw-semibold">
-                            <div className="pca-conf-bar"><div className="pca-conf-fill" style={{ width: `${a.confidence}%` }} /></div>
-                            {a.confidence}%
-                          </span>
-                          <span className="text-muted fs-11"><i className="ti ti-clock" style={{ fontSize: 12 }} /> {a.time}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="d-flex gap-1 flex-shrink-0" onClick={e => e.stopPropagation()}>
-                      <button className="btn btn-sm btn-outline-success btn-icon" title="Acknowledge" onClick={() => acknowledge(a.id)}><i className="ti ti-check" /></button>
-                      <button className="btn btn-sm btn-outline-light btn-icon" title="Snooze"><i className="ti ti-clock-pause" /></button>
-                      <button className="btn btn-sm btn-outline-danger btn-icon" title="Escalate"><i className="ti ti-arrow-up-circle" /></button>
-                    </div>
-                  </div>
-
-                  {/* Expandable Body */}
-                  {isExpanded && (
-                    <div className="border-top p-3" onClick={e => e.stopPropagation()}>
-                      <p className="text-uppercase fw-bold fs-11 text-muted mb-2">Triggering Data Points</p>
-                      <div className="row g-2 mb-3">
-                        {a.evidence.map((ev, j) => (
-                          <div className="col-md-4 col-sm-6" key={j}>
-                            <div className="pca-evidence-item">
-                              <small className="text-muted fw-semibold">{ev.label}</small>
-                              <div className="fw-bold">{ev.value}</div>
-                              <small className={ev.flag === 'abnormal' ? 'text-danger fw-semibold' : 'text-success fw-semibold'}>
-                                <i className={`ti ${ev.flag === 'abnormal' ? 'ti-alert-circle' : 'ti-circle-check'}`} style={{ fontSize: 12 }} /> {ev.flag === 'abnormal' ? 'Abnormal' : 'Within Range'}
-                              </small>
+                        </td>
+                        <td>
+                          <div className="d-flex align-items-center gap-2">
+                            <div className="pa-sparkline" style={{ height: 20 }}>
+                              {[...Array(6)].map((_, i) => (
+                                <div key={i} className="pa-spark-bar" style={{
+                                  height: Math.max(3, (Math.min(100, a.confidence - 10 + i * 4) / 100) * 20),
+                                  background: sm.border,
+                                  width: 3,
+                                }} />
+                              ))}
                             </div>
+                            <span className="fw-bold fs-14">{a.confidence}%</span>
                           </div>
-                        ))}
-                      </div>
-                      <p className="text-uppercase fw-bold fs-11 text-muted mb-2">Recommended Actions</p>
-                      {a.actions.map((act, j) => (
-                        <div key={j} className="pca-rec-action">
-                          <i className="ti ti-arrow-right text-primary" />
-                          <span className="flex-grow-1">{act}</span>
-                          <button className="btn btn-xs btn-primary" onClick={e => e.stopPropagation()}>Order</button>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+                        </td>
+                        <td><small className="text-muted">{a.time}</small></td>
+                        <td>
+                          <div className="d-flex gap-1" onClick={e => e.stopPropagation()}>
+                            <button className="btn btn-sm btn-outline-success btn-icon" title="Acknowledge" onClick={() => acknowledge(a.id)}><i className="ti ti-check" /></button>
+                            <button className="btn btn-sm btn-outline-light btn-icon" title="Snooze"><i className="ti ti-clock-pause" /></button>
+                            <button className="btn btn-sm btn-outline-danger btn-icon" title="Escalate"><i className="ti ti-arrow-up-circle" /></button>
+                          </div>
+                        </td>
+                      </tr>
+
+                      {/* Expandable Detail Row */}
+                      {isExpanded && (
+                        <tr className="pca-detail-row">
+                          <td colSpan={8} className="p-0">
+                            <div className="p-3 border-top" style={{ background: 'var(--bs-light)' }} onClick={e => e.stopPropagation()}>
+                              <div className="row">
+                                <div className="col-lg-7">
+                                  <p className="text-uppercase fw-bold fs-11 text-muted mb-2">Triggering Data Points</p>
+                                  <div className="row g-2 mb-3">
+                                    {a.evidence.map((ev, j) => (
+                                      <div className="col-md-4 col-sm-6" key={j}>
+                                        <div className="pca-evidence-item">
+                                          <small className="text-muted fw-semibold">{ev.label}</small>
+                                          <div className="fw-bold">{ev.value}</div>
+                                          <small className={ev.flag === 'abnormal' ? 'text-danger fw-semibold' : 'text-success fw-semibold'}>
+                                            <i className={`ti ${ev.flag === 'abnormal' ? 'ti-alert-circle' : 'ti-circle-check'}`} style={{ fontSize: 12 }} /> {ev.flag === 'abnormal' ? 'Abnormal' : 'Within Range'}
+                                          </small>
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                                <div className="col-lg-5">
+                                  <p className="text-uppercase fw-bold fs-11 text-muted mb-2">Recommended Actions</p>
+                                  {a.actions.map((act, j) => (
+                                    <div key={j} className="pca-rec-action">
+                                      <i className="ti ti-arrow-right text-primary" />
+                                      <span className="flex-grow-1">{act}</span>
+                                      <button className="btn btn-xs btn-primary" onClick={e => e.stopPropagation()}>Order</button>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                    </React.Fragment>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Footer */}
+          <div className="d-flex align-items-center justify-content-between p-3 border-top">
+            <span className="text-muted fs-12">Showing {data.length} of {ALERTS.filter(a => !dismissed.has(a.id)).length} alerts</span>
+            <div className="d-flex gap-1">
+              {[1,2,3].map(n => (
+                <button key={n} className={`btn btn-sm ${n === 1 ? 'btn-primary' : 'btn-outline-light'}`}>{n}</button>
+              ))}
+            </div>
           </div>
         </div>
 

@@ -303,49 +303,18 @@
 
 // ═══════════════════════════════════════════════════════════
 //  PREDICTIVE CLINICAL ALERTS
+//  (Reuses PA stat cards, distribution bars, ratio cards)
 // ═══════════════════════════════════════════════════════════
 
-.pca-stat-card {
-  transition: box-shadow 0.2s;
-  &:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-}
-
-.pca-alert-card {
-  border: 1px solid $border-color;
-  border-left: 4px solid $border-color;
-  border-radius: 8px;
-  overflow: hidden;
-  transition: all 0.2s;
-  cursor: pointer;
-  background: $white;
-
-  &:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    border-color: #c8ccd0;
-  }
-}
-
 .pca-severity-icon {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 16px;
   flex-shrink: 0;
-}
-
-.pca-severity-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 2px 8px;
-  border-radius: 20px;
-  font-size: 10.5px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
 }
 
 .pca-type-tag {
@@ -365,24 +334,21 @@
   color: $purple;
 }
 
-.pca-conf-bar {
-  width: 40px;
-  height: 5px;
-  background: $light-300;
-  border-radius: 3px;
-  overflow: hidden;
-}
+.pca-table {
+  .pca-alert-row {
+    transition: background 0.15s;
+    &:hover { background: $light-100; }
+  }
 
-.pca-conf-fill {
-  height: 100%;
-  border-radius: 3px;
-  background: $primary;
+  .pca-detail-row td {
+    border-top: none;
+  }
 }
 
 .pca-evidence-item {
   padding: 10px;
   border-radius: 6px;
-  background: $light-100;
+  background: $white;
   border: 1px solid $border-color;
 }
 
@@ -403,117 +369,10 @@
 
 // ═══════════════════════════════════════════════════════════
 //  SMART INSIGHTS
+//  (Reuses PA stat cards, distribution bars, ratio cards)
 // ═══════════════════════════════════════════════════════════
 
-// Hero stat
-.si-hero-stat {
-  transition: box-shadow 0.2s;
-  &:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-}
-
-.si-hero-icon {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 40px;
-  height: 40px;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-}
-
-// Bootstrap-compatible transparent bg helpers
-.bg-primary-transparent { background: rgba($primary, 0.1) !important; }
-.bg-danger-transparent { background: rgba($danger, 0.1) !important; }
-.bg-success-transparent { background: rgba($success, 0.1) !important; }
-.bg-warning-transparent { background: rgba($warning, 0.1) !important; }
-.bg-info-transparent { background: rgba($info, 0.1) !important; }
-
-.si-hero-change {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 2px 8px;
-  border-radius: 20px;
-}
-
-.si-hero-positive { background: rgba($success, 0.1); color: $success; }
-.si-hero-negative { background: rgba($danger, 0.1); color: $danger; }
-.si-hero-neutral { background: $light-300; color: $secondary; }
-
-// Category tabs
-.si-cat-tab {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 7px 16px;
-  border-radius: 20px;
-  font-weight: 600;
-  border: 1px solid $border-color;
-  background: $white;
-  color: $gray-700;
-  transition: all 0.15s;
-
-  &:hover {
-    border-color: $primary;
-    color: $primary;
-  }
-
-  &.active {
-    background: $primary;
-    color: $white;
-    border-color: $primary;
-  }
-}
-
-.si-tab-count {
-  padding: 1px 6px;
-  border-radius: 10px;
-  font-size: 10px;
-  background: rgba(255,255,255,0.2);
-
-  .si-cat-tab:not(.active) & {
-    background: $light-300;
-    color: $secondary;
-  }
-}
-
-// Insight card
-.si-insight-card {
-  transition: all 0.25s;
-  cursor: pointer;
-
-  &:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    transform: translateY(-2px);
-  }
-}
-
-.si-card-error {
-  border-color: rgba($danger, 0.3);
-  background: rgba($danger, 0.03);
-}
-
-.si-ai-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 9px;
-  font-weight: 700;
-  background: rgba(139, 92, 246, 0.12);
-  color: #7c3aed;
-  letter-spacing: 0.3px;
-  position: absolute;
-  top: 12px;
-  right: 12px;
-}
-
+// Category tags (used in table cells)
 .si-category-tag {
   display: inline-flex;
   align-items: center;
@@ -538,40 +397,6 @@
   overflow: hidden;
 }
 
-// Metric area
-.si-metric-area {
-  background: $light-100;
-  border-radius: 6px;
-  padding: 14px;
-}
-
-.si-bar-track {
-  height: 8px;
-  background: $light-300;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.si-bar-fill {
-  height: 100%;
-  border-radius: 4px;
-  transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.si-mini-chart {
-  display: flex;
-  align-items: flex-end;
-  gap: 3px;
-  height: 36px;
-  margin-top: 8px;
-}
-
-.si-mini-bar {
-  flex: 1;
-  border-radius: 3px 3px 0 0;
-  transition: height 0.5s ease;
-}
-
 // Confidence dots
 .si-conf-dots {
   display: flex;
@@ -585,52 +410,6 @@
   background: $light-300;
 
   &.filled { background: $primary; }
-}
-
-// Drill-down button
-.si-drill-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 12px;
-  border-radius: 6px;
-  font-size: 11.5px;
-  font-weight: 600;
-  color: $primary;
-  background: rgba($primary, 0.05);
-  border: 1px solid rgba($primary, 0.15);
-
-  &:hover {
-    background: rgba($primary, 0.1);
-    border-color: $primary;
-    color: $primary;
-  }
-}
-
-// Skeleton states
-.si-skeleton-line {
-  height: 12px;
-  background: linear-gradient(90deg, #e9ecef 25%, #dde0e3 50%, #e9ecef 75%);
-  background-size: 200% 100%;
-  border-radius: 6px;
-  animation: si-shimmer 1.5s infinite;
-
-  & + & { margin-top: 8px; }
-}
-
-.si-skeleton-block {
-  height: 60px;
-  background: linear-gradient(90deg, #e9ecef 25%, #dde0e3 50%, #e9ecef 75%);
-  background-size: 200% 100%;
-  border-radius: 6px;
-  animation: si-shimmer 1.5s infinite;
-  margin-top: 14px;
-  margin-bottom: 12px;
-}
-
-@keyframes si-shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
 }
 
 // ═══════════════════════════════════════════════════════════

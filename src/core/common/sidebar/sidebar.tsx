@@ -177,13 +177,6 @@ const Sidebar: React.FC<SidebarProps> = ({ onExpandEnter, onExpandLeave }) => {
               <ImageWithBasePath src="assets/img/logo-white.svg" alt="Logo" />
             </Link>
           </div>
-          <button
-            className="sidenav-toggle-btn btn border-0 p-0 active"
-            id="toggle_btn"
-            onClick={handleMiniSidebar}
-          >
-            <i className="ti ti-arrow-left" />
-          </button>
           {/* Sidebar Menu Close */}
           <button className="sidebar-close"  onClick={toggleMobileSidebar}>
             <i className="ti ti-x align-middle" />

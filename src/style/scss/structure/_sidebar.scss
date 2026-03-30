@@ -31,37 +31,9 @@
             -webkit-tap-highlight-color: transparent;
         }
     }
-    .sidebar-logo {
-        position: fixed;
-        height: 56px;
-        width: 276px;
-        padding: 13px 22px;
-        background-color: $menu-bg;
-        border-bottom: 1px solid $menu-item-border;
-        .logo {
-            display: block;
-        }
-        .dark-logo, .logo-normal{
-          img{
-            width: 114px;
-          }
-        }
-        .logo-small, .dark-logo {
-            display: none;
-        }
-        #toggle_btn {
-             @include respond-above(lg) {
-                position: absolute;
-                top: 50%;
-                transform: translateY(-50%);
-                right: 16px;
-                background-color: $menu-light-bg;
-                width: 22px;
-                height: 22px;
-                border-radius: $border-radius-pill;
-                color: $menu-item-heading;
-            }
-        }
+    .sidebar-mobile-close {
+        padding: 12px 22px;
+        text-align: right;
     }
     .sidebar-top{
         border: 1px solid $menu-item-border;
@@ -76,8 +48,8 @@
         }
     }
     [data-simplebar] {
-        top: 56px;
-        height: calc(100% - 56px);
+        top: 0;
+        height: 100%;
         @include respond-below(sm) {
             width: 100% !important;
         }
@@ -96,7 +68,7 @@
         width: 100%;        
     }
     .sidebar-menu {
-        margin-top: 56px;
+        margin-top: 0;
         padding: 24px 24px 0;
         -webkit-overflow-scrolling: touch;
         ul {
@@ -671,6 +643,14 @@
     #toggle_btn{
         opacity: 0;
     }
+    .navbar-header .header-logo {
+        .header-logo-full {
+            display: none;
+        }
+        .header-logo-icon {
+            display: block;
+        }
+    }
     .sidebar-top{
         display: none;
     }
@@ -689,29 +669,6 @@
         }
     }
     .sidebar {
-        .sidebar-logo {
-            padding: 13px 15px;
-            width: 70px;
-            .logo {
-                display: none;
-            }
-            .logo-small {
-                display: block;
-                text-align: center;
-            }
-            .sidebar-logo-content{
-                justify-content: center !important;
-            }
-             @include respond-below(lg) {                
-                width: 276px;
-                .logo-small{
-                    display: none;
-                }
-                .logo {
-                    display: block;
-                }
-            }
-        }
         .sidebar-menu {
             padding: 15px 15px 0;
             > ul {
@@ -823,6 +780,14 @@
 .mini-sidebar.expand-menu {
     .active.subdrop ~ ul {
         display: block !important;
+    }
+    .navbar-header .header-logo {
+        .header-logo-full {
+            display: block;
+        }
+        .header-logo-icon {
+            display: none;
+        }
     }
 }
 .active.subdrop ~ ul {

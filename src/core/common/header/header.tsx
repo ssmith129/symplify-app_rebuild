@@ -56,28 +56,19 @@ const Header = () => {
         <div className="page-container topbar-menu">
           <div className="d-flex align-items-center gap-3">
             {/* Logo */}
-            <Link to={all_routes.dashboard} className="logo">
-              {/* Logo Normal */}
-              <span className="logo-light">
-                <span className="logo-lg">
-                  <ImageWithBasePath src="assets/img/logo.svg" alt="logo" />
-                </span>
-                <span className="logo-sm">
-                  <ImageWithBasePath
-                    src="assets/img/logo-small.svg"
-                    alt="small logo"
-                  />
-                </span>
-              </span>
-              {/* Logo Dark */}
-              <span className="logo-dark">
-                <span className="logo-lg">
-                  <ImageWithBasePath
-                    src="assets/img/logo-white.svg"
-                    alt="dark logo"
-                  />
-                </span>
-              </span>
+            <Link to={all_routes.dashboard} className="header-logo">
+              <img
+                className="header-logo-full"
+                src="https://cdn.builder.io/api/v1/image/assets%2Fba69a23156414a589de97341511272c9%2Fa91e18e921094a9cbd9ae980257d3d46?format=webp&width=800&height=1200"
+                alt="Logo"
+                style={{ height: 32 }}
+              />
+              <img
+                className="header-logo-icon"
+                src="https://cdn.builder.io/api/v1/image/assets%2Fba69a23156414a589de97341511272c9%2F1ce60f940e2645db8c40204e1e7c9cc4?format=webp&width=800&height=1200"
+                alt="Logo"
+                style={{ height: 28 }}
+              />
             </Link>
             {/* Sidebar Mobile Button */}
             <Link

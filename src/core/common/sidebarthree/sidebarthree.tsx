@@ -91,35 +91,12 @@ const Sidebarthree: React.FC<SidebarthreeProps> = ({ onExpandEnter, onExpandLeav
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
       >
-        {/* Start Logo */}
-        <div className="sidebar-logo">
-          <div>
-            {/* Logo Normal */}
-            <Link to={routes.dashboard} className="logo logo-normal">
-              <ImageWithBasePath src="assets/img/logo.svg" alt="Logo" />
-            </Link>
-            {/* Logo Small */}
-            <Link to={routes.dashboard} className="logo-small">
-              <ImageWithBasePath src="assets/img/logo-small.svg" alt="Logo" />
-            </Link>
-            {/* Logo Dark */}
-            <Link to={routes.dashboard} className="dark-logo">
-              <ImageWithBasePath src="assets/img/logo-white.svg" alt="Logo" />
-            </Link>
-          </div>
-          <button
-            className="sidenav-toggle-btn btn border-0 p-0 active"
-            id="toggle_btn"
-            onClick={handleMiniSidebar}
-          >
-            <i className="ti ti-arrow-left" />
-          </button>
-          {/* Sidebar Menu Close */}
+        {/* Mobile Sidebar Close */}
+        <div className="sidebar-mobile-close d-lg-none">
           <button className="sidebar-close" onClick={toggleMobileSidebar}>
             <i className="ti ti-x align-middle" />
           </button>
         </div>
-        {/* End Logo */}
         {/* Sidenav Menu */}
         <div className="sidebar-inner" data-simplebar="">
           <div id="sidebar-menu" className="sidebar-menu">

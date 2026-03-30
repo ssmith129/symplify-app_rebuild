@@ -161,28 +161,12 @@ const Sidebar: React.FC<SidebarProps> = ({ onExpandEnter, onExpandLeave }) => {
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
       >
-        {/* Start Logo */}
-        <div className="sidebar-logo">
-          <div>
-            {/* Logo Normal */}
-            <Link to={all_routes.dashboard} className="logo logo-normal">
-              <img src="https://cdn.builder.io/api/v1/image/assets%2Fba69a23156414a589de97341511272c9%2Fa91e18e921094a9cbd9ae980257d3d46?format=webp&width=800&height=1200" alt="Logo" style={{ height: 32 }} />
-            </Link>
-            {/* Logo Small */}
-            <Link to={all_routes.dashboard} className="logo-small">
-              <ImageWithBasePath src="assets/img/logo-small.svg" alt="Logo" />
-            </Link>
-            {/* Logo Dark */}
-            <Link to={all_routes.dashboard} className="dark-logo">
-              <ImageWithBasePath src="assets/img/logo-white.svg" alt="Logo" />
-            </Link>
-          </div>
-          {/* Sidebar Menu Close */}
-          <button className="sidebar-close"  onClick={toggleMobileSidebar}>
+        {/* Mobile Sidebar Close */}
+        <div className="sidebar-mobile-close d-lg-none">
+          <button className="sidebar-close" onClick={toggleMobileSidebar}>
             <i className="ti ti-x align-middle" />
           </button>
         </div>
-        {/* End Logo */}
         {/* Sidenav Menu */}
         <div className="sidebar-inner" data-simplebar="">
           <div id="sidebar-menu" className="sidebar-menu">

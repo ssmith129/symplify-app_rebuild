@@ -67,6 +67,14 @@ Header CSS
             }
         }
     }
+    .header-logo {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+        .header-logo-icon {
+            display: none;
+        }
+    }
     .topbar-menu {
         display: flex;
         justify-content: space-between;

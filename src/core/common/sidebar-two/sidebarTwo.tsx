@@ -127,22 +127,12 @@ const SidebarTwo: React.FC<SidebarTwoProps> = ({ onExpandEnter, onExpandLeave })
       <div className="sidebar doctor-sidebar" id="sidebar"
        onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}>
-        {/* Start Logo */}
-        <div className="sidebar-logo">
-          <div>
-            <Link to={all_routes.dashboard} className="logo logo-normal">
-              <img src="https://cdn.builder.io/api/v1/image/assets%2Fba69a23156414a589de97341511272c9%2F077150e6c4e34360b4090a8592fc6361?format=webp&width=800&height=1200" alt="Logo" style={{ height: 28 }} />
-            </Link>
-            <Link to={all_routes.dashboard} className="logo-small">
-              <img src="https://cdn.builder.io/api/v1/image/assets%2Fba69a23156414a589de97341511272c9%2F1ce60f940e2645db8c40204e1e7c9cc4?format=webp&width=800&height=1200" alt="Logo" style={{ height: 28 }} />
-            </Link>
-          </div>
-          {/* Sidebar Menu Close */}
+        {/* Mobile Sidebar Close */}
+        <div className="sidebar-mobile-close d-lg-none">
           <button className="sidebar-close" onClick={toggleMobileSidebar}>
             <i className="ti ti-x align-middle" />
           </button>
         </div>
-        {/* End Logo */}
         {/* Sidenav Menu */}
         <div className="sidebar-inner" data-simplebar="">
           <div id="sidebar-menu" className="sidebar-menu">

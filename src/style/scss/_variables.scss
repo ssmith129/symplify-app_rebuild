@@ -117,7 +117,7 @@
   --clinical-stable: #16A34A;
   --clinical-stable-bg: #F0FDF4;
   --clinical-stable-border: #BBF7D0;
-  --clinical-info: #2563EB;
+  --clinical-info: #1D4ED8;
   --clinical-info-bg: #EFF6FF;
   --clinical-info-border: #BFDBFE;
 
@@ -148,8 +148,15 @@
   --text-2xl: 1.5rem;
 
   /* Component Radius Tokens */
-  --radius-card: 8px;
-  --radius-modal: 12px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-card: var(--radius-md);
+  --radius-modal: var(--radius-lg);
+
+  /* Role-Specific Tokens */
+  --doctor-sidebar-bg: #1E3A5F;
 
   /* Touch Target Tokens */
   --touch-target-desktop: 32px;

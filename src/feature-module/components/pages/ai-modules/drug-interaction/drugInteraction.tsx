@@ -1,27 +1,13 @@
 import React from 'react';
 import DrugInteractionChecker from '../../../ai/drug-interaction/DrugInteractionChecker';
 import MedicationReviewPanel from '../../../ai/drug-interaction/MedicationReviewPanel';
+import PageHeader from '../../../../../core/common/page-header/PageHeader';
 
 const DrugInteraction: React.FC = () => {
   return (
     <div className="page-wrapper">
       <div className="content container-fluid">
-        {/* Page Header */}
-        <div className="page-header">
-          <div className="row align-items-center">
-            <div className="col-sm-12">
-              <div className="page-sub-header">
-                <h3 className="page-title">Drug Interaction Checker</h3>
-                <ul className="breadcrumb">
-                  <li className="breadcrumb-item">
-                    <a href="/dashboard">Dashboard</a>
-                  </li>
-                  <li className="breadcrumb-item active">Drug Interaction Checker</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
+        <PageHeader title="Drug Interaction Checker" />
 
         {/* Drug Interaction Content */}
         <div className="row">

@@ -1,25 +1,12 @@
 import React from 'react';
 import { ShiftHandoffSummary } from '../../../ai/shift-handoff';
+import PageHeader from '../../../../../core/common/page-header/PageHeader';
 
 const ShiftHandoff: React.FC = () => {
   return (
     <div className="page-wrapper">
       <div className="content container-fluid">
-        {/* Breadcrumb only — the card header provides the shift-specific title */}
-        <div className="page-header">
-          <div className="row align-items-center">
-            <div className="col-sm-12">
-              <div className="page-sub-header">
-                <ul className="breadcrumb mb-0">
-                  <li className="breadcrumb-item">
-                    <a href="/dashboard">Dashboard</a>
-                  </li>
-                  <li className="breadcrumb-item active">Shift Handoff</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
+        <PageHeader title="Shift Handoff" />
 
         {/* Shift Handoff Content */}
         <div className="row">

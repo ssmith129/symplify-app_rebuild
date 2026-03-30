@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import PageHeader from '../../../../../core/common/page-header/PageHeader';
+
 /* ────────────────────────────────────────────────────────────
    DATA
    ──────────────────────────────────────────────────────────── */
@@ -90,22 +92,19 @@ const PatientAcuity: React.FC = () => {
     <div className="page-wrapper">
       <div className="content container-fluid">
 
-        {/* Breadcrumb */}
-        <div className="page-header">
-          <div className="row align-items-center">
-            <div className="col">
-              <h3 className="page-title">Patient Acuity Dashboard</h3>
-            </div>
-            <div className="col-auto d-flex gap-2 align-items-center">
+        <PageHeader
+          title="Patient Acuity Dashboard"
+          actions={
+            <>
               <span className="pa-live-indicator">
                 <span className="pa-live-dot" /> Live — Updated 12s ago
               </span>
               <button className="btn btn-outline-light"><i className="ti ti-filter me-1" />Filters</button>
               <button className="btn btn-outline-light"><i className="ti ti-download me-1" />Export</button>
               <button className="btn btn-primary"><i className="ti ti-refresh me-1" />Refresh</button>
-            </div>
-          </div>
-        </div>
+            </>
+          }
+        />
 
         {/* ── Stat Cards ── */}
         <div className="row mb-4">

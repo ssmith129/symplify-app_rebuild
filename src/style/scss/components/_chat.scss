@@ -103,33 +103,33 @@
 // AI Analysis Banner (conversation header)
 .chat-ai-banner {
   padding: 10px 16px;
-  background: #F9FAFB;
-  border-bottom: 1px solid #E5E7EB;
+  background: var(--bs-gray-100);
+  border-bottom: 1px solid var(--bs-gray-200);
   animation: chat-banner-in 0.2s ease-out;
 }
 
 .chat-ai-sep {
-  color: #D1D5DB;
-  font-size: 12px;
+  color: var(--bs-gray-400);
+  font-size: var(--text-sm, 12px);
 }
 
 .chat-ai-meta {
-  font-size: 12px;
-  color: #4A4F5C;
+  font-size: var(--text-sm, 12px);
+  color: var(--bs-secondary-color);
 }
 
 .chat-ai-kw-label {
-  font-size: 11px;
-  color: #6B7280;
+  font-size: var(--text-xs, 11px);
+  color: var(--bs-gray-500);
   margin-right: 4px;
 }
 
 .chat-ai-kw-chip {
-  font-size: 10px;
+  font-size: var(--text-xs, 11px);
   padding: 2px 6px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm, 4px);
   background: rgba(#EAB308, 0.12);
-  color: #92400E;
+  color: var(--clinical-caution, #92400E);
   font-weight: 600;
 }
 
@@ -144,12 +144,12 @@
 }
 
 .chat-quick-reply-btn {
-  background: #F3F4F6;
-  border: 1px solid #E5E7EB;
+  background: var(--bs-gray-100);
+  border: 1px solid var(--bs-gray-200);
   border-radius: 16px;
   padding: 4px 12px;
   font-size: 12px;
-  color: #374151;
+  color: var(--bs-gray-700);
   cursor: pointer;
   transition: all 0.15s;
   min-height: 30px;

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import PageHeader from '../../../../../core/common/page-header/PageHeader';
+
 /* ────────────────────────────────────────────────────────────
    DATA
    ──────────────────────────────────────────────────────────── */
@@ -113,24 +115,16 @@ const PredictiveAlerts: React.FC = () => {
     <div className="page-wrapper">
       <div className="content container-fluid">
 
-        {/* Breadcrumb */}
-        <div className="page-header">
-          <div className="row align-items-center">
-            <div className="col">
-              <h3 className="page-title">Predictive Clinical Alerts</h3>
-              <ul className="breadcrumb mb-0">
-                <li className="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-                <li className="breadcrumb-item"><a href="#">AI Modules</a></li>
-                <li className="breadcrumb-item active">Predictive Alerts</li>
-              </ul>
-            </div>
-            <div className="col-auto d-flex gap-2 align-items-center">
+        <PageHeader
+          title="Predictive Clinical Alerts"
+          actions={
+            <>
               <span className="pa-live-indicator"><span className="pa-live-dot" /> Live Monitoring</span>
               <button className="btn btn-outline-light"><i className="ti ti-filter me-1" />Advanced Filters</button>
               <button className="btn btn-outline-light"><i className="ti ti-settings-2 me-1" />Alert Rules</button>
-            </div>
-          </div>
-        </div>
+            </>
+          }
+        />
 
         {/* ── Stat Cards ── */}
         <div className="row mb-4">

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import PageHeader from '../../../../../core/common/page-header/PageHeader';
+
 /* ────────────────────────────────────────────────────────────
    DATA
    ──────────────────────────────────────────────────────────── */
@@ -79,25 +81,17 @@ const SmartInsights: React.FC = () => {
     <div className="page-wrapper">
       <div className="content container-fluid">
 
-        {/* Breadcrumb */}
-        <div className="page-header">
-          <div className="row align-items-center">
-            <div className="col">
-              <h3 className="page-title">Smart Insights</h3>
-              <ul className="breadcrumb mb-0">
-                <li className="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-                <li className="breadcrumb-item"><a href="#">AI Modules</a></li>
-                <li className="breadcrumb-item active">Smart Insights</li>
-              </ul>
-            </div>
-            <div className="col-auto d-flex gap-2 align-items-center">
+        <PageHeader
+          title="Smart Insights"
+          actions={
+            <>
               <span className="pa-live-indicator"><span className="pa-live-dot" /> Auto-refreshing</span>
               <button className="btn btn-outline-light"><i className="ti ti-layout-grid me-1" />Customize</button>
               <button className="btn btn-outline-light"><i className="ti ti-download me-1" />Export</button>
               <button className="btn btn-primary"><i className="ti ti-refresh me-1" />Refresh</button>
-            </div>
-          </div>
-        </div>
+            </>
+          }
+        />
 
         {/* ── Hero Stats ── */}
         <div className="row mb-4">

@@ -45,6 +45,27 @@ a {
         outline-offset: 2px;
     }
 }
+
+// Global focus-visible for form controls and interactive elements
+input,
+textarea,
+select,
+[role="button"],
+[tabindex],
+.form-control,
+.form-select,
+.accordion-button,
+.select2-selection,
+.PhoneInputInput,
+.ql-editor {
+    &:focus-visible {
+        outline: 2px solid var(--primary);
+        outline-offset: 1px;
+    }
+    &:focus:not(:focus-visible) {
+        outline: none;
+    }
+}
 a {
     text-decoration: none;
     color: $gray-900;

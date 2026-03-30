@@ -185,7 +185,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onExpandEnter, onExpandLeave }) => {
         {/* End Logo */}
         {/* Sidenav Menu */}
         <div className="sidebar-inner" data-simplebar="">
-          <div id="sidebar-menu" className="sidebar-menu" style={{ backgroundColor: 'rgba(29, 62, 94, 1)', color: '#1d3e5e' }}>
+          <div id="sidebar-menu" className="sidebar-menu">
             <div className="sidebar-top shadow-sm p-2 rounded-1 mb-3 dropend">
               <Link
                 to="#"

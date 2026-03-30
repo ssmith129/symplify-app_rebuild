@@ -32,12 +32,12 @@
   }
   thead {
     th {
-      color: #0a1b39 !important;
+      color: var(--bs-body-color) !important;
       font-weight: 600 !important;
     }
   }
   .ant-picker-calendar {
-    font-family: var(--pr-body-font-family) !important;
+    font-family: var(--bs-body-font-family) !important;
   }
   .ant-picker-calendar-mini .ant-picker-content {
     height: 187px;
@@ -76,7 +76,13 @@
   }
 }
 .doctor-sidebar {
-  background: #1E3A5F !important;
+  background: var(--doctor-sidebar-bg) !important;
+  .sidebar-menu .menu-arrow::before {
+    display: none;
+  }
+}
+.patient-sidebar {
+  background: var(--doctor-sidebar-bg) !important;
   .sidebar-menu .menu-arrow::before {
     display: none;
   }
@@ -84,7 +90,7 @@
 
 //Ant Date Picker
 .ant-picker-outlined:hover {
-  border: var(--pr-border-width) solid var(--pr-border-color);
+  border: var(--bs-border-width) solid var(--bs-border-color);
 }
 .ant-picker:hover .ant-picker-clear {
   display: none;
@@ -93,24 +99,24 @@
   display: none;
 }
 .ant-picker {
-  font-family: var(--pr-body-font-family) !important;
+  font-family: var(--bs-body-font-family) !important;
 }
 .ant-table-wrapper .ant-table-thead > tr > th {
-  background-color: var(--pr-table-bg);
+  background-color: var(--bs-table-bg);
 }
 .ant-table-wrapper .ant-table-tbody > tr > td {
   color: #6c7688;
-  border-bottom: 1px solid var(--pr-border-color);
+  border-bottom: 1px solid var(--bs-border-color);
 }
 .ant-table-wrapper .ant-table {
-  font-family: var(--pr-body-font-family) !important;
+  font-family: var(--bs-body-font-family) !important;
 }
 .ant-input {
   width: 100%;
   max-width: 220px;
   font-size: 14px;
   padding-left: 32px;
-  font-family: var(--pr-body-font-family) !important;
+  font-family: var(--bs-body-font-family) !important;
   box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.0509803922);
   border-radius: 0.25rem;
 }
@@ -123,7 +129,7 @@
 .ant-pagination-total-text {
   position: absolute;
   left: 0;
-  font-family: var(--pr-body-font-family) !important;
+  font-family: var(--bs-body-font-family) !important;
   font-weight: 500;
   color: #6c7688;
   font-size: 13px;
@@ -132,8 +138,8 @@
   padding: 6px 10px;
   width: 51px;
   font-size: 13px;
-  background-color: var(--pr-white);
-  font-family: var(--pr-body-font-family) !important;
+  background-color: var(--bs-white);
+  font-family: var(--bs-body-font-family) !important;
 }
 .ant-select-single {
   width: auto !important;
@@ -163,18 +169,18 @@
     .ant-select-customize-input
   ):not(.ant-pagination-size-changer):hover
   .ant-select-selector {
-  border: var(--pr-border-width) solid var(--pr-border-color);
+  border: var(--bs-border-width) solid var(--bs-border-color);
 }
 .ant-select {
-  font-family: var(--pr-body-font-family) !important;
+  font-family: var(--bs-body-font-family) !important;
 }
 .ant-select-dropdown {
-  font-family: var(--pr-body-font-family) !important;
+  font-family: var(--bs-body-font-family) !important;
 }
 .rc-virtual-list-holder {
-  border: var(--pr-border-width) solid var(--pr-border-color);
-  box-shadow: var(--pr-box-shadow);
-  background-color: var(--pr-secondary-bg);
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  box-shadow: var(--bs-box-shadow);
+  background-color: var(--bs-secondary-bg);
 }
 .ant-select-dropdown
   .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
@@ -218,7 +224,7 @@
   border: 1px solid #2e37a4;
 }
 .ant-picker-dropdown {
-  font-family: var(--pr-body-font-family) !important;
+  font-family: var(--bs-body-font-family) !important;
 }
 .fc-today-button {
   color: #fff !important;
@@ -323,8 +329,8 @@
   top: 0;
 }
 .todo-tabs .nav-link.active {
-  color: var(--pr-nav-pills-link-active-color);
-  background-color: var(--pr-nav-pills-link-active-bg);
+  color: var(--bs-nav-pills-link-active-color);
+  background-color: var(--bs-nav-pills-link-active-bg);
 }
 .custome-tag-input {
   display: flex;
@@ -334,7 +340,7 @@
   font-weight: 400;
   line-height: 1.5;
   background-clip: padding-box;
-  border: var(--pr-border-width) solid var(--pr-border-color);
+  border: var(--bs-border-width) solid var(--bs-border-color);
   border-radius: 0.3rem;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   padding: 4px 6px;
@@ -344,7 +350,7 @@
   line-height: 22px;
   cursor: text;
   .ant-tag {
-    color: #0a1b39;
+    color: var(--bs-body-color);
     margin-right: 2px;
     background: #f5f6f8;
     border-radius: 5px;
@@ -390,11 +396,11 @@
     font-size: 0.75rem;
     font-weight: 400;
     line-height: 1.5;
-    color: var(--pr-body-color);
+    color: var(--bs-body-color);
     appearance: none;
-    background-color: var(--pr-secondary-bg);
+    background-color: var(--bs-secondary-bg);
     background-clip: padding-box;
-    border: var(--pr-border-width) solid var(--pr-border-color);
+    border: var(--bs-border-width) solid var(--bs-border-color);
     border-radius: 0.3rem;
   }
 }
@@ -405,18 +411,18 @@
   .auth-bg .otp-input input {
     width: 60px;
     height: 60px;
-    border-radius: var(--pr-border-radius);
+    border-radius: var(--bs-border-radius);
   }
 }
 .auth-bg .otp-input input {
-  border: var(--pr-border-width) var(--pr-border-style) var(--pr-border-color) !important;
+  border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
 }
 .report-rangepicker {
   .ant-input {
     display: inline;
     width: 100%;
     padding: 0.5rem 0.77rem;
-    border: var(--pr-border-width) var(--pr-border-style) var(--pr-border-color) !important;
+    border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
   }
 }
 .custom-phoneinput {
@@ -445,7 +451,7 @@
 }
 .PhoneInput {
   padding: 0.5rem 0.77rem;
-  border: var(--pr-border-width) solid var(--pr-border-color);
+  border: var(--bs-border-width) solid var(--bs-border-color);
   border-radius: 0.3rem;
   .PhoneInputInput:focus-visible {
     outline: 0;
@@ -510,154 +516,154 @@
     background: rgba(0, 0, 0, 0.5);
   }
   .react-select__control {
-    background-color: var(--pr-secondary-bg);
-    border-color: var(--pr-gray-500) transparent transparent transparent;
-    color: var(--pr-body-color);
+    background-color: var(--bs-secondary-bg);
+    border-color: var(--bs-gray-500) transparent transparent transparent;
+    color: var(--bs-body-color);
   }
 
   .react-select__control--is-focused {
-    border-color: var(--pr-gray-500) transparent transparent transparent;
+    border-color: var(--bs-gray-500) transparent transparent transparent;
   }
 
   .react-select__menu {
-    background-color: var(--pr-secondary-bg);
-    color: var(--pr-body-color);
+    background-color: var(--bs-secondary-bg);
+    color: var(--bs-body-color);
   }
 
   .react-select__option {
     background-color: transparent;
-    color: var(--pr-body-color);
+    color: var(--bs-body-color);
   }
 
   .react-select__option--is-focused {
-    background-color: var(--pr-secondary-bg);
+    background-color: var(--bs-secondary-bg);
   }
 
   .react-select__option--is-selected {
-    background-color: var(--pr-primary);
+    background-color: var(--bs-primary);
     color: #fff;
   }
 
   .react-select__single-value {
-    color: var(--pr-body-color);
+    color: var(--bs-body-color);
   }
 
   .react-select__placeholder {
-    color: var(--pr-body-color);
+    color: var(--bs-body-color);
   }
   .ant-picker-outlined:hover {
-    background-color: var(--pr-secondary-bg);
-    border: var(--pr-border-width) solid var(--pr-border-color);
-    color: var(--pr-body-color);
+    background-color: var(--bs-secondary-bg);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    color: var(--bs-body-color);
   }
   .ant-picker .ant-picker-input > input:placeholder-shown {
-    color: var(--pr-body-color);
+    color: var(--bs-body-color);
   }
   .ant-picker .ant-picker-input > input {
-    color: var(--pr-body-color);
+    color: var(--bs-body-color);
   }
   .ant-picker-outlined:focus-within {
-    background-color: var(--pr-secondary-bg);
-    border: var(--pr-border-width) solid var(--pr-border-color);
-    color: var(--pr-body-color);
+    background-color: var(--bs-secondary-bg);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    color: var(--bs-body-color);
   }
   .ant-picker-dropdown .ant-picker-panel-container {
-    background-color: var(--pr-secondary-bg);
-    border: var(--pr-border-width) solid var(--pr-border-color);
-    color: var(--pr-body-color);
+    background-color: var(--bs-secondary-bg);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    color: var(--bs-body-color);
   }
   .ant-picker-dropdown .ant-picker-prev-icon::before {
-    border: 0 solid var(--pr-body-color);
+    border: 0 solid var(--bs-body-color);
   }
   .ant-picker-dropdown .ant-picker-super-prev-icon::after {
-    border: 0 solid var(--pr-body-color);
+    border: 0 solid var(--bs-body-color);
   }
   .ant-picker-dropdown .ant-picker-cell-in-view {
-    color: var(--pr-body-color);
+    color: var(--bs-body-color);
   }
   .PhoneInput .PhoneInputInput {
-    background-color: var(--pr-secondary-bg);
-    border: var(--pr-border-width) solid var(--pr-border-color);
+    background-color: var(--bs-secondary-bg);
+    border: var(--bs-border-width) solid var(--bs-border-color);
   }
   .ant-input {
-    background-color: var(--pr-secondary-bg);
-    border: var(--pr-border-width) solid var(--pr-border-color);
-    color: var(--pr-body-color);
+    background-color: var(--bs-secondary-bg);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    color: var(--bs-body-color);
   }
   .ant-dropdown .ant-dropdown-menu {
-    background-color: var(--pr-secondary-bg);
-    border: var(--pr-border-width) solid var(--pr-border-color);
-    color: var(--pr-body-color);
+    background-color: var(--bs-secondary-bg);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    color: var(--bs-body-color);
   }
   .ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-title-content {
-    color: var(--pr-body-color);
+    color: var(--bs-body-color);
   }
   .ant-table-wrapper .ant-table-thead > tr > th{
-     background-color: var(--pr-secondary-bg);
-    border: var(--pr-border-width) solid var(--pr-border-color);
-    color: var(--pr-body-color);
+     background-color: var(--bs-secondary-bg);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    color: var(--bs-body-color);
   }
   :where(.css-dev-only-do-not-override-1m2bkf9).ant-table-wrapper .ant-table-thead th.ant-table-column-has-sorters:hover {
-      background-color: var(--pr-secondary-bg);
-    border: var(--pr-border-width) solid var(--pr-border-color);
-    color: var(--pr-body-color);
+      background-color: var(--bs-secondary-bg);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    color: var(--bs-body-color);
   }
   .ant-table-wrapper .ant-table-pagination > .ant-pagination-next {
-      background-color: var(--pr-secondary-bg);
-    border: var(--pr-border-width) solid var(--pr-border-color);
-    color: var(--pr-body-color);
+      background-color: var(--bs-secondary-bg);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    color: var(--bs-body-color);
   }
   .ant-table-wrapper .ant-table-pagination > .ant-pagination-prev {
-      background-color: var(--pr-secondary-bg);
-    border: var(--pr-border-width) solid var(--pr-border-color);
-    color: var(--pr-body-color);
+      background-color: var(--bs-secondary-bg);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    color: var(--bs-body-color);
   }
   .ant-select-outlined:not(.ant-select-customize-input) .ant-select-selector{
-     background-color: var(--pr-secondary-bg);
-    border: var(--pr-border-width) solid var(--pr-border-color);
-    color: var(--pr-body-color);
+     background-color: var(--bs-secondary-bg);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    color: var(--bs-body-color);
   }
   .custome-tag-input .ant-tag{
-     background-color: var(--pr-secondary-bg);
-    border: var(--pr-border-width) solid var(--pr-border-color);
-    color: var(--pr-body-color);
+     background-color: var(--bs-secondary-bg);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    color: var(--bs-body-color);
   }
   .ant-tag .ant-tag-close-icon{
-       color: var(--pr-body-color);
+       color: var(--bs-body-color);
   }
   .ant-picker-calendar{
-     background-color: var(--pr-secondary-bg);
-    border: var(--pr-border-width) solid var(--pr-border-color);
-    color: var(--pr-body-color);
+     background-color: var(--bs-secondary-bg);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    color: var(--bs-body-color);
   }
   .ant-picker-calendar .ant-picker-cell-in-view{
-    color: var(--pr-body-color);
+    color: var(--bs-body-color);
   }
   .ant-picker-calendar .ant-picker-panel{
-     background-color: var(--pr-secondary-bg);
-    border: var(--pr-border-width) solid var(--pr-border-color);
-    color: var(--pr-body-color);
+     background-color: var(--bs-secondary-bg);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    color: var(--bs-body-color);
   }
   .ant-picker-calendar .ant-picker-date-panel .ant-picker-content th{
-     color: var(--pr-body-color);
+     color: var(--bs-body-color);
   }
   .ant-picker-dropdown .ant-picker-time-panel-column >li.ant-picker-time-panel-cell-selected .ant-picker-time-panel-cell-inner {
-     background-color: var(--pr-secondary-bg);
-    color: var(--pr-body-color);
+     background-color: var(--bs-secondary-bg);
+    color: var(--bs-body-color);
   }
   .ant-picker-dropdown .ant-picker-time-panel-column >li.ant-picker-time-panel-cell .ant-picker-time-panel-cell-inner{
-     color: var(--pr-body-color);
+     color: var(--bs-body-color);
   }
   .dropdown-menu{
-    background-color: var(--pr-secondary-bg);
-    color: var(--pr-body-color);
-     border: var(--pr-border-width) solid var(--pr-border-color);
+    background-color: var(--bs-secondary-bg);
+    color: var(--bs-body-color);
+     border: var(--bs-border-width) solid var(--bs-border-color);
   }
   .modal-header{
-     background-color: var(--pr-secondary-bg) !important;
+     background-color: var(--bs-secondary-bg) !important;
   }
   .modal-title {
-    color: var(--pr-gray-900) !important;
+    color: var(--bs-gray-900) !important;
 }
 }
 

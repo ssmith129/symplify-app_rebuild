@@ -86,7 +86,7 @@ const Sidebarthree: React.FC<SidebarthreeProps> = ({ onExpandEnter, onExpandLeav
     <>
       {/* Sidenav Menu Start */}
       <div
-        className="sidebar doctor-sidebar"
+        className="sidebar patient-sidebar"
         id="sidebar"
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}

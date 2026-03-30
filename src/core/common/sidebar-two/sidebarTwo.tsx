@@ -130,13 +130,6 @@ const SidebarTwo: React.FC<SidebarTwoProps> = ({ onExpandEnter, onExpandLeave })
         {/* Start Logo */}
         <div className="sidebar-logo">
           <div></div>
-         <button
-            className="sidenav-toggle-btn btn border-0 p-0 active"
-            id="toggle_btn"
-            onClick={handleMiniSidebar}
-          >
-            <i className="ti ti-arrow-left" />
-          </button>
           {/* Sidebar Menu Close */}
           <button className="sidebar-close" onClick={toggleMobileSidebar}>
             <i className="ti ti-x align-middle" />

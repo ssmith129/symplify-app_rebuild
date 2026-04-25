@@ -88,6 +88,14 @@
   }
 }
 
+/* Global sidebar + page header fill */
+.sidebar {
+  background: #1E4258 !important;
+}
+.navbar-header {
+  background: #1E4258 !important;
+}
+
 //Ant Date Picker
 .ant-picker-outlined:hover {
   border: var(--bs-border-width) solid var(--bs-border-color);

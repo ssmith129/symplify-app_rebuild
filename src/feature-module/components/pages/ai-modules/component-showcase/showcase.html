@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Component Showcase</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/dist/tabler-icons.min.css" />
+  <style>
+    :root {
+      --bg: #F5F6F8;
+      --card-bg: #fff;
+      --border: #E5E7EB;
+      --text: #0B0D0E;
+      --muted: #6C7688;
+
+      --clinical-critical: #B91C1C;
+      --clinical-critical-bg: #FEE2E2;
+      --clinical-urgent: #C2410C;
+      --clinical-urgent-bg: #FFEDD5;
+      --clinical-caution: #B45309;
+      --clinical-caution-bg: #FEF3C7;
+      --clinical-stable: #15803D;
+      --clinical-stable-bg: #DCFCE7;
+      --clinical-info: #1D4ED8;
+      --clinical-info-bg: #DBEAFE;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.5;
+      padding: 32px;
+    }
+
+    h1 { font-size: 24px; margin: 0 0 8px; font-weight: 700; }
+    h2 { font-size: 16px; margin: 0 0 4px; font-weight: 700; }
+    .page-sub { color: var(--muted); margin: 0 0 24px; }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .card-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .card-header p { margin: 0; color: var(--muted); font-size: 13px; }
+    .card-body { padding: 20px; }
+    .section-label {
+      color: var(--muted); font-size: 13px; margin: 0 0 12px;
+    }
+
+    .row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
+    .row:last-child { margin-bottom: 0; }
+
+    .cell {
+      display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      min-width: 180px;
+    }
+    .cell-label {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+    .cell-content { display: flex; align-items: center; min-height: 36px; }
+
+    /* ---- Triage badge ---- */
+    .triage {
+      display: inline-flex; align-items: center;
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 13px;
+      font-weight: 600;
+      gap: 4px;
+    }
+    .triage i { font-size: 14px; }
+    .triage.sm { font-size: 12px; padding: 3px 7px; }
+    .triage.lg { font-size: 14px; padding: 6px 12px; }
+    .triage-1 { background: var(--clinical-critical-bg); color: var(--clinical-critical); }
+    .triage-2 { background: var(--clinical-urgent-bg);   color: var(--clinical-urgent); }
+    .triage-3 { background: var(--clinical-caution-bg);  color: var(--clinical-caution); }
+    .triage-4 { background: var(--clinical-stable-bg);   color: var(--clinical-stable); }
+    .triage-5 { background: var(--clinical-info-bg);     color: var(--clinical-info); }
+    .triage .conf { opacity: 0.75; margin-left: 4px; font-weight: 500; }
+
+    /* ---- Severity badge ---- */
+    .severity {
+      display: inline-flex; align-items: center; gap: 6px;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-weight: 600;
+      font-size: 13px;
+      border: 1px solid transparent;
+    }
+    .severity.sm { font-size: 11px; padding: 2px 8px; }
+    .severity.lg { font-size: 14px; padding: 6px 14px; }
+    .severity i { font-size: 14px; }
+    .severity-minor { background: #DBEAFE; color: #1D4ED8; border-color: #BFDBFE; }
+    .severity-moderate { background: #FEF3C7; color: #B45309; border-color: #FDE68A; }
+    .severity-major { background: #FFEDD5; color: #C2410C; border-color: #FED7AA; }
+    .severity-contraindicated { background: #FEE2E2; color: #B91C1C; border-color: #FECACA; }
+
+    /* ---- Urgency indicator ---- */
+    .urgency {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .urgency i { font-size: 12px; }
+    .urgency.critical { background: #FEE2E2; color: #DC2626; animation: pulse 1.8s infinite; }
+    .urgency.high     { background: #FFEDD5; color: #F97316; }
+    .urgency.normal   { background: #F3F4F6; color: #6B7280; }
+    .urgency.low      { background: #DCFCE7; color: #22C55E; }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(220,38,38,0.5); }
+      50%     { box-shadow: 0 0 0 6px rgba(220,38,38,0); }
+    }
+
+    /* ---- Confidence (bar) ---- */
+    .ci { display: flex; flex-direction: column; gap: 4px; width: 100%; }
+    .ci-row { display: flex; justify-content: space-between; font-size: 13px; }
+    .ci-label { color: var(--muted); font-weight: 500; }
+    .ci-value { font-weight: 700; }
+    .ci-bar { background: var(--border); height: 4px; border-radius: 2px; overflow: hidden; }
+    .ci-fill { height: 100%; border-radius: 2px; transition: width .4s ease; }
+    .ci-success { color: #16A34A; } .ci-success-bg { background: #16A34A; }
+    .ci-warning { color: #F59E0B; } .ci-warning-bg { background: #F59E0B; }
+    .ci-danger  { color: #DC2626; } .ci-danger-bg  { background: #DC2626; }
+
+    .stack { display: flex; flex-direction: column; gap: 12px; max-width: 320px; margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <h1>AI Component Showcase</h1>
+  <p class="page-sub">Standalone HTML rendering of triage, severity, urgency, and confidence components.</p>
+
+  <!-- TRIAGE BADGE -->
+  <section class="card">
+    <div class="card-header">
+      <h2>Triage Badge</h2>
+      <p>TriagePriorityBadge — clinical triage priority pill with icon and optional confidence.</p>
+    </div>
+    <div class="card-body">
+      <p class="section-label">Priorities (default size)</p>
+      <div class="row">
+        <div class="cell"><span class="cell-label">Priority 1</span><span class="cell-content"><span class="triage triage-1"><i class="ti ti-alert-triangle"></i>Critical</span></span></div>
+        <div class="cell"><span class="cell-label">Priority 2</span><span class="cell-content"><span class="triage triage-2"><i class="ti ti-alert-circle"></i>Urgent</span></span></div>
+        <div class="cell"><span class="cell-label">Priority 3</span><span class="cell-content"><span class="triage triage-3"><i class="ti ti-clock"></i>Semi-Urgent</span></span></div>
+        <div class="cell"><span class="cell-label">Priority 4</span><span class="cell-content"><span class="triage triage-4"><i class="ti ti-check"></i>Standard</span></span></div>
+        <div class="cell"><span class="cell-label">Priority 5</span><span class="cell-content"><span class="triage triage-5"><i class="ti ti-info-circle"></i>Non-Urgent</span></span></div>
+      </div>
+
+      <p class="section-label">Sizes</p>
+      <div class="row">
+        <div class="cell"><span class="cell-label">Small</span><span class="cell-content"><span class="triage triage-1 sm"><i class="ti ti-alert-triangle"></i>Critical</span></span></div>
+        <div class="cell"><span class="cell-label">Default</span><span class="cell-content"><span class="triage triage-1"><i class="ti ti-alert-triangle"></i>Critical</span></span></div>
+        <div class="cell"><span class="cell-label">Large</span><span class="cell-content"><span class="triage triage-1 lg"><i class="ti ti-alert-triangle"></i>Critical</span></span></div>
+      </div>
+
+      <p class="section-label">With confidence</p>
+      <div class="row">
+        <div class="cell"><span class="cell-label">Priority 1 — 94%</span><span class="cell-content"><span class="triage triage-1"><i class="ti ti-alert-triangle"></i>Critical<span class="conf">(94%)</span></span></span></div>
+        <div class="cell"><span class="cell-label">Priority 2 — 81%</span><span class="cell-content"><span class="triage triage-2"><i class="ti ti-alert-circle"></i>Urgent<span class="conf">(81%)</span></span></span></div>
+        <div class="cell"><span class="cell-label">Priority 3 — 67%</span><span class="cell-content"><span class="triage triage-3"><i class="ti ti-clock"></i>Semi-Urgent<span class="conf">(67%)</span></span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEVERITY BADGE -->
+  <section class="card">
+    <div class="card-header">
+      <h2>Severity Badge</h2>
+      <p>drug-interaction/SeverityBadge — pill with icon + size variants.</p>
+    </div>
+    <div class="card-body">
+      <p class="section-label">Levels (medium size)</p>
+      <div class="row">
+        <div class="cell"><span class="cell-label">Minor</span><span class="cell-content"><span class="severity severity-minor"><i class="ti ti-info-circle"></i>Minor</span></span></div>
+        <div class="cell"><span class="cell-label">Moderate</span><span class="cell-content"><span class="severity severity-moderate"><i class="ti ti-alert-circle"></i>Moderate</span></span></div>
+        <div class="cell"><span class="cell-label">Major</span><span class="cell-content"><span class="severity severity-major"><i class="ti ti-alert-triangle"></i>Major</span></span></div>
+        <div class="cell"><span class="cell-label">Contraindicated</span><span class="cell-content"><span class="severity severity-contraindicated"><i class="ti ti-urgent"></i>Contraindicated</span></span></div>
+      </div>
+
+      <p class="section-label">Sizes</p>
+      <div class="row">
+        <div class="cell"><span class="cell-label">Small</span><span class="cell-content"><span class="severity severity-major sm"><i class="ti ti-alert-triangle"></i>Major</span></span></div>
+        <div class="cell"><span class="cell-label">Medium</span><span class="cell-content"><span class="severity severity-major"><i class="ti ti-alert-triangle"></i>Major</span></span></div>
+        <div class="cell"><span class="cell-label">Large</span><span class="cell-content"><span class="severity severity-major lg"><i class="ti ti-alert-triangle"></i>Major</span></span></div>
+      </div>
+
+      <p class="section-label">Icon-only</p>
+      <div class="row">
+        <div class="cell"><span class="cell-label">Major</span><span class="cell-content"><span class="severity severity-major"><i class="ti ti-alert-triangle"></i></span></span></div>
+        <div class="cell"><span class="cell-label">Contraindicated</span><span class="cell-content"><span class="severity severity-contraindicated"><i class="ti ti-urgent"></i></span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- URGENCY INDICATOR -->
+  <section class="card">
+    <div class="card-header">
+      <h2>Urgency Indicator</h2>
+      <p>MessageUrgencyIndicator — keyword-detected message urgency.</p>
+    </div>
+    <div class="card-body">
+      <p class="section-label">Detected from sample messages</p>
+      <div class="row">
+        <div class="cell"><span class="cell-label">Critical</span><span class="cell-content"><span class="urgency critical"><i class="ti ti-alert-octagon"></i>Critical</span></span></div>
+        <div class="cell"><span class="cell-label">High / Urgent</span><span class="cell-content"><span class="urgency high"><i class="ti ti-alert-triangle"></i>Urgent</span></span></div>
+        <div class="cell"><span class="cell-label">Normal</span><span class="cell-content"><span class="urgency normal"><i class="ti ti-message"></i>Normal</span></span></div>
+        <div class="cell"><span class="cell-label">Low / FYI</span><span class="cell-content"><span class="urgency low"><i class="ti ti-info-circle"></i>FYI</span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONFIDENCE INDICATOR -->
+  <section class="card">
+    <div class="card-header">
+      <h2>Confidence Indicator</h2>
+      <p>assistant/ConfidenceIndicator — standard meter + SVG variants (gauge, arc, bar, dots).</p>
+    </div>
+    <div class="card-body">
+      <p class="section-label">Standard component (label + 4px progress bar)</p>
+      <div class="stack">
+        <div class="ci">
+          <div class="ci-row"><span class="ci-label">High</span><span class="ci-value ci-success">92%</span></div>
+          <div class="ci-bar"><div class="ci-fill ci-success-bg" style="width:92%"></div></div>
+        </div>
+        <div class="ci">
+          <div class="ci-row"><span class="ci-label">Moderate</span><span class="ci-value ci-warning">74%</span></div>
+          <div class="ci-bar"><div class="ci-fill ci-warning-bg" style="width:74%"></div></div>
+        </div>
+        <div class="ci">
+          <div class="ci-row"><span class="ci-label">Low</span><span class="ci-value ci-danger">48%</span></div>
+          <div class="ci-bar"><div class="ci-fill ci-danger-bg" style="width:48%"></div></div>
+        </div>
+      </div>
+
+      <p class="section-label">SVG: Radial gauge</p>
+      <div class="row">
+        <div class="cell"><span class="cell-label">92%</span><span class="cell-content">
+          <svg width="88" height="88" viewBox="0 0 88 88" role="img" aria-label="Confidence 92%">
+            <circle cx="44" cy="44" r="40" stroke="#E5E7EB" stroke-width="8" fill="none"/>
+            <circle cx="44" cy="44" r="40" stroke="#16A34A" stroke-width="8" fill="none"
+              stroke-linecap="round" stroke-dasharray="251.327" stroke-dashoffset="20.106" transform="rotate(-90 44 44)"/>
+            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="19" font-weight="700" fill="#16A34A">92%</text>
+          </svg>
+        </span></div>
+        <div class="cell"><span class="cell-label">74%</span><span class="cell-content">
+          <svg width="88" height="88" viewBox="0 0 88 88" role="img" aria-label="Confidence 74%">
+            <circle cx="44" cy="44" r="40" stroke="#E5E7EB" stroke-width="8" fill="none"/>
+            <circle cx="44" cy="44" r="40" stroke="#F59E0B" stroke-width="8" fill="none"
+              stroke-linecap="round" stroke-dasharray="251.327" stroke-dashoffset="65.345" transform="rotate(-90 44 44)"/>
+            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="19" font-weight="700" fill="#F59E0B">74%</text>
+          </svg>
+        </span></div>
+        <div class="cell"><span class="cell-label">48%</span><span class="cell-content">
+          <svg width="88" height="88" viewBox="0 0 88 88" role="img" aria-label="Confidence 48%">
+            <circle cx="44" cy="44" r="40" stroke="#E5E7EB" stroke-width="8" fill="none"/>
+            <circle cx="44" cy="44" r="40" stroke="#DC2626" stroke-width="8" fill="none"
+              stroke-linecap="round" stroke-dasharray="251.327" stroke-dashoffset="130.690" transform="rotate(-90 44 44)"/>
+            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="19" font-weight="700" fill="#DC2626">48%</text>
+          </svg>
+        </span></div>
+      </div>
+
+      <p class="section-label">SVG: Segmented arc (5 wedges)</p>
+      <div class="row">
+        <div class="cell"><span class="cell-label">92%</span><span class="cell-content">
+          <svg width="140" height="78" viewBox="0 0 140 78" role="img" aria-label="Confidence 92%">
+            <path d="M 8.04 72.21 A 64 64 0 0 1 33.62 22.50" stroke="#16A34A" stroke-width="10" stroke-linecap="round" fill="none"/>
+            <path d="M 36.30 20.71 A 64 64 0 0 1 67.49 8.00"  stroke="#16A34A" stroke-width="10" stroke-linecap="round" fill="none"/>
+            <path d="M 72.51 8.00 A 64 64 0 0 1 103.70 20.71" stroke="#16A34A" stroke-width="10" stroke-linecap="round" fill="none"/>
+            <path d="M 106.38 22.50 A 64 64 0 0 1 131.96 72.21" stroke="#16A34A" stroke-width="10" stroke-linecap="round" fill="none"/>
+            <path d="M 132.43 74.79 A 64 64 0 0 1 132.00 70.00" stroke="#16A34A" stroke-width="10" stroke-linecap="round" fill="none"/>
+            <text x="70" y="74" text-anchor="middle" font-size="16" font-weight="700" fill="#16A34A">92%</text>
+          </svg>
+        </span></div>
+        <div class="cell"><span class="cell-label">74%</span><span class="cell-content">
+          <svg width="140" height="78" viewBox="0 0 140 78" role="img" aria-label="Confidence 74%">
+            <path d="M 8.04 72.21 A 64 64 0 0 1 33.62 22.50"  stroke="#F59E0B" stroke-width="10" stroke-linecap="round" fill="none"/>
+            <path d="M 36.30 20.71 A 64 64 0 0 1 67.49 8.00"  stroke="#F59E0B" stroke-width="10" stroke-linecap="round" fill="none"/>
+            <path d="M 72.51 8.00 A 64 64 0 0 1 103.70 20.71" stroke="#F59E0B" stroke-width="10" stroke-linecap="round" fill="none"/>
+            <path d="M 106.38 22.50 A 64 64 0 0 1 131.96 72.21" stroke="#F59E0B" stroke-width="10" stroke-linecap="round" fill="none"/>
+            <path d="M 132.43 74.79 A 64 64 0 0 1 132.00 70.00" stroke="#E5E7EB" stroke-width="10" stroke-linecap="round" fill="none"/>
+            <text x="70" y="74" text-anchor="middle" font-size="16" font-weight="700" fill="#F59E0B">74%</text>
+          </svg>
+        </span></div>
+        <div class="cell"><span class="cell-label">48%</span><span class="cell-content">
+          <svg width="140" height="78" viewBox="0 0 140 78" role="img" aria-label="Confidence 48%">
+            <path d="M 8.04 72.21 A 64 64 0 0 1 33.62 22.50"  stroke="#DC2626" stroke-width="10" stroke-linecap="round" fill="none"/>
+            <path d="M 36.30 20.71 A 64 64 0 0 1 67.49 8.00"  stroke="#DC2626" stroke-width="10" stroke-linecap="round" fill="none"/>
+            <path d="M 72.51 8.00 A 64 64 0 0 1 103.70 20.71" stroke="#E5E7EB" stroke-width="10" stroke-linecap="round" fill="none"/>
+            <path d="M 106.38 22.50 A 64 64 0 0 1 131.96 72.21" stroke="#E5E7EB" stroke-width="10" stroke-linecap="round" fill="none"/>
+            <path d="M 132.43 74.79 A 64 64 0 0 1 132.00 70.00" stroke="#E5E7EB" stroke-width="10" stroke-linecap="round" fill="none"/>
+            <text x="70" y="74" text-anchor="middle" font-size="16" font-weight="700" fill="#DC2626">48%</text>
+          </svg>
+        </span></div>
+      </div>
+
+      <p class="section-label">SVG: Linear bar</p>
+      <div class="row">
+        <div class="cell"><span class="cell-label">92%</span><span class="cell-content">
+          <svg width="180" height="22" viewBox="0 0 180 22" role="img" aria-label="Confidence 92%">
+            <rect x="0" y="6" width="130" height="10" rx="5" fill="#E5E7EB"/>
+            <rect x="0" y="6" width="119.6" height="10" rx="5" fill="#16A34A"/>
+            <text x="178" y="16" text-anchor="end" font-size="12" font-weight="700" fill="#16A34A">92%</text>
+          </svg>
+        </span></div>
+        <div class="cell"><span class="cell-label">74%</span><span class="cell-content">
+          <svg width="180" height="22" viewBox="0 0 180 22" role="img" aria-label="Confidence 74%">
+            <rect x="0" y="6" width="130" height="10" rx="5" fill="#E5E7EB"/>
+            <rect x="0" y="6" width="96.2" height="10" rx="5" fill="#F59E0B"/>
+            <text x="178" y="16" text-anchor="end" font-size="12" font-weight="700" fill="#F59E0B">74%</text>
+          </svg>
+        </span></div>
+        <div class="cell"><span class="cell-label">48%</span><span class="cell-content">
+          <svg width="180" height="22" viewBox="0 0 180 22" role="img" aria-label="Confidence 48%">
+            <rect x="0" y="6" width="130" height="10" rx="5" fill="#E5E7EB"/>
+            <rect x="0" y="6" width="62.4" height="10" rx="5" fill="#DC2626"/>
+            <text x="178" y="16" text-anchor="end" font-size="12" font-weight="700" fill="#DC2626">48%</text>
+          </svg>
+        </span></div>
+      </div>
+
+      <p class="section-label">SVG: 5-dot meter</p>
+      <div class="row">
+        <div class="cell"><span class="cell-label">92%</span><span class="cell-content">
+          <svg width="70" height="12" viewBox="0 0 70 12" role="img" aria-label="Confidence 92%">
+            <circle cx="6"  cy="6" r="5" fill="#16A34A"/>
+            <circle cx="20" cy="6" r="5" fill="#16A34A"/>
+            <circle cx="34" cy="6" r="5" fill="#16A34A"/>
+            <circle cx="48" cy="6" r="5" fill="#16A34A"/>
+            <circle cx="62" cy="6" r="5" fill="#16A34A"/>
+          </svg>
+        </span></div>
+        <div class="cell"><span class="cell-label">74%</span><span class="cell-content">
+          <svg width="70" height="12" viewBox="0 0 70 12" role="img" aria-label="Confidence 74%">
+            <circle cx="6"  cy="6" r="5" fill="#F59E0B"/>
+            <circle cx="20" cy="6" r="5" fill="#F59E0B"/>
+            <circle cx="34" cy="6" r="5" fill="#F59E0B"/>
+            <circle cx="48" cy="6" r="5" fill="#F59E0B"/>
+            <circle cx="62" cy="6" r="5" fill="#E5E7EB"/>
+          </svg>
+        </span></div>
+        <div class="cell"><span class="cell-label">48%</span><span class="cell-content">
+          <svg width="70" height="12" viewBox="0 0 70 12" role="img" aria-label="Confidence 48%">
+            <circle cx="6"  cy="6" r="5" fill="#DC2626"/>
+            <circle cx="20" cy="6" r="5" fill="#DC2626"/>
+            <circle cx="34" cy="6" r="5" fill="#E5E7EB"/>
+            <circle cx="48" cy="6" r="5" fill="#E5E7EB"/>
+            <circle cx="62" cy="6" r="5" fill="#E5E7EB"/>
+          </svg>
+        </span></div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

@@ -98,6 +98,7 @@ export const all_routes = {
   patientAcuity: "/ai/patient-acuity",
   predictiveAlerts: "/ai/predictive-alerts",
   smartInsights: "/ai/smart-insights",
+  componentShowcase: "/ai/component-showcase",
 
   //Layout Routes
   layoutDefault: "/layout-default",

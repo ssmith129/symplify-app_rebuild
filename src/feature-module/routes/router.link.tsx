@@ -23,6 +23,7 @@ import DrugInteraction from "../components/pages/ai-modules/drug-interaction/dru
 import PatientAcuity from "../components/pages/ai-modules/patient-acuity/patientAcuity";
 import PredictiveAlerts from "../components/pages/ai-modules/predictive-alerts/predictiveAlerts";
 import SmartInsights from "../components/pages/ai-modules/smart-insights/smartInsights";
+import ComponentShowcase from "../components/pages/ai-modules/component-showcase/componentShowcase";
 import TwoStepVerificationCover from "../components/auth/two-step-verification/twoStepVerificationCover";
 import TwoStepVerificationIllustration from "../components/auth/two-step-verification/twoStepVerificationIllustration";
 import AppointmentReport from "../components/pages/administration-modules/reports/appointment-report/appointmentReport";
@@ -1423,6 +1424,11 @@ export const publicRoutes = [
   {
     path: routes.smartInsights,
     element: <SmartInsights />,
+    route: Route,
+  },
+  {
+    path: routes.componentShowcase,
+    element: <ComponentShowcase />,
     route: Route,
   },
 ];

@@ -14,11 +14,11 @@ import type {
   EnhancedQuickAction,
   ExpandedViewConfig,
 } from '../../../core/ai/types';
-import ChatMessageCard from './assistant/ChatMessageCard';
-import ConfidenceIndicator from './assistant/ConfidenceIndicator';
-import HIPAABadge from './assistant/HIPAABadge';
-import QuickActionsBar from './assistant/QuickActionsBar';
-import ExpandedPanel from './assistant/ExpandedPanel';
+import ChatMessageCard from './ChatMessageCard';
+import ConfidenceIndicator from './ConfidenceIndicator';
+import HIPAABadge from './HIPAABadge';
+import QuickActionsBar from './QuickActionsBar';
+import ExpandedPanel from './ExpandedPanel';
 
 interface AIAssistantPopupProps {
   isOpen: boolean;

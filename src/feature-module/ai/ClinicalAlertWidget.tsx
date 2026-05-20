@@ -1,10 +1,10 @@
 import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Tooltip } from 'antd';
-import type { RootState, AppDispatch } from '../../../core/redux/store';
-import { updateClinicalAlerts, setAlertsConnected, fetchClinicalAlerts } from '../../../core/redux/aiSlice';
-import { alertWebSocket } from '../../../core/ai/mockApi';
-import type { PredictiveAlert, RiskLevel } from '../../../core/ai/types';
+import type { RootState, AppDispatch } from '../../core/redux/store';
+import { updateClinicalAlerts, setAlertsConnected, fetchClinicalAlerts } from '../../core/redux/aiSlice';
+import { alertWebSocket } from '../../core/ai/mockApi';
+import type { PredictiveAlert, RiskLevel } from '../../core/ai/types';
 
 interface ClinicalAlertWidgetProps {
   maxAlerts?: number;

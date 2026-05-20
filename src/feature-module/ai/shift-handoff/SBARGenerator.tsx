@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { PatientHandoff } from '../../../../core/redux/shiftHandoffSlice';
+import type { PatientHandoff } from '../../../core/redux/shiftHandoffSlice';
 
 interface SBARGeneratorProps {
   patient: PatientHandoff;

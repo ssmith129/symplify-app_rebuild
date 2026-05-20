@@ -27,7 +27,7 @@ export { default as SmartMessageRouter } from './SmartMessageRouter';
 export { default as IntelligentCalendar } from './IntelligentCalendar';
 
 // Feature 7: AI Assistant Popup
-export { default as AIAssistantPopup } from './AIAssistantPopup';
+export { default as AIAssistantPopup } from './assistant/AIAssistantPopup';
 
 // Feature 7: AI-Powered Shift Handoff
 export {

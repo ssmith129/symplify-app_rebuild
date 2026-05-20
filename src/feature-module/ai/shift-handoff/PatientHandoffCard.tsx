@@ -1,5 +1,5 @@
 import React from 'react';
-import type { PatientHandoff } from '../../../../core/redux/shiftHandoffSlice';
+import type { PatientHandoff } from '../../../core/redux/shiftHandoffSlice';
 
 interface PriorityConfig {
   color: string;

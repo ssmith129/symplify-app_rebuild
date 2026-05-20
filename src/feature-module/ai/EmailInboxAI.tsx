@@ -20,9 +20,9 @@ import {
   selectFilteredEmails,
   selectSelectedEmail,
   EmailWithFolders
-} from '../../../core/redux/emailSlice';
-import { EmailFolder, EmailPriority } from '../../../core/ai/emailTypes';
-import { RootState, AppDispatch } from '../../../core/redux/store';
+} from '../../core/redux/emailSlice';
+import { EmailFolder, EmailPriority } from '../../core/ai/emailTypes';
+import { RootState, AppDispatch } from '../../core/redux/store';
 import EmailPriorityBadge from './EmailPriorityBadge';
 import EmailSidebarAI from './EmailSidebarAI';
 

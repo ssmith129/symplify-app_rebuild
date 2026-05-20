@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router';
-import type { RootState, AppDispatch } from '../../../core/redux/store';
-import { loadPersonalizedLayout, recordInteraction, fetchClinicalAlerts } from '../../../core/redux/aiSlice';
-import type { UserRole } from '../../../core/ai/types';
-import { all_routes } from '../../routes/all_routes';
+import type { RootState, AppDispatch } from '../../core/redux/store';
+import { loadPersonalizedLayout, recordInteraction, fetchClinicalAlerts } from '../../core/redux/aiSlice';
+import type { UserRole } from '../../core/ai/types';
+import { all_routes } from '../routes/all_routes';
 import ClinicalAlertWidget from './ClinicalAlertWidget';
-import CarouselRow from '../pages/dashboard/CarouselRow';
+import CarouselRow from '../components/pages/dashboard/CarouselRow';
 
 interface SmartWidgetProps {
   widgetId: string;

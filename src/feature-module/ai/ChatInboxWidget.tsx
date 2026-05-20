@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router';
-import ImageWithBasePath from '../../../core/imageWithBasePath';
-import { all_routes } from '../../routes/all_routes';
+import ImageWithBasePath from '../../core/imageWithBasePath';
+import { all_routes } from '../routes/all_routes';
 
 // Types for chat data
 interface ChatContact {

@@ -12,14 +12,14 @@ import {
   markAllAsRead,
   dismissNotification,
   acknowledgeNotification 
-} from '../../../core/redux/notificationSlice';
+} from '../../core/redux/notificationSlice';
 import { 
   AnalyzedNotification, 
   NotificationCriticality,
   NotificationCategory
-} from '../../../core/ai/notificationTypes';
-import { RootState, AppDispatch } from '../../../core/redux/store';
-import { all_routes } from '../../routes/all_routes';
+} from '../../core/ai/notificationTypes';
+import { RootState, AppDispatch } from '../../core/redux/store';
+import { all_routes } from '../routes/all_routes';
 
 // Unified color tokens — same as full page (WCAG AAA)
 const CRITICALITY_COLORS: Record<NotificationCriticality, { text: string; bg: string; border: string }> = {

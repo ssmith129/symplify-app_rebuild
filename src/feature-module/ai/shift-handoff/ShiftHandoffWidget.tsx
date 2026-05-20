@@ -6,10 +6,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router';
-import type { RootState, AppDispatch } from '../../../../core/redux/store';
-import { generateHandoffReport, selectPatient, clearReport } from '../../../../core/redux/shiftHandoffSlice';
-import type { PatientHandoff } from '../../../../core/api/mock/shiftHandoffMockApi';
-import { all_routes } from '../../../routes/all_routes';
+import type { RootState, AppDispatch } from '../../../core/redux/store';
+import { generateHandoffReport, selectPatient, clearReport } from '../../../core/redux/shiftHandoffSlice';
+import type { PatientHandoff } from '../../../core/api/mock/shiftHandoffMockApi';
+import { all_routes } from '../../routes/all_routes';
 
 // Priority configuration for color coding
 const PRIORITY_CONFIG: Record<string, { color: string; bgColor: string; label: string }> = {

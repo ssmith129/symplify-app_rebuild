@@ -3,7 +3,7 @@
 // Email Priority Badge for Symplify Platform AI-Enhanced Communication
 
 import React from 'react';
-import { EmailPriority, EmailAnalysis } from '../../../core/ai/emailTypes';
+import { EmailPriority, EmailAnalysis } from '../../core/ai/emailTypes';
 
 interface PriorityConfig {
   color: string;

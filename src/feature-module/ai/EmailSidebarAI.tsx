@@ -3,7 +3,7 @@
 // AI-Enhanced Email Sidebar for Symplify Platform
 
 import React from 'react';
-import { EmailFolder } from '../../../core/ai/emailTypes';
+import { EmailFolder } from '../../core/ai/emailTypes';
 
 interface FolderConfig {
   label: string;

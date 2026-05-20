@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Rate, Spin, Tooltip } from 'antd';
-import type { RootState, AppDispatch } from '../../../core/redux/store';
-import { fetchSlotSuggestions, selectSlot } from '../../../core/redux/aiSlice';
-import type { SlotSuggestion } from '../../../core/ai/types';
+import type { RootState, AppDispatch } from '../../core/redux/store';
+import { fetchSlotSuggestions, selectSlot } from '../../core/redux/aiSlice';
+import type { SlotSuggestion } from '../../core/ai/types';
 
 interface SmartSchedulerProps {
   patientId?: string;

@@ -11,13 +11,13 @@ import {
   markAllAsRead,
   dismissNotification,
   acknowledgeNotification
-} from '../../../core/redux/notificationSlice';
+} from '../../core/redux/notificationSlice';
 import { 
   AnalyzedNotification, 
   NotificationCategory,
   NotificationCriticality 
-} from '../../../core/ai/notificationTypes';
-import { RootState, AppDispatch } from '../../../core/redux/store';
+} from '../../core/ai/notificationTypes';
+import { RootState, AppDispatch } from '../../core/redux/store';
 
 const CATEGORY_LABELS: Record<NotificationCategory, { label: string; icon: string }> = {
   'clinical-emergency': { label: 'Clinical Emergency', icon: 'ti-alert-octagon' },

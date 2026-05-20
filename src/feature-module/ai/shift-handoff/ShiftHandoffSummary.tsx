@@ -6,8 +6,8 @@ import {
   selectPatient, 
   toggleAudio,
   type PatientHandoff
-} from '../../../../core/redux/shiftHandoffSlice';
-import type { RootState, AppDispatch } from '../../../../core/redux/store';
+} from '../../../core/redux/shiftHandoffSlice';
+import type { RootState, AppDispatch } from '../../../core/redux/store';
 import { PatientHandoffCard } from './PatientHandoffCard';
 import { SBARGenerator } from './SBARGenerator';
 

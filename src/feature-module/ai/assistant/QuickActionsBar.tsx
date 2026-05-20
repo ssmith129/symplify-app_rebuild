@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { EnhancedQuickAction, QuickActionCategory } from '../../../../core/ai/types';
+import type { EnhancedQuickAction, QuickActionCategory } from '../../../core/ai/types';
 
 interface QuickActionsBarProps {
   actions: EnhancedQuickAction[];

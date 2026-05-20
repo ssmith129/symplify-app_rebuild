@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Input, Tag, Spin, Tooltip } from 'antd';
-import type { RootState, AppDispatch } from '../../../core/redux/store';
-import { analyzeMessageContent, clearMessageAnalysis } from '../../../core/redux/aiSlice';
-import type { MessageUrgency } from '../../../core/ai/types';
-import ImageWithBasePath from '../../../core/imageWithBasePath';
+import type { RootState, AppDispatch } from '../../core/redux/store';
+import { analyzeMessageContent, clearMessageAnalysis } from '../../core/redux/aiSlice';
+import type { MessageUrgency } from '../../core/ai/types';
+import ImageWithBasePath from '../../core/imageWithBasePath';
 
 interface SmartMessageRouterProps {
   onSend?: (content: string, recipients: string[]) => void;

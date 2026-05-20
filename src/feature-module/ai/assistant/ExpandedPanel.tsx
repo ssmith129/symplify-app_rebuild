@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ExpandedViewConfig } from '../../../../core/ai/types';
+import type { ExpandedViewConfig } from '../../../core/ai/types';
 
 interface ExpandedPanelProps {
   config: ExpandedViewConfig;

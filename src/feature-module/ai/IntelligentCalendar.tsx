@@ -5,9 +5,9 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { Spin, Rate, Progress, Tooltip, message } from 'antd';
-import ImageWithBasePath from '../../../core/imageWithBasePath';
-import { getCalendarDaySlots, bookCalendarSlot } from '../../../core/ai/mockApi';
-import type { CalendarSlot, CalendarDaySlots, BookedAppointment } from '../../../core/ai/mockApi';
+import ImageWithBasePath from '../../core/imageWithBasePath';
+import { getCalendarDaySlots, bookCalendarSlot } from '../../core/ai/mockApi';
+import type { CalendarSlot, CalendarDaySlots, BookedAppointment } from '../../core/ai/mockApi';
 
 interface CalendarEvent {
   id: string;

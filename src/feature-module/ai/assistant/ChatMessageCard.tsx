@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ChatCard } from '../../../../core/ai/types';
+import type { ChatCard } from '../../../core/ai/types';
 import ConfidenceIndicator from './ConfidenceIndicator';
 
 interface ChatMessageCardProps {

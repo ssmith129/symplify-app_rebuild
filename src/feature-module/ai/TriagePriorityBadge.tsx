@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Tooltip, Spin } from 'antd';
-import type { RootState, AppDispatch } from '../../../core/redux/store';
-import { assessPatientTriage } from '../../../core/redux/aiSlice';
-import type { VitalsData, TriagePriority } from '../../../core/ai/types';
+import type { RootState, AppDispatch } from '../../core/redux/store';
+import { assessPatientTriage } from '../../core/redux/aiSlice';
+import type { VitalsData, TriagePriority } from '../../core/ai/types';
 
 interface TriagePriorityBadgeProps {
   patientId: string;

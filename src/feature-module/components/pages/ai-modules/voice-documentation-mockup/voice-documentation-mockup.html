@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Voice Documentation AI — Mockup Preview (strict source)</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/dist/tabler-icons.min.css" />
+  <style>
+    :root {
+      --bg: #F5F6F8;
+      --card: #fff;
+      --border: #E5E7EB;
+      --text: #0B0D0E;
+      --muted: #6C7688;
+      --primary: #2E37A4;
+      --gap: #B45309;
+      --gap-bg: #FEF3C7;
+      --gap-border: #FDE68A;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.5;
+      padding: 32px;
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+
+    h1 { font-size: 24px; margin: 0 0 4px; font-weight: 700; }
+    h2 { font-size: 16px; margin: 0 0 4px; font-weight: 700; }
+    h3 { font-size: 14px; margin: 0; font-weight: 600; }
+    h4 { font-size: 13px; margin: 0 0 4px; font-weight: 600; color: var(--muted); }
+
+    .page-sub { color: var(--muted); margin: 0 0 24px; font-size: 13px; }
+
+    .legend-strip {
+      display: flex; gap: 16px; padding: 12px 16px;
+      background: #FFFBEB; border: 1px solid var(--gap-border); border-radius: 8px;
+      margin-bottom: 24px; font-size: 12px; color: var(--gap);
+    }
+    .legend-strip strong { color: var(--gap); }
+
+    .screen {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .screen-header {
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      background: #FAFBFC;
+    }
+    .screen-header .meta { color: var(--muted); font-size: 12px; }
+    .screen-body { padding: 20px; }
+
+    /* GAP overlay */
+    .gap {
+      border: 1px dashed var(--gap-border);
+      background: var(--gap-bg);
+      color: var(--gap);
+      padding: 12px 16px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+    }
+    .gap strong { font-weight: 700; }
+
+    /* ===== STRICT-SOURCE RENDERS ===== */
+
+    /* VoiceRecorder.tsx (idle) */
+    .voice-recorder {
+      max-width: 480px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .voice-recorder h3 { margin-bottom: 12px; }
+    .recorder-controls { display: flex; gap: 8px; margin-bottom: 12px; }
+    .btn-record, .btn-stop, .btn-save, .btn-clear {
+      padding: 8px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-record { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .btn-stop[disabled], .btn-save[disabled] { opacity: 0.5; cursor: not-allowed; }
+    .recording-indicator {
+      font-size: 12px; color: var(--muted);
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .recording-indicator::before {
+      content: ''; width: 8px; height: 8px; border-radius: 999px; background: var(--muted);
+    }
+
+    /* TranscriptionEditor.tsx */
+    .transcription-editor {
+      max-width: 720px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .transcription-editor h3 { margin-bottom: 12px; }
+    .transcription-textarea {
+      width: 100%; min-height: 140px; padding: 10px 12px;
+      border: 1px solid var(--border); border-radius: 6px;
+      font-family: inherit; font-size: 13px; resize: vertical;
+    }
+    .editor-actions { display: flex; gap: 8px; margin-top: 12px; }
+
+    /* NoteFormatter.tsx */
+    .note-formatter {
+      max-width: 720px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .note-formatter h3 { margin-bottom: 12px; }
+    .format-selector { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+    .format-selector label { color: var(--muted); font-size: 13px; }
+    .format-selector select {
+      padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px;
+      font-size: 13px; background: #fff;
+    }
+    .formatted-preview {
+      border: 1px solid var(--border); border-radius: 6px; padding: 12px;
+      background: #FAFBFC;
+    }
+    .preview-content {
+      color: var(--muted); font-size: 13px; min-height: 60px;
+    }
+
+    /* MedicalTermsHighlighter.tsx */
+    .medical-terms-highlighter {
+      max-width: 720px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .medical-terms-highlighter h3 { margin-bottom: 12px; }
+    .text-content {
+      color: var(--muted); font-size: 13px; min-height: 60px;
+      border: 1px solid var(--border); border-radius: 6px; padding: 12px; background: #FAFBFC;
+      margin-bottom: 12px;
+    }
+    .terms-legend { display: flex; flex-wrap: wrap; gap: 8px; }
+    .legend-item {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 600;
+    }
+    .legend-item::before {
+      content: ''; width: 8px; height: 8px; border-radius: 999px;
+    }
+    /* category colors are [FABRICATED-PLAUSIBLE] per ledger F5 */
+    .legend-item.medication { background: #DBEAFE; color: #1D4ED8; }
+    .legend-item.medication::before { background: #1D4ED8; }
+    .legend-item.diagnosis  { background: #FEE2E2; color: #B91C1C; }
+    .legend-item.diagnosis::before  { background: #B91C1C; }
+    .legend-item.procedure  { background: #DCFCE7; color: #15803D; }
+    .legend-item.procedure::before  { background: #15803D; }
+    .legend-item.anatomy    { background: #FEF3C7; color: #B45309; }
+    .legend-item.anatomy::before    { background: #B45309; }
+    .legend-item.symptom    { background: #FFEDD5; color: #C2410C; }
+    .legend-item.symptom::before    { background: #C2410C; }
+  </style>
+</head>
+<body>
+  <h1>Voice Documentation AI — Mockup Preview</h1>
+  <p class="page-sub">Strict source mode. Only patterns present in <code>src/feature-module/ai/voice-documentation/</code> are rendered. Missing patterns are surfaced as <strong>[GAP]</strong> blocks per the blueprint.</p>
+
+  <div class="legend-strip">
+    <span><strong>[GAP]</strong> reference pattern not found</span>
+    <span><strong>[ASSUMED]</strong> derived from sibling Symplify pattern</span>
+    <span><strong>[FABRICATED-PLAUSIBLE]</strong> minimal invention, see ledger</span>
+  </div>
+
+  <!-- Screen 1 -->
+  <section class="screen">
+    <div class="screen-header">
+      <h2>1 — Entry / Activation</h2>
+      <span class="meta">Source: VoiceRecorder.tsx · Partial</span>
+    </div>
+    <div class="screen-body">
+      <div class="voice-recorder" role="region" aria-label="Voice Recorder">
+        <h3>Voice Recorder</h3>
+        <div class="recorder-controls">
+          <button class="btn-record">Start Recording</button>
+          <button class="btn-stop" disabled>Stop</button>
+        </div>
+        <div class="recording-indicator" role="status" aria-live="polite">
+          <span>Ready to record</span>
+        </div>
+      </div>
+      <div class="gap" style="margin-top:12px;">
+        <strong>[GAP]</strong> AI affordances (confidence, model identity, privacy disclosure) not in source.
+        <strong>[ASSUMED]</strong> page shell = PageHeader + Bootstrap container. See ledger F1, F2.
+      </div>
+    </div>
+  </section>
+
+  <!-- Screen 2 -->
+  <section class="screen">
+    <div class="screen-header">
+      <h2>2 — Active Listening / Capture</h2>
+      <span class="meta">Source: VoiceRecorder.tsx (TODO body) · Missing</span>
+    </div>
+    <div class="screen-body">
+      <div class="gap">
+        <strong>[GAP]</strong> waveform · mode selector (push-to-talk / hands-free / ambient) · pause &amp; resume · privacy / recording-active indicator · copy strings.<br />
+        Source file body is <code>// TODO: Implement voice recording logic with Web Audio API</code>. Nothing renderable beyond the idle scaffold above.
+      </div>
+    </div>
+  </section>
+
+  <!-- Screen 3 -->
+  <section class="screen">
+    <div class="screen-header">
+      <h2>3 — Real-Time Transcription Review</h2>
+      <span class="meta">Source: TranscriptionEditor.tsx · Partial</span>
+    </div>
+    <div class="screen-body">
+      <div class="transcription-editor" role="region" aria-label="Transcription Editor">
+        <h3>Transcription Editor</h3>
+        <textarea class="transcription-textarea" placeholder="Transcription will appear here..."></textarea>
+        <div class="editor-actions">
+          <button class="btn-save" disabled>Save</button>
+          <button class="btn-clear">Clear</button>
+        </div>
+      </div>
+      <div class="gap" style="margin-top:12px;">
+        <strong>[GAP]</strong> speaker attribution · per-token confidence highlighting · tokenized inline correction. Source uses a single <code>&lt;textarea&gt;</code>.
+      </div>
+    </div>
+  </section>
+
+  <!-- Screen 4 -->
+  <section class="screen">
+    <div class="screen-header">
+      <h2>4 — AI Structuring Output (Note Format)</h2>
+      <span class="meta">Source: NoteFormatter.tsx · Partial</span>
+    </div>
+    <div class="screen-body">
+      <div class="note-formatter" role="region" aria-label="Note Formatter">
+        <h3>Note Formatter</h3>
+        <div class="format-selector">
+          <label for="fmt">Format Type:</label>
+          <select id="fmt">
+            <option value="soap" selected>SOAP Note</option>
+            <option value="narrative">Narrative</option>
+            <option value="structured">Structured</option>
+            <option value="custom">Custom</option>
+          </select>
+        </div>
+        <div class="formatted-preview">
+          <h4>Preview</h4>
+          <div class="preview-content">No content to format</div>
+        </div>
+      </div>
+      <div class="gap" style="margin-top:12px;">
+        <strong>[GAP]</strong> SOAP S/O/A/P substructure · SBAR option (not in source enum) · format-switch behavior (edit preservation / diff).
+      </div>
+    </div>
+  </section>
+
+  <!-- Screen 5 -->
+  <section class="screen">
+    <div class="screen-header">
+      <h2>5 — Confidence Threshold &amp; Review Gates</h2>
+      <span class="meta">Source: none · Excluded</span>
+    </div>
+    <div class="screen-body">
+      <div class="gap">
+        <strong>[GAP — BLOCKING]</strong> No confidence field exists on any prop or interface in the four reference files. Per strict-source mode this screen is excluded rather than fabricated. See Recommendation §2 in the blueprint.
+      </div>
+    </div>
+  </section>
+
+  <!-- Screen 6 -->
+  <section class="screen">
+    <div class="screen-header">
+      <h2>6 — Edit / Redact / Revise</h2>
+      <span class="meta">Source: TranscriptionEditor.tsx + MedicalTermsHighlighter.tsx · Partial</span>
+    </div>
+    <div class="screen-body">
+      <div class="medical-terms-highlighter" role="region" aria-label="Medical Terms">
+        <h3>Medical Terms</h3>
+        <div class="text-content">No text to analyze</div>
+        <div class="terms-legend" aria-label="Term categories">
+          <span class="legend-item medication">Medications</span>
+          <span class="legend-item diagnosis">Diagnoses</span>
+          <span class="legend-item procedure">Procedures</span>
+          <span class="legend-item anatomy">Anatomy</span>
+          <span class="legend-item symptom">Symptoms</span>
+        </div>
+      </div>
+      <div class="gap" style="margin-top:12px;">
+        <strong>[GAP]</strong> redaction affordance · PHI detection (PHI is not in the source category enum) · edit lineage / version history.
+      </div>
+    </div>
+  </section>
+
+  <!-- Screen 7 -->
+  <section class="screen">
+    <div class="screen-header">
+      <h2>7 — Save / Sign / Route to EHR</h2>
+      <span class="meta">Source: TranscriptionEditor.tsx (Save button only) · Partial</span>
+    </div>
+    <div class="screen-body">
+      <div class="editor-actions">
+        <button class="btn-save">Save</button>
+      </div>
+      <div class="gap" style="margin-top:12px;">
+        <strong>[GAP]</strong> electronic signature · EHR destination picker / encounter binding · audit trail / confirmation receipt. Source exposes only one button + <code>onSave(text)</code>.
+      </div>
+    </div>
+  </section>
+
+  <!-- Screen 8 -->
+  <section class="screen">
+    <div class="screen-header">
+      <h2>8 — Errors &amp; Recovery</h2>
+      <span class="meta">Source: none · Excluded</span>
+    </div>
+    <div class="screen-body">
+      <div class="gap">
+        <strong>[GAP]</strong> low confidence · unrecognized speaker · network loss · microphone permission denied.
+        None of the four source files contain error states, error copy, or recovery UI. Excluded rather than fabricated.
+      </div>
+    </div>
+  </section>
+
+  <!-- Screen 9 -->
+  <section class="screen">
+    <div class="screen-header">
+      <h2>9 — Empty / Loading / Skeleton</h2>
+      <span class="meta">Source: all four (empty copy only) · Partial</span>
+    </div>
+    <div class="screen-body">
+      <div class="formatted-preview" style="max-width:480px;">
+        <h4>Empty states present in source</h4>
+        <ul style="margin:6px 0 0 18px; padding:0; color: var(--muted); font-size: 13px;">
+          <li>TranscriptionEditor: placeholder <code>"Transcription will appear here..."</code></li>
+          <li>NoteFormatter: <code>"No content to format"</code></li>
+          <li>MedicalTermsHighlighter: <code>"No text to analyze"</code></li>
+        </ul>
+      </div>
+      <div class="gap" style="margin-top:12px;">
+        <strong>[GAP]</strong> loading state · skeleton state.
+      </div>
+    </div>
+  </section>
+
+  <!-- Tablet variant block -->
+  <section class="screen">
+    <div class="screen-header">
+      <h2>Tablet 1024×768 variants</h2>
+      <span class="meta">Excluded · [CUTTABLE — first]</span>
+    </div>
+    <div class="screen-body">
+      <div class="gap">
+        <strong>[GAP]</strong> No responsive evidence in source. Per strategic recommendation, tablet variants are cut rather than fabricated.
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

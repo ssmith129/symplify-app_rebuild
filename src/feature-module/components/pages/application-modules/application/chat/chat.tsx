@@ -5,7 +5,7 @@ import { all_routes } from "../../../../../routes/all_routes";
 import ImageWithBasePath from "../../../../../../core/imageWithBasePath";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import 'overlayscrollbars/overlayscrollbars.css';
-import { SmartMessageRouter, MessageUrgencyIndicator, EmailPriorityBadge, QUICK_RESPONSES } from "../../../../ai";
+import { SmartMessageRouter, MessageUrgencyIndicator, EmailPriorityBadge, QUICK_RESPONSES } from "../../../../../ai";
 import type { EmailAnalysis, EmailPriority } from "../../../../../../core/ai/emailTypes";
 
 // ── Types ──

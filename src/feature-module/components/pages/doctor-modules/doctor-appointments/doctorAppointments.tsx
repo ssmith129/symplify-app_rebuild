@@ -7,7 +7,7 @@ import SearchInput from "../../../../../core/common/dataTable/dataTableSearch";
 import Datatable from "../../../../../core/common/dataTable";
 import PredefinedDatePicker from "../../../../../core/common/datePicker";
 import Modal from "./modal/modals";
-import { SmartScheduler } from "../../../ai";
+import { SmartScheduler } from "../../../../ai";
 import PageHeader from "../../../../../core/common/page-header/PageHeader";
 
 const DoctorAppointments = () => {

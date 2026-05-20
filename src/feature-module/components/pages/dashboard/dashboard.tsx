@@ -4,7 +4,7 @@ import { all_routes } from "../../../routes/all_routes";
 import SCol19Chart from "./chats/scol19";
 import { Calendar, type CalendarProps } from "antd";
 import type { Dayjs } from "dayjs";
-import { SmartWidget, ShiftHandoffWidget, ChatInboxWidget, QuickStatsWidget } from "../../ai";
+import { SmartWidget, ShiftHandoffWidget, ChatInboxWidget, QuickStatsWidget } from "../../../ai";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "../../../../core/redux/store";

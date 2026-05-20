@@ -1,6 +1,6 @@
 import React from 'react';
-import DrugInteractionChecker from '../../../ai/drug-interaction/DrugInteractionChecker';
-import MedicationReviewPanel from '../../../ai/drug-interaction/MedicationReviewPanel';
+import DrugInteractionChecker from '../../../../ai/drug-interaction/DrugInteractionChecker';
+import MedicationReviewPanel from '../../../../ai/drug-interaction/MedicationReviewPanel';
 import PageHeader from '../../../../../core/common/page-header/PageHeader';
 
 const DrugInteraction: React.FC = () => {

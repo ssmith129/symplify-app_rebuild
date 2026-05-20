@@ -3,7 +3,7 @@ import ImageWithBasePath from "../../../../../core/imageWithBasePath";
 import Modals from "./modals/modals";
 import SCol20Chart from "./charts/scol20";
 import CircleChart2 from "./charts/circleChart2";
-import { ShiftHandoffWidget, ChatInboxWidget, AIDashboardSection, DrugInteractionCheckerWidget } from "../../../ai";
+import { ShiftHandoffWidget, ChatInboxWidget, AIDashboardSection, DrugInteractionCheckerWidget } from "../../../../ai";
 import PageHeader from "../../../../../core/common/page-header/PageHeader";
 import CarouselRow from "../CarouselRow";
 import SectionHeader from "../SectionHeader";

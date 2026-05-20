@@ -7,7 +7,7 @@ import SearchInput from "../../../../../core/common/dataTable/dataTableSearch";
 import Datatable from "../../../../../core/common/dataTable";
 import PredefinedDatePicker from "../../../../../core/common/datePicker";
 import Modals from "./modals/modals";
-import { SmartScheduler, TriagePriorityBadge } from "../../../ai";
+import { SmartScheduler, TriagePriorityBadge } from "../../../../ai";
 import PageHeader from "../../../../../core/common/page-header/PageHeader";
 
 const Appointments = () => {

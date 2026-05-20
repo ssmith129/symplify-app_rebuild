@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import ImageWithBasePath from "../../../../../../core/imageWithBasePath";
 import { all_routes } from "../../../../../routes/all_routes";
-import { EmailPriorityBadge, EmailSidebarAI } from "../../../../ai";
+import { EmailPriorityBadge, EmailSidebarAI } from "../../../../../ai";
 import { getMockEmails, categorizeEmail, getFolderCounts } from "../../../../../../core/api/mock/emailMockApi";
 import { AnalyzedEmail, EmailFolder, EmailPriority } from "../../../../../../core/ai/emailTypes";
 

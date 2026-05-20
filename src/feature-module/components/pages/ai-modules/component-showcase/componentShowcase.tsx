@@ -1,8 +1,8 @@
 import React from 'react';
 import PageHeader from '../../../../../core/common/page-header/PageHeader';
-import SeverityBadge from '../../../ai/drug-interaction/SeverityBadge';
-import { MessageUrgencyIndicator } from '../../../ai/MessageUrgencyIndicator';
-import ConfidenceIndicator from '../../../ai/assistant/ConfidenceIndicator';
+import SeverityBadge from '../../../../ai/drug-interaction/SeverityBadge';
+import { MessageUrgencyIndicator } from '../../../../ai/MessageUrgencyIndicator';
+import ConfidenceIndicator from '../../../../ai/assistant/ConfidenceIndicator';
 
 /* ────────────────────────────────────────────────────────────
    TRIAGE BADGE (re-creation of TriagePriorityBadge — standalone, no Redux)

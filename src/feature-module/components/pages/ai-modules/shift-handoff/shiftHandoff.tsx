@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShiftHandoffSummary } from '../../../ai/shift-handoff';
+import { ShiftHandoffSummary } from '../../../../ai/shift-handoff';
 import PageHeader from '../../../../../core/common/page-header/PageHeader';
 
 const ShiftHandoff: React.FC = () => {

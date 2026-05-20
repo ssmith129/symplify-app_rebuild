@@ -1,4 +1,4 @@
-import IntelligentCalendar from "../../../feature-module/components/ai/IntelligentCalendar";
+import IntelligentCalendar from "../../../feature-module/ai/IntelligentCalendar";
 
 const EventCalendar = () => {
   return <IntelligentCalendar />;

@@ -6,7 +6,7 @@ import { updateTheme } from "../../redux/themeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { setMobileSidebar } from "../../redux/sidebarSlice";
 import { all_routes } from "../../../feature-module/routes/all_routes";
-import { NotificationDropdownAI } from "../../../feature-module/components/ai";
+import { NotificationDropdownAI } from "../../../feature-module/ai";
 import RoleSelectorDropdown from './RoleSelectorDropdown';
 
 const Header = () => {

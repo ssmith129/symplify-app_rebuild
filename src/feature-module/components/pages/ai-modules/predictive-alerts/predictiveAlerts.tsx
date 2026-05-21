@@ -76,11 +76,12 @@ const SEVERITY_META = {
   informational: { border: 'var(--clinical-info)',     bg: 'var(--clinical-info-bg, rgba(2,132,199,0.08))', text: 'var(--clinical-info)', icon: 'ti-info-circle' },
 };
 
-const STAT_DATA = [
-  { label: 'Total Active',    value: 18, change: '+3 from last shift', dir: 'neutral' as const, icon: 'ti-bell-ringing', cls: 'total' },
-  { label: 'Urgent',          value: 4,  change: '+1 new alert',       dir: 'up' as const,      icon: 'ti-urgent',       cls: 'critical' },
-  { label: 'Warning',         value: 8,  change: '+2 escalated',       dir: 'up' as const,      icon: 'ti-alert-triangle', cls: 'high' },
-  { label: 'Informational',   value: 6,  change: 'No change',          dir: 'neutral' as const, icon: 'ti-info-circle',  cls: 'moderate' },
+type StatDir = 'up' | 'down' | 'neutral';
+const STAT_DATA: { label: string; value: number; change: string; dir: StatDir; icon: string; cls: string }[] = [
+  { label: 'Total Active',    value: 18, change: '+3 from last shift', dir: 'neutral', icon: 'ti-bell-ringing', cls: 'total' },
+  { label: 'Urgent',          value: 4,  change: '+1 new alert',       dir: 'up',      icon: 'ti-urgent',       cls: 'critical' },
+  { label: 'Warning',         value: 8,  change: '+2 escalated',       dir: 'up',      icon: 'ti-alert-triangle', cls: 'high' },
+  { label: 'Informational',   value: 6,  change: 'No change',          dir: 'neutral', icon: 'ti-info-circle',  cls: 'moderate' },
 ];
 
 const UNIT_ALERT_DIST = [

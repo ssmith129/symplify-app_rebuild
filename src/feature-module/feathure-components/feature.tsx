@@ -100,7 +100,7 @@ const Feature = () => {
           <ThemeSettings />
           <Outlet />
           <AIAssistantWidget
-            userRole={currentRole === 'doctor' || currentRole === 'nurse' ? currentRole : 'admin'}
+            userRole={currentRole === 'doctor' ? 'doctor' : 'admin'}
           />
         </div>
         <div

@@ -53,7 +53,7 @@ const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
         <button
           ref={fabRef}
           type="button"
-          className="ai-assistant-fab btn btn-primary rounded-circle d-flex align-items-center justify-content-center"
+          className="ai-fab"
           onClick={() => setOpen(!isOpen)}
           aria-label={triggerLabel}
           aria-haspopup="dialog"
@@ -61,7 +61,8 @@ const AIAssistantWidget: React.FC<AIAssistantWidgetProps> = ({
           aria-controls="ai-assistant-popup"
           hidden={isOpen}
         >
-          <i className="ti ti-robot fs-20" aria-hidden="true" />
+          <i className="ti ti-robot" aria-hidden="true" />
+          <span className="ai-fab-badge" aria-hidden="true" />
         </button>
       )}
 

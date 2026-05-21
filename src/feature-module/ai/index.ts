@@ -28,6 +28,9 @@ export { default as IntelligentCalendar } from './IntelligentCalendar';
 
 // Feature 7: AI Assistant Popup
 export { default as AIAssistantPopup } from './assistant/AIAssistantPopup';
+export type { AIAssistantPopupProps } from './assistant/AIAssistantPopup';
+export { default as AIAssistantWidget } from './AIAssistantWidget';
+export type { AIAssistantWidgetProps } from './AIAssistantWidget';
 
 // Feature 7: AI-Powered Shift Handoff
 export {

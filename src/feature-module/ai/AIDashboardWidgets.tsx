@@ -381,38 +381,37 @@ const QuickStatsWidget: React.FC = () => {
         <span className="fs-12 text-muted">Last 7 days</span>
       </div>
       <div className="card-body">
-        {/* Stats List - Scrollable */}
-        <div className="overflow-auto" style={{ maxHeight: '520px' }}>
+        {/* Stats Grid - 2x2 */}
+        <div className="row g-2">
           {statsData.map((stat, idx) => (
-            <div
-              key={idx}
-              className={`p-3 rounded-2 ${idx < statsData.length - 1 ? 'mb-2' : ''}`}
-              style={{
-                border: '1px solid #e5e7eb',
-                backgroundColor: `${stat.color}08`
-              }}
-            >
-              <div className="d-flex align-items-center justify-content-between mb-2">
-                <div className="d-flex align-items-center">
+            <div key={idx} className="col-6 d-flex">
+              <div
+                className="p-2 rounded-2 flex-fill w-100"
+                style={{
+                  border: '1px solid #e5e7eb',
+                  backgroundColor: `${stat.color}08`
+                }}
+              >
+                <div className="d-flex align-items-center justify-content-between mb-1">
+                  <div className="d-flex align-items-center">
+                    <span
+                      className="avatar rounded-circle me-2 d-flex align-items-center justify-content-center"
+                      style={{ backgroundColor: stat.bgColor, width: 24, height: 24 }}
+                    >
+                      <i className={`ti ${stat.icon} fs-12`} style={{ color: stat.color }} />
+                    </span>
+                    <span className="fs-12 fw-medium">{stat.label}</span>
+                  </div>
                   <span
-                    className="avatar avatar-sm rounded-circle me-2 d-flex align-items-center justify-content-center"
-                    style={{ backgroundColor: stat.bgColor, width: 36, height: 36 }}
+                    className={`badge px-1 py-0 fs-10 fw-medium ${
+                      stat.changeType === 'positive' ? 'bg-success' : 'bg-danger'
+                    }`}
                   >
-                    <i className={`ti ${stat.icon} fs-16`} style={{ color: stat.color }} />
+                    {stat.change}
                   </span>
-                  <span className="fs-14 fw-medium">{stat.label}</span>
                 </div>
-                <span
-                  className={`badge px-2 py-1 fs-11 fw-medium ${
-                    stat.changeType === 'positive' ? 'bg-success' : 'bg-danger'
-                  }`}
-                >
-                  {stat.change}
-                </span>
-              </div>
-              <div className="d-flex align-items-end justify-content-between">
-                <h3 className="fw-bold mb-0" style={{ color: stat.color }}>{stat.value}</h3>
-                <span className="fs-12 text-muted">vs last week</span>
+                <h5 className="fw-bold mb-0" style={{ color: stat.color }}>{stat.value}</h5>
+                <span className="fs-10 text-muted">vs last week</span>
               </div>
             </div>
           ))}

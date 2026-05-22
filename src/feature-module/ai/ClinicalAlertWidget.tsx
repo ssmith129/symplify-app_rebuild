@@ -195,86 +195,66 @@ const ClinicalAlertWidget: React.FC<ClinicalAlertWidgetProps> = ({
                 key={alert.id}
                 role="listitem"
                 aria-label={`${config.label} alert for ${alert.patientName}: ${alert.predictedEvent}`}
-                className={`p-3 rounded-2 ${index < filteredAlerts.length - 1 ? 'mb-2' : ''}`}
+                className={`p-2 rounded-2 d-flex align-items-center gap-2 ${index < filteredAlerts.length - 1 ? 'mb-2' : ''}`}
                 style={{
+                  borderLeft: `3px solid ${config.color}`,
                   border: `1px solid ${config.color}30`,
                   backgroundColor: `${config.color}08`
                 }}
               >
-                {/* Top Row: Patient Name, Risk Badge, Confidence */}
-                <div className="d-flex align-items-center justify-content-between mb-2">
-                  <div className="d-flex align-items-center">
-                    <span
-                      className="rounded-circle me-2 flex-shrink-0"
-                      style={{ width: 10, height: 10, backgroundColor: config.color }}
-                    />
-                    <span className="fs-14 fw-semibold">{alert.patientName}</span>
-                  </div>
+                {/* Risk badge */}
+                <span
+                  className="badge px-2 py-1 fs-10 fw-medium flex-shrink-0"
+                  style={{ backgroundColor: config.color, color: '#fff' }}
+                  role="status"
+                  title={config.label}
+                >
+                  <i className={`ti ${config.icon} fs-10`} aria-hidden="true" />
+                </span>
+
+                {/* Patient + Prediction (stacked, tight) */}
+                <div className="flex-grow-1 min-w-0">
                   <div className="d-flex align-items-center gap-2">
-                    {/* ML Trend Indicator */}
-                    <Tooltip title={`Trend: ${trendConfig.label}`}>
-                      <span 
-                        className="d-flex align-items-center justify-content-center rounded-circle"
-                        style={{ 
-                          width: 24, 
-                          height: 24, 
-                          backgroundColor: `${trendConfig.color}15`
-                        }}
-                      >
-                        <i className={`ti ${trendConfig.icon} fs-12`} style={{ color: trendConfig.color }} />
-                      </span>
-                    </Tooltip>
-                    {/* Confidence Score */}
+                    <span className="fs-13 fw-semibold text-truncate">{alert.patientName}</span>
                     <Tooltip title={`AI Confidence: ${alert.confidence}%`}>
                       <span
-                        className="badge px-2 py-1 fs-11 fw-bold"
+                        className="badge px-1 py-0 fs-10 fw-bold"
                         style={{ backgroundColor: config.bgColor, color: config.color }}
                       >
                         {alert.confidence}%
                       </span>
                     </Tooltip>
+                    <Tooltip title={`Trend: ${trendConfig.label}`}>
+                      <i className={`ti ${trendConfig.icon} fs-12`} style={{ color: trendConfig.color }} />
+                    </Tooltip>
+                  </div>
+                  <div className="d-flex align-items-center gap-2 fs-11 text-muted lh-1 mt-1">
+                    <span className="text-truncate text-dark">{alert.predictedEvent}</span>
+                    <span className="flex-shrink-0">
+                      <i className="ti ti-clock me-1" />
+                      {alert.timeframe}
+                    </span>
                   </div>
                 </div>
 
-                {/* Middle Row: Risk Level Badge and Prediction */}
-                <div className="d-flex align-items-center mb-2">
-                  <span
-                    className="badge me-2 px-2 py-1 fs-10 fw-medium"
-                    style={{ backgroundColor: config.color, color: '#fff' }}
-                    role="status"
+                {/* Actions */}
+                <div className="d-flex gap-1 flex-shrink-0">
+                  <button
+                    className="btn btn-sm fs-12 btn-outline-primary alert-action-btn d-inline-flex align-items-center justify-content-center p-0"
+                    onClick={() => handleAcknowledge(alert)}
+                    aria-label={`Acknowledge ${config.label} alert for ${alert.patientName}`}
+                    style={{ width: 28, height: 28, transition: 'all 0.2s ease' }}
                   >
-                    <i className={`ti ${config.icon} me-1 fs-10`} aria-hidden="true" />
-                    {config.label}
-                  </span>
-                  <span className="fs-12 text-muted">
-                    <i className="ti ti-clock me-1" />
-                    {alert.timeframe}
-                  </span>
-                </div>
-
-                {/* Prediction Text + Action Buttons inline */}
-                <div className="d-flex align-items-center justify-content-between gap-2">
-                  <p className="fs-13 text-dark mb-0" style={{ lineHeight: '1.4' }}>
-                    {alert.predictedEvent}
-                  </p>
-                  <div className="d-flex gap-2 flex-shrink-0">
-                    <button
-                      className="btn btn-sm fs-12 btn-outline-primary alert-action-btn d-inline-flex align-items-center"
-                      onClick={() => handleAcknowledge(alert)}
-                      aria-label={`Acknowledge ${config.label} alert for ${alert.patientName}`}
-                      style={{ minHeight: 44, minWidth: 44, padding: '6px 12px', transition: 'all 0.2s ease' }}
-                    >
-                      <i className="ti ti-circle-check fs-14" />
-                    </button>
-                    <button
-                      className="btn btn-sm fs-12 btn-light alert-action-btn d-inline-flex align-items-center"
-                      onClick={() => handleDismiss(alert.id)}
-                      aria-label={`Dismiss alert for ${alert.patientName}`}
-                      style={{ minHeight: 44, minWidth: 44, padding: '6px 12px', transition: 'all 0.2s ease' }}
-                    >
-                      <i className="ti ti-x fs-14" />
-                    </button>
-                  </div>
+                    <i className="ti ti-circle-check fs-14" />
+                  </button>
+                  <button
+                    className="btn btn-sm fs-12 btn-light alert-action-btn d-inline-flex align-items-center justify-content-center p-0"
+                    onClick={() => handleDismiss(alert.id)}
+                    aria-label={`Dismiss alert for ${alert.patientName}`}
+                    style={{ width: 28, height: 28, transition: 'all 0.2s ease' }}
+                  >
+                    <i className="ti ti-x fs-14" />
+                  </button>
                 </div>
               </div>
             );

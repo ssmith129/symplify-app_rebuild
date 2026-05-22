@@ -50,12 +50,6 @@ const ShiftHandoffWidget: React.FC = () => {
     p => p.priorityLevel === 'critical' || p.priorityLevel === 'high'
   ).slice(0, 3) || [];
 
-  // Count by priority
-  const priorityCounts = currentReport?.patients.reduce((acc, p) => {
-    acc[p.priorityLevel] = (acc[p.priorityLevel] || 0) + 1;
-    return acc;
-  }, {} as Record<string, number>) || {};
-
   if (isGenerating) {
     return (
       <div className="card shadow-sm flex-fill w-100">
@@ -105,28 +99,6 @@ const ShiftHandoffWidget: React.FC = () => {
 
       {currentReport && (
         <div className="card-body">
-          {/* Summary Stats Row - matches Doctors Schedule pattern */}
-          <div className="row g-2 mb-4">
-            <div className="col d-flex border-end">
-              <div className="text-center flex-fill">
-                <p className="mb-1">Total</p>
-                <h3 className="fw-bold mb-0">{currentReport.totalPatients}</h3>
-              </div>
-            </div>
-            <div className="col d-flex border-end">
-              <div className="text-center flex-fill">
-                <p className="mb-1">Critical</p>
-                <h3 className="fw-bold mb-0 text-danger">{priorityCounts.critical || 0}</h3>
-              </div>
-            </div>
-            <div className="col d-flex">
-              <div className="text-center flex-fill">
-                <p className="mb-1">Stable</p>
-                <h3 className="fw-bold mb-0 text-success">{priorityCounts.stable || 0}</h3>
-              </div>
-            </div>
-          </div>
-
           {/* Shift Overview Stats Row */}
           <div className="row g-2 mb-3">
             <div className="col-6 col-md-3">

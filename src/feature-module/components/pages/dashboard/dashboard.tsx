@@ -322,8 +322,6 @@ const Dashboard = () => {
           </div>
           )}
           {/* ── Section: Management ── */}
-          <SectionHeader icon="ti-building-hospital" iconColor="text-success" title="Management" collapsed={collapsed['management']} onToggle={() => toggleSection('management')} />
-          {!collapsed['management'] && (
           <CarouselRow className="" cardCount={2}>
             {/* col start */}
             <div className="col-xl-4 col-lg-6 d-flex">
@@ -560,7 +558,6 @@ const Dashboard = () => {
             </div>
             {/* col end */}
           </CarouselRow>
-          )}
         </div>
         {/* End Content */}
         {/* Footer Start */}

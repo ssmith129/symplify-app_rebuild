@@ -137,30 +137,6 @@ const Header = () => {
               </div>
             </div>
             {/* Settings */}
-            {/* Light/Dark Mode Button */}
-            <div className="header-item d-none d-sm-flex me-2">
-              <Link
-                to="#"
-                id="dark-mode-toggle"
-                className={`topbar-link btn btn-icon topbar-link header-togglebtn ${
-                  themeSettings["data-bs-theme"] === "dark" ? "activate" : ""
-                }`}
-                onClick={() => handleUpdateTheme("data-bs-theme", "light")}
-              >
-                <i className="ti ti-sun fs-16" />
-              </Link>
-              {/* Light Mode Toggle */}
-              <Link
-                to="#"
-                id="light-mode-toggle"
-                className={`topbar-link btn btn-icon topbar-link header-togglebtn ${
-                  themeSettings["data-bs-theme"] === "light" ? "activate" : ""
-                }`}
-                onClick={() => handleUpdateTheme("data-bs-theme", "dark")}
-              >
-                <i className="ti ti-moon fs-16" />
-              </Link>
-            </div>
             {/* AI-Enhanced Notification Dropdown */}
             <NotificationDropdownAI />
             {/* User Dropdown */}

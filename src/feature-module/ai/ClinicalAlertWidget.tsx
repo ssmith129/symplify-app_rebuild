@@ -129,25 +129,25 @@ const ClinicalAlertWidget: React.FC<ClinicalAlertWidgetProps> = ({
   return (
     <div className="clinical-alerts-widget d-flex flex-column h-100" role="region" aria-label="Clinical Alerts">
       {/* Summary Stats Row - matches Patient Acuity pattern */}
-      <div className="row g-3 mb-4 flex-shrink-0" aria-live="polite" aria-atomic="true">
+      <div className="row g-2 mb-2 flex-shrink-0" aria-live="polite" aria-atomic="true">
         <div className="col-4">
-          <div className="border rounded-2 p-3 text-center" style={{ backgroundColor: 'var(--clinical-critical-bg, #FEF2F2)' }}>
-            <h4 className="fw-bold mb-1" style={{ color: 'var(--clinical-critical, #DC2626)' }}>{criticalCount}</h4>
-            <p className="mb-0 fs-12 text-muted"><i className="ti ti-urgent me-1" aria-hidden="true" /><span>Critical</span></p>
+          <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: 'var(--clinical-critical-bg, #FEF2F2)' }}>
+            <h5 className="fw-bold mb-0" style={{ color: 'var(--clinical-critical, #DC2626)' }}>{criticalCount}</h5>
+            <p className="mb-0 fs-10 text-muted"><i className="ti ti-urgent me-1" aria-hidden="true" /><span>Critical</span></p>
             <span className="visually-hidden">{criticalCount} critical alerts</span>
           </div>
         </div>
         <div className="col-4">
-          <div className="border rounded-2 p-3 text-center" style={{ backgroundColor: 'var(--clinical-caution-bg, #FEFCE8)' }}>
-            <h4 className="fw-bold mb-1" style={{ color: 'var(--clinical-urgent, #EA580C)' }}>{highCount}</h4>
-            <p className="mb-0 fs-12 text-muted"><i className="ti ti-alert-triangle me-1" aria-hidden="true" /><span>High Risk</span></p>
+          <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: 'var(--clinical-caution-bg, #FEFCE8)' }}>
+            <h5 className="fw-bold mb-0" style={{ color: 'var(--clinical-urgent, #EA580C)' }}>{highCount}</h5>
+            <p className="mb-0 fs-10 text-muted"><i className="ti ti-alert-triangle me-1" aria-hidden="true" /><span>High Risk</span></p>
             <span className="visually-hidden">{highCount} high risk alerts</span>
           </div>
         </div>
         <div className="col-4">
-          <div className="border rounded-2 p-3 text-center" style={{ backgroundColor: 'var(--clinical-info-bg, #EFF6FF)' }}>
-            <h4 className="fw-bold mb-1 text-primary">{totalActiveAlerts}</h4>
-            <p className="mb-0 fs-12 text-muted"><i className="ti ti-activity me-1" aria-hidden="true" /><span>Total Active</span></p>
+          <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: 'var(--clinical-info-bg, #EFF6FF)' }}>
+            <h5 className="fw-bold mb-0 text-primary">{totalActiveAlerts}</h5>
+            <p className="mb-0 fs-10 text-muted"><i className="ti ti-activity me-1" aria-hidden="true" /><span>Total Active</span></p>
             <span className="visually-hidden">{totalActiveAlerts} total active alerts</span>
           </div>
         </div>

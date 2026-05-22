@@ -93,18 +93,18 @@ const PatientAcuityWidget: React.FC = () => {
   return (
     <div className="d-flex flex-column h-100">
       {/* Summary Stats Row */}
-      <div className="d-flex gap-3 mb-4 flex-shrink-0">
-        <div className="border rounded-2 p-3 text-center" style={{ backgroundColor: '#EEF2FF', flexGrow: 1, width: 'auto' }}>
-          <h4 className="fw-bold mb-1 text-primary">{totalPatients}</h4>
-          <p className="mb-0 fs-12 text-muted">Total Patients</p>
+      <div className="d-flex gap-2 mb-2 flex-shrink-0">
+        <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: '#EEF2FF', flexGrow: 1, width: 'auto' }}>
+          <h5 className="fw-bold mb-0 text-primary">{totalPatients}</h5>
+          <p className="mb-0 fs-10 text-muted">Total Patients</p>
         </div>
-        <div className="border rounded-2 p-3 text-center" style={{ backgroundColor: '#FEF2F2', flexGrow: 1, width: 'auto' }}>
-          <h4 className="fw-bold mb-1 text-danger">{totalHighPriority}</h4>
-          <p className="mb-0 fs-12 text-muted">High Priority</p>
+        <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: '#FEF2F2', flexGrow: 1, width: 'auto' }}>
+          <h5 className="fw-bold mb-0 text-danger">{totalHighPriority}</h5>
+          <p className="mb-0 fs-10 text-muted">High Priority</p>
         </div>
-        <div className="border rounded-2 p-3 text-center" style={{ backgroundColor: '#ECFDF5', flexGrow: 1, width: 'auto' }}>
-          <h4 className="fw-bold mb-1 text-success">{acuityData[3].count + acuityData[4].count}</h4>
-          <p className="mb-0 fs-12 text-muted">Stable</p>
+        <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: '#ECFDF5', flexGrow: 1, width: 'auto' }}>
+          <h5 className="fw-bold mb-0 text-success">{acuityData[3].count + acuityData[4].count}</h5>
+          <p className="mb-0 fs-10 text-muted">Stable</p>
         </div>
       </div>
 
@@ -280,18 +280,18 @@ const AIInsightsWidget: React.FC = () => {
   return (
     <div className="d-flex flex-column h-100">
       {/* Summary Stats Row */}
-      <div className="d-flex gap-3 mb-4 flex-shrink-0">
-        <div className="border rounded-2 p-3 text-center" style={{ backgroundColor: '#EEF2FF', flex: '1 1 0' }}>
-          <h4 className="fw-bold mb-1 text-primary">{insights.length}</h4>
-          <p className="mb-0 fs-12 text-muted">Total Insights</p>
+      <div className="d-flex gap-2 mb-2 flex-shrink-0">
+        <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: '#EEF2FF', flex: '1 1 0' }}>
+          <h5 className="fw-bold mb-0 text-primary">{insights.length}</h5>
+          <p className="mb-0 fs-10 text-muted">Total Insights</p>
         </div>
-        <div className="border rounded-2 p-3 text-center" style={{ backgroundColor: '#FFFBEB', flex: '1 1 0' }}>
-          <h4 className="fw-bold mb-1 text-warning">{urgentInsights}</h4>
-          <p className="mb-0 fs-12 text-muted">Attention</p>
+        <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: '#FFFBEB', flex: '1 1 0' }}>
+          <h5 className="fw-bold mb-0 text-warning">{urgentInsights}</h5>
+          <p className="mb-0 fs-10 text-muted">Attention</p>
         </div>
-        <div className="border rounded-2 p-3 text-center" style={{ backgroundColor: '#ECFDF5', flex: '1 1 0' }}>
-          <h4 className="fw-bold mb-1 text-success">{positiveInsights}</h4>
-          <p className="mb-0 fs-12 text-muted">Positive</p>
+        <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: '#ECFDF5', flex: '1 1 0' }}>
+          <h5 className="fw-bold mb-0 text-success">{positiveInsights}</h5>
+          <p className="mb-0 fs-10 text-muted">Positive</p>
         </div>
       </div>
 

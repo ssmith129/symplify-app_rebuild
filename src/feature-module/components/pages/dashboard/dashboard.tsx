@@ -327,26 +327,6 @@ const Dashboard = () => {
                   </Link>
                 </div>
                 <div className="card-body">
-                  <div className="row g-2 mb-4">
-                    <div className="col d-flex border-end">
-                      <div className="text-center flex-fill">
-                        <p className="mb-1">Available</p>
-                        <h3 className="fw-bold mb-0">48</h3>
-                      </div>
-                    </div>
-                    <div className="col d-flex border-end">
-                      <div className="text-center flex-fill">
-                        <p className="mb-1">Unavailable</p>
-                        <h3 className="fw-bold mb-0">28</h3>
-                      </div>
-                    </div>
-                    <div className="col d-flex">
-                      <div className="text-center flex-fill">
-                        <p className="mb-1">Leave</p>
-                        <h3 className="fw-bold mb-0">12</h3>
-                      </div>
-                    </div>
-                  </div>
                   <div className="overflow-auto">
                     <div className="d-flex justify-content-between align-items-center mb-3">
                       <div className="d-flex align-items-center flex-shrink-0">

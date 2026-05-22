@@ -117,8 +117,6 @@ const Dashboard = () => {
           )}
 
           {/* ── Section: Scheduling ── */}
-          <SectionHeader icon="ti-calendar-event" iconColor="text-info" title="Scheduling" collapsed={collapsed['scheduling']} onToggle={() => toggleSection('scheduling')} />
-          {!collapsed['scheduling'] && (
           <div className="row">
             <div className="col-xl-6 d-flex">
               <div className="card shadow-sm flex-fill w-100">
@@ -317,7 +315,6 @@ const Dashboard = () => {
             </div>
             {/* col end */}
           </div>
-          )}
           {/* ── Section: Management ── */}
           <CarouselRow className="" cardCount={2}>
             {/* col start */}

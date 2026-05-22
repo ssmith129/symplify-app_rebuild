@@ -101,8 +101,6 @@ const Dashboard = () => {
           </CarouselRow>
 
           {/* ── Section: Operations ── */}
-          <SectionHeader icon="ti-chart-bar" iconColor="text-primary" title="Operations" collapsed={collapsed['operations']} onToggle={() => toggleSection('operations')} />
-          {!collapsed['operations'] && (
           <CarouselRow className="mb-4 g-3 g-lg-4" cardCount={3}>
             <div className="col-12 col-md-6 col-lg-4 d-flex ai-grid-item ai-grid-handoff">
               <ShiftHandoffWidget />
@@ -114,7 +112,6 @@ const Dashboard = () => {
               <ChatInboxWidget maxChats={5} />
             </div>
           </CarouselRow>
-          )}
 
           {/* ── Section: Scheduling ── */}
           <div className="row">

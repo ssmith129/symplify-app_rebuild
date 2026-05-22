@@ -47,15 +47,6 @@ const UNITS = [
   { name:'Ortho', critical:0, high:0, moderate:2, stable:4 },
 ];
 
-const RATIOS = [
-  { unit:'ICU', ratio:'1:2', status:'safe' as const, statusText:'Within guideline' },
-  { unit:'CCU', ratio:'1:3', status:'caution' as const, statusText:'At threshold' },
-  { unit:'Med-Surg', ratio:'1:5', status:'safe' as const, statusText:'Within guideline' },
-  { unit:'Tele', ratio:'1:4', status:'safe' as const, statusText:'Within guideline' },
-  { unit:'Ortho', ratio:'1:5', status:'safe' as const, statusText:'Within guideline' },
-  { unit:'ER Overflow', ratio:'1:7', status:'danger' as const, statusText:'Over capacity' },
-];
-
 const ACUITY_COLORS: Record<string, string> = {
   critical: '#dc2626', high: '#ea580c', moderate: '#ca8a04', stable: '#16a34a',
 };
@@ -157,29 +148,6 @@ const PatientAcuity: React.FC = () => {
             </div>
           </div>
 
-          <div className="col-lg-6">
-            <div className="card">
-              <div className="card-header d-flex align-items-center justify-content-between">
-                <h5 className="card-title mb-0"><i className="ti ti-users me-1 text-primary" /> Nurse-to-Patient Ratios</h5>
-              </div>
-              <div className="card-body">
-                <div className="row g-3">
-                  {RATIOS.map(r => (
-                    <div className="col-md-6" key={r.unit}>
-                      <div className="pa-ratio-card">
-                        <p className="pa-ratio-unit">{r.unit}</p>
-                        <h4 className="pa-ratio-value">{r.ratio} <small>nurse:patient</small></h4>
-                        <span className={`pa-ratio-status pa-ratio-${r.status}`}>
-                          <i className={`ti ${r.status === 'safe' ? 'ti-circle-check' : r.status === 'caution' ? 'ti-alert-circle' : 'ti-alert-triangle'}`} />
-                          {r.statusText}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* ── Patient Census Table ── */}

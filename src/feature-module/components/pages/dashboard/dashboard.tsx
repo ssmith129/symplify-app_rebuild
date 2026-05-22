@@ -76,8 +76,6 @@ const Dashboard = () => {
           {/* End Page Header */}
 
           {/* ── Section: Clinical Overview ── */}
-          <SectionHeader icon="ti-heartbeat" iconColor="text-danger" title="Clinical Overview" collapsed={collapsed['clinical']} onToggle={() => toggleSection('clinical')} />
-          {!collapsed['clinical'] && (
           <CarouselRow className="ai-dashboard-grid mb-4 g-3 g-lg-4" cardCount={3}>
             <div className="col-12 col-md-6 col-lg-4 d-flex ai-grid-item ai-grid-acuity">
               <SmartWidget
@@ -101,7 +99,6 @@ const Dashboard = () => {
               />
             </div>
           </CarouselRow>
-          )}
 
           {/* ── Section: Operations ── */}
           <SectionHeader icon="ti-chart-bar" iconColor="text-primary" title="Operations" collapsed={collapsed['operations']} onToggle={() => toggleSection('operations')} />

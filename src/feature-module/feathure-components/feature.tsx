@@ -5,6 +5,7 @@ import ThemeSettings from "../../core/common/theme-settings";
 import Sidebar from "../../core/common/sidebar/sidebar";
 import SidebarTwo from "../../core/common/sidebar-two/sidebarTwo";
 import Sidebarthree from "../../core/common/sidebarthree/sidebarthree";
+import AIAssistantWidget from "../ai/AIAssistantWidget";
 import { setMobileSidebar, setExpandMenu } from "../../core/redux/sidebarSlice";
 import { useCallback, useRef } from "react";
 import type { RootState } from "../../core/redux/store";
@@ -98,6 +99,9 @@ const Feature = () => {
 
           <ThemeSettings />
           <Outlet />
+          <AIAssistantWidget
+            userRole={currentRole === 'doctor' ? 'doctor' : 'admin'}
+          />
         </div>
         <div
           className={`sidebar-overlay${mobileSidebar ? " opened" : ""}`}

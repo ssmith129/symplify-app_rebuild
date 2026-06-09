@@ -172,30 +172,6 @@ const ChatInboxWidget: React.FC<ChatInboxWidgetProps> = ({
 
       {/* Card Body */}
       <div className="card-body">
-        {/* Summary Stats Row - matches Doctors Schedule pattern */}
-        <div className="row g-2 mb-4">
-          <div className="col d-flex border-end">
-            <div className="text-center flex-fill">
-              <p className="mb-1">Unread</p>
-              <h3 className="fw-bold mb-0 text-danger">{totalUnread}</h3>
-            </div>
-          </div>
-          <div className="col d-flex border-end">
-            <div className="text-center flex-fill">
-              <p className="mb-1">Total</p>
-              <h3 className="fw-bold mb-0">{chats.length}</h3>
-            </div>
-          </div>
-          <div className="col d-flex">
-            <div className="text-center flex-fill">
-              <p className="mb-1">Online</p>
-              <h3 className="fw-bold mb-0 text-success">
-                {chats.filter((c) => c.isOnline).length}
-              </h3>
-            </div>
-          </div>
-        </div>
-
         {/* Loading State */}
         {loading ? (
           <div className="d-flex flex-column align-items-center justify-content-center py-4">

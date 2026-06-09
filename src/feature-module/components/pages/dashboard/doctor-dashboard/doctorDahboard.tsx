@@ -72,9 +72,6 @@ const DoctorDahboard = () => {
           )}
 
           {/* ── Section: Scheduling ── */}
-          <SectionHeader icon="ti-calendar-event" iconColor="text-info" title="Scheduling" collapsed={collapsed['scheduling']} onToggle={() => toggleSection('scheduling')} />
-          {!collapsed['scheduling'] && (
-          <>
           <div className="row g-3 g-lg-4">
             <div className="col-12 col-md-6 col-lg-4 d-flex">
               <div className="card shadow-sm flex-fill w-100">
@@ -715,11 +712,7 @@ const DoctorDahboard = () => {
               </div>
             </div>
           </div>
-          </>
-          )}
           {/* ── Section: Practice Management ── */}
-          <SectionHeader icon="ti-building-hospital" iconColor="text-success" title="Practice Management" collapsed={collapsed['practice']} onToggle={() => toggleSection('practice')} />
-          {!collapsed['practice'] && (
           <CarouselRow className="" cardCount={3}>
             <div className="col-xl-4 d-flex">
               <div className="card shadow-sm flex-fill w-100">
@@ -1037,7 +1030,6 @@ const DoctorDahboard = () => {
             </div>
             {/* col end */}
           </CarouselRow>
-          )}
         </div>
         {/* End Content */}
         {/* Footer Start */}

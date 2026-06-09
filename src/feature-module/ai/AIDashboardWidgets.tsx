@@ -93,18 +93,18 @@ const PatientAcuityWidget: React.FC = () => {
   return (
     <div className="d-flex flex-column h-100">
       {/* Summary Stats Row */}
-      <div className="d-flex gap-3 mb-4 flex-shrink-0">
-        <div className="border rounded-2 p-3 text-center" style={{ backgroundColor: '#EEF2FF', flexGrow: 1, width: 'auto' }}>
-          <h4 className="fw-bold mb-1 text-primary">{totalPatients}</h4>
-          <p className="mb-0 fs-12 text-muted">Total Patients</p>
+      <div className="d-flex gap-2 mb-2 flex-shrink-0">
+        <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: '#EEF2FF', flexGrow: 1, width: 'auto' }}>
+          <h5 className="fw-bold mb-0 text-primary">{totalPatients}</h5>
+          <p className="mb-0 fs-10 text-muted">Total Patients</p>
         </div>
-        <div className="border rounded-2 p-3 text-center" style={{ backgroundColor: '#FEF2F2', flexGrow: 1, width: 'auto' }}>
-          <h4 className="fw-bold mb-1 text-danger">{totalHighPriority}</h4>
-          <p className="mb-0 fs-12 text-muted">High Priority</p>
+        <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: '#FEF2F2', flexGrow: 1, width: 'auto' }}>
+          <h5 className="fw-bold mb-0 text-danger">{totalHighPriority}</h5>
+          <p className="mb-0 fs-10 text-muted">High Priority</p>
         </div>
-        <div className="border rounded-2 p-3 text-center" style={{ backgroundColor: '#ECFDF5', flexGrow: 1, width: 'auto' }}>
-          <h4 className="fw-bold mb-1 text-success">{acuityData[3].count + acuityData[4].count}</h4>
-          <p className="mb-0 fs-12 text-muted">Stable</p>
+        <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: '#ECFDF5', flexGrow: 1, width: 'auto' }}>
+          <h5 className="fw-bold mb-0 text-success">{acuityData[3].count + acuityData[4].count}</h5>
+          <p className="mb-0 fs-10 text-muted">Stable</p>
         </div>
       </div>
 
@@ -280,18 +280,18 @@ const AIInsightsWidget: React.FC = () => {
   return (
     <div className="d-flex flex-column h-100">
       {/* Summary Stats Row */}
-      <div className="d-flex gap-3 mb-4 flex-shrink-0">
-        <div className="border rounded-2 p-3 text-center" style={{ backgroundColor: '#EEF2FF', flex: '1 1 0' }}>
-          <h4 className="fw-bold mb-1 text-primary">{insights.length}</h4>
-          <p className="mb-0 fs-12 text-muted">Total Insights</p>
+      <div className="d-flex gap-2 mb-2 flex-shrink-0">
+        <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: '#EEF2FF', flex: '1 1 0' }}>
+          <h5 className="fw-bold mb-0 text-primary">{insights.length}</h5>
+          <p className="mb-0 fs-10 text-muted">Total Insights</p>
         </div>
-        <div className="border rounded-2 p-3 text-center" style={{ backgroundColor: '#FFFBEB', flex: '1 1 0' }}>
-          <h4 className="fw-bold mb-1 text-warning">{urgentInsights}</h4>
-          <p className="mb-0 fs-12 text-muted">Attention</p>
+        <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: '#FFFBEB', flex: '1 1 0' }}>
+          <h5 className="fw-bold mb-0 text-warning">{urgentInsights}</h5>
+          <p className="mb-0 fs-10 text-muted">Attention</p>
         </div>
-        <div className="border rounded-2 p-3 text-center" style={{ backgroundColor: '#ECFDF5', flex: '1 1 0' }}>
-          <h4 className="fw-bold mb-1 text-success">{positiveInsights}</h4>
-          <p className="mb-0 fs-12 text-muted">Positive</p>
+        <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: '#ECFDF5', flex: '1 1 0' }}>
+          <h5 className="fw-bold mb-0 text-success">{positiveInsights}</h5>
+          <p className="mb-0 fs-10 text-muted">Positive</p>
         </div>
       </div>
 
@@ -381,38 +381,37 @@ const QuickStatsWidget: React.FC = () => {
         <span className="fs-12 text-muted">Last 7 days</span>
       </div>
       <div className="card-body">
-        {/* Stats List - Scrollable */}
-        <div className="overflow-auto" style={{ maxHeight: '520px' }}>
+        {/* Stats Grid - 2x2 */}
+        <div className="row g-2">
           {statsData.map((stat, idx) => (
-            <div
-              key={idx}
-              className={`p-3 rounded-2 ${idx < statsData.length - 1 ? 'mb-2' : ''}`}
-              style={{
-                border: '1px solid #e5e7eb',
-                backgroundColor: `${stat.color}08`
-              }}
-            >
-              <div className="d-flex align-items-center justify-content-between mb-2">
-                <div className="d-flex align-items-center">
+            <div key={idx} className="col-6 d-flex">
+              <div
+                className="p-2 rounded-2 flex-fill w-100"
+                style={{
+                  border: '1px solid #e5e7eb',
+                  backgroundColor: `${stat.color}08`
+                }}
+              >
+                <div className="d-flex align-items-center justify-content-between mb-1">
+                  <div className="d-flex align-items-center">
+                    <span
+                      className="avatar rounded-circle me-2 d-flex align-items-center justify-content-center"
+                      style={{ backgroundColor: stat.bgColor, width: 24, height: 24 }}
+                    >
+                      <i className={`ti ${stat.icon} fs-12`} style={{ color: stat.color }} />
+                    </span>
+                    <span className="fs-12 fw-medium">{stat.label}</span>
+                  </div>
                   <span
-                    className="avatar avatar-sm rounded-circle me-2 d-flex align-items-center justify-content-center"
-                    style={{ backgroundColor: stat.bgColor, width: 36, height: 36 }}
+                    className={`badge px-1 py-0 fs-10 fw-medium ${
+                      stat.changeType === 'positive' ? 'bg-success' : 'bg-danger'
+                    }`}
                   >
-                    <i className={`ti ${stat.icon} fs-16`} style={{ color: stat.color }} />
+                    {stat.change}
                   </span>
-                  <span className="fs-14 fw-medium">{stat.label}</span>
                 </div>
-                <span
-                  className={`badge px-2 py-1 fs-11 fw-medium ${
-                    stat.changeType === 'positive' ? 'bg-success' : 'bg-danger'
-                  }`}
-                >
-                  {stat.change}
-                </span>
-              </div>
-              <div className="d-flex align-items-end justify-content-between">
-                <h3 className="fw-bold mb-0" style={{ color: stat.color }}>{stat.value}</h3>
-                <span className="fs-12 text-muted">vs last week</span>
+                <h5 className="fw-bold mb-0" style={{ color: stat.color }}>{stat.value}</h5>
+                <span className="fs-10 text-muted">vs last week</span>
               </div>
             </div>
           ))}

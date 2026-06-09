@@ -201,36 +201,46 @@ const RECOMMENDED_ACTIONS = [
 
 export async function getClinicalAlerts(): Promise<PredictiveAlert[]> {
   await delay(300 + Math.random() * 400);
-  
-  const alerts: PredictiveAlert[] = [];
-  const numAlerts = 2 + Math.floor(Math.random() * 3);
-  
-  for (let i = 0; i < numAlerts; i++) {
-    const eventIndex = Math.floor(Math.random() * PREDICTED_EVENTS.length);
-    const patient = PATIENT_NAMES[i % PATIENT_NAMES.length];
-    const riskLevels: Array<'critical' | 'high' | 'moderate' | 'low'> = ['critical', 'high', 'moderate', 'low'];
-    const riskLevel = riskLevels[Math.min(i, 3)];
-    
-    alerts.push({
-      id: `alert-${Date.now()}-${i}`,
-      patientId: `patient-${i + 1}`,
-      patientName: patient.name,
-      patientImage: patient.image,
-      riskLevel,
-      predictedEvent: PREDICTED_EVENTS[eventIndex],
-      timeframe: `${2 + Math.floor(Math.random() * 4)} hours`,
-      confidence: 70 + Math.floor(Math.random() * 25),
-      contributingFactors: [
-        'Vital sign trends',
-        'Lab result patterns',
-        'Historical data analysis'
-      ].slice(0, 2 + Math.floor(Math.random() * 2)),
-      recommendedActions: RECOMMENDED_ACTIONS[eventIndex],
-      timestamp: Date.now()
-    });
-  }
-  
-  return alerts;
+
+  const staticAlerts: Array<{
+    patient: typeof PATIENT_NAMES[number];
+    riskLevel: 'critical' | 'high' | 'moderate' | 'low';
+    eventIndex: number;
+    timeframe: string;
+    confidence: number;
+  }> = [
+    {
+      patient: PATIENT_NAMES[0],
+      riskLevel: 'critical',
+      eventIndex: 1,
+      timeframe: '4 hours',
+      confidence: 81,
+    },
+    {
+      patient: PATIENT_NAMES[1],
+      riskLevel: 'high',
+      eventIndex: 5,
+      timeframe: '3 hours',
+      confidence: 78,
+    },
+  ];
+
+  return staticAlerts.map((entry, i) => ({
+    id: `alert-${Date.now()}-${i}`,
+    patientId: `patient-${i + 1}`,
+    patientName: entry.patient.name,
+    patientImage: entry.patient.image,
+    riskLevel: entry.riskLevel,
+    predictedEvent: PREDICTED_EVENTS[entry.eventIndex],
+    timeframe: entry.timeframe,
+    confidence: entry.confidence,
+    contributingFactors: [
+      'Vital sign trends',
+      'Lab result patterns',
+    ],
+    recommendedActions: RECOMMENDED_ACTIONS[entry.eventIndex],
+    timestamp: Date.now(),
+  }));
 }
 
 // ============================================

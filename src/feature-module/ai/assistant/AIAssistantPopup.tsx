@@ -2,13 +2,8 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Spin } from 'antd';
 import ImageWithBasePath from '../../../core/imageWithBasePath';
-import {
-  sendEnhancedAIMessage,
-  getEnhancedQuickActions,
-  executeAIAction,
-  type AIAction,
-  type UserRoleType,
-} from '../../../core/ai/mockApi';
+import type { AIAction, UserRoleType } from '../../../core/ai/mockApi';
+import { mockAIService, type AIService } from '../../../core/ai/AIService';
 import type {
   EnhancedAIMessage,
   EnhancedQuickAction,
@@ -20,11 +15,17 @@ import HIPAABadge from './HIPAABadge';
 import QuickActionsBar from './QuickActionsBar';
 import ExpandedPanel from './ExpandedPanel';
 
-interface AIAssistantPopupProps {
+export interface AIAssistantPopupProps {
   isOpen: boolean;
   onClose: () => void;
   userRole?: UserRoleType;
   userName?: string;
+  /** Header title. Defaults to 'AI Assistant'. */
+  title?: string;
+  /** Footer attribution shown beneath the composer. Defaults to 'Powered by Symplify AI'. */
+  footerNote?: string;
+  /** Pluggable AI backend. Defaults to the bundled mock service. */
+  aiService?: AIService;
 }
 
 const AIAssistantPopup: React.FC<AIAssistantPopupProps> = ({
@@ -32,6 +33,9 @@ const AIAssistantPopup: React.FC<AIAssistantPopupProps> = ({
   onClose,
   userRole = 'admin',
   userName = 'User',
+  title = 'AI Assistant',
+  footerNote = 'Powered by Symplify AI',
+  aiService = mockAIService,
 }) => {
   const navigate = useNavigate();
   const [messages, setMessages] = useState<EnhancedAIMessage[]>([]);
@@ -46,10 +50,10 @@ const AIAssistantPopup: React.FC<AIAssistantPopupProps> = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
 
-  // Load quick actions on mount
+  // Load quick actions on mount / when role or service changes
   useEffect(() => {
-    setQuickActions(getEnhancedQuickActions(userRole));
-  }, [userRole]);
+    setQuickActions(aiService.getQuickActions(userRole));
+  }, [userRole, aiService]);
 
   // Add welcome message on first open
   useEffect(() => {
@@ -119,7 +123,7 @@ const AIAssistantPopup: React.FC<AIAssistantPopupProps> = ({
     setIsTyping(true);
 
     try {
-      const response = await sendEnhancedAIMessage(content, messages, userRole);
+      const response = await aiService.sendMessage(content, messages, userRole);
       setMessages(prev => [...prev, response.message]);
 
       // Auto-expand panel for complex results
@@ -138,7 +142,7 @@ const AIAssistantPopup: React.FC<AIAssistantPopupProps> = ({
     } finally {
       setIsTyping(false);
     }
-  }, [messages, userRole]);
+  }, [messages, userRole, aiService]);
 
   // Handle quick action click
   const handleQuickAction = (action: EnhancedQuickAction) => {
@@ -165,7 +169,7 @@ const AIAssistantPopup: React.FC<AIAssistantPopupProps> = ({
         return;
       }
 
-      const result = await executeAIAction(action, userRole);
+      const result = await aiService.executeAction(action, userRole);
 
       if (result.success && action.type === 'navigation' && action.payload?.path) {
         navigate(action.payload.path as string);
@@ -245,7 +249,7 @@ const AIAssistantPopup: React.FC<AIAssistantPopupProps> = ({
             <i className="ti ti-robot fs-18" />
           </div>
           <div>
-            <h6 className="mb-0 fw-bold text-white">AI Assistant</h6>
+            <h6 className="mb-0 fw-bold text-white">{title}</h6>
             <span className="fs-11 text-white-50">
               {isTyping ? 'Analyzing...' : 'Online'}
             </span>
@@ -422,12 +426,14 @@ const AIAssistantPopup: React.FC<AIAssistantPopupProps> = ({
                   )}
                 </button>
               </div>
-              <div className="text-center mt-2">
-                <small className="text-muted fs-10">
-                  <i className="ti ti-sparkles me-1" />
-                  Powered by Symplify AI
-                </small>
-              </div>
+              {footerNote && (
+                <div className="text-center mt-2">
+                  <small className="text-muted fs-10">
+                    <i className="ti ti-sparkles me-1" />
+                    {footerNote}
+                  </small>
+                </div>
+              )}
             </form>
           </div>
 

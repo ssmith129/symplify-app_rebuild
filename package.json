@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "lint:contrast": "node scripts/contrast-check.mjs --lint",
     "preview": "vite preview"
   },
   "dependencies": {

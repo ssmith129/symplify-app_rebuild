@@ -11,6 +11,7 @@ import type { RootState, AppDispatch } from '../../../core/redux/store';
 import { PatientHandoffCard } from './PatientHandoffCard';
 import { SBARGenerator } from './SBARGenerator';
 import { SEVERITY_VAR, toSeverity } from '../../../core/ai/severityTokens';
+import AIEmptyState from '../shared/AIEmptyState';
 
 interface ShiftHandoffSummaryProps {
   outgoingNurseId?: string;
@@ -291,18 +292,39 @@ const ShiftHandoffSummary: React.FC<ShiftHandoffSummaryProps> = ({
       </div>
 
       {/* Patient Cards */}
-      <div className="patient-cards-grid">
-        {(activeTab === 'all' ? currentReport.patients : priorityPatients).map((patient) => (
-          <PatientHandoffCard
-            key={patient.patientId}
-            patient={patient}
-            onClick={() => handlePatientClick(patient)}
-            priorityConfig={PRIORITY_CONFIG}
-            expanded={activeTab === 'priority'}
-            reviewed={reviewedPatients.has(patient.patientId)}
-          />
-        ))}
-      </div>
+      {(() => {
+        const visiblePatients = activeTab === 'all' ? currentReport.patients : priorityPatients;
+        if (visiblePatients.length === 0) {
+          return activeTab === 'priority' ? (
+            <AIEmptyState
+              icon="circle-check"
+              tone="positive"
+              title="No critical or high-priority patients"
+              guidance="Every patient on this unit is currently stable. Switch to All Patients to review the full census."
+            />
+          ) : (
+            <AIEmptyState
+              icon="users"
+              title="No patients in this handoff"
+              guidance="There are no patients assigned for this shift yet. Generated reports will list each patient here."
+            />
+          );
+        }
+        return (
+          <div className="patient-cards-grid">
+            {visiblePatients.map((patient) => (
+              <PatientHandoffCard
+                key={patient.patientId}
+                patient={patient}
+                onClick={() => handlePatientClick(patient)}
+                priorityConfig={PRIORITY_CONFIG}
+                expanded={activeTab === 'priority'}
+                reviewed={reviewedPatients.has(patient.patientId)}
+              />
+            ))}
+          </div>
+        );
+      })()}
 
       {/* Sticky Acknowledge Bar — pinned to bottom, enforces review-first */}
       <div className={`acknowledge-bar ${isAcknowledged ? 'acknowledged' : ''}`}>

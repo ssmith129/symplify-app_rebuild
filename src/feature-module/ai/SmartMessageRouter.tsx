@@ -5,6 +5,7 @@ import type { RootState, AppDispatch } from '../../core/redux/store';
 import { analyzeMessageContent, clearMessageAnalysis } from '../../core/redux/aiSlice';
 import ImageWithBasePath from '../../core/imageWithBasePath';
 import { SEVERITY_VAR, toSeverity } from '../../core/ai/severityTokens';
+import AIEmptyState from './shared/AIEmptyState';
 
 interface SmartMessageRouterProps {
   onSend?: (content: string, recipients: string[]) => void;
@@ -120,6 +121,14 @@ const SmartMessageRouter: React.FC<SmartMessageRouterProps> = ({
             {/* Suggested Recipients */}
             <div className="mb-3">
               <strong className="small d-block mb-2">Suggested Recipients:</strong>
+              {currentAnalysis.suggestedRecipients.length === 0 ? (
+                <AIEmptyState
+                  icon="user-search"
+                  size="compact"
+                  title="No recipients matched yet"
+                  guidance="Add more detail to your message and AI will suggest the most relevant care-team members to route it to."
+                />
+              ) : (
               <div className="d-flex flex-wrap gap-2">
                 {currentAnalysis.suggestedRecipients.map((recipient) => {
                   const isSelected = selectedRecipients.includes(recipient.id);
@@ -156,6 +165,7 @@ const SmartMessageRouter: React.FC<SmartMessageRouterProps> = ({
                   );
                 })}
               </div>
+              )}
             </div>
 
             {/* Keywords */}

@@ -5,7 +5,7 @@ import { img_path } from '../../environment';
 interface Image {
   className?: string;
   src: string;
-  alt?: string;
+  alt: string;
   height?: number;
   width?: number;
   id?:string;

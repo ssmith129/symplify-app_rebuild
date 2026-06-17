@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router";
 import Chart from "react-apexcharts";
 import type { ApexOptions } from "apexcharts";
+import { getThemeColor } from "../../../../../../core/common/themeColor";
 
 type DrillLevel = "facility" | "department" | "provider";
 
@@ -112,7 +113,7 @@ const trendChartOptions: ApexOptions = {
     type: "gradient",
     gradient: { shadeIntensity: 1, opacityFrom: 0.4, opacityTo: 0.05, stops: [0, 95, 100] },
   },
-  colors: ["#2E37A4"],
+  colors: [getThemeColor("--primary", "#2E37A4")],
   tooltip: {
     fixed: { enabled: false },
     x: { show: false },

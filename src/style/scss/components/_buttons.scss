@@ -294,14 +294,14 @@
 }
 
 .btn-liner-gradient{
-	background: linear-gradient(90deg, #2E37A4 0%, #0E9384 100%);
+	background: linear-gradient(90deg, var(--primary) 0%, #0E9384 100%);
 	color: var(--white) !important;
 	border: none;
 	box-shadow: none;
 	padding: 6px 10px;
 	transition: .3s;
 	&:hover{
-		background: linear-gradient(-90deg, #2E37A4 0%, #0E9384 100%);
+		background: linear-gradient(-90deg, var(--primary) 0%, #0E9384 100%);
 
 	}
 }

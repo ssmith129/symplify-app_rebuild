@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router";
 import Chart from "react-apexcharts";
 import type { ApexOptions } from "apexcharts";
+import { getThemeColor } from "../../../../../../core/common/themeColor";
 
 type Timeframe = "daily" | "weekly" | "monthly";
 
@@ -53,7 +54,7 @@ const DemandForecasting = () => {
   const chartOptions: ApexOptions = {
     chart: { type: "line", height: 220, toolbar: { show: false }, zoom: { enabled: false } },
     stroke: { width: [2, 2, 1, 1], curve: "smooth", dashArray: [0, 5, 3, 3] },
-    colors: ["#2E37A4", "#00D3C7", "#E7E8EB", "#E7E8EB"],
+    colors: [getThemeColor("--primary", "#2E37A4"), "#00D3C7", "#E7E8EB", "#E7E8EB"],
     fill: {
       type: ["solid", "solid", "solid", "solid"],
       opacity: [1, 1, 0.15, 0.15],

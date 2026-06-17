@@ -24,8 +24,8 @@ const CommonSelect: React.FC<SelectProps> = ({ options, defaultValue, className,
       backgroundColor: state.isSelected ? "#ddd" : "white",
       cursor: "pointer",
       "&:hover": {
-        backgroundColor: state.isFocused ? "#2e37a4" : "white",
-        color: state.isFocused ? "#fff" : "#2e37a4",
+        backgroundColor: state.isFocused ? "var(--primary)" : "white",
+        color: state.isFocused ? "#fff" : "var(--primary)",
       },
     }),
   };

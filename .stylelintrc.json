@@ -1,0 +1,14 @@
+{
+  "extends": ["stylelint-config-standard-scss"],
+  "plugins": ["stylelint-declaration-strict-value"],
+  "rules": {
+    "scale-unlimited/declaration-strict-value": [
+      ["/color/", "fill", "stroke", "box-shadow", "background"],
+      {
+        "ignoreValues": ["transparent", "inherit", "currentColor", "none", "unset", "initial"],
+        "disableFix": true
+      }
+    ]
+  },
+  "ignoreFiles": ["src/style/scss/_variables.scss", "dist/**", "node_modules/**"]
+}

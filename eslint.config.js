@@ -23,6 +23,13 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
+      'no-restricted-syntax': [
+        'warn',
+        {
+          selector: "JSXAttribute[name.name='style'] Literal[value=/#[0-9a-fA-F]{3,6}/]",
+          message: 'Hardcoded hex in inline style — use var(--token) from _variables.scss instead.',
+        },
+      ],
     },
   },
 )

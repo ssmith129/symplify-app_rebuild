@@ -45,10 +45,10 @@ const SmartMessageRouter: React.FC<SmartMessageRouterProps> = ({
   }, [content, dispatch]);
 
   const urgencyColors: Record<MessageUrgency, string> = {
-    critical: '#F44336',
-    high: '#FF9800',
-    normal: '#4CAF50',
-    low: '#2196F3'
+    critical: 'var(--clinical-critical)',
+    high: 'var(--clinical-urgent)',
+    normal: 'var(--clinical-stable)',
+    low: 'var(--clinical-info)'
   };
 
   const urgencyBgClass: Record<MessageUrgency, string> = {
@@ -106,7 +106,7 @@ const SmartMessageRouter: React.FC<SmartMessageRouterProps> = ({
         {currentAnalysis && (
           <div
             className={`alert mb-3 border-0`}
-            style={{ backgroundColor: `${urgencyColors[currentAnalysis.urgency]}15` }}
+            style={{ backgroundColor: `color-mix(in srgb, ${urgencyColors[currentAnalysis.urgency]} 8%, transparent)` }}
           >
             <div className="d-flex justify-content-between align-items-center mb-2">
               <div className="d-flex align-items-center gap-2">

@@ -11,19 +11,19 @@ interface ClinicalAlertWidgetProps {
   compact?: boolean;
 }
 
-// Risk level configuration with colors and labels
-const RISK_CONFIG: Record<RiskLevel, { color: string; bgColor: string; label: string; icon: string }> = {
-  critical: { color: '#F44336', bgColor: '#FFEBEE', label: 'Critical', icon: 'ti-urgent' },
-  high: { color: '#FF9800', bgColor: '#FFF3E0', label: 'High', icon: 'ti-alert-triangle' },
-  moderate: { color: '#FFC107', bgColor: '#FFF8E1', label: 'Moderate', icon: 'ti-info-circle' },
-  low: { color: '#4CAF50', bgColor: '#E8F5E9', label: 'Low', icon: 'ti-circle-check' },
+// Risk level configuration with canonical --clinical-* tokens and labels
+const RISK_CONFIG: Record<RiskLevel, { color: string; bgColor: string; borderColor: string; label: string; icon: string }> = {
+  critical: { color: 'var(--clinical-critical)', bgColor: 'var(--clinical-critical-bg)', borderColor: 'var(--clinical-critical-border)', label: 'Critical', icon: 'ti-urgent' },
+  high: { color: 'var(--clinical-urgent)', bgColor: 'var(--clinical-urgent-bg)', borderColor: 'var(--clinical-urgent-border)', label: 'High', icon: 'ti-alert-triangle' },
+  moderate: { color: 'var(--clinical-caution)', bgColor: 'var(--clinical-caution-bg)', borderColor: 'var(--clinical-caution-border)', label: 'Moderate', icon: 'ti-info-circle' },
+  low: { color: 'var(--clinical-stable)', bgColor: 'var(--clinical-stable-bg)', borderColor: 'var(--clinical-stable-border)', label: 'Low', icon: 'ti-circle-check' },
 };
 
 // Trend indicators for ML-based predictions
 const TREND_INDICATORS = {
-  worsening: { icon: 'ti-trending-up', color: '#F44336', label: 'Worsening' },
-  stable: { icon: 'ti-minus', color: '#9E9E9E', label: 'Stable' },
-  improving: { icon: 'ti-trending-down', color: '#4CAF50', label: 'Improving' },
+  worsening: { icon: 'ti-trending-up', color: 'var(--clinical-critical)', label: 'Worsening' },
+  stable: { icon: 'ti-minus', color: 'var(--gray-400)', label: 'Stable' },
+  improving: { icon: 'ti-trending-down', color: 'var(--clinical-stable)', label: 'Improving' },
 };
 
 const ClinicalAlertWidget: React.FC<ClinicalAlertWidgetProps> = ({
@@ -131,21 +131,21 @@ const ClinicalAlertWidget: React.FC<ClinicalAlertWidgetProps> = ({
       {/* Summary Stats Row - matches Patient Acuity pattern */}
       <div className="row g-2 mb-2 flex-shrink-0" aria-live="polite" aria-atomic="true">
         <div className="col-4">
-          <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: 'var(--clinical-critical-bg, #FEF2F2)' }}>
-            <h5 className="fw-bold mb-0" style={{ color: 'var(--clinical-critical, #DC2626)' }}>{criticalCount}</h5>
+          <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: 'var(--clinical-critical-bg)' }}>
+            <h5 className="fw-bold mb-0" style={{ color: 'var(--clinical-critical)' }}>{criticalCount}</h5>
             <p className="mb-0 fs-10 text-muted"><i className="ti ti-urgent me-1" aria-hidden="true" /><span>Critical</span></p>
             <span className="visually-hidden">{criticalCount} critical alerts</span>
           </div>
         </div>
         <div className="col-4">
-          <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: 'var(--clinical-caution-bg, #FEFCE8)' }}>
-            <h5 className="fw-bold mb-0" style={{ color: 'var(--clinical-urgent, #EA580C)' }}>{highCount}</h5>
+          <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: 'var(--clinical-caution-bg)' }}>
+            <h5 className="fw-bold mb-0" style={{ color: 'var(--clinical-urgent)' }}>{highCount}</h5>
             <p className="mb-0 fs-10 text-muted"><i className="ti ti-alert-triangle me-1" aria-hidden="true" /><span>High Risk</span></p>
             <span className="visually-hidden">{highCount} high risk alerts</span>
           </div>
         </div>
         <div className="col-4">
-          <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: 'var(--clinical-info-bg, #EFF6FF)' }}>
+          <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: 'var(--clinical-info-bg)' }}>
             <h5 className="fw-bold mb-0 text-primary">{totalActiveAlerts}</h5>
             <p className="mb-0 fs-10 text-muted"><i className="ti ti-activity me-1" aria-hidden="true" /><span>Total Active</span></p>
             <span className="visually-hidden">{totalActiveAlerts} total active alerts</span>
@@ -154,16 +154,16 @@ const ClinicalAlertWidget: React.FC<ClinicalAlertWidgetProps> = ({
       </div>
 
       {/* Live Monitoring Status Header */}
-      <div className="d-flex align-items-center justify-content-between mb-3 p-2 rounded-2 flex-shrink-0" style={{ backgroundColor: '#F8FAFC' }}>
+      <div className="d-flex align-items-center justify-content-between mb-3 p-2 rounded-2 flex-shrink-0" style={{ backgroundColor: 'var(--light)' }}>
         <div className="d-flex align-items-center">
           <span
             className="rounded-circle d-inline-block me-2"
             style={{
               width: 10,
               height: 10,
-              backgroundColor: connected ? '#4CAF50' : '#9e9e9e',
+              backgroundColor: connected ? 'var(--clinical-stable)' : 'var(--gray-400)',
               animation: connected ? 'pulse 2s infinite' : 'none',
-              boxShadow: connected ? '0 0 0 3px rgba(76, 175, 80, 0.2)' : 'none'
+              boxShadow: connected ? '0 0 0 3px color-mix(in srgb, var(--clinical-stable) 20%, transparent)' : 'none'
             }}
           />
           <span className="fs-13 fw-medium">
@@ -198,8 +198,8 @@ const ClinicalAlertWidget: React.FC<ClinicalAlertWidgetProps> = ({
                 className={`p-2 rounded-2 d-flex align-items-center gap-2 ${index < filteredAlerts.length - 1 ? 'mb-2' : ''}`}
                 style={{
                   borderLeft: `3px solid ${config.color}`,
-                  border: `1px solid ${config.color}30`,
-                  backgroundColor: `${config.color}08`
+                  border: `1px solid ${config.borderColor}`,
+                  backgroundColor: config.bgColor
                 }}
               >
                 {/* Risk badge */}

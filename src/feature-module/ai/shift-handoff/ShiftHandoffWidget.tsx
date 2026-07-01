@@ -13,10 +13,10 @@ import { all_routes } from '../../routes/all_routes';
 
 // Priority configuration for color coding
 const PRIORITY_CONFIG: Record<string, { color: string; bgColor: string; label: string }> = {
-  critical: { color: '#F44336', bgColor: '#FFEBEE', label: 'Critical' },
-  high: { color: '#FF9800', bgColor: '#FFF3E0', label: 'High' },
-  moderate: { color: '#FFC107', bgColor: '#FFF8E1', label: 'Moderate' },
-  stable: { color: '#4CAF50', bgColor: '#E8F5E9', label: 'Stable' },
+  critical: { color: 'var(--clinical-critical)', bgColor: 'var(--clinical-critical-bg)', label: 'Critical' },
+  high: { color: 'var(--clinical-urgent)', bgColor: 'var(--clinical-urgent-bg)', label: 'High' },
+  moderate: { color: 'var(--clinical-caution)', bgColor: 'var(--clinical-caution-bg)', label: 'Moderate' },
+  stable: { color: 'var(--clinical-stable)', bgColor: 'var(--clinical-stable-bg)', label: 'Stable' },
 };
 
 const ShiftHandoffWidget: React.FC = () => {

@@ -885,9 +885,9 @@
   // Dashboard grid: 2 columns
   .ai-dashboard-grid {
     &.row {
-      flex-wrap: wrap !important;
-      overflow-x: visible !important;
-      scroll-snap-type: none !important;
+      flex-wrap: wrap;
+      overflow-x: visible;
+      scroll-snap-type: none;
 
       > [class*="col-"] {
         flex: 0 0 50% !important;
@@ -902,9 +902,9 @@
   // Operations / generic carousel rows: stack to 1 column
   .dashboard-carousel:not(.ai-dashboard-grid) {
     &.row {
-      flex-wrap: wrap !important;
-      overflow-x: visible !important;
-      scroll-snap-type: none !important;
+      flex-wrap: wrap;
+      overflow-x: visible;
+      scroll-snap-type: none;
 
       > [class*="col-"] {
         flex: 0 0 100% !important;
@@ -976,9 +976,9 @@
   // Dashboard grid: 2-3 columns based on content
   .ai-dashboard-grid {
     &.row {
-      flex-wrap: wrap !important;
-      overflow-x: visible !important;
-      scroll-snap-type: none !important;
+      flex-wrap: wrap;
+      overflow-x: visible;
+      scroll-snap-type: none;
 
       > [class*="col-"] {
         flex: 0 0 50% !important;
@@ -998,9 +998,9 @@
   // Operations carousel: 2 columns
   .dashboard-carousel:not(.ai-dashboard-grid) {
     &.row {
-      flex-wrap: wrap !important;
-      overflow-x: visible !important;
-      scroll-snap-type: none !important;
+      flex-wrap: wrap;
+      overflow-x: visible;
+      scroll-snap-type: none;
 
       > [class*="col-"] {
         flex: 0 0 50% !important;
@@ -1295,7 +1295,7 @@
 
   &:hover {
     border-color: var(--primary);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--shadow-subtle);
   }
 
   &.border-primary {

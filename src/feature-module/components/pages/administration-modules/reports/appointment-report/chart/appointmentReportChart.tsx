@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ReactApexChart from "react-apexcharts";
+import { getThemeColor } from "../../../../../../../core/common/themeColor";
 
 const AppointmentReportChart = () => {
   const [sCol11] = useState<any>({
@@ -39,7 +40,7 @@ const AppointmentReportChart = () => {
           },
           {
             offset: 100,
-            color: "#2E37A4",
+            color: getThemeColor("--primary", "#2E37A4"),
             opacity: 1,
           },
         ],

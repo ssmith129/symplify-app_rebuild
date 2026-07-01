@@ -263,8 +263,8 @@ const IntelligentCalendar: React.FC = () => {
           noShowRisk: appointment.noShowRisk,
           status: appointment.status,
         },
-        backgroundColor: '#4CAF50',
-        borderColor: '#388E3C',
+        backgroundColor: 'var(--clinical-stable)',
+        borderColor: 'var(--clinical-stable)',
       };
       
       setEvents(prev => [...prev, newEvent]);
@@ -325,25 +325,25 @@ const IntelligentCalendar: React.FC = () => {
   // Get status color
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'recommended': return '#4CAF50';
-      case 'available': return '#2196F3';
-      case 'limited': return '#FF9800';
-      default: return '#9e9e9e';
+      case 'recommended': return 'var(--clinical-stable)';
+      case 'available': return 'var(--clinical-info)';
+      case 'limited': return 'var(--clinical-urgent)';
+      default: return 'var(--gray-400)';
     }
   };
 
   // Get risk color
   const getRiskColor = (risk: number) => {
-    if (risk < 15) return '#4CAF50';
-    if (risk < 25) return '#FF9800';
-    return '#F44336';
+    if (risk < 15) return 'var(--clinical-stable)';
+    if (risk < 25) return 'var(--clinical-urgent)';
+    return 'var(--clinical-critical)';
   };
 
   // Get match score color
   const getScoreColor = (score: number) => {
-    if (score >= 85) return '#4CAF50';
-    if (score >= 70) return '#2196F3';
-    return '#FF9800';
+    if (score >= 85) return 'var(--clinical-stable)';
+    if (score >= 70) return 'var(--clinical-info)';
+    return 'var(--clinical-urgent)';
   };
 
   // Render event content

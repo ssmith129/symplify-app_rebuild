@@ -80,11 +80,11 @@ const SmartWidget: React.FC<SmartWidgetProps> = ({ widgetId, onInteraction, aiRe
 // Enhanced Patient Acuity Widget
 const PatientAcuityWidget: React.FC = () => {
   const acuityData = [
-    { level: 'Critical', count: 2, color: '#F44336', icon: 'ti-urgent', patients: ['Maria Santos', 'James Wilson'] },
-    { level: 'Urgent', count: 5, color: '#FF9800', icon: 'ti-alert-triangle', patients: ['Emily Chen', 'Robert Johnson', 'Lisa Park'] },
-    { level: 'Semi-Urgent', count: 8, color: '#FFC107', icon: 'ti-alert-circle', patients: ['David Lee', 'Anna Kim'] },
-    { level: 'Standard', count: 15, color: '#4CAF50', icon: 'ti-circle-check', patients: ['Michael Brown', 'Sarah Davis'] },
-    { level: 'Non-Urgent', count: 12, color: '#2196F3', icon: 'ti-circle-dot', patients: ['John Smith', 'Jane Doe'] },
+    { level: 'Critical', count: 2, color: 'var(--clinical-critical)', icon: 'ti-urgent', patients: ['Maria Santos', 'James Wilson'] },
+    { level: 'Urgent', count: 5, color: 'var(--clinical-urgent)', icon: 'ti-alert-triangle', patients: ['Emily Chen', 'Robert Johnson', 'Lisa Park'] },
+    { level: 'Semi-Urgent', count: 8, color: 'var(--clinical-caution)', icon: 'ti-alert-circle', patients: ['David Lee', 'Anna Kim'] },
+    { level: 'Standard', count: 15, color: 'var(--clinical-stable)', icon: 'ti-circle-check', patients: ['Michael Brown', 'Sarah Davis'] },
+    { level: 'Non-Urgent', count: 12, color: 'var(--clinical-info)', icon: 'ti-circle-dot', patients: ['John Smith', 'Jane Doe'] },
   ];
 
   const totalPatients = acuityData.reduce((sum, item) => sum + item.count, 0);
@@ -94,15 +94,15 @@ const PatientAcuityWidget: React.FC = () => {
     <div className="d-flex flex-column h-100">
       {/* Summary Stats Row */}
       <div className="d-flex gap-2 mb-2 flex-shrink-0">
-        <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: '#EEF2FF', flexGrow: 1, width: 'auto' }}>
+        <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: 'var(--primary-transparent)', flexGrow: 1, width: 'auto' }}>
           <h5 className="fw-bold mb-0 text-primary">{totalPatients}</h5>
           <p className="mb-0 fs-10 text-muted">Total Patients</p>
         </div>
-        <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: '#FEF2F2', flexGrow: 1, width: 'auto' }}>
+        <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: 'var(--clinical-critical-bg)', flexGrow: 1, width: 'auto' }}>
           <h5 className="fw-bold mb-0 text-danger">{totalHighPriority}</h5>
           <p className="mb-0 fs-10 text-muted">High Priority</p>
         </div>
-        <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: '#ECFDF5', flexGrow: 1, width: 'auto' }}>
+        <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: 'var(--clinical-stable-bg)', flexGrow: 1, width: 'auto' }}>
           <h5 className="fw-bold mb-0 text-success">{acuityData[3].count + acuityData[4].count}</h5>
           <p className="mb-0 fs-10 text-muted">Stable</p>
         </div>
@@ -120,7 +120,7 @@ const PatientAcuityWidget: React.FC = () => {
               <div className="d-flex align-items-center">
                 <span
                   className="d-flex align-items-center justify-content-center me-2 flex-shrink-0 rounded-circle"
-                  style={{ width: 24, height: 24, backgroundColor: `${item.color}20` }}
+                  style={{ width: 24, height: 24, backgroundColor: `color-mix(in srgb, ${item.color} 12%, transparent)` }}
                 >
                   <i className={`ti ${item.icon} fs-12`} style={{ color: item.color }} />
                 </span>
@@ -128,7 +128,7 @@ const PatientAcuityWidget: React.FC = () => {
               </div>
               <span
                 className="badge px-3 py-2 fs-13 fw-bold"
-                style={{ backgroundColor: `${item.color}20`, color: item.color }}
+                style={{ backgroundColor: `color-mix(in srgb, ${item.color} 12%, transparent)`, color: item.color }}
               >
                 {item.count}
               </span>
@@ -171,7 +171,7 @@ const PatientQueueWidget: React.FC = () => {
   ];
 
   const getPriorityBadge = (priority: number) => {
-    const colors = ['#F44336', '#FF9800', '#FFC107', '#4CAF50', '#2196F3'];
+    const colors = ['var(--clinical-critical)', 'var(--clinical-urgent)', 'var(--clinical-caution)', 'var(--clinical-stable)', 'var(--clinical-info)'];
     const labels = ['Critical', 'Urgent', 'Semi-Urgent', 'Standard', 'Non-Urgent'];
     return (
       <span
@@ -222,7 +222,7 @@ const AIInsightsWidget: React.FC = () => {
       title: 'Patient Volume Forecast',
       text: 'Expected to increase 15% this afternoon based on historical patterns', 
       type: 'info', 
-      color: '#2196F3',
+      color: 'var(--clinical-info)',
       metric: '+15%',
       metricLabel: 'vs. average'
     },
@@ -231,7 +231,7 @@ const AIInsightsWidget: React.FC = () => {
       title: 'Deterioration Risk',
       text: '3 patients showing early signs of deterioration - recommend review', 
       type: 'warning', 
-      color: '#FF9800',
+      color: 'var(--clinical-urgent)',
       metric: '3',
       metricLabel: 'patients'
     },
@@ -240,7 +240,7 @@ const AIInsightsWidget: React.FC = () => {
       title: 'Scheduling Optimization',
       text: 'Optimal scheduling window identified: 2:00 PM - 4:00 PM today', 
       type: 'success', 
-      color: '#4CAF50',
+      color: 'var(--clinical-stable)',
       metric: '2h',
       metricLabel: 'window'
     },
@@ -249,7 +249,7 @@ const AIInsightsWidget: React.FC = () => {
       title: 'Wait Time Analysis',
       text: 'Average wait time reduced by 12 minutes compared to last week', 
       type: 'success', 
-      color: '#4CAF50',
+      color: 'var(--clinical-stable)',
       metric: '-12m',
       metricLabel: 'improved'
     },
@@ -258,7 +258,7 @@ const AIInsightsWidget: React.FC = () => {
       title: 'Bed Availability',
       text: '85% occupancy rate. 6 beds available in general ward', 
       type: 'info', 
-      color: '#2196F3',
+      color: 'var(--clinical-info)',
       metric: '6',
       metricLabel: 'available'
     },
@@ -267,7 +267,7 @@ const AIInsightsWidget: React.FC = () => {
       title: 'Staff Allocation',
       text: 'Consider adding 1 nurse to ICU during peak hours (2PM-6PM)', 
       type: 'warning', 
-      color: '#FF9800',
+      color: 'var(--clinical-urgent)',
       metric: '+1',
       metricLabel: 'recommended'
     },
@@ -281,15 +281,15 @@ const AIInsightsWidget: React.FC = () => {
     <div className="d-flex flex-column h-100">
       {/* Summary Stats Row */}
       <div className="d-flex gap-2 mb-2 flex-shrink-0">
-        <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: '#EEF2FF', flex: '1 1 0' }}>
+        <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: 'var(--primary-transparent)', flex: '1 1 0' }}>
           <h5 className="fw-bold mb-0 text-primary">{insights.length}</h5>
           <p className="mb-0 fs-10 text-muted">Total Insights</p>
         </div>
-        <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: '#FFFBEB', flex: '1 1 0' }}>
+        <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: 'var(--clinical-caution-bg)', flex: '1 1 0' }}>
           <h5 className="fw-bold mb-0 text-warning">{urgentInsights}</h5>
           <p className="mb-0 fs-10 text-muted">Attention</p>
         </div>
-        <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: '#ECFDF5', flex: '1 1 0' }}>
+        <div className="border rounded-2 p-2 text-center" style={{ backgroundColor: 'var(--clinical-stable-bg)', flex: '1 1 0' }}>
           <h5 className="fw-bold mb-0 text-success">{positiveInsights}</h5>
           <p className="mb-0 fs-10 text-muted">Positive</p>
         </div>
@@ -303,12 +303,12 @@ const AIInsightsWidget: React.FC = () => {
             className="d-flex align-items-start p-3 rounded-2 mb-2"
             style={{ 
               border: '1px solid #e5e7eb',
-              backgroundColor: `${insight.color}08`
+              backgroundColor: `color-mix(in srgb, ${insight.color} 3%, transparent)`
             }}
           >
             <span
               className="avatar avatar-md rounded-circle me-3 flex-shrink-0 d-flex align-items-center justify-content-center"
-              style={{ backgroundColor: `${insight.color}15`, width: 44, height: 44 }}
+              style={{ backgroundColor: `color-mix(in srgb, ${insight.color} 8%, transparent)`, width: 44, height: 44 }}
             >
               <i className={`ti ${insight.icon} fs-18`} style={{ color: insight.color }} />
             </span>
@@ -342,8 +342,8 @@ const QuickStatsWidget: React.FC = () => {
       change: '+95%',
       changeType: 'positive',
       icon: 'ti-stethoscope',
-      color: '#2E37A4',
-      bgColor: '#EEF2FF'
+      color: 'var(--primary)',
+      bgColor: 'var(--primary-transparent)'
     },
     {
       label: 'Patients',
@@ -351,8 +351,8 @@ const QuickStatsWidget: React.FC = () => {
       change: '+25%',
       changeType: 'positive',
       icon: 'ti-users',
-      color: '#F44336',
-      bgColor: '#FEF2F2'
+      color: 'var(--clinical-critical)',
+      bgColor: 'var(--clinical-critical-bg)'
     },
     {
       label: 'Appointments',
@@ -360,8 +360,8 @@ const QuickStatsWidget: React.FC = () => {
       change: '-15%',
       changeType: 'negative',
       icon: 'ti-calendar-event',
-      color: '#0EA5E9',
-      bgColor: '#F0F9FF'
+      color: 'var(--clinical-info)',
+      bgColor: 'var(--clinical-info-bg)'
     },
     {
       label: 'Revenue',
@@ -369,8 +369,8 @@ const QuickStatsWidget: React.FC = () => {
       change: '+25%',
       changeType: 'positive',
       icon: 'ti-currency-dollar',
-      color: '#22C55E',
-      bgColor: '#ECFDF5'
+      color: 'var(--clinical-stable)',
+      bgColor: 'var(--clinical-stable-bg)'
     },
   ];
 
@@ -389,7 +389,7 @@ const QuickStatsWidget: React.FC = () => {
                 className="p-2 rounded-2 flex-fill w-100"
                 style={{
                   border: '1px solid #e5e7eb',
-                  backgroundColor: `${stat.color}08`
+                  backgroundColor: `color-mix(in srgb, ${stat.color} 3%, transparent)`
                 }}
               >
                 <div className="d-flex align-items-center justify-content-between mb-1">

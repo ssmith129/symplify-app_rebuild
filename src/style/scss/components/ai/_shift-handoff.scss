@@ -397,7 +397,7 @@ $transition-fast: .15s ease;
 .modal-content {
   width: 100%; max-width: 780px; max-height: 88vh; background: #fff;
   border-radius: $radius-lg; overflow: hidden; display: flex; flex-direction: column;
-  box-shadow: 0 20px 60px rgba(0,0,0,.15); animation: ho-slide-up .2s ease;
+  box-shadow: var(--shadow-elevated); animation: ho-slide-up .2s ease;
 
   .modal-header {
     display: flex; justify-content: space-between; align-items: center;
